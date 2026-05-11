@@ -1,0 +1,555 @@
+/* ==========================================================================
+   STYLE.CSS — Kings City Design System
+   IDENTITY: Design Tokens, Typography, Reset, Component Primitives
+   Palette: Brown / Teal / Cream — Liquid Glass UI
+   NO BLACK THEME — #000000 forbidden for UI surfaces
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. @font-face — Self-Hosted Typography
+   Butler (woff2) + Roboto (ttf static)
+   -------------------------------------------------------------------------- */
+
+/* Butler — Serif Heading Family */
+@font-face {
+  font-family: 'Butler';
+  src: url('../fonts/butler/Butler FREE/Webfont formats/Woff2/Butler-Free-Lgt.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Butler';
+  src: url('../fonts/butler/Butler FREE/Webfont formats/Woff2/Butler-Free-Rmn.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Butler';
+  src: url('../fonts/butler/Butler FREE/Webfont formats/Woff2/Butler-Free-Med.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Butler';
+  src: url('../fonts/butler/Butler FREE/Webfont formats/Woff2/Butler-Free-Bd.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Butler';
+  src: url('../fonts/butler/Butler FREE/Webfont formats/Woff2/Butler-Free-XBd.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Butler';
+  src: url('../fonts/butler/Butler FREE/Webfont formats/Woff2/Butler-Free-Blk.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Roboto — Sans-Serif Body Family */
+@font-face {
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto/static/Roboto-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto/static/Roboto-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto/static/Roboto-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto/static/Roboto-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto/static/Roboto-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto/static/Roboto-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. CSS Custom Properties — Design Tokens
+   -------------------------------------------------------------------------- */
+
+:root {
+  /* ── Primary Palette ── */
+  --color-main:         #964B14;   /* Brown — branding, headings            */
+  --color-secondary:    #D07040;   /* Warm support                          */
+  --color-accent:       #4F7C82;   /* Teal — CTA, links, highlights         */
+
+  /* ── Background ── */
+  --color-bg:           #FFFDD0;   /* Cream background                      */
+  --color-bg-warm:      #FFF8E7;   /* Slightly warmer cream for alt sections */
+  --color-bg-sand:      #F5F0E8;   /* Sandy warm — gallery/locations         */
+  --color-bg-ivory:     #FEFCF6;   /* Near-white ivory — trust bar/members   */
+
+  /* ── Text ── */
+  --color-text:         #2B2B2B;   /* Softer than pure black                */
+  --color-text-light:   #FFFFFF;   /* Light text on dark surfaces            */
+  --color-text-muted:   #6B5E53;   /* Subdued captions / meta               */
+
+  /* ── UI Support ── */
+  --color-border:       #5A4636;   /* Warm dark border                      */
+  --color-border-light: rgba(150, 75, 20, 0.15); /* Subtle glass borders   */
+  --color-btn-hover:    #C97A40;   /* Muted orange hover                    */
+
+  /* ── Typography ── */
+  --font-heading:       'Butler', Georgia, 'Times New Roman', serif;
+  --font-body:          'Roboto', 'Segoe UI', Arial, sans-serif;
+
+  /* ── Shape ── */
+  --radius-pill:        9999px;
+  --radius-card:        16px;
+  --radius-card-sm:     12px;
+
+  /* ── Glass UI Tokens ── */
+  --glass-bg:           rgba(255, 253, 208, 0.55);
+  --glass-bg-strong:    rgba(255, 253, 208, 0.78);
+  --glass-bg-dark:      rgba(90, 70, 54, 0.65);
+  --glass-blur:         blur(18px);
+  --glass-blur-strong:  blur(28px);
+  --glass-border:       1px solid rgba(150, 75, 20, 0.2);
+  --glass-border-light: 1px solid rgba(255, 253, 208, 0.35);
+  --glass-shadow:       0 8px 32px rgba(0, 0, 0, 0.08);
+  --glass-shadow-lg:    0 16px 48px rgba(0, 0, 0, 0.12);
+
+  /* ── Spacing Scale (The Commons rhythm) ── */
+  --space-xs:           0.5rem;    /* 8px  */
+  --space-sm:           1rem;      /* 16px */
+  --space-md:           1.5rem;    /* 24px */
+  --space-lg:           2.5rem;    /* 40px */
+  --space-xl:           4rem;      /* 64px */
+  --space-2xl:          6rem;      /* 96px */
+  --space-3xl:          8rem;      /* 128px */
+
+  /* ── Section Vertical Rhythm ── */
+  --section-padding-y:  clamp(2.5rem, 4vw, 3.5rem);
+
+  /* ── Transitions ── */
+  --ease-smooth:        cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast:    0.2s var(--ease-smooth);
+  --transition-base:    0.35s var(--ease-smooth);
+  --transition-slow:    0.5s var(--ease-smooth);
+
+  /* ── Z-Index Scale ── */
+  --z-header:           1000;
+  --z-mega-menu:        999;
+  --z-overlay:          998;
+  --z-drawer:           1001;
+}
+
+
+/* --------------------------------------------------------------------------
+   3. Global Reset & Base Styles
+   -------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;                 /* 16px base */
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  overflow-x: hidden;
+}
+
+img,
+picture,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-btn-hover);
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input,
+textarea,
+select {
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. Typography System
+   ALWAYS Butler for headings, ALWAYS Roboto for body
+   -------------------------------------------------------------------------- */
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-main);
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: clamp(2.25rem, 5vw + 1rem, 4.5rem);
+  font-weight: 800;
+}
+
+h2 {
+  font-size: clamp(1.75rem, 3.5vw + 0.5rem, 3rem);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 2vw + 0.5rem, 1.75rem);
+}
+
+h4 {
+  font-size: clamp(1.1rem, 1.5vw + 0.25rem, 1.35rem);
+}
+
+p {
+  margin-bottom: 1em;
+  max-width: 68ch;
+}
+
+.text-display {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.text-lead {
+  font-size: clamp(1.125rem, 1.5vw, 1.35rem);
+  line-height: 1.65;
+  color: var(--color-text-muted);
+}
+
+.text-caption {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.text-overline {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+
+/* --------------------------------------------------------------------------
+   5. Component Primitives — Buttons
+   ALWAYS pill-shaped — border-radius: 9999px
+   -------------------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8125rem 1.875rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: var(--color-text-light);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition-fast),
+              transform var(--transition-fast),
+              box-shadow var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background: #C97A40 !important;
+  color: var(--color-text-light) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(201, 122, 64, 0.3) !important;
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.btn--large {
+  padding: 1rem 2.5rem;
+  font-size: 1.0625rem;
+}
+
+.btn--small {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.8125rem;
+}
+
+/* Button with arrow SVG icon */
+.btn svg {
+  width: 1em;
+  height: 1em;
+  transition: transform var(--transition-fast);
+}
+
+.btn:hover svg {
+  transform: translateX(3px);
+}
+
+
+/* --------------------------------------------------------------------------
+   6. Component Primitives — Glass Card
+   ALWAYS glassmorphism for elevated surfaces
+   -------------------------------------------------------------------------- */
+
+.card-glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--glass-shadow);
+  transition: transform var(--transition-base),
+              box-shadow var(--transition-base);
+}
+
+.card-glass:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--glass-shadow-lg);
+}
+
+.card-glass--strong {
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur-strong);
+  -webkit-backdrop-filter: var(--glass-blur-strong);
+}
+
+.card-glass__img {
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.card-glass__body {
+  padding: var(--space-md);
+}
+
+.card-glass__title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-main);
+  margin-bottom: var(--space-xs);
+}
+
+.card-glass__text {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+}
+
+
+/* --------------------------------------------------------------------------
+   7. Utility Classes
+   -------------------------------------------------------------------------- */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.text-center { text-align: center; }
+.text-left   { text-align: left; }
+.text-right  { text-align: right; }
+
+.mx-auto { margin-left: auto; margin-right: auto; }
+
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+
+/* --------------------------------------------------------------------------
+   8. Skip Link (Accessibility)
+   -------------------------------------------------------------------------- */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: calc(var(--z-header) + 10);
+  padding: 0.75rem 1.5rem;
+  background: var(--color-accent);
+  color: var(--color-text-light);
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+
+/* --------------------------------------------------------------------------
+   9. Section-level Decoration
+   -------------------------------------------------------------------------- */
+
+.section {
+  padding-top: var(--section-padding-y);
+  padding-bottom: var(--section-padding-y);
+}
+
+/* Alternating Section Backgrounds (White -> Cream) */
+:where(main > section:nth-of-type(odd)) {
+  background-color: #FFFFFF;
+}
+
+:where(main > section:nth-of-type(even)) {
+  background-color: var(--color-bg); /* Cream */
+}
+
+.section--alt {
+  background-color: var(--color-bg-warm);
+}
+
+.section--teal {
+  background-color: var(--color-accent);
+  color: var(--color-text-light);
+}
+
+.section--teal h2,
+.section--teal h3,
+.section--teal h4 {
+  color: var(--color-text-light);
+}
+
+.section--teal .text-lead {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.section--brown {
+  background-color: var(--color-main);
+  color: var(--color-text-light);
+}
+
+.section--brown h2,
+.section--brown h3 {
+  color: var(--color-text-light);
+}
+
+.section__header {
+  margin-bottom: var(--space-lg);
+}
+
+.section__header .text-overline {
+  margin-bottom: var(--space-xs);
+}
+
+.divider {
+  width: 60px;
+  height: 3px;
+  background: var(--color-accent);
+  border: none;
+  border-radius: var(--radius-pill);
+  margin: var(--space-md) 0;
+}
+
+.divider--center {
+  margin-left: auto;
+  margin-right: auto;
+}

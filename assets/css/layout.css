@@ -1,0 +1,2284 @@
+/* ==========================================================================
+   LAYOUT.CSS â€” Kings City Adaptive Layout Blueprint
+   BLUEPRINT: Mobile-First 12-Column Grid + Adaptive Breakpoints
+   Modeled on The Commons (thecommons.com.au) whitespace logic
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Container System
+   The Commons uses a centered max-width container with generous padding.
+   Mobile-first: narrow padding â†’ expansive desktop whitespace.
+   -------------------------------------------------------------------------- */
+
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.container--narrow {
+  max-width: 960px;
+}
+
+.container--wide {
+  max-width: 1600px;
+}
+
+.container--full {
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. Grid System â€” 12-Column CSS Grid
+   Base: stacked single-column (mobile-first)
+   -------------------------------------------------------------------------- */
+
+.grid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+/* Column span utilities â€” mobile: full width by default */
+.col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-10,
+.col-11,
+.col-12 {
+  grid-column: span 1;
+}
+
+/* Grid presets */
+.grid-2 {
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: 1fr;
+}
+
+.grid-3 {
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: 1fr;
+}
+
+.grid-4 {
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: 1fr;
+}
+
+.grid-12 {
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: 1fr;
+}
+
+
+/* --------------------------------------------------------------------------
+   3. Flexbox Utility Layouts
+   -------------------------------------------------------------------------- */
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.gap-xs {
+  gap: var(--space-xs);
+}
+
+.gap-sm {
+  gap: var(--space-sm);
+}
+
+.gap-md {
+  gap: var(--space-md);
+}
+
+.gap-lg {
+  gap: var(--space-lg);
+}
+
+.gap-xl {
+  gap: var(--space-xl);
+}
+
+
+/* --------------------------------------------------------------------------
+   4. Header â€” Sticky Glass Header
+   Glassmorphism with scroll state toggle
+   -------------------------------------------------------------------------- */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-header);
+  padding: 1rem 0;
+  transition: background var(--transition-base),
+    backdrop-filter var(--transition-base),
+    padding var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+/* Initial state: white glass header */
+.site-header:not(.is-scrolled) {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: var(--glass-blur-strong);
+  -webkit-backdrop-filter: var(--glass-blur-strong);
+  border-bottom: var(--glass-border-light);
+}
+
+/* Scrolled state: brown glass header */
+.site-header.is-scrolled {
+  background: rgba(150, 75, 20, 0.88);
+  backdrop-filter: var(--glass-blur-strong);
+  -webkit-backdrop-filter: var(--glass-blur-strong);
+  box-shadow: var(--glass-shadow);
+  padding: 0.625rem 0;
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-header__logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--color-main);
+  transition: color var(--transition-base);
+  animation: logoReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes logoReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.site-header.is-scrolled .site-header__logo {
+  color: var(--color-text-light);
+}
+
+/* Logo icon: toggle between black and white images */
+.site-header__logo .logo-white {
+  display: none;
+}
+
+.site-header.is-scrolled .site-header__logo .logo-black {
+  display: none;
+}
+
+.site-header.is-scrolled .site-header__logo .logo-white {
+  display: block;
+}
+
+.site-header__logo svg {
+  width: 40px;
+  height: 40px;
+}
+
+.site-header__logo-text {
+  font-family: var(--font-heading);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+
+/* --------------------------------------------------------------------------
+   5. Desktop Navigation (hidden on mobile, visible at 1024px+)
+   -------------------------------------------------------------------------- */
+
+.nav-desktop {
+  display: none;
+}
+
+.nav-desktop__list {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem; /* Slightly reduced for better fit with 2 buttons */
+}
+
+.nav-desktop__link {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text);
+  text-decoration: none;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: color var(--transition-base);
+}
+
+.site-header.is-scrolled .nav-desktop__link {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.nav-desktop__link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: var(--radius-pill);
+  transition: width var(--transition-base);
+}
+
+.nav-desktop__link:hover {
+  color: #C97A40 !important;
+}
+
+.site-header.is-scrolled .nav-desktop__link:hover {
+  color: #C97A40 !important;
+}
+
+.nav-desktop__link:hover::after {
+  width: 100%;
+  background: #C97A40 !important;
+}
+
+.nav-desktop__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+
+/* --------------------------------------------------------------------------
+   6. Mobile Navigation â€” Hamburger + Drawer
+   -------------------------------------------------------------------------- */
+
+.nav-mobile-toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: calc(var(--z-drawer) + 1);
+  padding: 0;
+}
+
+.nav-mobile-toggle__bar {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--color-main);
+  border-radius: var(--radius-pill);
+  transition: transform var(--transition-base),
+    opacity var(--transition-fast);
+}
+
+/* Hamburger X transform when drawer is open */
+.nav-mobile-toggle.is-active .nav-mobile-toggle__bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-mobile-toggle.is-active .nav-mobile-toggle__bar:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-mobile-toggle.is-active .nav-mobile-toggle__bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile Drawer */
+.nav-drawer {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  max-width: 400px;
+  height: 100vh;
+  height: 100dvh;
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur-strong);
+  -webkit-backdrop-filter: var(--glass-blur-strong);
+  z-index: var(--z-drawer);
+  padding: 6rem 2rem 2rem;
+  transition: right var(--transition-base);
+  overflow-y: auto;
+}
+
+.nav-drawer.is-open {
+  right: 0;
+}
+
+.nav-drawer__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 43, 43, 0.4);
+  z-index: calc(var(--z-drawer) - 1);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-base),
+    visibility var(--transition-base);
+}
+
+.nav-drawer__overlay.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav-drawer__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nav-drawer__link {
+  display: block;
+  padding: 1rem 0;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-main);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-border-light);
+  transition: color var(--transition-fast),
+    padding-left var(--transition-fast);
+}
+
+.nav-drawer__link:hover {
+  color: var(--color-accent);
+  padding-left: 0.5rem;
+}
+
+
+/* --------------------------------------------------------------------------
+   7. Hero Section â€” Full Viewport with Image Background
+   -------------------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: var(--space-2xl);
+  overflow: hidden;
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.hero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top,
+      rgba(150, 75, 20, 0.75) 0%,
+      rgba(150, 75, 20, 0.35) 40%,
+      rgba(255, 253, 208, 0.1) 100%);
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+}
+
+.hero__title {
+  color: var(--color-text-light);
+  margin-bottom: var(--space-md);
+}
+
+.hero__subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.65;
+  margin-bottom: var(--space-lg);
+  max-width: 540px;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+
+/* --------------------------------------------------------------------------
+   8. Trust Bar â€” Brand Logos
+   -------------------------------------------------------------------------- */
+
+.trust-bar-wrapper {
+  overflow: hidden;
+  width: 100%;
+  padding: var(--space-md) 0;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.trust-bar {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--space-xl);
+  width: max-content;
+  animation: scrollTrustBar 360s linear infinite;
+}
+
+.trust-bar:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollTrustBar {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    /* Translate left by half of its total width, plus half the gap to align perfectly */
+    transform: translateX(calc(-50% - (var(--space-xl) / 2)));
+  }
+}
+
+.trust-bar__logo {
+  max-height: 64px;
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
+  filter: grayscale(20%) contrast(80%);
+  transition: filter var(--transition-base), transform var(--transition-base);
+  animation: logoFloat 3s ease-in-out infinite;
+}
+
+.trust-bar__logo:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.trust-bar__logo:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.trust-bar__logo:nth-child(4) {
+  animation-delay: 0.9s;
+}
+
+.trust-bar__logo:nth-child(5) {
+  animation-delay: 1.2s;
+}
+
+.trust-bar__logo:nth-child(6) {
+  animation-delay: 0.15s;
+}
+
+.trust-bar__logo:nth-child(7) {
+  animation-delay: 0.45s;
+}
+
+.trust-bar__logo:nth-child(8) {
+  animation-delay: 0.75s;
+}
+
+.trust-bar__logo:nth-child(9) {
+  animation-delay: 1.05s;
+}
+
+.trust-bar__logo:nth-child(10) {
+  animation-delay: 0.5s;
+}
+
+@keyframes logoFloat {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.trust-bar__logo:hover {
+  filter: grayscale(0%) contrast(100%);
+  animation-play-state: paused;
+  transform: scale(1.1) translateY(-4px);
+}
+
+
+/* --------------------------------------------------------------------------
+   9. Feature Cards Grid Section
+   -------------------------------------------------------------------------- */
+
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+}
+
+.feature-card {
+  padding: var(--space-lg);
+  text-align: center;
+}
+
+.feature-card__icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(79, 124, 130, 0.1);
+  border-radius: 50%;
+  color: var(--color-accent);
+}
+
+.feature-card__icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.feature-card__title {
+  margin-bottom: var(--space-xs);
+}
+
+.feature-card__text {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+  max-width: 36ch;
+  margin: 0 auto;
+}
+
+
+/* --------------------------------------------------------------------------
+   10. Split Content Section (Image + Text side by side on desktop)
+   -------------------------------------------------------------------------- */
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+.split__media {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.split__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+}
+
+.split__content {
+  padding: var(--space-sm) 0;
+}
+
+.split__content h2 {
+  margin-bottom: var(--space-md);
+}
+
+.split__content p {
+  margin-bottom: var(--space-lg);
+}
+
+
+/* --------------------------------------------------------------------------
+   11. Spaces Showcase Cards
+   -------------------------------------------------------------------------- */
+
+.spaces-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+}
+
+.space-card {
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Core Values Specific Cards */
+.core-value-card {
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: var(--radius-card);
+}
+
+.core-value-card:hover {
+  background-color: var(--color-accent) !important;
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(201, 122, 64, 0.2) !important;
+}
+
+.core-value-card:hover h3,
+.core-value-card:hover p {
+  color: var(--color-bg) !important;
+}
+
+.space-card__img-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+}
+
+.space-card__img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.space-card:hover .space-card__img {
+  transform: scale(1.05);
+}
+
+.space-card__badge {
+  position: absolute;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  padding: 0.375rem 0.875rem;
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-main);
+}
+
+.space-card__body {
+  padding: var(--space-md);
+}
+
+.space-card__title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-main);
+  margin-bottom: 0.375rem;
+}
+
+.space-card__desc {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: var(--space-md);
+}
+
+.space-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--space-md) var(--space-md);
+  margin-top: auto;
+}
+
+.space-card__capacity {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  padding: 0.375rem 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-sm);
+  background: transparent;
+}
+
+
+/* --------------------------------------------------------------------------
+   12. CTA Banner â€” Full-Width Call to Action
+   -------------------------------------------------------------------------- */
+
+.cta-banner {
+  position: relative;
+  padding: var(--space-2xl) 0;
+  text-align: center;
+  overflow: hidden;
+}
+
+.cta-banner__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(135deg,
+      var(--color-accent) 0%,
+      #3a6268 100%);
+}
+
+.cta-banner h2 {
+  color: var(--color-text-light);
+  margin-bottom: var(--space-md);
+}
+
+.cta-banner p {
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 48ch;
+  margin: 0 auto var(--space-lg);
+}
+
+
+/* --------------------------------------------------------------------------
+   13. Journal Preview (Latest Reports)
+   -------------------------------------------------------------------------- */
+
+.journal-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+}
+
+.journal-card__img {
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.journal-card__body {
+  padding: var(--space-md);
+}
+
+.journal-card__meta {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-xs);
+}
+
+.journal-card__title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-main);
+  margin-bottom: var(--space-xs);
+}
+
+.journal-card__excerpt {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+
+/* --------------------------------------------------------------------------
+   14. Footer
+   -------------------------------------------------------------------------- */
+
+.site-footer {
+  background: var(--color-main);
+  color: var(--color-text-light);
+  padding: var(--space-2xl) 0 var(--space-lg);
+}
+
+.site-footer a {
+  color: rgba(255, 255, 255, 0.75);
+  transition: color var(--transition-fast);
+}
+
+.site-footer a:hover {
+  color: var(--color-text-light);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-2xl);
+}
+
+.footer-col__title {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text-light);
+  margin-bottom: var(--space-md);
+}
+
+.footer-col__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-col__list a {
+  font-size: 0.9375rem;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  align-items: center;
+  text-align: center;
+}
+
+.footer-bottom__copy {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.footer-bottom__links {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+}
+
+.footer-bottom__links a {
+  font-size: 0.8125rem;
+}
+
+.footer-social {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: center;
+}
+
+.footer-social__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  transition: background var(--transition-fast);
+}
+
+.footer-social__link:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.footer-social__link svg {
+  width: 18px;
+  height: 18px;
+  fill: var(--color-text-light);
+}
+
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS â€” Mobile-First, Desktop-Adaptive
+   The UI reorganizes (not just scales) at each breakpoint.
+   ==========================================================================
+
+   Base (< 480px)  â†’ Single column, stacked layout (DEFAULT)
+   480px           â†’ Minor spacing adjustments
+   768px           â†’ 2-column grids, side-by-side cards
+   1024px          â†’ Mega menu visible, 3-column sections
+   1280px          â†’ Full 12-column grid active
+   1440px          â†’ Expanded whitespace, premium spacing
+   1920px          â†’ Full HD desktop parity (The Commons standard)
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   BP: 480px â€” Large Mobile
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 480px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .spaces-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   BP: 768px â€” Tablet
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 768px) {
+  :root {
+    --section-padding-y: var(--space-xl);
+  }
+
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .split {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .hero .split {
+    grid-template-columns: 1.3fr 1fr;
+    align-items: center;
+  }
+
+  /* When card is on the RIGHT (DOM order: content, media) — mirror proportions */
+  .hero .split--media-right {
+    grid-template-columns: 1fr 1.3fr;
+  }
+
+  .split--reverse {
+    direction: rtl;
+  }
+
+  .split--reverse>* {
+    direction: ltr;
+  }
+
+  .stat-bar {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .journal-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-bottom {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .hero__content {
+    max-width: 600px;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   BP: 1024px â€” Small Desktop (Mega Menu Activates)
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 1024px) {
+  :root {
+    --section-padding-y: var(--space-2xl);
+  }
+
+  .container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  /* Desktop Nav ON, Mobile Toggle OFF */
+  .nav-desktop {
+    display: flex;
+    align-items: center;
+    gap: 2rem; /* Consistent spacing between the link list and the action button */
+  }
+
+  .nav-mobile-toggle {
+    display: none;
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .spaces-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .journal-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .hero {
+    align-items: center;
+    padding-bottom: 0;
+  }
+
+  .hero .split {
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--space-2xl);
+  }
+
+  .hero .split--media-right {
+    grid-template-columns: 1fr 1.5fr;
+  }
+
+  .hero__content {
+    max-width: 680px;
+    padding: var(--space-2xl) 0;
+  }
+
+  .feature-card {
+    text-align: left;
+  }
+
+  .feature-card__icon {
+    margin: 0 0 var(--space-md) 0;
+  }
+
+  .feature-card__text {
+    margin: 0;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   BP: 1280px â€” Full Desktop (12-Column Grid Active)
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 1280px) {
+  .container {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  .grid-12 {
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--space-md);
+  }
+
+  /* Column span utilities for 12-col desktop */
+  .col-1 {
+    grid-column: span 1;
+  }
+
+  .col-2 {
+    grid-column: span 2;
+  }
+
+  .col-3 {
+    grid-column: span 3;
+  }
+
+  .col-4 {
+    grid-column: span 4;
+  }
+
+  .col-5 {
+    grid-column: span 5;
+  }
+
+  .col-6 {
+    grid-column: span 6;
+  }
+
+  .col-7 {
+    grid-column: span 7;
+  }
+
+  .col-8 {
+    grid-column: span 8;
+  }
+
+  .col-9 {
+    grid-column: span 9;
+  }
+
+  .col-10 {
+    grid-column: span 10;
+  }
+
+  .col-11 {
+    grid-column: span 11;
+  }
+
+  .col-12 {
+    grid-column: span 12;
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .split {
+    gap: var(--space-2xl);
+  }
+
+  .hero__content {
+    max-width: 720px;
+  }
+
+  .nav-desktop__list {
+    gap: 2.5rem;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   BP: 1440px â€” Large Desktop (Expanded Whitespace)
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 1440px) {
+  :root {
+    --section-padding-y: var(--space-3xl);
+  }
+
+  .container {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+
+  .grid-12 {
+    gap: var(--space-lg);
+  }
+
+  h1 {
+    font-size: 4rem;
+  }
+
+  h2 {
+    font-size: 2.75rem;
+  }
+
+  .hero__content {
+    max-width: 780px;
+  }
+
+  .spaces-grid {
+    gap: var(--space-lg);
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   BP: 1920px â€” Full HD Desktop Parity (The Commons Standard)
+   Premium layout: maximum content width, generous whitespace
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1600px;
+    padding-left: 6rem;
+    padding-right: 6rem;
+  }
+
+  .container--wide {
+    max-width: 1800px;
+  }
+
+  h1 {
+    font-size: 4.5rem;
+  }
+
+  .hero__content {
+    max-width: 850px;
+  }
+
+  .nav-desktop__list {
+    gap: 3rem;
+  }
+
+  .features-grid {
+    gap: var(--space-xl);
+  }
+
+  .split {
+    gap: var(--space-3xl);
+  }
+
+  .stat-bar__number {
+    font-size: 3.5rem;
+  }
+
+  .footer-grid {
+    gap: var(--space-xl);
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Animations â€” Micro-interactions for premium feel
+   -------------------------------------------------------------------------- */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.7s var(--ease-smooth) both;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s var(--ease-smooth) both;
+}
+
+/* Staggered children animation */
+.stagger-children>*:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.stagger-children>*:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.stagger-children>*:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.stagger-children>*:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.stagger-children>*:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+.stagger-children>*:nth-child(6) {
+  animation-delay: 0.5s;
+}
+
+/* Scroll-triggered reveal (applied via JS IntersectionObserver) */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s var(--ease-smooth),
+    transform 0.6s var(--ease-smooth);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   SVG Line-Drawing Animation (What Defines Us icons)
+   -------------------------------------------------------------------------- */
+
+.defines-icon {
+  overflow: visible;
+}
+
+.defines-icon path,
+.defines-icon line,
+.defines-icon rect,
+.defines-icon circle,
+.defines-icon polyline,
+.defines-icon polygon {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* When section is in view, draw the lines */
+.defines-icon.is-drawing path,
+.defines-icon.is-drawing line,
+.defines-icon.is-drawing rect,
+.defines-icon.is-drawing circle,
+.defines-icon.is-drawing polyline,
+.defines-icon.is-drawing polygon {
+  opacity: 1;
+  animation: svgDraw 2s ease-out forwards;
+}
+
+/* Stagger each child element */
+.defines-icon.is-drawing *:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.defines-icon.is-drawing *:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.defines-icon.is-drawing *:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.defines-icon.is-drawing *:nth-child(4) {
+  animation-delay: 0.45s;
+}
+
+.defines-icon.is-drawing *:nth-child(5) {
+  animation-delay: 0.6s;
+}
+
+.defines-icon.is-drawing *:nth-child(6) {
+  animation-delay: 0.75s;
+}
+
+/* Looping: after drawing in, subtly pulse */
+.defines-icon.is-drawing.is-looping path,
+.defines-icon.is-drawing.is-looping line,
+.defines-icon.is-drawing.is-looping rect,
+.defines-icon.is-drawing.is-looping circle,
+.defines-icon.is-drawing.is-looping polyline,
+.defines-icon.is-drawing.is-looping polygon {
+  animation: svgDraw 2s ease-out forwards, svgPulse 4s ease-in-out 2.5s infinite;
+}
+
+@keyframes svgDraw {
+  0% {
+    stroke-dashoffset: 300;
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes svgPulse {
+
+  0%,
+  100% {
+    stroke-opacity: 1;
+    transform: translateY(0);
+  }
+
+  50% {
+    stroke-opacity: 0.6;
+    transform: translateY(-2px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   14. Gallery Carousel (Horizontal Scroll)
+   -------------------------------------------------------------------------- */
+
+.gallery-carousel {
+  display: flex;
+  gap: var(--space-xl);
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding: 0 4rem;
+}
+
+.gallery-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery-card {
+  flex: 0 0 auto;
+  width: clamp(320px, 33vw, 480px);
+  aspect-ratio: 4/5;
+  scroll-snap-align: center;
+  position: relative;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background-color: var(--color-border-light);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.gallery-card__label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 3rem 1.5rem 1.5rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+  color: white;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: left;
+}
+
+.gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid var(--color-border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  color: #000;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.gallery-nav:hover {
+  background: var(--color-bg-alt);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.gallery-nav--prev {
+  left: 1.5rem;
+}
+
+.gallery-nav--next {
+  right: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .gallery-carousel {
+    padding: 0 1rem;
+    gap: var(--space-md);
+  }
+
+  .gallery-card {
+    width: clamp(280px, 85vw, 350px);
+  }
+
+  .gallery-nav {
+    display: none;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   15. Get Social With Us â€” The Commons section_home-social Pattern
+   Uses .split layout with section-specific overrides for alignment
+   -------------------------------------------------------------------------- */
+
+/* Removed custom .section--social .split styling to inherit standard 50/50 center-aligned split */
+
+/* Feature Icons Grid â€” Strict 3-column grid */
+.social-features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl) var(--space-md);
+  margin-top: var(--space-2xl);
+}
+
+.social-feature {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: var(--space-xs);
+}
+
+.social-feature__icon {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 40px;
+  margin-bottom: 0.25rem;
+}
+
+.social-feature__icon svg {
+  flex-shrink: 0;
+}
+
+.social-feature__text {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: 0;
+  max-width: 200px;
+}
+
+@media (min-width: 768px) {
+  .social-features-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl) var(--space-lg);
+  }
+}
+
+@media (min-width: 1280px) {
+  .social-features-grid {
+    gap: var(--space-xl) var(--space-xl);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   17. Snake Timeline
+   -------------------------------------------------------------------------- */
+.snake-timeline {
+  display: flex;
+  flex-direction: column;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.snake-row {
+  display: flex;
+  position: relative;
+}
+/* Alternate direction for snake effect */
+.snake-row:nth-child(even) {
+  flex-direction: row-reverse;
+}
+.snake-item {
+  flex: 1 1 33.333%;
+  padding: 1.5rem 1rem;
+  position: relative;
+  text-align: center;
+}
+/* Horizontal Line */
+.snake-row::before {
+  content: '';
+  position: absolute;
+  top: 1.5rem; /* Aligns with padding-top of item */
+  left: 16.666%;
+  right: 16.666%;
+  height: 2px;
+  background: var(--color-border-light);
+  z-index: 1;
+}
+/* U-turn vertical line connecting rows */
+.snake-row:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 1.5rem;
+  bottom: -1.5rem; /* Reaches the top of the next row's line */
+  width: 2px;
+  background: var(--color-border-light);
+  z-index: 1;
+}
+/* Downward connecting line on the RIGHT for odd rows */
+.snake-row:nth-child(odd):not(:last-child)::after {
+  right: 16.666%;
+}
+/* Downward connecting line on the LEFT for even rows */
+.snake-row:nth-child(even):not(:last-child)::after {
+  left: 16.666%;
+}
+/* The dot */
+.snake-dot {
+  position: absolute;
+  top: 1.5rem;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  background: var(--color-accent);
+  border: 3px solid white;
+  border-radius: 50%;
+  z-index: 2;
+  box-sizing: content-box;
+}
+.snake-content {
+  margin-top: 1rem;
+}
+.snake-year {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: 0.25rem;
+  display: block;
+}
+.snake-title {
+  font-size: 1rem;
+  color: var(--color-main);
+  margin-bottom: 0.25rem;
+  font-weight: 700;
+}
+.snake-desc {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .snake-row {
+    flex-direction: column !important;
+  }
+  .snake-row::before, .snake-row::after {
+    display: none;
+  }
+  .snake-timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .snake-timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 2px;
+    background: var(--color-border-light);
+  }
+  .snake-item {
+    text-align: left;
+    padding: 1.5rem 0 1.5rem 1.5rem;
+  }
+  .snake-dot {
+    left: -2rem;
+    top: 2.5rem;
+  }
+  .snake-content {
+    margin-top: 0;
+  }
+}
+
+
+.has-mega-menu {
+  position: static;
+}
+
+.mega-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur-strong);
+  -webkit-backdrop-filter: var(--glass-blur-strong);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: var(--glass-border-light);
+  box-shadow: var(--glass-shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s var(--ease-smooth);
+  z-index: 10;
+  padding: 1rem 0 !important; /* decisevly small padding */
+}
+
+.has-mega-menu.is-active .mega-menu,
+.has-mega-menu:hover .mega-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.mega-menu__main-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 3rem;
+  width: 100%;
+  max-width: 1550px; /* match container max-width */
+  margin: 0 auto;
+  padding: 0 5rem; /* align with hero text */
+}
+
+.mega-menu__info {
+  flex: 0 0 320px;
+  text-align: left;
+}
+
+.mega-menu__title {
+  font-family: var(--font-heading);
+  font-size: 1.125rem !important; /* small heading */
+  font-weight: 700;
+  color: var(--color-main);
+  margin-bottom: 0.15rem;
+}
+
+.mega-menu__desc {
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  font-size: 0.75rem; /* smaller description */
+}
+
+.mega-menu__links {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  min-width: 120px;
+}
+
+.mega-menu__logo-box {
+  margin-left: auto; /* push to right */
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.mega-menu__logo-img {
+  height: 64px !important; /* Increased for premium prominence */
+  width: auto !important;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.06));
+  animation: megaLogoFloat 6s ease-in-out infinite;
+}
+
+@keyframes megaLogoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.mega-menu__link {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color var(--transition-fast), padding-left var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mega-menu__link-arrow {
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: all 0.3s var(--ease-smooth);
+  color: #C97A40;
+}
+
+.mega-menu__link:hover {
+  color: #C97A40;
+  padding-left: 0.25rem;
+}
+
+.mega-menu__link:hover .mega-menu__link-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Mobile Submenu Toggle State */
+.nav-drawer__submenu.is-active {
+  display: block !important;
+}
+
+.submenu-toggle.is-active svg {
+  transform: rotate(180deg);
+}
+
+.submenu-toggle svg {
+  transition: transform 0.3s ease;
+}
+
+
+/* ==========================================================================
+   SPACES PAGE — Page-Specific Styles
+   Service Section (Animated Ring), Price Tables, Outline Button
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   Outline Button — Teal border on light backgrounds (Inquiry-First CTA)
+   Hover state: #C97A40 (mandatory per AI_RULES)
+   -------------------------------------------------------------------------- */
+
+.btn--outline {
+  background: transparent;
+  color: var(--color-accent);
+  border: 2px solid var(--color-accent);
+}
+
+.btn--outline:hover {
+  background: #C97A40 !important;
+  color: var(--color-text-light) !important;
+  border-color: #C97A40 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(201, 122, 64, 0.3) !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   Spaces Services — Horizontal Grid
+   4-column grid with animated SVG icons
+   -------------------------------------------------------------------------- */
+
+.spaces-services-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
+}
+
+@media (min-width: 768px) {
+  .spaces-services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .spaces-services-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.spaces-services__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-sm);
+  padding: var(--space-xl) var(--space-lg);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-card);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.spaces-services__item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--glass-shadow-lg);
+}
+
+.spaces-services__item-icon {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(150, 75, 20, 0.08);
+  border-radius: 50%;
+  margin-bottom: var(--space-sm);
+}
+
+/* Looping SVG Animation */
+.spaces-services__item-icon svg {
+  width: 32px;
+  height: 32px;
+  animation: pulseIcon 3s infinite ease-in-out;
+}
+
+@keyframes pulseIcon {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15) translateY(-2px); }
+  100% { transform: scale(1); }
+}
+
+.spaces-services__item-title {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+}
+
+.spaces-services__item-text {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+
+/* --------------------------------------------------------------------------
+   Spaces Pricing Table — Glassmorphic pricing rows
+   -------------------------------------------------------------------------- */
+
+.spaces-price-table {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-card-sm);
+  overflow: hidden;
+  margin: var(--space-lg) auto;
+  max-width: 440px;
+  text-align: left;
+}
+
+.spaces-price-table__head {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-main);
+  padding: 0.75rem 1.25rem;
+  background: rgba(150, 75, 20, 0.08);
+  border-bottom: 1px solid rgba(150, 75, 20, 0.1);
+}
+
+.spaces-price-table__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid rgba(150, 75, 20, 0.06);
+}
+
+.spaces-price-table__row:last-child {
+  border-bottom: none;
+}
+
+.spaces-price-table__row span:last-child {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+
+/* --------------------------------------------------------------------------
+   Spaces CTA Buttons Container
+   -------------------------------------------------------------------------- */
+
+.spaces-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  justify-content: center;
+  margin-top: var(--space-lg);
+}
+
+
+/* ==========================================================================
+   SPACES PAGE — Responsive Breakpoints
+   ========================================================================== */
+
+/* 768px — Services split goes side-by-side */
+@media (min-width: 768px) {
+  .spaces-services-split {
+    grid-template-columns: 1fr 1.4fr;
+    gap: var(--space-xl);
+  }
+
+  .spaces-services__logo-container {
+    width: 260px;
+    height: 260px;
+  }
+}
+
+/* 1024px — Larger ring, more breathing room */
+@media (min-width: 1024px) {
+  .spaces-services__logo-container {
+    width: 300px;
+    height: 300px;
+  }
+
+  .spaces-services__logo-center {
+    width: 110px;
+    height: 110px;
+  }
+}
+
+/* 1440px — Premium spacing */
+@media (min-width: 1440px) {
+  .spaces-services-split {
+    gap: var(--space-2xl);
+  }
+
+  .spaces-services__logo-container {
+    width: 340px;
+    height: 340px;
+  }
+
+  .spaces-services__logo-center {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+
+/* ==========================================================================
+   OFFSHORING PAGE — Page-Specific Styles
+   Process Cards, Roles Grid
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   Offshoring Process — Card Grid
+   4-column cards with icon, text body, and image placeholder
+   -------------------------------------------------------------------------- */
+
+.off-process-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+.off-process-card {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-card);
+}
+
+.off-process-card__body {
+  padding: var(--space-lg);
+}
+
+.off-process-card__body h3 {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-main);
+  margin-bottom: var(--space-sm);
+}
+
+.off-process-card__body p {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+  margin-bottom: 0;
+}
+
+.off-process-card__icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(150, 75, 20, 0.08);
+  border-radius: 50%;
+  margin-bottom: var(--space-md);
+}
+
+.off-process-card__icon svg {
+  width: 28px;
+  height: 28px;
+  animation: pulseIcon 3s infinite ease-in-out;
+}
+
+.off-process-card__img {
+  margin-top: auto;
+  border-radius: 0 0 var(--radius-card) var(--radius-card);
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .off-process-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .off-process-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Offshoring Roles — Grid of role items
+   -------------------------------------------------------------------------- */
+
+.off-roles-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+}
+
+.off-role-item {
+  padding: var(--space-lg);
+  border-radius: var(--radius-card);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.off-role-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--glass-shadow-lg);
+}
+
+.off-role-item h4 {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-xs);
+}
+
+.off-role-item p {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+@media (min-width: 480px) {
+  .off-roles-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .off-roles-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .off-roles-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Offshoring Comparison Table — Premium Glassmorphic Table
+   -------------------------------------------------------------------------- */
+
+.compare-table-wrapper {
+  overflow-x: auto;
+  margin-bottom: var(--space-xl);
+}
+
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+  text-align: left;
+  background-color: #FEFCF6; /* Premium Ivory background */
+}
+
+.compare-table th {
+  padding: 1.25rem 1.5rem;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: white;
+}
+
+.compare-table th.head-dark,
+.compare-table th.head-accent {
+  background-color: var(--color-main);
+}
+
+.compare-table td {
+  padding: 1.25rem 1.5rem;
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  border-bottom: 1px solid rgba(150, 75, 20, 0.08);
+  font-weight: 500;
+}
+
+.compare-table tr:last-child td {
+  border-bottom: none;
+}
+
+.compare-table td.col-highlight {
+  color: var(--color-main);
+  font-weight: 700;
+}
+
+/* Distinct brown vertical line separator in the middle */
+.compare-table th:nth-child(2),
+.compare-table td:nth-child(2) {
+  border-right: 2px solid var(--color-main);
+}
+
+.compare-table tbody tr:hover {
+  background-color: rgba(150, 75, 20, 0.02);
+}
+
+.compare-table-footer {
+  padding: 1rem 1.5rem;
+  background-color: rgba(150, 75, 20, 0.04);
+  border-top: 1px solid var(--color-border-light);
+}
+
+.compare-table-footer p {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0;
+  font-style: italic;
+}
+
+.compare-table-footer a {
+  color: var(--color-accent);
+  font-weight: 600;
+  text-decoration: underline;
+}

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Now | Kings City — Premium Workspace Booking</title>
+  <meta name="description" content="Book your premium workspace at Kings City. Flexible options for co-working, meeting rooms, and event spaces in Parañaque City.">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/style.css?v=1.3">
+  <link rel="stylesheet" href="assets/css/layout.css?v=1.3">
+  
+  <!-- Page-Specific Styles -->
+  <style>
+    .book-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+    }
+
+    @media (min-width: 1024px) {
+      .book-grid {
+        grid-template-columns: 1.2fr 0.8fr;
+      }
+    }
+
+    /* Booking Tabs */
+    .book-tabs {
+      display: flex;
+      gap: var(--space-md);
+      overflow-x: auto;
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-xl);
+      border-bottom: 1px solid var(--color-border-light);
+      scrollbar-width: none;
+    }
+    .book-tabs::-webkit-scrollbar { display: none; }
+
+    .book-tab {
+      white-space: nowrap;
+      padding: 0.75rem 0;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      position: relative;
+      transition: color var(--transition-fast);
+    }
+    .book-tab.is-active {
+      color: var(--color-accent);
+    }
+    .book-tab.is-active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--color-accent);
+    }
+
+    /* Booking Form Card */
+    .book-form-card {
+      background: var(--color-bg-ivory);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      box-shadow: var(--glass-shadow-lg);
+    }
+
+    .book-form-header {
+      background: var(--color-main);
+      padding: 1.5rem 2rem;
+      color: white;
+    }
+    .book-form-header h3 {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      margin-bottom: 0.25rem;
+      color: white;
+    }
+    .book-form-header p {
+      font-size: 0.8125rem;
+      opacity: 0.8;
+      margin-bottom: 0;
+    }
+
+    .book-form-body {
+      padding: 2rem;
+    }
+
+    /* Price Estimator */
+    .price-est {
+      background: rgba(150, 75, 20, 0.05);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(150, 75, 20, 0.1);
+    }
+    .price-est__label {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .price-est__value {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-main);
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.9375rem;
+      background: white;
+      transition: border-color var(--transition-fast);
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--color-accent);
+    }
+    textarea.form-control {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .btn-book {
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    /* Booking Content */
+    .book-content__media {
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    .book-content__media img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+    }
+
+    .book-content__title {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--color-main);
+    }
+    .book-content__text {
+      color: var(--color-text-muted);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-tag-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+    .feature-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 0.75rem;
+      background: rgba(79, 124, 130, 0.08);
+      color: var(--color-accent);
+      border-radius: var(--radius-pill);
+    }
+  </style>
+
+  <!-- SEO / Open Graph -->
+  <meta property="og:title" content="Book Now | Kings City — Premium Workspaces">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="Secure your spot in Parañaque's premier workspace.">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ================= GLOBAL HEADER PLACEHOLDER ================= -->
+  <div id="site-header-container"></div>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main id="main-content">
+
+    <!-- ══════════════════════════════════════════════════
+       HERO SECTION — Adapted from spaces.html, card on RIGHT
+    ══════════════════════════════════════════════════ -->
+    <section class="hero" style="padding-top: calc(var(--space-3xl) + 80px); min-height: 80dvh; padding-bottom: var(--space-2xl);">
+      <div class="container grid-12">
+        <div class="col-12 split split--media-right">
+          
+          <!-- Text on LEFT -->
+          <div class="split__content animate-fadeInUp">
+            <span class="text-overline" style="margin-bottom: var(--space-sm); display: block;">Reservations</span>
+            <h1 class="hero__title" style="color: var(--color-main); font-size: clamp(3rem, 5vw, 4rem); line-height: 1.1;">Secure Your Space</h1>
+            <p class="hero__subtitle" style="color: var(--color-text-muted); max-width: 540px; margin-bottom: var(--space-xl);">Experience a new standard of productivity. Book a day pass, meeting room, or event space instantly and join our thriving community.</p>
+          </div>
+
+          <!-- Media on RIGHT -->
+          <div class="split__media" style="border-radius: var(--radius-card); overflow: hidden; aspect-ratio: 4/3;">
+            <div style="display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 1.2rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; width:100%; height:100%; background-color: var(--color-border-light);">
+              NO IMAGE
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+       BOOKING SECTION
+    ══════════════════════════════════════════════════ -->
+    <section class="section" style="background-color: #FFFFFF;">
+      <div class="container">
+        
+        <!-- Tabs -->
+        <div class="book-tabs">
+          <div class="book-tab is-active" data-target="coworking">Co-Working</div>
+          <div class="book-tab" data-target="meeting">Small Meeting Room</div>
+          <div class="book-tab" data-target="conference">Conference Room</div>
+          <div class="book-tab" data-target="events">Events Place</div>
+          <div class="book-tab" data-target="leasing">Office Leasing</div>
+          <div class="book-tab" data-target="virtual">Virtual Office</div>
+        </div>
+
+        <div class="book-grid">
+          
+          <!-- Left: Content Information -->
+          <div class="book-content" id="booking-info">
+            <div class="book-content__media">
+              <div style="display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; width:100%; aspect-ratio:16/9; background-color: var(--color-border-light);">No Image</div>
+            </div>
+            <span class="text-overline" id="content-overline">Co-Working</span>
+            <h2 class="book-content__title" id="content-title">Hot Desks & Communal Tables</h2>
+            <div class="book-content__text" id="content-text">
+              <p>Staying true to our purpose, it is our mission to contribute to the growth of the economy by continuously providing jobs, beautiful workspaces and flexible offshoring solutions for our members. Our vibrant co-working environment helps you break your monotonous daily routine.</p>
+            </div>
+            <div class="feature-tag-grid" id="content-features">
+              <span class="feature-tag">High-Speed Wi-Fi</span>
+              <span class="feature-tag">Printing & Scanning</span>
+              <span class="feature-tag">Kitchen Access</span>
+              <span class="feature-tag">In-House Cafe</span>
+              <span class="feature-tag">Lockers Available</span>
+              <span class="feature-tag">24/7 Access</span>
+            </div>
+          </div>
+
+          <!-- Right: Booking Form -->
+          <div class="book-sidebar">
+            <div class="book-form-card">
+              <div class="book-form-header">
+                <h3 id="form-title">Book Co-Working</h3>
+                <p>Select your dates and duration below</p>
+              </div>
+              <div class="book-form-body">
+                
+                <!-- Price Est -->
+                <div class="price-est">
+                  <span class="price-est__label">Estimated Price</span>
+                  <span class="price-est__value" id="price-display">Php 500</span>
+                </div>
+
+                <form id="booking-form" action="#">
+                  <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control" placeholder="Your full name" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" placeholder="you@company.com" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" placeholder="+63 XXX XXX XXXX" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Duration</label>
+                    <select class="form-control" id="duration-select">
+                      <!-- Options dynamic based on tab -->
+                      <option value="500">Day Pass — Php 500</option>
+                      <option value="2500">Weekly Pass — Php 2,500</option>
+                      <option value="6000">Monthly Pass — Php 6,000</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Start Date</label>
+                    <input type="date" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Special Requests</label>
+                    <textarea class="form-control" placeholder="Any special requirements..."></textarea>
+                  </div>
+
+                  <button type="submit" class="btn btn-book">Confirm Booking</button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= GLOBAL FOOTER PLACEHOLDER ================= -->
+  <div id="site-footer-container"></div>
+
+  <!-- Global Navigation & Partial Loader -->
+  <script src="assets/js/navigation.js?v=2"></script>
+
+  <script>
+    // Tab Data Mapping
+    const bookingData = {
+      coworking: {
+        overline: "Co-Working",
+        title: "Hot Desks & Communal Tables",
+        text: "<p>Staying true to our purpose, it is our mission to contribute to the growth of the economy by continuously providing jobs, beautiful workspaces and flexible offshoring solutions for our members. Our vibrant co-working environment helps you break your monotonous daily routine.</p>",
+        features: ["High-Speed Wi-Fi", "Printing & Scanning", "Kitchen Access", "In-House Cafe", "Lockers Available", "24/7 Access"],
+        formTitle: "Book Co-Working",
+        options: [
+          { label: "Day Pass — Php 500", value: "500" },
+          { label: "Weekly Pass — Php 2,500", value: "2500" },
+          { label: "Monthly Pass — Php 6,000", value: "6000" }
+        ]
+      },
+      meeting: {
+        overline: "Private & Professional",
+        title: "Small Meeting Room",
+        text: "<p>Ideal for team huddles, interviews, or focused brainstorming sessions. Our small meeting rooms accommodate up to 6 people and feature state-of-the-art presentation equipment.</p>",
+        features: ["Smart TV / AV", "Whiteboard", "High-Speed Wi-Fi", "Kitchen Access", "Climate Control"],
+        formTitle: "Book Meeting Room",
+        options: [
+          { label: "Per Hour — Php 500", value: "500" },
+          { label: "Full Day — Php 4,000", value: "4000" }
+        ]
+      },
+      conference: {
+        overline: "Boardroom Grade",
+        title: "Conference Room",
+        text: "<p>Host your board meetings, client presentations, or workshops in our premium conference rooms. Accommodates up to 12 people with full executive amenities.</p>",
+        features: ["Conference Tech", "Premium Seating", "Catering Available", "Kitchen Access", "Reception Support"],
+        formTitle: "Book Conference Room",
+        options: [
+          { label: "Per Hour — Php 1,000", value: "1000" },
+          { label: "Full Day — Php 8,000", value: "8000" }
+        ]
+      },
+      events: {
+        overline: "Functions & Events",
+        title: "Events Place",
+        text: "<p>A versatile venue for product launches, company parties, or networking events. Can accommodate over 100 guests in a stunning, high-ceiling environment.</p>",
+        features: ["Full Venue Access", "Sound System", "Flexible Layout", "Photography Friendly", "Event Support Staff"],
+        formTitle: "Book Events Place",
+        options: [
+          { label: "Per Hour — Php 5,000", value: "5000" },
+          { label: "4 Hours — Php 18,000", value: "18000" },
+          { label: "Full Day — Php 40,000", value: "40000" }
+        ]
+      },
+      leasing: {
+        overline: "Dedicated Private Offices",
+        title: "Office Leasing",
+        text: "<p>Ready-to-move-in private suites for teams of all sizes. Includes all the benefits of Kings City community with the privacy and security of your own dedicated four walls.</p>",
+        features: ["Fully Furnished", "Biometric Access", "Dedicated IT", "Company Branding", "Mail Handling"],
+        formTitle: "Inquire for Office Leasing",
+        options: [
+          { label: "6-Seat Office", value: "48000" },
+          { label: "9-Seat Office", value: "55000" },
+          { label: "14-Seat Office", value: "112000" }
+        ]
+      },
+      virtual: {
+        overline: "Work From Anywhere",
+        title: "Virtual Office",
+        text: "<p>Establish your professional presence with a prestigious business address. Includes mail handling, telephone answering, and access to our physical facilities when needed.</p>",
+        features: ["Business Address", "Mail Handling", "Lounge Access", "Member Rates", "Reciprocal Access"],
+        formTitle: "Setup Virtual Office",
+        options: [
+          { label: "Standard (Monthly) — Php 3,000", value: "3000" },
+          { label: "Standard (Annual) — Php 30,000", value: "30000" },
+          { label: "Pro (Monthly) — Php 5,000", value: "5000" },
+          { label: "Pro (Annual) — Php 50,000", value: "50000" }
+        ]
+      }
+    };
+
+    const tabs = document.querySelectorAll('.book-tab');
+    const durationSelect = document.getElementById('duration-select');
+    const priceDisplay = document.getElementById('price-display');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Update active tab
+        tabs.forEach(t => t.classList.remove('is-active'));
+        tab.classList.add('is-active');
+
+        const key = tab.dataset.target;
+        const data = bookingData[key];
+
+        // Update content
+        document.getElementById('content-overline').innerText = data.overline;
+        document.getElementById('content-title').innerText = data.title;
+        document.getElementById('content-text').innerHTML = data.text;
+        document.getElementById('form-title').innerText = data.formTitle;
+
+        // Update features
+        const featureContainer = document.getElementById('content-features');
+        featureContainer.innerHTML = data.features.map(f => `<span class="feature-tag">${f}</span>`).join('');
+
+        // Update select options
+        durationSelect.innerHTML = data.options.map(o => `<option value="${f(o.value)}">${o.label}</option>`).join('');
+        // Wait, little bug in map above, fixing:
+        durationSelect.innerHTML = data.options.map(o => `<option value="${o.value}">${o.label}</option>`).join('');
+        
+        updatePrice();
+      });
+    });
+
+    durationSelect.addEventListener('change', updatePrice);
+
+    function updatePrice() {
+      const val = parseInt(durationSelect.value).toLocaleString();
+      priceDisplay.innerText = `Php ${val}`;
+    }
+
+    // Initialize first price
+    updatePrice();
+  </script>
+</body>
+</html>
