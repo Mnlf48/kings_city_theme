@@ -1,12 +1,11 @@
 <header class="site-header" id="header">
   <div class="container container--wide site-header__inner">
-    <a href="index.html" class="site-header__logo" aria-label="Kings City Home">
-      <!-- RATIONALE: Using PNG logo instead of SVG as per direct user request. Documented in PROJECT_CONTEXT.md -->
-      <img src="assets/img/KINGS CITY LOGO Icon_1.png" alt="Kings City K Logo" class="logo-black" style="height: 40px; width: auto; object-fit: contain;">
-      <img src="assets/img/KINGS CITY LOGO Icon_2.png" alt="Kings City K Logo" class="logo-white" style="height: 40px; width: auto; object-fit: contain;">
+    <a href="index.html" class="site-header__logo" aria-label="Kings City Home" style="text-decoration: none;">
+      <span class="logo-black" style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: bold; letter-spacing: 0.05em; color: var(--color-primary);">THE KINGS CITY CLUB</span>
+      <span class="logo-white" style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: bold; letter-spacing: 0.05em; color: #fff;">THE KINGS CITY CLUB</span>
     </a>
 
-    <!-- Desktop Navigation -->
+    <!-- desktop navigation -->
     <nav class="nav-desktop" aria-label="Primary Navigation">
       <div class="nav-desktop__list">
         <div class="nav-desktop__item has-mega-menu">
@@ -14,7 +13,7 @@
             More <svg class="nav-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 6px;"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </a>
           
-          <!-- Mega Menu Dropdown -->
+          <!-- mega menu dropdown -->
           <div class="mega-menu">
             <div class="container mega-menu__inner">
               <div class="mega-menu__main-row">
@@ -23,9 +22,9 @@
                   <p class="mega-menu__desc">As your business grows, we understand that Kings Club must grow with you.</p>
                 </div>
                 <div class="mega-menu__links">
-                  <a href="our_brand.html" onclick="window.location.href='our_brand.html'; return true;" class="mega-menu__link">
+                  <a href="our_brands.html" class="mega-menu__link">
                     <svg class="mega-menu__link-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                    Our Brand
+                    Our Brands
                   </a>
                   <a href="about.html" class="mega-menu__link">
                     <svg class="mega-menu__link-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -41,8 +40,8 @@
                   </a>
                 </div>
                 <div class="mega-menu__logo-box">
-                  <!-- RATIONALE: Using PNG logo instead of SVG as per direct user request. Documented in PROJECT_CONTEXT.md -->
-                  <img src="assets/img/KINGS CITY LOGO Icon_MegaMenu.png" alt="Kings City Icon" class="mega-menu__logo-img">
+                  <!-- rationale: using png logo instead of svg as per direct user request. documented in project_context.md -->
+                  <img src="assets/img/the_kings_city_club_terracotta_01.png" alt="Kings City Icon" class="mega-menu__logo-img">
                 </div>
               </div>
             </div>
@@ -58,25 +57,37 @@
       </div>
     </nav>
 
-    <!-- Mobile Toggle -->
+    <!-- mobile toggle -->
     <button class="nav-mobile-toggle" aria-label="Open Navigation Menu" aria-expanded="false">
-      <span class="nav-mobile-toggle__bar"></span>
-      <span class="nav-mobile-toggle__bar"></span>
-      <span class="nav-mobile-toggle__bar"></span>
+      <div class="nav-mobile-toggle__burger">
+        <span class="nav-mobile-toggle__bar"></span>
+        <span class="nav-mobile-toggle__bar"></span>
+        <span class="nav-mobile-toggle__bar"></span>
+      </div>
+      <svg class="nav-mobile-toggle__close" viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
     </button>
   </div>
 </header>
 
-<!-- Mobile Drawer Overlay & Menu (Hidden by default) -->
+<!-- mobile drawer overlay & menu -->
 <div class="nav-drawer__overlay" aria-hidden="true"></div>
 <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+  <button class="nav-drawer__close" aria-label="Close Navigation Menu">
+    <svg viewBox="0 0 24 24" width="28" height="28" stroke="var(--color-primary)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
   <nav class="nav-drawer__list">
     <div class="nav-drawer__item has-submenu">
       <button class="nav-drawer__link submenu-toggle" style="width: 100%; text-align: left; background: none; border: none; display: flex; justify-content: space-between; align-items: center;">
         More <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
       </button>
       <div class="nav-drawer__submenu" style="display: none; padding-left: 1.5rem; background: rgba(0,0,0,0.05);">
-        <a href="our_brand.html" onclick="window.location.href='our_brand.html'; return true;" class="nav-drawer__link" style="font-size: 1.1rem; padding: 0.75rem 0;">Our Brand</a>
+        <a href="our_brands.html" class="nav-drawer__link" style="font-size: 1.1rem; padding: 0.75rem 0;">Our Brands</a>
         <a href="about.html" class="nav-drawer__link" style="font-size: 1.1rem; padding: 0.75rem 0;">About Us</a>
         <a href="impact.html" class="nav-drawer__link" style="font-size: 1.1rem; padding: 0.75rem 0;">Impact</a>
         <a href="news.html" class="nav-drawer__link" style="font-size: 1.1rem; padding: 0.75rem 0;">News</a>
@@ -89,3 +100,4 @@
     <a href="book_now.html" class="btn mt-2" style="display: block; text-align: center;">Book Now</a>
   </nav>
 </div>
+

@@ -1,7 +1,7 @@
-// Navigation logic and partial loading
+// navigation logic and partial loading
 document.addEventListener("DOMContentLoaded", () => {
   
-  // Fetch Partials
+  // fetch partials
   const loadPartial = async (url, containerId, callback) => {
     try {
       const response = await fetch(url);
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const initNavigation = () => {
-    // Header scroll state
+    // header scroll state
     const header = document.getElementById('header');
     if (header) {
       window.addEventListener('scroll', () => {
@@ -27,10 +27,11 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Mobile Drawer Toggle
+    // mobile drawer toggle
     const mobileToggle = document.querySelector('.nav-mobile-toggle');
     const navDrawer = document.getElementById('nav-drawer');
     const overlay = document.querySelector('.nav-drawer__overlay');
+    const drawerCloseBtn = document.querySelector('.nav-drawer__close');
 
     if (mobileToggle && navDrawer && overlay) {
       const toggleMenu = () => {
@@ -45,9 +46,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       mobileToggle.addEventListener('click', toggleMenu);
       overlay.addEventListener('click', toggleMenu);
+      if (drawerCloseBtn) {
+        drawerCloseBtn.addEventListener('click', toggleMenu);
+      }
     }
 
-    // Mega Menu Toggle (Desktop)
+    // mega menu toggle (desktop)
     const megaMenuParent = document.querySelector('.has-mega-menu');
     const megaMenuLink = megaMenuParent?.querySelector('.nav-desktop__link');
     
@@ -57,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         megaMenuParent.classList.toggle('is-active');
       });
 
-      // Close mega menu when clicking outside
+      // close mega menu when clicking outside
       document.addEventListener('click', (e) => {
         if (!megaMenuParent.contains(e.target)) {
           megaMenuParent.classList.remove('is-active');
@@ -65,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Mobile Submenu Toggle
+    // mobile submenu toggle
     const submenuToggle = document.querySelector('.submenu-toggle');
     const submenu = document.querySelector('.nav-drawer__submenu');
     
@@ -77,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Load header and footer, then initialize nav (cache busted)
+  // load header and footer, then initialize nav (cache busted)
   const cacheBuster = '?v=' + new Date().getTime();
   loadPartial('partials/header.html' + cacheBuster, 'site-header-container', initNavigation);
   loadPartial('partials/footer.html' + cacheBuster, 'site-footer-container');

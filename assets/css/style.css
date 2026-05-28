@@ -1,162 +1,65 @@
-/* ==========================================================================
-   STYLE.CSS — Kings City Design System
-   IDENTITY: Design Tokens, Typography, Reset, Component Primitives
-   Palette: Brown / Teal / Cream — Liquid Glass UI
-   NO BLACK THEME — #000000 forbidden for UI surfaces
-   ========================================================================== */
+/* style.css — kings city design system */
 
-/* --------------------------------------------------------------------------
-   1. @font-face — Self-Hosted Typography
-   Butler (woff2) + Roboto (ttf static)
-   -------------------------------------------------------------------------- */
+/* @font-face — self-hosted typography */
 
-/* Butler — Serif Heading Family */
+/* hero-light — custom typography */
 @font-face {
-  font-family: 'Butler';
-  src: url('../fonts/butler/Butler FREE/Webfont formats/Woff2/Butler-Free-Lgt.woff2') format('woff2');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Butler';
-  src: url('../fonts/butler/Butler FREE/Webfont formats/Woff2/Butler-Free-Rmn.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Butler';
-  src: url('../fonts/butler/Butler FREE/Webfont formats/Woff2/Butler-Free-Med.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Butler';
-  src: url('../fonts/butler/Butler FREE/Webfont formats/Woff2/Butler-Free-Bd.woff2') format('woff2');
+  font-family: 'Hero-Light-Bold';
+  src: url('../fonts/Hero-Light-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Butler';
-  src: url('../fonts/butler/Butler FREE/Webfont formats/Woff2/Butler-Free-XBd.woff2') format('woff2');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Butler';
-  src: url('../fonts/butler/Butler FREE/Webfont formats/Woff2/Butler-Free-Blk.woff2') format('woff2');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Roboto — Sans-Serif Body Family */
-@font-face {
-  font-family: 'Roboto';
-  src: url('../fonts/Roboto/static/Roboto-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Roboto';
-  src: url('../fonts/Roboto/static/Roboto-Regular.ttf') format('truetype');
+  font-family: 'Hero-Light-Regular';
+  src: url('../fonts/Hero-Light-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
-@font-face {
-  font-family: 'Roboto';
-  src: url('../fonts/Roboto/static/Roboto-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Roboto';
-  src: url('../fonts/Roboto/static/Roboto-SemiBold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Roboto';
-  src: url('../fonts/Roboto/static/Roboto-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Roboto';
-  src: url('../fonts/Roboto/static/Roboto-Italic.ttf') format('truetype');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-
-/* --------------------------------------------------------------------------
-   2. CSS Custom Properties — Design Tokens
-   -------------------------------------------------------------------------- */
+/* css custom properties — design tokens */
 
 :root {
-  /* ── Primary Palette ── */
-  --color-main:         #964B14;   /* Brown — branding, headings            */
-  --color-secondary:    #D07040;   /* Warm support                          */
-  --color-accent:       #4F7C82;   /* Teal — CTA, links, highlights         */
+  /* ── Brand Color Hierarchy (Finalized 2026-05-21) ── */
+  --color-primary:      #BD451F;       /* Earthy Terracotta — branding & headings */
+  --color-secondary:    #FFBFBF;       /* Soft Blush — even content panels background */
+  --color-accent-red:   #AC201A;       /* Deep Red — official primary button background */
+  --color-accent-gold:  #FBCB77;       /* Muted Gold — prestige accents & status indicators only */
+  --color-bg-ivory:     #FFF9EF;       /* Warm Ivory — hero & odd content panels background */
+  --color-btn-hover:    #8E1510;       /* Crimson Maroon — premium deep button hover state */
+  --color-text:         #2B2B2B;       /* Charcoal — primary text */
+  --color-border:       rgba(189, 69, 31, 0.2); /* Subtly tinted luxury separator lines */
+  --color-border-light: rgba(189, 69, 31, 0.15); /* Lighter separator used in timeline lines and borders */
 
-  /* ── Background ── */
-  --color-bg:           #FFFDD0;   /* Cream background                      */
-  --color-bg-warm:      #FFF8E7;   /* Slightly warmer cream for alt sections */
-  --color-bg-sand:      #F5F0E8;   /* Sandy warm — gallery/locations         */
-  --color-bg-ivory:     #FEFCF6;   /* Near-white ivory — trust bar/members   */
+  /* ── legacy aliases kept for layout.css compatibility ── */
+  /* These map old names to new canonical values so no layout.css rules break */
+  --color-accent:       var(--color-accent-red);   /* Deep Red (button alias) */
+  --color-hover:        var(--color-btn-hover);     /* Crimson Maroon (hover alias) */
 
-  /* ── Text ── */
-  --color-text:         #2B2B2B;   /* Softer than pure black                */
-  --color-text-light:   #FFFFFF;   /* Light text on dark surfaces            */
-  --color-text-muted:   #6B5E53;   /* Subdued captions / meta               */
+  /* ── typography ── */
+  --font-heading:       'Hero-Light-Bold', sans-serif;
+  --font-body:          'Hero-Light-Regular', sans-serif;
 
-  /* ── UI Support ── */
-  --color-border:       #5A4636;   /* Warm dark border                      */
-  --color-border-light: rgba(150, 75, 20, 0.15); /* Subtle glass borders   */
-  --color-btn-hover:    #C97A40;   /* Muted orange hover                    */
-
-  /* ── Typography ── */
-  --font-heading:       'Butler', Georgia, 'Times New Roman', serif;
-  --font-body:          'Roboto', 'Segoe UI', Arial, sans-serif;
-
-  /* ── Shape ── */
+  /* ── shape ── */
   --radius-pill:        9999px;
   --radius-card:        16px;
   --radius-card-sm:     12px;
 
-  /* ── Glass UI Tokens ── */
-  --glass-bg:           rgba(255, 253, 208, 0.55);
-  --glass-bg-strong:    rgba(255, 253, 208, 0.78);
-  --glass-bg-dark:      rgba(90, 70, 54, 0.65);
+  /* ── glass ui tokens ── */
+  --glass-bg:           rgba(255, 255, 255, 0.55);
+  --glass-bg-strong:    rgba(255, 255, 255, 0.78);
+  --glass-bg-dark:      rgba(189, 69, 31, 0.65);
   --glass-blur:         blur(18px);
   --glass-blur-strong:  blur(28px);
-  --glass-border:       1px solid rgba(150, 75, 20, 0.2);
-  --glass-border-light: 1px solid rgba(255, 253, 208, 0.35);
+  --glass-border:       1px solid rgba(189, 69, 31, 0.2);
+  --glass-border-light: 1px solid rgba(255, 255, 255, 0.35);
   --glass-shadow:       0 8px 32px rgba(0, 0, 0, 0.08);
   --glass-shadow-lg:    0 16px 48px rgba(0, 0, 0, 0.12);
 
-  /* ── Spacing Scale (The Commons rhythm) ── */
-  --space-xs:           0.5rem;    /* 8px  */
+  /* ── spacing scale (the commons rhythm) ── */
+  --space-xs:           0.5rem;    /* 8px */
   --space-sm:           1rem;      /* 16px */
   --space-md:           1.5rem;    /* 24px */
   --space-lg:           2.5rem;    /* 40px */
@@ -164,16 +67,16 @@
   --space-2xl:          6rem;      /* 96px */
   --space-3xl:          8rem;      /* 128px */
 
-  /* ── Section Vertical Rhythm ── */
+  /* ── section vertical rhythm ── */
   --section-padding-y:  clamp(2.5rem, 4vw, 3.5rem);
 
-  /* ── Transitions ── */
+  /* ── transitions ── */
   --ease-smooth:        cubic-bezier(0.4, 0, 0.2, 1);
   --transition-fast:    0.2s var(--ease-smooth);
   --transition-base:    0.35s var(--ease-smooth);
   --transition-slow:    0.5s var(--ease-smooth);
 
-  /* ── Z-Index Scale ── */
+  /* ── z-index scale ── */
   --z-header:           1000;
   --z-mega-menu:        999;
   --z-overlay:          998;
@@ -181,9 +84,7 @@
 }
 
 
-/* --------------------------------------------------------------------------
-   3. Global Reset & Base Styles
-   -------------------------------------------------------------------------- */
+/* global reset & base styles */
 
 *,
 *::before,
@@ -207,7 +108,7 @@ body {
   font-size: 1rem;
   line-height: 1.7;
   color: var(--color-text);
-  background-color: var(--color-bg);
+  background-color: var(--color-bg-ivory);
   overflow-x: hidden;
 }
 
@@ -221,7 +122,7 @@ svg {
 }
 
 a {
-  color: var(--color-accent);
+  color: var(--color-accent-red);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
@@ -250,16 +151,13 @@ select {
 }
 
 
-/* --------------------------------------------------------------------------
-   4. Typography System
-   ALWAYS Butler for headings, ALWAYS Roboto for body
-   -------------------------------------------------------------------------- */
+/* typography system */
 
 h1, h2, h3, h4 {
   font-family: var(--font-heading);
   font-weight: 700;
   line-height: 1.15;
-  color: var(--color-main);
+  color: var(--color-primary);
   letter-spacing: -0.01em;
 }
 
@@ -313,46 +211,68 @@ p {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--color-accent-red);
 }
 
 
-/* --------------------------------------------------------------------------
-   5. Component Primitives — Buttons
-   ALWAYS pill-shaped — border-radius: 9999px
-   -------------------------------------------------------------------------- */
+/* component primitives — buttons */
 
-.btn {
+/* Primary Button (btn, btn-primary, submit, cta-button) */
+.btn,
+.btn-primary,
+button[type="submit"],
+.cta-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   padding: 0.8125rem 1.875rem;
   border-radius: var(--radius-pill);
-  background: var(--color-accent);
-  color: var(--color-text-light);
+  background-color: var(--color-accent-red) !important;
+  color: var(--color-bg-ivory) !important;
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 0.9375rem;
   text-decoration: none;
-  border: none;
+  border: 1px solid var(--color-accent-red);
   cursor: pointer;
-  transition: background var(--transition-fast),
-              transform var(--transition-fast),
-              box-shadow var(--transition-fast);
+  transition: all 0.3s ease-in-out;
   white-space: nowrap;
 }
 
-.btn:hover {
-  background: #C97A40 !important;
-  color: var(--color-text-light) !important;
+.btn:hover,
+.btn-primary:hover,
+button[type="submit"]:hover,
+.cta-button:hover {
+  background-color: var(--color-btn-hover) !important;
+  color: var(--color-bg-ivory) !important;
+  border-color: var(--color-btn-hover) !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(201, 122, 64, 0.3) !important;
+  box-shadow: 0 6px 24px rgba(142, 21, 16, 0.25);
 }
 
-.btn:active {
+.btn:active,
+.btn-primary:active,
+button[type="submit"]:active,
+.cta-button:active {
   transform: translateY(0);
   box-shadow: none;
+}
+
+/* Secondary / Ghost / Outline Buttons */
+.btn-secondary,
+.btn-outline {
+  background-color: transparent !important;
+  color: var(--color-primary) !important;
+  border: 1px solid var(--color-primary) !important;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-secondary:hover,
+.btn-outline:hover {
+  background-color: rgba(189, 69, 31, 0.08) !important;
+  color: var(--color-primary) !important;
+  transform: translateY(-2px);
 }
 
 .btn--large {
@@ -365,22 +285,23 @@ p {
   font-size: 0.8125rem;
 }
 
-/* Button with arrow SVG icon */
-.btn svg {
+/* button with arrow svg icon */
+.btn svg,
+.btn-primary svg,
+.cta-button svg {
   width: 1em;
   height: 1em;
   transition: transform var(--transition-fast);
 }
 
-.btn:hover svg {
+.btn:hover svg,
+.btn-primary:hover svg,
+.cta-button:hover svg {
   transform: translateX(3px);
 }
 
 
-/* --------------------------------------------------------------------------
-   6. Component Primitives — Glass Card
-   ALWAYS glassmorphism for elevated surfaces
-   -------------------------------------------------------------------------- */
+/* component primitives — glass card */
 
 .card-glass {
   background: var(--glass-bg);
@@ -419,7 +340,7 @@ p {
   font-family: var(--font-heading);
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--color-main);
+  color: var(--color-primary);
   margin-bottom: var(--space-xs);
 }
 
@@ -430,9 +351,7 @@ p {
 }
 
 
-/* --------------------------------------------------------------------------
-   7. Utility Classes
-   -------------------------------------------------------------------------- */
+/* utility classes */
 
 .sr-only {
   position: absolute;
@@ -463,9 +382,7 @@ p {
 }
 
 
-/* --------------------------------------------------------------------------
-   8. Skip Link (Accessibility)
-   -------------------------------------------------------------------------- */
+/* skip link (accessibility) */
 
 .skip-link {
   position: absolute;
@@ -473,8 +390,8 @@ p {
   left: 1rem;
   z-index: calc(var(--z-header) + 10);
   padding: 0.75rem 1.5rem;
-  background: var(--color-accent);
-  color: var(--color-text-light);
+  background: var(--color-accent-red);
+  color: var(--color-bg-ivory);
   border-radius: var(--radius-pill);
   font-weight: 600;
   transition: top var(--transition-fast);
@@ -485,37 +402,49 @@ p {
 }
 
 
-/* --------------------------------------------------------------------------
-   9. Section-level Decoration
-   -------------------------------------------------------------------------- */
+/* section-level decoration */
 
 .section {
   padding-top: var(--section-padding-y);
   padding-bottom: var(--section-padding-y);
 }
 
-/* Alternating Section Backgrounds (White -> Cream) */
-:where(main > section:nth-of-type(odd)) {
-  background-color: #FFFFFF;
+/* ── HERO: Locked to Warm Ivory — prevents any background bleed ── */
+#hero-section,
+.premium-hero {
+  background-color: var(--color-bg-ivory) !important;
+  background-image: none !important;
 }
 
-:where(main > section:nth-of-type(even)) {
-  background-color: var(--color-bg); /* Cream */
+/* ── FINAL ALTERNATING LAYOUT RHYTHM ──
+   LAYER A (odd panels)  → Warm Ivory  var(--color-bg-ivory)
+   LAYER B (even panels) → Soft Blush  var(--color-secondary)
+   Hero counts as position 0, so 1st content-panel = odd = Ivory.
+*/
+.content-panel:nth-of-type(odd) {
+  background-color: var(--color-bg-ivory);
 }
 
+.content-panel:nth-of-type(even) {
+  background-color: var(--color-secondary);
+}
+
+/* ── Legacy section modifier overrides ── */
+/* .section--alt now maps to Soft Blush (was Gold) */
 .section--alt {
-  background-color: var(--color-bg-warm);
+  background-color: var(--color-secondary);
 }
 
+/* Dark terracotta sections (kept for impact/social proof panels) */
 .section--teal {
-  background-color: var(--color-accent);
-  color: var(--color-text-light);
+  background-color: var(--color-accent-red);
+  color: var(--color-bg-ivory);
 }
 
 .section--teal h2,
 .section--teal h3,
 .section--teal h4 {
-  color: var(--color-text-light);
+  color: var(--color-bg-ivory);
 }
 
 .section--teal .text-lead {
@@ -523,13 +452,13 @@ p {
 }
 
 .section--brown {
-  background-color: var(--color-main);
-  color: var(--color-text-light);
+  background-color: var(--color-primary);
+  color: var(--color-bg-ivory);
 }
 
 .section--brown h2,
 .section--brown h3 {
-  color: var(--color-text-light);
+  color: var(--color-bg-ivory);
 }
 
 .section__header {
@@ -543,7 +472,7 @@ p {
 .divider {
   width: 60px;
   height: 3px;
-  background: var(--color-accent);
+  background: var(--color-accent-red);
   border: none;
   border-radius: var(--radius-pill);
   margin: var(--space-md) 0;

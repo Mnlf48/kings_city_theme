@@ -6,11 +6,11 @@
   <title>News & Updates | Kings City</title>
   <meta name="description" content="Stay updated with the latest news, construction milestones, and community insights from Kings City.">
   
-  <!-- CSS -->
-  <link rel="stylesheet" href="assets/css/style.css?v=1.3">
-  <link rel="stylesheet" href="assets/css/layout.css?v=1.4">
+  <!-- css -->
+  <link rel="stylesheet" href="assets/css/style.css?v=4.0">
+  <link rel="stylesheet" href="assets/css/layout.css?v=4.0">
   
-  <!-- SEO / Open Graph -->
+  <!-- seo / open graph -->
   <meta property="og:title" content="News & Updates | Kings City">
   <meta property="og:type" content="website">
   <meta property="og:description" content="Stay updated with the latest news and insights from Kings City.">
@@ -18,72 +18,77 @@
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <!-- ================= GLOBAL HEADER PLACEHOLDER ================= -->
+  <!-- global header placeholder -->
   <div id="site-header-container"></div>
 
-  <!-- ================= MAIN CONTENT ================= -->
+  <!-- main content -->
   <main id="main-content">
 
-    <!-- ══════════════════════════════════════════════════
-       HERO SECTION
-    ══════════════════════════════════════════════════ -->
-    <section class="hero" style="padding-top: calc(var(--space-3xl) + 80px); min-height: 60dvh; padding-bottom: var(--space-2xl);">
-      <div class="container">
-        <div class="text-center animate-fadeInUp">
-          <span class="text-overline" style="margin-bottom: var(--space-sm); display: block; letter-spacing: 0.2em;">T h e  N e w s</span>
-          <h1 class="hero__title" style="color: var(--color-main); font-size: clamp(3rem, 5vw, 4.5rem); line-height: 1.1; margin-left: auto; margin-right: auto;">Latest Updates & Insights</h1>
-          <p class="hero__subtitle" style="color: var(--color-text-muted); max-width: 600px; margin-bottom: var(--space-xl); margin-left: auto; margin-right: auto;">Stay informed about our community's growth, construction progress, and the latest trends in workspaces and offshoring.</p>
+    <!-- hero section -->
+    <!-- hero section -->
+    <section class="hero premium-hero">
+      <div class="container grid-12">
+        <div class="col-12 split split--media-right">
+          
+          <!-- text content on left -->
+          <div class="split__content animate-fadeInUp hero__content--index">
+            <span class="text-overline hero__overline">The News</span>
+            <h1 class="hero__title hero__title--inner">Latest Updates & Insights</h1>
+            <p class="hero__subtitle">Stay informed about our community's growth, construction progress, and the latest trends in workspaces and offshoring.</p>
+          </div>
+
+          <!-- media on right -->
+          <div class="split__media hero__slider" id="hero-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
+            <!-- news hero placeholder -->
+            <div class="hero__slide is-active" style="display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 1.2rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; position: absolute; inset: 0; opacity: 1; transition: opacity 1s ease-in-out; background-color: var(--color-border-light);">
+              NO IMAGE
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
 
-    <!-- ══════════════════════════════════════════════════
-       NEWS FEED GRID
-    ══════════════════════════════════════════════════ -->
-    <section class="section" style="padding-top: 0;">
+    <!-- section 1 (blush) -->
+    <section class="section content-panel">
       <div class="container">
         <div class="journal-grid">
-          <!-- News Card 1 -->
           <article class="card-glass">
-            <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase;">
+            <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
               No Image
             </div>
             <div style="padding: var(--space-lg);">
-              <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent);">Community</span>
-              <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;">Expanding Our Network in Metro Manila</h3>
-              <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">We are thrilled to announce new partnership opportunities and space expansions across our Makati and BGC hubs.</p>
+              <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent-red);">1 min read</span>
+              <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;">Galentine's 2026: All Things Pretty!</h3>
+              <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">Last February 28, 2026, The Kings City Club members celebrated love, friendship, and community at Galentine's 2026 in collaboration with Cathartic PH. The event brought together...</p>
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 0.75rem; color: var(--color-text-muted);">May 10, 2026</span>
+                <span style="font-size: 0.75rem; color: var(--color-text-muted);">February 28, 2026</span>
                 <a href="#" class="btn btn--small" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Read More</a>
               </div>
             </div>
           </article>
-
-          <!-- News Card 2 -->
           <article class="card-glass">
-            <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase;">
+            <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
               No Image
             </div>
             <div style="padding: var(--space-lg);">
-              <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent);">Milestone</span>
-              <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;">Kings City Phase 2 Construction Update</h3>
-              <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">Our Parañaque expansion is well underway, with new premium suites and event spaces set to open this fall.</p>
+              <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent-red);">1 min read</span>
+              <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;">A Look Back on Our Triple Anniversary, Pinoy Big Brother: KINGS Edition</h3>
+              <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">Last January 31, 2026, our community members of Kings Manpower, The Kings City Club and Taza Coffee Manila, gathered for a vibrant triple-anniversary celebration! Inspired by the fun and..</p>
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 0.75rem; color: var(--color-text-muted);">May 5, 2026</span>
+                <span style="font-size: 0.75rem; color: var(--color-text-muted);">January 31, 2026</span>
                 <a href="#" class="btn btn--small" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Read More</a>
               </div>
             </div>
           </article>
-
-          <!-- News Card 3 -->
           <article class="card-glass">
-            <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase;">
+            <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
               No Image
             </div>
             <div style="padding: var(--space-lg);">
-              <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent);">Insights</span>
-              <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;">The Future of Offshoring in 2026</h3>
-              <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">Exploring how hybrid work models are reshaping the B2B staffing landscape in the Asia Pacific region.</p>
+              <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent-red);">1 min read</span>
+              <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;">Manille Céramique, your neighborhood pottery studio at The Kings City Club!</h3>
+              <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">Manille Céramique, your neighborhood pottery studio in the South, is finally OPEN! What started as months of preparation, planning, and passion has finally taken shape through Manille Céramique....</p>
               <div style="display: flex; justify-content: space-between; align-items: center;">
                 <span style="font-size: 0.75rem; color: var(--color-text-muted);">April 28, 2026</span>
                 <a href="#" class="btn btn--small" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Read More</a>
@@ -94,13 +99,214 @@
       </div>
     </section>
 
+    <!-- section 2 (ivory) -->
+    <section class="section content-panel">
+      <div class="container">
+        <div class="journal-grid">
+          <article class="card-glass">
+            <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
+              No Image
+            </div>
+            <div style="padding: var(--space-lg);">
+              <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent-red);">3 min read</span>
+              <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;">Commitment, Culture, and Community in Action (October 2025)</h3>
+              <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">Fueling Dreams for 26 Years: Celebrating Kings Lending Kings Lending proudly celebrates 26 remarkable years of service, empowering countless individuals and communities through...</p>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.75rem; color: var(--color-text-muted);">October 2025</span>
+                <a href="#" class="btn btn--small" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Read More</a>
+              </div>
+            </div>
+          </article>
+          <article class="card-glass">
+            <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
+              No Image
+            </div>
+            <div style="padding: var(--space-lg);">
+              <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent-red);">1 min read</span>
+              <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;">Junk Journaling Workshop with Sheereen Tibajia-Esquivel (@shee.creates_)</h3>
+              <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">Our recent Creative Junk Journaling Workshop with Sheereen Tibajia-Esquivel, also known as @shee.creates_, was such a fun and inspiring session! ✨ Participants enjoyed exploring their creativit...</p>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.75rem; color: var(--color-text-muted);">August 2025</span>
+                <a href="#" class="btn btn--small" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Read More</a>
+              </div>
+            </div>
+          </article>
+          <article class="card-glass">
+            <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
+              No Image
+            </div>
+            <div style="padding: var(--space-lg);">
+              <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent-red);">1 min read</span>
+              <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;">Buwan ng Wika (August 2025)</h3>
+              <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">Sa paggunita ng Buwan ng Wika, sama-samang ipinagdiwang ng ating komunidad ang yaman ng ating kultura at pagkakakilanlan bilang Pilipino. Tampok sa selebrasyon ang koronasyon ng Lakan a...</p>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.75rem; color: var(--color-text-muted);">August 2025</span>
+                <a href="#" class="btn btn--small" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Read More</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- section 3 (blush) -->
+    <section class="section content-panel">
+      <div class="container">
+        <div class="journal-grid">
+          <article class="card-glass">
+            <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
+              No Image
+            </div>
+            <div style="padding: var(--space-lg);">
+              <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent-red);">1 min read</span>
+              <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;">Celebrating Effort, Energy, and Empowerment (April 2025)</h3>
+              <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">Who's Holding Strong? We're loving all the energy our challengers have been bringing in! From healthy meals to workout wins, it's been amazing to see their entries, their food choices, and all the...</p>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.75rem; color: var(--color-text-muted);">April 2025</span>
+                <a href="#" class="btn btn--small" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Read More</a>
+              </div>
+            </div>
+          </article>
+          <article class="card-glass">
+            <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
+              No Image
+            </div>
+            <div style="padding: var(--space-lg);">
+              <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent-red);">2 min read</span>
+              <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;">Honoring Women and Welcoming New Leaders (March 2025)</h3>
+              <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">Let's celebrate Women's Month! This month, we honor the strength, resilience, and impact of women in our community. At Kings City, we believe in creating spaces where women can...</p>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.75rem; color: var(--color-text-muted);">March 2025</span>
+                <a href="#" class="btn btn--small" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Read More</a>
+              </div>
+            </div>
+          </article>
+          <article class="card-glass">
+            <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
+              No Image
+            </div>
+            <div style="padding: var(--space-lg);">
+              <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent-red);">2 min read</span>
+              <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;">Unity Through Games and Celebration (February 2025)</h3>
+              <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">Kings Game: A 3-in-1 Anniversary Celebration! KINGS GAME was an unforgettable anniversary event celebrating the milestones of Kings Manpower, Kings City, and Taza Coffee Manila. The day was...</p>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.75rem; color: var(--color-text-muted);">February 2025</span>
+                <a href="#" class="btn btn--small" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Read More</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- section 4 (ivory) -->
+    <section class="section content-panel">
+      <div class="container">
+        <div class="journal-grid">
+          <article class="card-glass">
+            <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
+              No Image
+            </div>
+            <div style="padding: var(--space-lg);">
+              <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent-red);">1 min read</span>
+              <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;">Growth, Gratitude, and the Year Ahead (January 2025)</h3>
+              <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">KINGS MANPOWER ANNIVERSARY Last January 11, we celebrated the incredible journey and achievements of Kings Manpower with an unforgettable event! As a token of gratitude for...</p>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.75rem; color: var(--color-text-muted);">January 2025</span>
+                <a href="#" class="btn btn--small" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Read More</a>
+              </div>
+            </div>
+          </article>
+          <article class="card-glass">
+            <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
+              No Image
+            </div>
+            <div style="padding: var(--space-lg);">
+              <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent-red);">0 min read</span>
+              <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1.5rem; line-height: 1.3;">Ma. Lourdes "Cory" Navarro: A Journey from Down South of the Philippines</h3>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.75rem; color: var(--color-text-muted);">December 2024</span>
+                <a href="#" class="btn btn--small" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Read More</a>
+              </div>
+            </div>
+          </article>
+          <article class="card-glass">
+            <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
+              No Image
+            </div>
+            <div style="padding: var(--space-lg);">
+              <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent-red);">0 min read</span>
+              <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1.5rem; line-height: 1.3;">Rising Tigers - People to Watch: Camille Navarro-Makasiar</h3>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.75rem; color: var(--color-text-muted);">December 2024</span>
+                <a href="#" class="btn btn--small" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Read More</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- section 5 (blush) -->
+    <section class="section content-panel">
+      <div class="container">
+        <div class="journal-grid">
+          <article class="card-glass">
+            <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
+              No Image
+            </div>
+            <div style="padding: var(--space-lg);">
+              <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent-red);">1 min read</span>
+              <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;">The Kings Scout Bulletin</h3>
+              <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">Ngiting Kings x Mencius Smile Dental Wellness Mission Last September 7, in coordination with the Manila Health Department, we held our...</p>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.75rem; color: var(--color-text-muted);">September 2025</span>
+                <a href="#" class="btn btn--small" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Read More</a>
+              </div>
+            </div>
+          </article>
+          <article class="card-glass">
+            <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
+              No Image
+            </div>
+            <div style="padding: var(--space-lg);">
+              <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent-red);">2 min read</span>
+              <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;">Leadership, Community, and Creative Growth (June-July 2025)</h3>
+              <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">Happy Birthday, NSM! Sir Neil, our Kings Managing Director, celebrated his birthday surrounded by the very people he leads — sharing stories, laughter, and a hearty meal at Samgyupsalamat....</p>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.75rem; color: var(--color-text-muted);">July 2025</span>
+                <a href="#" class="btn btn--small" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Read More</a>
+              </div>
+            </div>
+          </article>
+          <article class="card-glass">
+            <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
+              No Image
+            </div>
+            <div style="padding: var(--space-lg);">
+              <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent-red);">1 min read</span>
+              <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;">Wellness Wins, Workshops, and Mother's Day (May 2025)</h3>
+              <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">The Biggest Loser: Kings Edition - Momentum Check: Who's Crushing It? It's been a month since our last update, but don't worry, we're back and ready to bring the energy! Our Biggest Lose...</p>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.75rem; color: var(--color-text-muted);">May 2025</span>
+                <a href="#" class="btn btn--small" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Read More</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
   </main>
 
-  <!-- ================= GLOBAL FOOTER PLACEHOLDER ================= -->
+  <!-- global footer placeholder -->
   <div id="site-footer-container"></div>
 
-  <!-- Global Navigation & Partial Loader -->
-  <script src="assets/js/navigation.js?v=2"></script>
+  <!-- global navigation & partial loader -->
+  <script src="assets/js/navigation.js?v=3"></script>
 
 </body>
 </html>
+
+
+

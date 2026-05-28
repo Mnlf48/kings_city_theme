@@ -6,11 +6,11 @@
   <title>About Us | Kings City</title>
   <meta name="description" content="Learn about the history, mission, and community of Kings City. Providing premium workspaces and offshoring solutions since 2009.">
   
-  <!-- CSS -->
-  <link rel="stylesheet" href="assets/css/style.css?v=1.3">
-  <link rel="stylesheet" href="assets/css/layout.css?v=1.4">
+  <!-- css -->
+  <link rel="stylesheet" href="assets/css/style.css?v=4.0">
+  <link rel="stylesheet" href="assets/css/layout.css?v=4.0">
   
-  <!-- SEO / Open Graph -->
+  <!-- seo / open graph -->
   <meta property="og:title" content="About Us | Kings City">
   <meta property="og:type" content="website">
   <meta property="og:description" content="Learn about the history, mission, and community of Kings City.">
@@ -18,65 +18,53 @@
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <!-- ================= GLOBAL HEADER PLACEHOLDER ================= -->
+  <!-- global header placeholder -->
   <div id="site-header-container"></div>
 
-  <!-- ================= MAIN CONTENT ================= -->
+  <!-- main content -->
   <main id="main-content">
 
-    <!-- ══════════════════════════════════════════════════
-       HERO SECTION — Card on RIGHT (Media Right, Content Left)
-    ══════════════════════════════════════════════════ -->
-    <section class="hero" style="padding-top: calc(var(--space-3xl) + 80px); min-height: 100dvh; padding-bottom: var(--space-2xl);">
+    <!-- hero section -->
+    <section class="hero premium-hero">
       <div class="container grid-12">
         <div class="col-12 split split--media-right">
-          
-          <!-- Text Content on LEFT -->
-          <div class="split__content animate-fadeInUp text-center">
-            <span class="text-overline" style="margin-bottom: var(--space-sm); display: block; letter-spacing: 0.2em;">A b o u t  U s</span>
-            <h1 class="hero__title" style="color: var(--color-main); font-size: clamp(3rem, 5vw, 4.5rem); line-height: 1.1; margin-left: auto; margin-right: auto;">The Heart of Our Community</h1>
-            <p class="hero__subtitle" style="color: var(--color-text-muted); max-width: 480px; margin-bottom: var(--space-xl); margin-left: auto; margin-right: auto;">We are a unified community for both the workforce and workspace members. Discover how we're redefining the way people work in the Philippines.</p>
-            <div class="hero__actions" style="justify-content: center;">
+
+          <!-- text content on left -->
+          <div class="split__content animate-fadeInUp hero__content--index">
+            <span class="text-overline hero__overline">About Us</span>
+            <h1 class="hero__title hero__title--inner">The Heart of Our Community</h1>
+            <p class="hero__subtitle">We are a unified community for both the workforce and workspace members. Discover how we're redefining the way people work in the Philippines.</p>
+            <div class="hero__actions hero__actions--index">
               <a href="#our-story" class="btn">
                 Read Our Story
               </a>
             </div>
           </div>
 
-          <!-- Media on RIGHT -->
+        <!-- slider on right -->
           <div class="split__media hero__slider" id="hero-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
-            <!-- Slide 1 -->
-            <div class="hero__slide is-active" style="display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 1.2rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; position: absolute; inset: 0; opacity: 1; transition: opacity 1s ease-in-out; background-color: var(--color-border-light);">
-              NO IMAGE
-            </div>
-            <!-- Slide 2 -->
-            <div class="hero__slide" style="display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 1.2rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease-in-out; background-color: var(--color-border-light);">
-              NO IMAGE
-            </div>
-            <!-- Slide 3 -->
-            <div class="hero__slide" style="display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 1.2rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease-in-out; background-color: var(--color-border-light);">
-              NO IMAGE
-            </div>
+            <!-- slide 1 -->
+            <img class="hero__slide is-active" src="assets/img/kings_membership02.JPG" alt="About Kings City 1" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;">
+            <!-- slide 2 -->
+            <img class="hero__slide" src="assets/img/kings_about01.jpg" alt="About Kings City 2" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;">
+            <!-- slide 3 -->
+            <img class="hero__slide" src="assets/img/kings_about02.jpg" alt="About Kings City 3" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;">
           </div>
 
-        </div>
+          </div>
       </div>
     </section>
 
-    <!-- ══════════════════════════════════════════════════
-       OUR STORY / MISSION
-    ══════════════════════════════════════════════════ -->
-    <section class="section" id="our-story">
+    <!-- our story / mission -->
+    <section class="section content-panel section--story" id="our-story">
       <div class="container grid-12">
         <div class="col-12 split" style="align-items: center;">
           <div class="split__media">
-             <div style="display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; width:100%; aspect-ratio:4/3; background-color: var(--color-border-light);">
-               No Image
-             </div>
+            <img src="assets/img/Kings_bag.jpg" alt="Kings City Bag" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; border-radius: var(--radius-card);">
           </div>
           <div class="split__content">
             <span class="text-overline">Since 2009</span>
-            <h2 style="font-family: var(--font-heading); font-weight: 400; font-size: clamp(2.5rem, 4vw, 3.5rem); color: var(--color-main); margin-bottom: var(--space-lg); line-height: 1.2;">
+            <h2 style="font-family: var(--font-heading); font-weight: 400; font-size: clamp(2.5rem, 4vw, 3.5rem); color: var(--color-primary); margin-bottom: var(--space-lg); line-height: 1.2;">
               Building More Than Just Workspaces
             </h2>
             <p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: var(--space-md);">
@@ -90,98 +78,82 @@
       </div>
     </section>
 
-    <!-- ══════════════════════════════════════════════════
-       PHILIPPINES MAP SECTION
-    ══════════════════════════════════════════════════ -->
-    <section class="section" style="padding: var(--space-3xl) 0;">
+    <!-- philippines map section -->
+    <section class="section content-panel section--map">
       <div class="container grid-12">
-        <div class="col-12 split" style="align-items: center;">
+        <div class="col-12 split">
+          <div class="split__media text-center">
+            <img src="assets/img/PH_Map_terracotta.png" alt="Philippine Map" style="max-width: 100%; height: auto; max-height: 400px; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05));">
+          </div>
           <div class="split__content animate-fadeInUp">
             <span class="text-overline">Our Reach</span>
-            <h2 style="font-family: var(--font-heading); font-weight: 400; font-size: clamp(2.5rem, 4vw, 3rem); color: var(--color-main); margin-bottom: var(--space-md);">
+            <h2 style="font-family: var(--font-heading); font-weight: 400; font-size: clamp(2.5rem, 4vw, 3rem); color: var(--color-primary); margin-bottom: var(--space-md);">
               More Than a Workspace — A Community Built for Growth
             </h2>
             <p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-md);">
               Founded in 1999, Kings Group of Companies began with a simple yet powerful mission — to provide jobs and create meaningful opportunities for Filipinos. What started as a microfinancing cooperative in Zamboanga City has grown into a nationwide network of businesses.
             </p>
-            <p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-lg);">
+            <p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: 0;">
               In 2020, we launched Kings City — a premium co-working and offshoring destination in Parañaque City. Today, we support more than 10,000 members nationwide and help businesses from Australia and around the world build high-performing teams in the Philippines.
             </p>
           </div>
-          <div class="split__media text-center" style="padding: 2rem;">
-            <img src="assets/img/PH_Map_brown.png" alt="Philippine Map" style="max-width: 100%; height: auto; max-height: 500px; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05));">
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- ══════════════════════════════════════════════════
-       CORE VALUES GRID
-    ══════════════════════════════════════════════════ -->
-    <style>
-      .core-value-card {
-        transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-      }
-      .core-value-card:hover {
-        background-color: #C97A40 !important;
-        transform: translateY(-5px);
-        box-shadow: 0 15px 35px rgba(201, 122, 64, 0.2) !important;
-      }
-      .core-value-card:hover h3,
-      .core-value-card:hover p {
-        color: white !important;
-      }
-    </style>
-    <section class="section" style="background-color: var(--color-bg); padding: var(--space-3xl) 0;">
-      <div class="container">
+    <!-- core values grid -->
+    <section class="core-values-section content-panel">
+      <div class="core-values-container">
         <div class="text-center" style="margin-bottom: var(--space-2xl);">
           <span class="text-overline">What We Stand For</span>
-          <h2 style="font-family: var(--font-heading); font-weight: 400; font-size: clamp(2rem, 3.5vw, 3rem); color: var(--color-main);">
+          <h2 style="font-family: var(--font-heading); font-weight: 400; font-size: clamp(2rem, 3.5vw, 3rem); color: var(--color-primary);">
             Our Core Values
           </h2>
         </div>
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-xl);">
+        <div class="core-values-grid">
           
-          <div class="space-card core-value-card" style="flex: 1 1 calc(25% - var(--space-xl)); min-width: 240px; text-align: center; padding: var(--space-xl); background: white;">
-            <h3 style="color: var(--color-accent); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem; transition: color 0.3s ease;">Integrity</h3>
-            <p style="color: var(--color-text-muted); font-size: 0.95rem; transition: color 0.3s ease;">Upholding the highest standards of honesty and moral principles in every interaction and business decision.</p>
+          <div class="core-value-card">
+            <span class="core-value-number">01.</span>
+            <h3>Integrity</h3>
+            <p>Upholding the highest standards of honesty and moral principles in every interaction and business decision.</p>
           </div>
           
-          <div class="space-card core-value-card" style="flex: 1 1 calc(25% - var(--space-xl)); min-width: 240px; text-align: center; padding: var(--space-xl); background: white;">
-            <h3 style="color: var(--color-accent); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem; transition: color 0.3s ease;">Transparency</h3>
-            <p style="color: var(--color-text-muted); font-size: 0.95rem; transition: color 0.3s ease;">Fostering an environment of open, clear, and direct communication across our community and ecosystem.</p>
+          <div class="core-value-card">
+            <span class="core-value-number">02.</span>
+            <h3>Transparency</h3>
+            <p>Fostering an environment of open, clear, and direct communication across our community and ecosystem.</p>
           </div>
           
-          <div class="space-card core-value-card" style="flex: 1 1 calc(25% - var(--space-xl)); min-width: 240px; text-align: center; padding: var(--space-xl); background: white;">
-            <h3 style="color: var(--color-accent); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem; transition: color 0.3s ease;">Professionalism</h3>
-            <p style="color: var(--color-text-muted); font-size: 0.95rem; transition: color 0.3s ease;">Delivering exceptional, reliable, and high-quality service that empowers our members to achieve excellence.</p>
+          <div class="core-value-card">
+            <span class="core-value-number">03.</span>
+            <h3>Professionalism</h3>
+            <p>Delivering exceptional, reliable, and high-quality service that empowers our members to achieve excellence.</p>
           </div>
           
-          <div class="space-card core-value-card" style="flex: 1 1 calc(25% - var(--space-xl)); min-width: 240px; text-align: center; padding: var(--space-xl); background: white;">
-            <h3 style="color: var(--color-accent); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem; transition: color 0.3s ease;">Community Building</h3>
-            <p style="color: var(--color-text-muted); font-size: 0.95rem; transition: color 0.3s ease;">Actively designing spaces and programs that bring people together, creating lasting networks and friendships.</p>
+          <div class="core-value-card">
+            <span class="core-value-number">04.</span>
+            <h3>Community</h3>
+            <p>Actively designing spaces and programs that bring people together, creating lasting networks and friendships.</p>
           </div>
 
         </div>
       </div>
     </section>
 
-    <!-- ══════════════════════════════════════════════════
-       TIMELINE / HOW WE GOT HERE
-    ══════════════════════════════════════════════════ -->
-    <section class="section" style="padding: var(--space-lg) 0;">
+    <!-- timeline / how we got here -->
+    <section class="section content-panel" style="padding: var(--space-lg) 0;">
       <div class="container" style="max-width: 800px;">
         <div class="text-center" style="margin-bottom: var(--space-xl);">
           <span class="text-overline">How We Got Here</span>
-          <h2 style="font-family: var(--font-heading); font-weight: 400; font-size: clamp(2.5rem, 4vw, 3.5rem); color: var(--color-main);">
+          <h2 style="font-family: var(--font-heading); font-weight: 400; font-size: clamp(2.5rem, 4vw, 3.5rem); color: var(--color-primary);">
             Our History
           </h2>
         </div>
 
         <div class="snake-timeline">
-          <!-- ROW 1 -->
+          <!-- row 1 -->
           <div class="snake-row">
-            <!-- 1999 -->
+            <!--  -->
             <div class="snake-item">
               <div class="snake-dot"></div>
               <div class="snake-content">
@@ -190,7 +162,7 @@
                 <p class="snake-desc">Founded in Zamboanga City, providing microfinancing services to hardworking Filipinos and laying the foundation for what would become a nationwide cooperative.</p>
               </div>
             </div>
-            <!-- 2005 -->
+            <!--  -->
             <div class="snake-item">
               <div class="snake-dot"></div>
               <div class="snake-content">
@@ -199,7 +171,7 @@
                 <p class="snake-desc">The umbrella organization of Kings' retail businesses launched Pacific Water in Zamboanga City.</p>
               </div>
             </div>
-            <!-- 2009 -->
+            <!--  -->
             <div class="snake-item">
               <div class="snake-dot"></div>
               <div class="snake-content">
@@ -209,9 +181,9 @@
               </div>
             </div>
           </div>
-          <!-- ROW 2 -->
+          <!-- row 2 -->
           <div class="snake-row">
-            <!-- 2011 -->
+            <!--  -->
             <div class="snake-item">
               <div class="snake-dot"></div>
               <div class="snake-content">
@@ -220,7 +192,7 @@
                 <p class="snake-desc">Kings Manpower expanded to Metro Manila, establishing offices in Parañaque, Manila, Makati and BGC.</p>
               </div>
             </div>
-            <!-- 2016 -->
+            <!--  -->
             <div class="snake-item">
               <div class="snake-dot"></div>
               <div class="snake-content">
@@ -229,7 +201,7 @@
                 <p class="snake-desc">Established to offer livelihood and educational programs to Kings Members. Accredited by TESDA as a Training and Assessment Center.</p>
               </div>
             </div>
-            <!-- 2017 -->
+            <!--  -->
             <div class="snake-item">
               <div class="snake-dot"></div>
               <div class="snake-content">
@@ -239,9 +211,9 @@
               </div>
             </div>
           </div>
-          <!-- ROW 3 -->
+          <!-- row 3 -->
           <div class="snake-row">
-            <!-- 2019 -->
+            <!--  -->
             <div class="snake-item">
               <div class="snake-dot"></div>
               <div class="snake-content">
@@ -250,7 +222,7 @@
                 <p class="snake-desc">Reached the 10,000 member mark and expanded services to include serviced offices, meeting rooms and private offices.</p>
               </div>
             </div>
-            <!-- 2020 -->
+            <!--  -->
             <div class="snake-item">
               <div class="snake-dot"></div>
               <div class="snake-content">
@@ -259,7 +231,7 @@
                 <p class="snake-desc">Events place, bigger meeting rooms, and coworking space for members, located in Parañaque.</p>
               </div>
             </div>
-            <!-- 2025 -->
+            <!--  -->
             <div class="snake-item">
               <div class="snake-dot"></div>
               <div class="snake-content">
@@ -274,101 +246,99 @@
       </div>
     </section>
 
-    <!-- ══════════════════════════════════════════════════
-       THE FOUNDERS
-    ══════════════════════════════════════════════════ -->
-    <section class="section" style="padding: var(--space-3xl) 0;">
+    <!-- the founders -->
+    <section class="founders-section content-panel">
       <div class="container">
         <div class="text-center" style="margin-bottom: var(--space-3xl);">
           <span class="text-overline">Chapter IV</span>
-          <h2 style="font-family: var(--font-heading); font-weight: 400; font-size: clamp(2.5rem, 4vw, 3.5rem); color: var(--color-main);">
+          <h2 style="font-family: var(--font-heading); font-weight: 400; font-size: clamp(2.5rem, 4vw, 3.5rem); color: var(--color-primary);">
             The Keepers
           </h2>
-          <div style="width: 50px; height: 3px; background: var(--color-accent); margin: 1rem auto 0; border-radius: 2px;"></div>
+          <div style="width: 50px; height: 3px; background: var(--color-accent-red); margin: 1rem auto 0; border-radius: 2px;"></div>
         </div>
 
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-2xl) var(--space-xl);">
-          
-          <div style="flex: 0 1 340px; text-align: center;">
+        <div class="founders-grid">
+
+          <div class="founder-card">
             <div style="width: 100%; aspect-ratio: 3/4; background-color: var(--color-bg-ivory); border-radius: var(--radius-card); overflow: hidden; margin-bottom: 1.5rem; position: relative; box-shadow: 0 16px 48px rgba(0,0,0,.12); transition: transform .4s ease, box-shadow .4s ease;">
                <img src="assets/img/founder_cory_navarro.jpg" alt="Cory Navarro" style="width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
             </div>
-            <span style="display: block; font-size: .65rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--color-accent); margin-bottom: .4rem;">Founder, Kings Group of Companies</span>
-            <h3 style="color: var(--color-main); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem;">Cory DV Navarro</h3>
+            <span style="display: block; font-size: .65rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--color-accent-red); margin-bottom: .4rem;">Founder, Kings Group of Companies</span>
+            <h3 style="color: var(--color-primary); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem;">Cory DV Navarro</h3>
             <ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
               <li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-                <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">•</span> Hall of Famer, Manila's Best Dressed
+                <span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">&bull;</span> Hall of Famer, Manila's Best Dressed
               </li>
               <li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-                <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">•</span> Hall of Famer, Zamboanga's Best Dressed
+                <span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">&bull;</span> Hall of Famer, Zamboanga's Best Dressed
               </li>
               <li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-                <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">•</span> Huwarang Ina Awardee (2017)
+                <span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">&bull;</span> Huwarang Ina Awardee (2017)
               </li>
               <li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-                <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">•</span> Empowered Women of the Philippines (2012 / 2013)
+                <span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">&bull;</span> Empowered Women of the Philippines (2012 / 2013)
               </li>
               <li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-                <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">•</span> Charter President, Ambassador Charter Club of Melbourne
+                <span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">&bull;</span> Charter President, Ambassador Charter Club of Melbourne
               </li>
               <li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; display: flex; align-items: flex-start; gap: .5rem;">
-                <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">•</span> Pioneer Nursing Batch, Ateneo de Zamboanga University
+                <span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">&bull;</span> Pioneer Nursing Batch, Ateneo de Zamboanga University
               </li>
             </ul>
           </div>
 
-          <div style="flex: 0 1 340px; text-align: center;">
+          <div class="founder-card">
             <div style="width: 100%; aspect-ratio: 3/4; background-color: var(--color-bg-ivory); border-radius: var(--radius-card); overflow: hidden; margin-bottom: 1.5rem; position: relative; box-shadow: 0 16px 48px rgba(0,0,0,.12); transition: transform .4s ease, box-shadow .4s ease;">
                <img src="assets/img/founder_camille_makasiar.jpg" alt="Camille Makasiar" style="width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
             </div>
-            <span style="display: block; font-size: .65rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--color-accent); margin-bottom: .4rem;">Founder and Executive Director</span>
-            <h3 style="color: var(--color-main); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem;">Camille Navarro Makasiar</h3>
+            <span style="display: block; font-size: .65rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--color-accent-red); margin-bottom: .4rem;">Founder and Executive Director</span>
+            <h3 style="color: var(--color-primary); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem;">Camille Navarro Makasiar</h3>
             <ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
               <li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-                <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">•</span> Master in Entrepreneurship, Ateneo Graduate School of Business
+                <span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">&bull;</span> Master in Entrepreneurship, Ateneo Graduate School of Business
               </li>
               <li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-                <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">•</span> Member, Entrepreneurs Organization (EO), PH South Chapter
+                <span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">&bull;</span> Member, Entrepreneurs Organization (EO), PH South Chapter
               </li>
               <li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-                <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">•</span> Trustee, Bayan Innovation Group, Inc.
+                <span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">&bull;</span> Trustee, Bayan Innovation Group, Inc.
               </li>
               <li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-                <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">•</span> President, Inner Wheel Club of Metro Manila
+                <span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">&bull;</span> President, Inner Wheel Club of Metro Manila
               </li>
               <li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-                <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">•</span> Knowledge Management, University of Oxford
+                <span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">&bull;</span> Knowledge Management, University of Oxford
               </li>
               <li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; display: flex; align-items: flex-start; gap: .5rem;">
-                <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">•</span> Strategic Management, Imperial College London
+                <span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">&bull;</span> Strategic Management, Imperial College London
               </li>
             </ul>
           </div>
 
-          <div style="flex: 0 1 340px; text-align: center;">
+          <div class="founder-card">
             <div style="width: 100%; aspect-ratio: 3/4; background-color: var(--color-bg-ivory); border-radius: var(--radius-card); overflow: hidden; margin-bottom: 1.5rem; position: relative; box-shadow: 0 16px 48px rgba(0,0,0,.12); transition: transform .4s ease, box-shadow .4s ease;">
                <img src="assets/img/founder_neil_makasiar.jpg" alt="Neil John S. Makasiar" style="width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
             </div>
-            <span style="display: block; font-size: .65rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--color-accent); margin-bottom: .4rem;">Managing Director</span>
-            <h3 style="color: var(--color-main); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem;">Neil John S. Makasiar</h3>
+            <span style="display: block; font-size: .65rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--color-accent-red); margin-bottom: .4rem;">Managing Director</span>
+            <h3 style="color: var(--color-primary); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem;">Neil John S. Makasiar</h3>
             <ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
               <li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-                <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">•</span> Director, Makenter Construction and Development Corp.
+                <span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">&bull;</span> Director, Makenter Construction and Development Corp.
               </li>
               <li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-                <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">•</span> Vice President, Human Services Cluster, CDA Region IX
+                <span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">&bull;</span> Vice President, Human Services Cluster, CDA Region IX
               </li>
               <li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-                <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">•</span> Member, Rotary Club of Makati
+                <span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">&bull;</span> Member, Rotary Club of Makati
               </li>
               <li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-                <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">•</span> Member, Shriners International
+                <span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">&bull;</span> Member, Shriners International
               </li>
               <li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-                <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">•</span> Alpha Phi Omega International Service Fraternity
+                <span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">&bull;</span> Alpha Phi Omega International Service Fraternity
               </li>
               <li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; display: flex; align-items: flex-start; gap: .5rem;">
-                <span style="color: var(--color-accent); font-weight: 700; flex-shrink: 0;">•</span> Bachelor's Degree, De La Salle University – Manila
+                <span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">&bull;</span> Bachelor's Degree, De La Salle University &ndash; Manila
               </li>
             </ul>
           </div>
@@ -379,11 +349,31 @@
 
   </main>
 
-  <!-- ================= GLOBAL FOOTER PLACEHOLDER ================= -->
+  <!-- global footer placeholder -->
   <div id="site-footer-container"></div>
 
-  <!-- Global Navigation & Partial Loader -->
-  <script src="assets/js/navigation.js?v=2"></script>
+  <!-- global navigation & partial loader -->
+  <script src="assets/js/navigation.js?v=3"></script>
 
+  <!-- page specific: hero slider -->
+  <script>
+    (function() {
+      const slider = document.getElementById('hero-slider');
+      if (!slider) return;
+      const slides = slider.querySelectorAll('.hero__slide');
+      if (slides.length < 2) return;
+      let current = 0;
+      setInterval(() => {
+        slides[current].style.opacity = '0';
+        slides[current].classList.remove('is-active');
+        current = (current + 1) % slides.length;
+        slides[current].style.opacity = '1';
+        slides[current].classList.add('is-active');
+      }, 4000);
+    })();
+  </script>
 </body>
 </html>
+
+
+

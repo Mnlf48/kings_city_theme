@@ -6,19 +6,16 @@
   <title>Impact | Kings City</title>
   <meta name="description" content="Making a difference in the Philippines. Our commitment to social and environmental impact.">
   
-  <!-- CSS -->
-  <link rel="stylesheet" href="assets/css/style.css?v=1.3">
-  <link rel="stylesheet" href="assets/css/layout.css?v=1.4">
+  <!-- css -->
+  <link rel="stylesheet" href="assets/css/style.css?v=4.0">
+  <link rel="stylesheet" href="assets/css/layout.css?v=4.0">
   
   <style>
     /* Impact Page Specific Styles — Modeled after The Commons */
     
-    /* MANDATORY: Overriding any global styles to ensure physical visibility of the White/Cream rhythm */
-    .bg-white-section {
-      background-color: #FFFFFF !important;
-    }
-    .bg-cream-section {
-      background-color: #FFFDD0 !important; /* Explicit hex for Cream */
+    /* Legacy section helpers — now superseded by .content-panel alternating rhythm */
+    .bg-ivory-section {
+      background-color: var(--color-bg-ivory) !important;
     }
 
     /* REFINED HERO: Centralized and pulled slightly upward */
@@ -38,7 +35,7 @@
       font-size: clamp(2.5rem, 5vw, 4.5rem);
       line-height: 1.05;
       margin-bottom: 0.5rem;
-      color: var(--color-main);
+      color: var(--color-primary);
       font-family: var(--font-heading);
       letter-spacing: -0.01em;
     }
@@ -70,7 +67,7 @@
     .grid-header-initiatives h5 {
       font-family: var(--font-heading);
       font-size: 1.1rem;
-      color: var(--color-main);
+      color: var(--color-primary);
       text-transform: uppercase;
       letter-spacing: 0.1em;
       margin: 0;
@@ -78,7 +75,7 @@
     .impact-section-logo {
       width: 28px;
       height: 28px;
-      color: var(--color-accent);
+      color: var(--color-accent-red);
     }
 
     .icon-plus-box {
@@ -92,7 +89,7 @@
     .icon-plus-box svg {
       width: 24px;
       height: 24px;
-      color: var(--color-accent);
+      color: var(--color-accent-red);
       transition: transform 0.3s ease;
     }
     .icon-plus-box:hover svg {
@@ -111,9 +108,30 @@
       .initiatives-grid-commons { grid-template-columns: repeat(5, 1fr); }
       .grid-header-initiatives { grid-column: span 5; }
     }
-    @media (max-width: 768px) {
-      .initiatives-grid-commons { grid-template-columns: repeat(3, 1fr); }
-      .grid-header-initiatives { grid-column: span 3; }
+    @media (max-width: 1024px) {
+      .initiatives-grid-commons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2.5rem;
+      }
+      .grid-header-initiatives {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+      .icon-plus-box {
+        width: calc(33.33% - 2.5rem);
+        min-width: 140px;
+      }
+    }
+    @media (max-width: 767px) {
+      .initiatives-grid-commons {
+        gap: 1.5rem;
+      }
+      .icon-plus-box {
+        width: calc(33.33% - 1.5rem);
+        min-width: 90px;
+      }
     }
 
     /* Standard Background Image Section Style */
@@ -137,39 +155,14 @@
       position: relative;
       z-index: 1;
     }
-    .impact-card-index-style {
-      background-color: var(--color-bg-ivory);
-      padding: clamp(2rem, 5vw, 4rem);
-      border-radius: var(--radius-card);
-      max-width: 650px;
-      box-shadow: var(--glass-shadow-lg);
-      backdrop-filter: blur(10px);
-    }
 
-    /* REFINED: section_about-impact-cda-corp — PHYSICALLY BIGGER SCALE */
-    .section_about-impact-cda-corp {
-      width: 100%;
-      min-height: 800px; 
-      padding: 140px 0; 
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-    .standard-2-grid-cda {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-3xl);
-      align-items: center;
-    }
-    @media (max-width: 991px) {
-      .standard-2-grid-cda {
-        grid-template-columns: 1fr;
-        gap: var(--space-2xl);
-        text-align: center;
+    @media (max-width: 1023px) {
+      .section--impact-bg .impact-card {
+        margin: 0 auto;
       }
     }
 
-    /* Large CDA Placeholder Card — PHYSICALLY MATCHED TO impact-card-index-style */
+    /* Large CDA Placeholder Card */
     .cda-card-large {
       background-color: var(--color-border-light);
       border-radius: var(--radius-card);
@@ -177,12 +170,9 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      max-width: 650px; 
-      min-height: 480px; 
+      aspect-ratio: 4 / 3;
       padding: clamp(2rem, 5vw, 4rem); 
       position: relative;
-      box-shadow: var(--glass-shadow);
-      margin-left: auto;
     }
     .cda-badge-system {
       display: flex;
@@ -196,12 +186,12 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.3em;
-      color: var(--color-main);
+      color: var(--color-primary);
     }
     .cda-main-logo {
       width: 180px;
       height: 180px;
-      color: var(--color-main);
+      color: var(--color-primary);
     }
 
     /* Partners Section 3x3 Redesign */
@@ -271,13 +261,27 @@
       }
       .impact-conscious__visual {
         order: 1;
-        min-height: 400px;
+        min-height: 300px;
+        padding: var(--space-xl);
       }
       .impact-conscious__content {
         order: 2;
-        padding: var(--space-2xl) var(--space-xl);
+        padding: var(--space-xl);
         text-align: center;
         margin: 0 auto;
+      }
+    }
+    @media (max-width: 767px) {
+      .impact-conscious__visual {
+        min-height: auto;
+        padding: var(--space-md) var(--space-md) 0 var(--space-md);
+      }
+      .impact-conscious__visual img {
+        width: 100%;
+        max-width: 350px !important;
+      }
+      .impact-conscious__content {
+        padding: var(--space-md) var(--space-md) var(--space-lg) var(--space-md);
       }
     }
 
@@ -290,29 +294,40 @@
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <!-- ================= GLOBAL HEADER PLACEHOLDER ================= -->
+  <!-- global header placeholder -->
   <div id="site-header-container"></div>
 
-  <!-- ================= MAIN CONTENT ================= -->
+  <!-- main content -->
   <main id="main-content">
 
-    <!-- HERO SECTION — 1st Section: WHITE -->
-    <header class="impact-hero bg-white-section">
-      <div class="container">
-        <div class="impact-hero__content">
-          <div class="animate-fadeInUp">
-            <span class="text-overline" style="display: block; margin-bottom: 1.25rem; letter-spacing: 0.3em;">O u r  P u r p o s e</span>
-            <h1 class="impact-hero__title">We Empower You<br>to Empower the World</h1>
-          </div>
-          <div class="animate-fadeInUp">
-            <p class="impact-hero__subtitle">At Kings City, our mission goes beyond physical desks. We are committed to creating a sustainable, ethical, and inclusive workspace ecosystem in the Philippines, fostering growth that reaches far beyond our walls.</p>
-          </div>
-        </div>
-      </div>
-    </header>
+    <!-- hero section -->
+    <section class="hero premium-hero">
+      <div class="container grid-12">
+        <div class="col-12 split split--media-right">
 
-    <!-- INITIATIVES SECTION — 2nd Section: CREAM -->
-    <section class="section_about-impact-initiatives bg-cream-section">
+          <!-- text content on left -->
+          <div class="split__content animate-fadeInUp hero__content--index">
+            <span class="text-overline hero__overline">Our Purpose</span>
+            <h1 class="hero__title hero__title--inner">We Empower You<br>to Empower the World</h1>
+            <p class="hero__subtitle">At Kings City, our mission goes beyond physical desks. We are committed to creating a sustainable, ethical, and inclusive workspace ecosystem in the Philippines, fostering growth that reaches far beyond our walls.</p>
+          </div>
+
+        <!-- slider on right -->
+          <div class="split__media hero__slider" id="hero-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
+            <!-- slide 1 -->
+            <img class="hero__slide is-active" src="assets/img/kings_impacts01.JPG" alt="Impact 1" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;">
+            <!-- slide 2 -->
+            <img class="hero__slide" src="assets/img/kings_impacts02.JPG" alt="Impact 2" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;">
+            <!-- slide 3 -->
+            <img class="hero__slide" src="assets/img/kings_impacts03.jpg" alt="Impact 3" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;">
+          </div>
+
+          </div>
+      </div>
+    </section>
+
+    <!-- initiatives section -->
+    <section class="section content-panel section_about-impact-initiatives">
       <div class="container">
         <div class="initiatives-grid-commons">
           <div class="grid-header-initiatives">
@@ -336,38 +351,36 @@
       </div>
     </section>
 
-    <!-- SECTION 1: Great Place to Work — 3rd Section: WHITE -->
-    <section class="section--impact-bg bg-white-section">
+    <!-- great place to work section -->
+    <section class="section content-panel section--impact-bg">
       <div class="section--impact-bg__media">
-         <div style="display: flex; align-items: center; justify-content: flex-end; padding-right: 25%; color: var(--color-text-muted); font-size: 1.5rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; position: absolute; inset: 0; background-color: var(--color-border-light); z-index: 0;">No Image</div>
+         <img src="assets/img/kings_book-now03.JPG" alt="Great Place to Work Background" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
       </div>
       <div class="container">
-        <div class="impact-card-index-style animate-fadeInLeft">
+        <div class="impact-card animate-fadeInLeft" style="background-color: var(--color-bg-ivory); box-shadow: var(--glass-shadow-lg); backdrop-filter: blur(10px); border-radius: var(--radius-card);">
           <span class="text-overline">Workplace Culture</span>
           <h2 style="margin-top: 1rem;">Certified Great Place to Work</h2>
           <p>Our commitment to an outstanding employee experience is at the heart of everything we do. We believe that a supported workforce is a high-performing one.</p>
           <p>We are dedicated to the growth and development of our colleagues, fostering an environment where health, well-being, and professional excellence thrive.</p>
           <div style="display: flex; align-items: center; gap: var(--space-md); margin-top: var(--space-lg);">
             <img src="assets/svg/impact-certified.svg" alt="Certified" style="width: 64px; height: 64px;">
-            <span style="font-size: 0.9rem; font-weight: 600; color: var(--color-main);">Verified Global Standards</span>
+            <span style="font-size: 0.9rem; font-weight: 600; color: var(--color-primary);">Verified Global Standards</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 2: Local Empowerment — 4th Section: CREAM -->
-    <section class="section_about-impact-cda-corp bg-cream-section">
-      <div class="container">
-        <div class="standard-2-grid-cda">
-          <div class="animate-fadeInLeft">
-            <span class="text-overline">Economic Growth</span>
-            <h2 style="margin-top: 1rem; margin-bottom: var(--space-md);">CDA Registered Cooperative</h2>
-            <p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8;">We are proud to be a CDA Registered Cooperative, meeting the highest standards of verified economic performance and community accountability in the Philippines.</p>
-            <p style="color: var(--color-text-muted); line-height: 1.8;">By partnering with local suppliers and showcasing Filipino brands within our network, we contribute to a vibrant local economy. From the coffee we serve to the furniture in our lounges, we prioritize locally sourced products that share our vision for quality and community impact.</p>
-          </div>
-          <div class="animate-fadeInRight">
-            <div class="cda-card-large">
-              <div class="cda-badge-system">
+    <!-- local empowerment section -->
+    <section class="section content-panel section--cda">
+      <div class="container grid-12">
+        <div class="col-12 split">
+          <div class="split__media animate-fadeInRight">
+            <div class="cda-card-large" style="overflow: hidden; position: relative;">
+              <!-- Background Image -->
+              <img src="assets/img/kings_cda01.JPG" alt="CDA Registered Cooperative" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
+              
+              <!-- Original text and badge -->
+              <div class="cda-badge-system" style="position: relative; z-index: 2;">
                 <span class="cda-badge-label">Certified</span>
                 <svg class="cda-main-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M50 5 L85 25 V75 L50 95 L15 75 V25 L50 5Z" stroke="currentColor" stroke-width="2.5"/>
@@ -378,18 +391,24 @@
               </div>
             </div>
           </div>
+          <div class="split__content animate-fadeInLeft">
+            <span class="text-overline">Economic Growth</span>
+            <h2 style="margin-top: 1rem; margin-bottom: var(--space-md);">CDA Registered Cooperative</h2>
+            <p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8;">We are proud to be a CDA Registered Cooperative, meeting the highest standards of verified economic performance and community accountability in the Philippines.</p>
+            <p style="color: var(--color-text-muted); line-height: 1.8;">By partnering with local suppliers and showcasing Filipino brands within our network, we contribute to a vibrant local economy. From the coffee we serve to the furniture in our lounges, we prioritize locally sourced products that share our vision for quality and community impact.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 3: Environmentally Conscious — 5th Section: WHITE — REDESIGNED (NO CONTAINER) -->
-    <section class="section_about-impact-conscious bg-white-section">
-      <!-- SVG in the LEFT -->
+    <!-- environmentally conscious section -->
+    <section class="section content-panel section_about-impact-conscious">
+      <!-- svg in the left -->
       <div class="impact-conscious__visual animate-fadeInLeft">
         <img src="assets/svg/impact-world.svg" alt="Social Impact World Animation" style="width: 100%; max-width: 500px; height: auto;">
       </div>
       
-      <!-- Context in the RIGHT -->
+      <!-- context in the right -->
       <div class="impact-conscious__content animate-fadeInRight">
         <span class="text-overline">Sustainability</span>
         <h2 style="margin-top: 1rem; margin-bottom: var(--space-md); font-family: var(--font-heading);">Environmentally Conscious</h2>
@@ -398,13 +417,13 @@
       </div>
     </section>
 
-    <!-- SECTION 4: Our Partners in Impact — 6th Section: CREAM -->
-    <section class="impact-section bg-cream-section">
+    <!-- our partners in impact section -->
+    <section class="impact-section content-panel">
       <div class="container">
         <div class="partners-section-2-col">
           <div class="animate-fadeInLeft">
             <span class="text-overline">Global Standards</span>
-            <h2 style="font-family: var(--font-heading); font-size: 2.75rem; color: var(--color-main); margin-bottom: var(--space-md);">Our Partners in Excellence</h2>
+            <h2 style="font-family: var(--font-heading); font-size: 2.75rem; color: var(--color-primary); margin-bottom: var(--space-md);">Our Partners in Excellence</h2>
             <p style="color: var(--color-text-muted); line-height: 1.8; font-size: 1.05rem;">We collaborate with organizations that meet the highest standards of social and environmental performance. These partnerships reflect our shared commitment to excellence and community growth.</p>
           </div>
           <div class="animate-fadeInRight">
@@ -426,11 +445,31 @@
 
   </main>
 
-  <!-- ================= GLOBAL FOOTER PLACEHOLDER ================= -->
+  <!-- global footer placeholder -->
   <div id="site-footer-container"></div>
 
-  <!-- Global Navigation & Partial Loader -->
-  <script src="assets/js/navigation.js?v=2"></script>
+  <!-- global navigation & partial loader -->
+  <script src="assets/js/navigation.js?v=3"></script>
 
+  <!-- page specific: hero slider -->
+  <script>
+    (function() {
+      const slider = document.getElementById('hero-slider');
+      if (!slider) return;
+      const slides = slider.querySelectorAll('.hero__slide');
+      if (slides.length < 2) return;
+      let current = 0;
+      setInterval(() => {
+        slides[current].style.opacity = '0';
+        slides[current].classList.remove('is-active');
+        current = (current + 1) % slides.length;
+        slides[current].style.opacity = '1';
+        slides[current].classList.add('is-active');
+      }, 4000);
+    })();
+  </script>
 </body>
 </html>
+
+
+
