@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <circle cx="100" cy="100" r="85" fill="#6B9E7A" opacity=".06"/>
+
+  <!-- Sun top-right -->
+  <g transform="translate(158,38)">
+    <circle cx="0" cy="0" r="14" fill="#FFBFBF" opacity=".2">
+      <animate attributeName="r" values="14;17;14" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values=".15;.3;.15" dur="5s" repeatCount="indefinite"/>
+    </circle>
+    <g opacity=".2">
+      <animateTransform attributeName="transform" type="rotate" values="0;360" dur="40s" repeatCount="indefinite"/>
+      <line x1="0" y1="-18" x2="0" y2="-24" stroke="#FFBFBF" stroke-width="1"/>
+      <line x1="13" y1="-13" x2="17" y2="-17" stroke="#FFBFBF" stroke-width="1"/>
+      <line x1="18" y1="0" x2="24" y2="0" stroke="#FFBFBF" stroke-width="1"/>
+      <line x1="13" y1="13" x2="17" y2="17" stroke="#FFBFBF" stroke-width="1"/>
+      <line x1="0" y1="18" x2="0" y2="24" stroke="#FFBFBF" stroke-width="1"/>
+      <line x1="-13" y1="13" x2="-17" y2="17" stroke="#FFBFBF" stroke-width="1"/>
+      <line x1="-18" y1="0" x2="-24" y2="0" stroke="#FFBFBF" stroke-width="1"/>
+      <line x1="-13" y1="-13" x2="-17" y2="-17" stroke="#FFBFBF" stroke-width="1"/>
+    </g>
+  </g>
+
+  <!-- Ground -->
+  <ellipse cx="100" cy="165" rx="80" ry="10" fill="#6B9E7A" opacity=".12"/>
+  <path d="M30 162 Q65 155 100 158 Q135 155 170 162" stroke="#6B9E7A" stroke-width="1.5" fill="none" opacity=".3"/>
+
+  <!-- Grass tufts swaying -->
+  <path d="M45 160 Q47 150 50 160" stroke="#6B9E7A" stroke-width="1" fill="none" opacity=".3">
+    <animate attributeName="d" values="M45 160 Q47 150 50 160;M45 160 Q48 148 50 160;M45 160 Q47 150 50 160" dur="3s" repeatCount="indefinite"/>
+  </path>
+  <path d="M148 160 Q150 150 153 160" stroke="#6B9E7A" stroke-width="1" fill="none" opacity=".3">
+    <animate attributeName="d" values="M148 160 Q150 150 153 160;M148 160 Q151 148 153 160;M148 160 Q150 150 153 160" dur="3.5s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- Main tree trunk -->
+  <path d="M100 162 Q98 130 96 105" stroke="#8B6D52" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M96 120 Q82 110 75 100" stroke="#8B6D52" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M96 108 Q112 98 120 88" stroke="#8B6D52" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+  <!-- Canopy blobs breathing -->
+  <ellipse cx="90" cy="80" rx="28" ry="22" fill="#6B9E7A" opacity=".3">
+    <animate attributeName="rx" values="28;31;28" dur="5s" repeatCount="indefinite"/>
+    <animate attributeName="ry" values="22;24;22" dur="5s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="110" cy="75" rx="24" ry="20" fill="#8CC49A" opacity=".25">
+    <animate attributeName="rx" values="24;27;24" dur="4.5s" repeatCount="indefinite" begin=".5s"/>
+  </ellipse>
+  <ellipse cx="75" cy="90" rx="20" ry="16" fill="#AAB396" opacity=".2">
+    <animate attributeName="rx" values="20;23;20" dur="6s" repeatCount="indefinite" begin="1s"/>
+  </ellipse>
+  <ellipse cx="120" cy="82" rx="18" ry="15" fill="#6B9E7A" opacity=".22">
+    <animate attributeName="ry" values="15;17;15" dur="5.5s" repeatCount="indefinite"/>
+  </ellipse>
+
+  <!-- Falling leaves -->
+  <g>
+    <path d="M85 80 Q88 77 91 80 Q88 83 85 80Z" fill="#6B9E7A" opacity="0">
+      <animate attributeName="opacity" values="0;.5;0" dur="7s" repeatCount="indefinite"/>
+    </path>
+    <animateTransform attributeName="transform" type="translate" values="0,0;15,60" dur="7s" repeatCount="indefinite"/>
+  </g>
+  <g>
+    <path d="M110 75 Q113 72 116 75 Q113 78 110 75Z" fill="#8CC49A" opacity="0">
+      <animate attributeName="opacity" values="0;.45;0" dur="8s" repeatCount="indefinite" begin="3s"/>
+    </path>
+    <animateTransform attributeName="transform" type="translate" values="0,0;-10,65" dur="8s" repeatCount="indefinite" begin="3s"/>
+  </g>
+
+  <!-- Small seedling being planted (right side) -->
+  <g transform="translate(145,152)">
+    <line x1="0" y1="0" x2="0" y2="-14" stroke="#6B9E7A" stroke-width="1.2"/>
+    <path d="M0 -10 Q-6 -14 -5 -20" stroke="#6B9E7A" stroke-width="1" fill="none">
+      <animate attributeName="d" values="M0 -10 Q-6 -14 -5 -20;M0 -10 Q-8 -16 -7 -22;M0 -10 Q-6 -14 -5 -20" dur="4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M0 -8 Q5 -12 6 -17" stroke="#8CC49A" stroke-width="1" fill="none">
+      <animate attributeName="d" values="M0 -8 Q5 -12 6 -17;M0 -8 Q7 -14 8 -19;M0 -8 Q5 -12 6 -17" dur="4.5s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- Watering can pouring -->
+  <g transform="translate(52,118)" opacity=".4">
+    <animateTransform attributeName="transform" type="translate" values="52,118;52,114;52,118" dur="4s" repeatCount="indefinite"/>
+    <!-- Can body -->
+    <rect x="0" y="0" width="20" height="14" rx="3" fill="#FBCB77" opacity=".5" stroke="#FBCB77" stroke-width=".8"/>
+    <!-- Spout -->
+    <line x1="20" y1="4" x2="30" y2="0" stroke="#FBCB77" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Handle -->
+    <path d="M4 0 Q10 -8 16 0" stroke="#FBCB77" stroke-width="1" fill="none"/>
+    <!-- Water drops -->
+    <circle cx="30" cy="6" r="1.5" fill="#FBCB77" opacity="0">
+      <animate attributeName="cy" values="6;30;30" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values=".5;.2;0" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="28" cy="4" r="1" fill="#FBCB77" opacity="0">
+      <animate attributeName="cy" values="4;28;28" dur="2s" repeatCount="indefinite" begin=".5s"/>
+      <animate attributeName="opacity" values=".4;.15;0" dur="2s" repeatCount="indefinite" begin=".5s"/>
+    </circle>
+    <circle cx="32" cy="5" r="1.2" fill="#FBCB77" opacity="0">
+      <animate attributeName="cy" values="5;32;32" dur="2.2s" repeatCount="indefinite" begin="1s"/>
+      <animate attributeName="opacity" values=".4;.1;0" dur="2.2s" repeatCount="indefinite" begin="1s"/>
+    </circle>
+  </g>
+
+  <!-- Wind lines -->
+  <path d="M25 85 Q45 80 65 85" stroke="#FBCB77" stroke-width=".6" fill="none" opacity=".15">
+    <animate attributeName="d" values="M25 85 Q45 80 65 85;M28 83 Q48 78 68 83;M25 85 Q45 80 65 85" dur="5s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- Recycle icon bottom-left -->
+  <g transform="translate(32,178)" opacity=".12">
+    <animateTransform attributeName="transform" type="rotate" values="0 32 178;360 32 178" dur="20s" repeatCount="indefinite"/>
+    <path d="M-5 -3 L-2 0 L-5 3" stroke="#FBCB77" stroke-width="1.2" fill="none"/>
+    <path d="M-2 0 Q3 -7 7 -3" stroke="#FBCB77" stroke-width="1.2" fill="none"/>
+    <path d="M7 -3 L7 2 L3 -1" stroke="#FBCB77" stroke-width="1.2" fill="none"/>
+    <path d="M7 2 Q3 7 -2 5" stroke="#FBCB77" stroke-width="1.2" fill="none"/>
+  </g>
+
+  <!-- Ambient particles -->
+  <circle cx="130" cy="50" r="2" fill="#6B9E7A" opacity="0">
+    <animate attributeName="cy" values="50;30" dur="7s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0;.3;0" dur="7s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="50" cy="55" r="1.5" fill="#FFBFBF" opacity="0">
+    <animate attributeName="cy" values="55;38" dur="6s" repeatCount="indefinite" begin="2s"/>
+    <animate attributeName="opacity" values="0;.25;0" dur="6s" repeatCount="indefinite" begin="2s"/>
+  </circle>
+</svg>
+

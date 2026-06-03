@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <circle cx="100" cy="100" r="85" fill="#FFBFBF" opacity=".06"/>
+
+  <!-- Storefront -->
+  <rect x="55" y="85" width="90" height="75" rx="3" fill="#FFFEF5" opacity=".7" stroke="#BD451F" stroke-width="1"/>
+  <!-- Awning -->
+  <path d="M48 85 L152 85 L148 98 L52 98Z" fill="#BD451F" opacity=".3"/>
+  <path d="M52 98 Q75 103 100 98 Q125 93 148 98" stroke="#BD451F" stroke-width=".8" fill="none" opacity=".25"/>
+  <!-- Sign -->
+  <rect x="75" y="72" width="50" height="13" rx="2" fill="#BD451F" opacity=".2" stroke="#BD451F" stroke-width=".6"/>
+  <line x1="82" y1="79" x2="118" y2="79" stroke="#FFFDD0" stroke-width="1.5" opacity=".4" stroke-linecap="round"/>
+  <!-- Door -->
+  <rect x="88" y="125" width="24" height="33" rx="2" fill="#FBCB77" opacity=".2" stroke="#FBCB77" stroke-width=".6"/>
+  <circle cx="107" cy="142" r="1.5" fill="#FFBFBF" opacity=".4"/>
+  <!-- Door opening -->
+  <rect x="88" y="125" width="12" height="33" rx="2" fill="#FBCB77" opacity=".25">
+    <animate attributeName="width" values="12;3;12" dur="6s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".25;.08;.25" dur="6s" repeatCount="indefinite"/>
+  </rect>
+  <!-- Windows -->
+  <rect x="62" y="103" width="20" height="16" rx="2" fill="#FFFDD0" opacity=".3" stroke="#BD451F" stroke-width=".5"/>
+  <rect x="62" y="103" width="20" height="16" rx="2" fill="#FFBFBF" opacity="0">
+    <animate attributeName="opacity" values="0;.15;.08;.15;0" dur="7s" repeatCount="indefinite"/>
+  </rect>
+  <rect x="118" y="103" width="20" height="16" rx="2" fill="#FFFDD0" opacity=".3" stroke="#BD451F" stroke-width=".5"/>
+  <rect x="118" y="103" width="20" height="16" rx="2" fill="#FFBFBF" opacity="0">
+    <animate attributeName="opacity" values="0;.12;.18;.12;0" dur="8s" repeatCount="indefinite" begin="1s"/>
+  </rect>
+
+  <!-- Ground -->
+  <line x1="30" y1="160" x2="170" y2="160" stroke="#BD451F" stroke-width=".8" opacity=".12"/>
+
+  <!-- Flag/pennant on top -->
+  <line x1="130" y1="72" x2="130" y2="42" stroke="#BD451F" stroke-width="1.2" opacity=".5"/>
+  <path d="M130 42 L150 48 L130 55Z" fill="#FBCB77" opacity=".4">
+    <animate attributeName="d" values="M130 42 L150 48 L130 55Z;M130 42 L148 49 L130 55Z;M130 42 L150 48 L130 55Z" dur="3s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- Rising chart floating top-left -->
+  <g transform="translate(22,50)" opacity=".35">
+    <animateTransform attributeName="transform" type="translate" values="22,50;22,44;22,50" dur="5s" repeatCount="indefinite"/>
+    <rect x="0" y="0" width="38" height="28" rx="3" fill="#FFFDD0" opacity=".5" stroke="#BD451F" stroke-width=".6"/>
+    <polyline points="6,22 14,16 22,18 30,10" stroke="#FBCB77" stroke-width="1.5" fill="none" stroke-linecap="round">
+      <animate attributeName="points" values="6,22 14,16 22,18 30,10;6,20 14,14 22,15 30,7;6,22 14,16 22,18 30,10" dur="4s" repeatCount="indefinite"/>
+    </polyline>
+    <polygon points="28,12 30,6 33,12" fill="#FBCB77" opacity=".5">
+      <animate attributeName="points" values="28,12 30,6 33,12;28,9 30,3 33,9;28,12 30,6 33,12" dur="4s" repeatCount="indefinite"/>
+    </polygon>
+  </g>
+
+  <!-- Peso coins rising -->
+  <circle cx="160" cy="75" r="5" stroke="#FFBFBF" stroke-width="1" fill="#FFFDD0" fill-opacity=".3" opacity="0">
+    <animate attributeName="cy" values="75;55;75" dur="5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0;.4;0" dur="5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="170" cy="85" r="4" stroke="#FFBFBF" stroke-width=".8" fill="#FFFDD0" fill-opacity=".2" opacity="0">
+    <animate attributeName="cy" values="85;65;85" dur="6s" repeatCount="indefinite" begin="1.5s"/>
+    <animate attributeName="opacity" values="0;.3;0" dur="6s" repeatCount="indefinite" begin="1.5s"/>
+  </circle>
+
+  <!-- Package sliding across bottom -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="-20,0;220,0" dur="8s" repeatCount="indefinite"/>
+    <rect x="0" y="150" width="12" height="10" rx="2" fill="#BD451F" opacity=".35"/>
+    <line x1="3" y1="155" x2="9" y2="155" stroke="#FFFDD0" stroke-width=".8" opacity=".3"/>
+  </g>
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="-20,0;220,0" dur="8s" repeatCount="indefinite" begin="2.7s"/>
+    <rect x="0" y="151" width="10" height="9" rx="2" fill="#FBCB77" opacity=".3"/>
+  </g>
+
+  <!-- Ambient sparkles -->
+  <circle cx="40" cy="35" r="1.8" fill="#BD451F" opacity="0">
+    <animate attributeName="opacity" values="0;.25;0" dur="6s" repeatCount="indefinite"/>
+    <animate attributeName="cy" values="35;22;35" dur="6s" repeatCount="indefinite"/>
+  </circle>
+</svg>
+

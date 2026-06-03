@@ -1,0 +1,54 @@
+<svg width="100%" height="100%" viewBox="0 0 500 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Styles for SVG variables -->
+  <style>
+    .globe-path { fill: #AAB396; opacity: 0.6; }
+    .line-art { stroke: #2D2926; stroke-width: 2; fill: none; }
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    .animate-sway { animation: sway 4s ease-in-out infinite; transform-origin: bottom; }
+    @keyframes sway {
+      0%, 100% { transform: rotate(-1deg); }
+      50% { transform: rotate(1deg); }
+    }
+  </style>
+
+  <!-- Globe (Floating) -->
+  <g class="animate-float">
+    <circle cx="250" cy="120" r="80" class="globe-path" stroke="#2D2926" stroke-width="1.5" />
+    <path d="M250 40C205.8 40 170 75.8 170 120C170 144.5 181.1 166.4 198.5 181.1L210 160L220 175L240 150L260 180L280 160L300 190C318.5 177.3 330 150 330 120C330 75.8 294.2 40 250 40Z" fill="#8A9679" opacity="0.8">
+      <animate attributeName="opacity" values="0.6;0.9;0.6" dur="4s" repeatCount="indefinite" />
+    </path>
+    <!-- Simplified continents -->
+    <path d="M210 80C220 70 240 85 260 70C280 55 290 90 270 100C250 110 230 100 210 110C190 120 200 90 210 80Z" fill="#6B735B" opacity="0.5" />
+  </g>
+
+  <!-- Left Character (Standing) -->
+  <g class="animate-sway">
+    <path class="line-art" d="M120 350V250C120 230 140 210 160 210L180 230L170 250" /> <!-- Body -->
+    <path class="line-art" d="M160 210C170 190 185 185 200 185" /> <!-- Arm Reaching -->
+    <circle class="line-art" cx="140" cy="180" r="15" /> <!-- Head -->
+    <path class="line-art" d="M120 350H160" /> <!-- Feet -->
+  </g>
+
+  <!-- Right Character (Standing) -->
+  <g class="animate-sway" style="animation-delay: -2s;">
+    <path class="line-art" d="M380 350V250C380 230 360 210 340 210L320 230L330 250" /> <!-- Body -->
+    <path class="line-art" d="M340 210C330 190 315 185 300 185" /> <!-- Arm Reaching -->
+    <circle class="line-art" cx="360" cy="180" r="15" /> <!-- Head -->
+    <path class="line-art" d="M340 350H380" /> <!-- Feet -->
+  </g>
+
+  <!-- Bottom Character (Reclining) -->
+  <g>
+    <path class="line-art" d="M200 350H300L320 320L250 310L180 320L200 350Z" /> <!-- Lower Body -->
+    <path class="line-art" d="M250 310V280C250 270 265 260 280 260" /> <!-- Torso/Arm -->
+    <circle class="line-art" cx="280" cy="245" r="15" /> <!-- Head -->
+    <path class="line-art" d="M250 280C250 250 240 230 235 220"> <!-- Reaching up -->
+       <animateTransform attributeName="transform" type="translate" values="0,0; 0,-5; 0,0" dur="3s" repeatCount="indefinite" />
+    </path>
+  </g>
+
+</svg>
