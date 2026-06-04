@@ -253,13 +253,13 @@ get_header();
 <div class="book-form-body">
 <!-- price est -->
 <div class="price-est">
-<span class="price-est__label">Estimated Price</span>
+<span class="price-est__label"><?php echo get_field('bk_label_est_price') ?: 'Estimated Price'; ?></span>
 <span class="price-est__value" id="price-display">Php 500</span>
 </div>
 <form action="#" id="booking-form">
 <!-- space type selection -->
 <div class="form-group">
-<label class="form-label">Space Type</label>
+<label class="form-label"><?php echo get_field('bk_label_space_type') ?: 'Space Type'; ?></label>
 <select class="form-control" id="space-type-select">
 <option value="coworking">Co-Working</option>
 <option value="meeting">Meeting Rooms</option>
@@ -270,24 +270,24 @@ get_header();
 </div>
 <div class="form-row">
 <div class="form-group">
-<label class="form-label">First Name</label>
+<label class="form-label"><?php echo get_field('bk_label_first_name') ?: 'First Name'; ?></label>
 <input class="form-control" placeholder="First name" required="" type="text"/>
 </div>
 <div class="form-group">
-<label class="form-label">Last Name</label>
+<label class="form-label"><?php echo get_field('bk_label_last_name') ?: 'Last Name'; ?></label>
 <input class="form-control" placeholder="Last name" required="" type="text"/>
 </div>
 </div>
 <div class="form-group">
-<label class="form-label">Email Address</label>
+<label class="form-label"><?php echo get_field('bk_label_email') ?: 'Email Address'; ?></label>
 <input class="form-control" placeholder="you@company.com" required="" type="email"/>
 </div>
 <div class="form-group">
-<label class="form-label">Phone Number</label>
+<label class="form-label"><?php echo get_field('bk_label_phone') ?: 'Phone Number'; ?></label>
 <input class="form-control" placeholder="+63 XXX XXX XXXX" required="" type="tel"/>
 </div>
 <div class="form-group">
-<label class="form-label">Duration</label>
+<label class="form-label"><?php echo get_field('bk_label_duration') ?: 'Duration'; ?></label>
 <select class="form-control" id="duration-select">
 <!-- options dynamic based on selection -->
 <option value="500">Day Pass — Php 500</option>
@@ -297,14 +297,14 @@ get_header();
 </select>
 </div>
 <div class="form-group">
-<label class="form-label">Start Date</label>
+<label class="form-label"><?php echo get_field('bk_label_start_date') ?: 'Start Date'; ?></label>
 <input class="form-control" required="" type="date"/>
 </div>
 <div class="form-group">
-<label class="form-label">Special Requests</label>
+<label class="form-label"><?php echo get_field('bk_label_special') ?: 'Special Requests'; ?></label>
 <textarea class="form-control" placeholder="Any special requirements..."></textarea>
 </div>
-<button class="btn btn-book" type="submit">Confirm Booking</button>
+<button class="btn btn-book" type="submit"><?php echo get_field('bk_btn_submit') ?: 'Confirm Booking'; ?></button>
 </form>
 </div>
 </div>

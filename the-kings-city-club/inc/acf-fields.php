@@ -1223,77 +1223,114 @@ acf_add_local_field_group(array(
             'type' => 'textarea',
         ),
 
+
+
         array(
-            'key' => 'field_tab_group_about_6',
-            'label' => 'Founders Section',
+            'key' => 'field_tab_group_about_mv',
+            'label' => 'Mission and Vision',
             'name' => '',
             'type' => 'tab',
             'placement' => 'top',
             'endpoint' => 0,
         ),
-
         array(
-            'key' => 'field_group_about_overline_56',
-            'label' => 'Overline #56',
-            'name' => 'overline_56',
+            'key' => 'field_group_about_overline_mv_mission',
+            'label' => 'Mission Overline',
+            'name' => 'overline_mv_mission',
             'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_about_h3_mv_mission',
+            'label' => 'Mission Heading',
+            'name' => 'h3_mv_mission',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_about_p_mv_mission',
+            'label' => 'Mission Text',
+            'name' => 'p_mv_mission',
+            'type' => 'textarea',
+        ),
+        array(
+            'key' => 'field_group_about_overline_mv_vision',
+            'label' => 'Vision Overline',
+            'name' => 'overline_mv_vision',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_about_h3_mv_vision',
+            'label' => 'Vision Heading',
+            'name' => 'h3_mv_vision',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_about_p_mv_vision',
+            'label' => 'Vision Text',
+            'name' => 'p_mv_vision',
+            'type' => 'textarea',
         ),
 
         array(
-            'key' => 'field_group_about_h2_52',
-            'label' => 'Heading 2 #52',
-            'name' => 'h2_52',
-            'type' => 'text',
+            'key' => 'field_tab_group_about_perks',
+            'label' => 'Membership Perks',
+            'name' => '',
+            'type' => 'tab',
+            'placement' => 'top',
+            'endpoint' => 0,
         ),
-
         array(
-            'key' => 'field_group_about_image_57',
-            'label' => 'Image #57',
-            'name' => 'image_57',
+            'key' => 'field_group_about_pass_image',
+            'label' => 'Pass Image',
+            'name' => 'about_pass_image',
             'type' => 'image',
             'return_format' => 'array',
-            'preview_size' => 'medium',
-            'library' => 'all',
         ),
-
         array(
-            'key' => 'field_group_about_h3_53',
-            'label' => 'Heading 3 #53',
-            'name' => 'h3_53',
+            'key' => 'field_group_about_pass_overline',
+            'label' => 'Pass Overline',
+            'name' => 'about_pass_overline',
             'type' => 'text',
         ),
-
         array(
-            'key' => 'field_group_about_image_58',
-            'label' => 'Image #58',
-            'name' => 'image_58',
-            'type' => 'image',
-            'return_format' => 'array',
-            'preview_size' => 'medium',
-            'library' => 'all',
-        ),
-
-        array(
-            'key' => 'field_group_about_h3_54',
-            'label' => 'Heading 3 #54',
-            'name' => 'h3_54',
+            'key' => 'field_group_about_pass_heading',
+            'label' => 'Pass Heading',
+            'name' => 'about_pass_heading',
             'type' => 'text',
         ),
-
         array(
-            'key' => 'field_group_about_image_59',
-            'label' => 'Image #59',
-            'name' => 'image_59',
-            'type' => 'image',
-            'return_format' => 'array',
-            'preview_size' => 'medium',
-            'library' => 'all',
+            'key' => 'field_group_about_pass_subtext',
+            'label' => 'Pass Subtext',
+            'name' => 'about_pass_subtext',
+            'type' => 'textarea',
         ),
-
         array(
-            'key' => 'field_group_about_h3_55',
-            'label' => 'Heading 3 #55',
-            'name' => 'h3_55',
+            'key' => 'field_group_about_pass_perk_1',
+            'label' => 'Perk 1',
+            'name' => 'about_pass_perk_1',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_about_pass_perk_2',
+            'label' => 'Perk 2',
+            'name' => 'about_pass_perk_2',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_about_pass_perk_3',
+            'label' => 'Perk 3',
+            'name' => 'about_pass_perk_3',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_about_pass_perk_4',
+            'label' => 'Perk 4',
+            'name' => 'about_pass_perk_4',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_about_pass_perk_5',
+            'label' => 'Perk 5',
+            'name' => 'about_pass_perk_5',
             'type' => 'text',
         ),
 
@@ -2266,7 +2303,7 @@ acf_add_local_field_group(array(
 
         array(
             'key' => 'field_tab_group_offshoring_2',
-            'label' => 'Section 2',
+            'label' => 'Offshoring Process',
             'name' => '',
             'type' => 'tab',
             'placement' => 'top',
@@ -2391,6 +2428,63 @@ acf_add_local_field_group(array(
         ),
 
         array(
+        array(
+            'key' => 'field_tab_group_offshoring_models',
+            'label' => 'Offshoring Models',
+            'name' => '',
+            'type' => 'tab',
+            'placement' => 'top',
+            'endpoint' => 0,
+        ),
+        array(
+            'key' => 'field_group_offshoring_h3_model1',
+            'label' => 'Model 1 Heading',
+            'name' => 'h3_model1',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_offshoring_p_model1',
+            'label' => 'Model 1 Description',
+            'name' => 'p_model1',
+            'type' => 'textarea',
+        ),
+        array(
+            'key' => 'field_group_offshoring_h3_model2',
+            'label' => 'Model 2 Heading',
+            'name' => 'h3_model2',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_offshoring_p_model2',
+            'label' => 'Model 2 Description',
+            'name' => 'p_model2',
+            'type' => 'textarea',
+        ),
+        array(
+            'key' => 'field_group_offshoring_h3_model3',
+            'label' => 'Model 3 Heading',
+            'name' => 'h3_model3',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_offshoring_p_model3',
+            'label' => 'Model 3 Description',
+            'name' => 'p_model3',
+            'type' => 'textarea',
+        ),
+        array(
+            'key' => 'field_group_offshoring_h3_model4',
+            'label' => 'Model 4 Heading',
+            'name' => 'h3_model4',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_offshoring_p_model4',
+            'label' => 'Model 4 Description',
+            'name' => 'p_model4',
+            'type' => 'textarea',
+        ),
+
             'key' => 'field_tab_group_offshoring_3',
             'label' => 'Section 3',
             'name' => '',
@@ -3007,6 +3101,46 @@ acf_add_local_field_group(array(
         ),
 
         array(
+        array(
+            'key' => 'field_group_our_brands_perk_1',
+            'label' => 'Perk 1 Text',
+            'name' => 'perk_1',
+            'type' => 'text',
+            'default_value' => 'A dedicated home location 24/7 access',
+        ),
+
+        array(
+            'key' => 'field_group_our_brands_perk_2',
+            'label' => 'Perk 2 Text',
+            'name' => 'perk_2',
+            'type' => 'text',
+            'default_value' => 'Meeting, conference, training and workshop rooms',
+        ),
+
+        array(
+            'key' => 'field_group_our_brands_perk_3',
+            'label' => 'Perk 3 Text',
+            'name' => 'perk_3',
+            'type' => 'text',
+            'default_value' => 'Event spaces, podcast studios, and photography studios',
+        ),
+
+        array(
+            'key' => 'field_group_our_brands_perk_4',
+            'label' => 'Perk 4 Text',
+            'name' => 'perk_4',
+            'type' => 'text',
+            'default_value' => 'Premium Gym access & Kings Club wellness program',
+        ),
+
+        array(
+            'key' => 'field_group_our_brands_perk_5',
+            'label' => 'Perk 5 Text',
+            'name' => 'perk_5',
+            'type' => 'text',
+            'default_value' => 'High speed Wi-Fi, fully stocked kitchens, unlimited printing',
+        ),
+
             'key' => 'field_group_our_brands_image_35',
             'label' => 'Image #35',
             'name' => 'image_35',
@@ -3629,7 +3763,7 @@ acf_add_local_field_group(array(
 
         array(
             'key' => 'field_tab_group_apply_2',
-            'label' => 'Section 2',
+            'label' => 'Spaces View',
             'name' => '',
             'type' => 'tab',
             'placement' => 'top',
@@ -3679,6 +3813,76 @@ acf_add_local_field_group(array(
         ),
 
         array(
+            'key' => 'field_group_apply_sp_label_space_type',
+            'label' => 'Which space are you interested in?',
+            'name' => 'sp_label_space_type',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sp_label_first_name',
+            'label' => 'First Name',
+            'name' => 'sp_label_first_name',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sp_label_last_name',
+            'label' => 'Last Name',
+            'name' => 'sp_label_last_name',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sp_label_email',
+            'label' => 'Email Address',
+            'name' => 'sp_label_email',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sp_label_phone',
+            'label' => 'Phone Number',
+            'name' => 'sp_label_phone',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sp_label_company',
+            'label' => 'Company / Business Name',
+            'name' => 'sp_label_company',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sp_label_country',
+            'label' => 'Country',
+            'name' => 'sp_label_country',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sp_label_needs',
+            'label' => 'Tell Us About Your Needs',
+            'name' => 'sp_label_needs',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sp_label_consent',
+            'label' => 'Consent Text',
+            'name' => 'sp_label_consent',
+            'type' => 'textarea',
+        ),
+        array(
+            'key' => 'field_group_apply_sp_btn_submit',
+            'label' => 'Submit Button',
+            'name' => 'sp_btn_submit',
+            'type' => 'text',
+        ),
+
+        array(
+            'key' => 'field_tab_group_apply_offshoring',
+            'label' => 'Offshoring View',
+            'name' => '',
+            'type' => 'tab',
+            'placement' => 'top',
+            'endpoint' => 0,
+        ),
+
+        array(
             'key' => 'field_group_apply_h3_11',
             'label' => 'Heading 3 #11',
             'name' => 'h3_11',
@@ -3707,9 +3911,219 @@ acf_add_local_field_group(array(
         ),
 
         array(
+            'key' => 'field_group_apply_off_label_first_name',
+            'label' => 'First Name',
+            'name' => 'off_label_first_name',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_off_label_last_name',
+            'label' => 'Last Name',
+            'name' => 'off_label_last_name',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_off_label_email',
+            'label' => 'Email Address',
+            'name' => 'off_label_email',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_off_label_phone',
+            'label' => 'Phone Number',
+            'name' => 'off_label_phone',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_off_label_company',
+            'label' => 'Company Name',
+            'name' => 'off_label_company',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_off_label_country',
+            'label' => 'Country',
+            'name' => 'off_label_country',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_off_label_website',
+            'label' => 'Company Website',
+            'name' => 'off_label_website',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_off_label_needs',
+            'label' => 'Tell Us About Your Needs Header',
+            'name' => 'off_label_needs',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_off_label_service',
+            'label' => 'Which service are you interested in?',
+            'name' => 'off_label_service',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_off_label_team_size',
+            'label' => 'How many staff are you looking to hire?',
+            'name' => 'off_label_team_size',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_off_label_roles',
+            'label' => 'What type of roles are you looking for?',
+            'name' => 'off_label_roles',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_off_label_timeline',
+            'label' => 'When are you looking to start?',
+            'name' => 'off_label_timeline',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_off_label_source',
+            'label' => 'How did you hear about us?',
+            'name' => 'off_label_source',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_off_label_notes',
+            'label' => 'Additional Notes',
+            'name' => 'off_label_notes',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_off_label_consent',
+            'label' => 'Consent Text',
+            'name' => 'off_label_consent',
+            'type' => 'textarea',
+        ),
+        array(
+            'key' => 'field_group_apply_off_btn_submit',
+            'label' => 'Submit Button',
+            'name' => 'off_btn_submit',
+            'type' => 'text',
+        ),
+
+        array(
+            'key' => 'field_tab_group_apply_sidebar',
+            'label' => 'Sidebars',
+            'name' => '',
+            'type' => 'tab',
+            'placement' => 'top',
+            'endpoint' => 0,
+        ),
+
+        array(
+            'key' => 'field_group_apply_h3_contact',
+            'label' => 'Get in Touch Heading',
+            'name' => 'h3_contact',
+            'type' => 'text',
+        ),
+
+        array(
             'key' => 'field_group_apply_h3_13',
             'label' => 'Heading 3 #13',
             'name' => 'h3_13',
+            'type' => 'text',
+        ),
+
+        array(
+            'key' => 'field_group_apply_sb_contact_phone_lbl',
+            'label' => 'Contact Phone Label',
+            'name' => 'sb_contact_phone_lbl',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sb_contact_phone_val',
+            'label' => 'Contact Phone Value',
+            'name' => 'sb_contact_phone_val',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sb_contact_email_lbl',
+            'label' => 'Contact Email Label',
+            'name' => 'sb_contact_email_lbl',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sb_contact_email_val',
+            'label' => 'Contact Email Value',
+            'name' => 'sb_contact_email_val',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sb_contact_addr_lbl',
+            'label' => 'Contact Address Label',
+            'name' => 'sb_contact_addr_lbl',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sb_contact_addr_val',
+            'label' => 'Contact Address Value',
+            'name' => 'sb_contact_addr_val',
+            'type' => 'textarea',
+        ),
+        array(
+            'key' => 'field_group_apply_sb_why_kings_btn',
+            'label' => 'Why Kings City Button Text',
+            'name' => 'sb_why_kings_btn',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sb_why_kings_btn_url',
+            'label' => 'Why Kings City Button URL',
+            'name' => 'sb_why_kings_btn_url',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sb_link1_txt',
+            'label' => 'Helpful Link 1 Text',
+            'name' => 'sb_link1_txt',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sb_link1_url',
+            'label' => 'Helpful Link 1 URL',
+            'name' => 'sb_link1_url',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sb_link2_txt',
+            'label' => 'Helpful Link 2 Text',
+            'name' => 'sb_link2_txt',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sb_link2_url',
+            'label' => 'Helpful Link 2 URL',
+            'name' => 'sb_link2_url',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sb_link3_txt',
+            'label' => 'Helpful Link 3 Text',
+            'name' => 'sb_link3_txt',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sb_link3_url',
+            'label' => 'Helpful Link 3 URL',
+            'name' => 'sb_link3_url',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sb_link4_txt',
+            'label' => 'Helpful Link 4 Text',
+            'name' => 'sb_link4_txt',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_apply_sb_link4_url',
+            'label' => 'Helpful Link 4 URL',
+            'name' => 'sb_link4_url',
             'type' => 'text',
         ),
 
@@ -3905,6 +4319,75 @@ acf_add_local_field_group(array(
             'return_format' => 'array',
             'preview_size' => 'medium',
             'library' => 'all',
+        ),
+
+        array(
+            'key' => 'field_tab_group_book_now_3',
+            'label' => 'Booking Form',
+            'name' => '',
+            'type' => 'tab',
+            'placement' => 'top',
+            'endpoint' => 0,
+        ),
+        array(
+            'key' => 'field_group_book_now_bk_label_est_price',
+            'label' => 'Estimated Price Label',
+            'name' => 'bk_label_est_price',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_book_now_bk_label_space_type',
+            'label' => 'Space Type Label',
+            'name' => 'bk_label_space_type',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_book_now_bk_label_first_name',
+            'label' => 'First Name Label',
+            'name' => 'bk_label_first_name',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_book_now_bk_label_last_name',
+            'label' => 'Last Name Label',
+            'name' => 'bk_label_last_name',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_book_now_bk_label_email',
+            'label' => 'Email Address Label',
+            'name' => 'bk_label_email',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_book_now_bk_label_phone',
+            'label' => 'Phone Number Label',
+            'name' => 'bk_label_phone',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_book_now_bk_label_duration',
+            'label' => 'Duration Label',
+            'name' => 'bk_label_duration',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_book_now_bk_label_start_date',
+            'label' => 'Start Date Label',
+            'name' => 'bk_label_start_date',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_book_now_bk_label_special',
+            'label' => 'Special Requests Label',
+            'name' => 'bk_label_special',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_book_now_bk_btn_submit',
+            'label' => 'Submit Button Text',
+            'name' => 'bk_btn_submit',
+            'type' => 'text',
         ),
 
     ),

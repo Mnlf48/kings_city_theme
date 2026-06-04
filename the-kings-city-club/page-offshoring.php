@@ -39,72 +39,115 @@ get_header();
 <h2><?php echo get_field('h2_8'); ?></h2>
 <p class="text-lead mx-auto" style="margin-top: var(--space-sm); max-width: 600px;"><?php echo get_field('p_13'); ?></p>
 </div>
-<div class="off-process-grid">
+<div class="off-process-steps">
 <!-- process card 1 -->
 <div class="off-process-card card-glass">
-<div class="off-process-card__body">
-<div class="off-process-card__icon">
-<svg fill="none" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24">
-<circle cx="11" cy="11" r="8"></circle>
-<line x1="21" x2="16.65" y1="21" y2="16.65"></line>
-</svg>
-</div>
-<h3><?php echo get_field('h3_9'); ?></h3>
-<p><?php echo get_field('p_14'); ?></p>
+<div class="off-process-card__num">
+<svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="28" height="28"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+<span>1</span>
 </div>
 <div class="off-process-card__img">
 <img alt="Discovery &amp; Scoping Meeting" src="<?php $img = get_field('image_19'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
+<h3><?php echo get_field('h3_9'); ?></h3>
+<p><?php echo get_field('p_14'); ?></p>
+<div class="off-process-card__breakdown">
+<strong>You do:</strong> Share your goals and role requirements<br/>
+<strong>Kings City does:</strong> Prepares detailed job profiles and a scoped hiring plan
+</div>
 </div>
 <!-- process card 2 -->
 <div class="off-process-card card-glass">
-<div class="off-process-card__body">
-<div class="off-process-card__icon">
-<svg fill="none" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24">
-<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-<circle cx="9" cy="7" r="4"></circle>
-<path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-</svg>
-</div>
-<h3><?php echo get_field('h3_10'); ?></h3>
-<p><?php echo get_field('p_15'); ?></p>
+<div class="off-process-card__num">
+<svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="28" height="28"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+<span>2</span>
 </div>
 <div class="off-process-card__img">
 <img alt="Talent Working in Office" src="<?php $img = get_field('image_20'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
+<h3><?php echo get_field('h3_10'); ?></h3>
+<p><?php echo get_field('p_15'); ?></p>
+<div class="off-process-card__breakdown">
+<strong>You do:</strong> Review candidates and select who joins your team<br/>
+<strong>Kings City does:</strong> Sourcing, screening, interviewing, and presenting the best fit
+</div>
 </div>
 <!-- process card 3 -->
 <div class="off-process-card card-glass">
-<div class="off-process-card__body">
-<div class="off-process-card__icon">
-<svg fill="none" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24">
-<rect height="14" rx="2" ry="2" width="20" x="2" y="3"></rect>
-<line x1="8" x2="16" y1="21" y2="21"></line>
-<line x1="12" x2="12" y1="17" y2="21"></line>
-</svg>
-</div>
-<h3><?php echo get_field('h3_11'); ?></h3>
-<p><?php echo get_field('p_16'); ?></p>
+<div class="off-process-card__num">
+<svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="28" height="28"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+<span>3</span>
 </div>
 <div class="off-process-card__img">
 <img alt="Onboarding Consultation" src="<?php $img = get_field('image_21'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
+<h3><?php echo get_field('h3_11'); ?></h3>
+<p><?php echo get_field('p_16'); ?></p>
+<div class="off-process-card__breakdown">
+<strong>You do:</strong> Define KPIs, workflows, and communication preferences<br/>
+<strong>Kings City does:</strong> Workspace setup, IT infrastructure, HR onboarding, and compliance
+</div>
 </div>
 <!-- process card 4 -->
 <div class="off-process-card card-glass">
-<div class="off-process-card__body">
-<div class="off-process-card__icon">
-<svg fill="none" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24">
-<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-</svg>
-</div>
-<h3><?php echo get_field('h3_12'); ?></h3>
-<p><?php echo get_field('p_17'); ?></p>
+<div class="off-process-card__num">
+<svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="28" height="28"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+<span>4</span>
 </div>
 <div class="off-process-card__img">
 <img alt="Team Member Productive in Office" src="<?php $img = get_field('image_22'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
+<h3><?php echo get_field('h3_12'); ?></h3>
+<p><?php echo get_field('p_17'); ?></p>
+<div class="off-process-card__breakdown">
+<strong>You do:</strong> Direct your team's output, quality, and productivity<br/>
+<strong>Kings City does:</strong> Payroll, benefits, compliance, facilities, and HR management
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- offshoring models section -->
+<section class="section content-panel" id="offshoring-models">
+<div class="container">
+<div class="text-center" style="margin-bottom: var(--space-2xl);">
+<span class="text-overline">Our Service Models</span>
+<h2>Two Ways to Build Your Team</h2>
+<p class="text-lead mx-auto" style="margin-top: var(--space-sm); max-width: 650px;">Whether you want a fully managed offshore division or targeted staff placement, we have a model that fits.</p>
+</div>
+<div style="display: flex; gap: var(--space-xl); flex-wrap: wrap;">
+<!-- model 1 card -->
+<div class="card-glass" style="background: #FBCB77; padding: var(--space-xl); flex: 1; min-width: 280px;">
+<span class="text-overline">Model 1</span>
+<h3 style="margin-bottom: var(--space-sm);"><?php echo get_field('h3_model1'); ?></h3>
+<p style="font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.65; margin-bottom: var(--space-lg);"><?php echo get_field('p_model1'); ?></p>
+<ul style="list-style: none; padding: 0; margin: 0 0 var(--space-lg) 0; display: flex; flex-direction: column; gap: 0.6rem;">
+<li style="display: flex; gap: 0.75rem; font-size: 0.9rem; align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="var(--color-primary)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Your team works exclusively for you full-time</li>
+<li style="display: flex; gap: 0.75rem; font-size: 0.9rem; align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="var(--color-primary)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Fully managed facilities IT and disaster recovery</li>
+<li style="display: flex; gap: 0.75rem; font-size: 0.9rem; align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="var(--color-primary)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Employee engagement and performance frameworks</li>
+<li style="display: flex; gap: 0.75rem; font-size: 0.9rem; align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="var(--color-primary)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Best for businesses scaling a dedicated offshore division</li>
+</ul>
+<a class="btn" href="apply.html" style="width: 100%; display: flex; justify-content: center;">Get Started</a>
+</div>
+<!-- model 2 card -->
+<div class="card-glass" style="background: var(--color-primary); border-color: transparent; color: #fff; padding: var(--space-xl); flex: 1; min-width: 280px;">
+<span class="text-overline" style="color: rgba(255,255,255,0.65);">Model 2</span>
+<h3 style="color: #fff; margin-bottom: var(--space-sm);"><?php echo get_field('h3_model2'); ?></h3>
+<p style="font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.65; margin-bottom: var(--space-lg);"><?php echo get_field('p_model2'); ?></p>
+<ul style="list-style: none; padding: 0; margin: 0 0 var(--space-lg) 0; display: flex; flex-direction: column; gap: 0.6rem;">
+<li style="display: flex; gap: 0.75rem; font-size: 0.9rem; color: rgba(255,255,255,0.9); align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Fixed fee per employee per month with no hidden costs</li>
+<li style="display: flex; gap: 0.75rem; font-size: 0.9rem; color: rgba(255,255,255,0.9); align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>First invoice only after your team starts working</li>
+<li style="display: flex; gap: 0.75rem; font-size: 0.9rem; color: rgba(255,255,255,0.9); align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Communicate your way via Zoom Skype email or on-site</li>
+<li style="display: flex; gap: 0.75rem; font-size: 0.9rem; color: rgba(255,255,255,0.9); align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Best for targeted hires and growing teams quickly</li>
+</ul>
+<a class="btn" href="apply.html" style="background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); width: 100%; display: flex; justify-content: center;">Request a Quote</a>
+</div>
+</div>
+<!-- transparent billing callout -->
+<div class="card-glass" style="background: var(--color-bg-ivory); margin-top: var(--space-xl); padding: var(--space-lg) var(--space-xl); text-align: center; display: block; max-width: 680px; margin-left: auto; margin-right: auto;">
+<div>
+<h4 style="margin: 0 0 0.5rem;">Transparent Billing — No Surprises</h4>
+<p style="font-size: 0.9rem; color: var(--color-text-muted); margin: 0;"><?php echo get_field('p_billing'); ?></p>
 </div>
 </div>
 </div>

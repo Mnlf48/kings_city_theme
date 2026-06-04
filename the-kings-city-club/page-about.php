@@ -47,18 +47,39 @@ get_header();
 </div>
 </div>
 </section>
+<!-- mission and vision -->
+<section class="section content-panel" id="mission-vision">
+<div class="container grid-12">
+<div class="col-12 split">
+<!-- mission card -->
+<div class="split__content card-glass mv-card">
+<svg class="mv-card__icon" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+<span class="text-overline"><?php echo get_field('overline_mv_mission'); ?></span>
+<h2 class="mv-card__title"><?php echo get_field('h3_mv_mission'); ?></h2>
+<p class="mv-card__text"><?php echo get_field('p_mv_mission'); ?></p>
+</div>
+<!-- vision card -->
+<div class="split__content card-glass card-glass--strong section--brown mv-card">
+<svg class="mv-card__icon" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+<span class="text-overline"><?php echo get_field('overline_mv_vision'); ?></span>
+<h2 class="mv-card__title"><?php echo get_field('h3_mv_vision'); ?></h2>
+<p class="mv-card__text"><?php echo get_field('p_mv_vision'); ?></p>
+</div>
+</div>
+</div>
+</section>
 <!-- philippines map section -->
 <section class="section content-panel section--map">
 <div class="container grid-12">
 <div class="col-12 split">
-<div class="split__media text-center">
-<img alt="Philippine Map" src="<?php $img = get_field('image_18'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="max-width: 100%; height: auto; max-height: 400px; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05));"/>
-</div>
 <div class="split__content animate-fadeInUp">
 <span class="text-overline"><?php echo get_field('overline_17'); ?></span>
 <h2 style="font-family: var(--font-heading); font-weight: 400; font-size: clamp(2.5rem, 4vw, 3rem); color: var(--color-primary); margin-bottom: var(--space-md);"><?php echo get_field('h2_14'); ?></h2>
 <p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-md);"><?php echo get_field('p_15'); ?></p>
 <p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: 0;"><?php echo get_field('p_16'); ?></p>
+</div>
+<div class="split__media text-center">
+<img alt="Philippine Map" src="<?php $img = get_field('image_18'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="max-width: 100%; height: auto; max-height: 400px; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05));"/>
 </div>
 </div>
 </div>
@@ -191,6 +212,62 @@ get_header();
 <p class="snake-desc"><?php echo get_field('p_49'); ?></p>
 </div>
 </div>
+</div>
+</div>
+</div>
+</section>
+<!-- membership perks section -->
+<section class="section content-panel section--pass">
+<div class="container grid-12">
+<div class="col-12 split">
+<div class="split__media">
+<img alt="One Pass. All Access. - Membership Perks" src="<?php $img = get_field('about_pass_image'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/>
+</div>
+<div class="split__content">
+<span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('about_pass_overline'); ?></span>
+<h2 style="margin-bottom: var(--space-md);"><?php echo get_field('about_pass_heading'); ?></h2>
+<p style="margin-bottom: var(--space-lg);"><?php echo get_field('about_pass_subtext'); ?></p>
+<ul style="display:flex; flex-direction:column; gap:1.25rem; list-style: none; padding: 0; text-align: left;">
+<li style="display:flex; align-items:center; gap:1rem;">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+<polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg>
+<span style="font-size: 0.95rem;"><?php echo get_field('about_pass_perk_1'); ?></span>
+</li>
+<li style="display:flex; align-items:center; gap:1rem;">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect>
+<line x1="3" x2="21" y1="9" y2="9"></line>
+<line x1="9" x2="9" y1="21" y2="9"></line>
+</svg>
+<span style="font-size: 0.95rem;"><?php echo get_field('about_pass_perk_2'); ?></span>
+</li>
+<li style="display:flex; align-items:center; gap:1rem;">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<polygon points="23 7 16 12 23 17 23 7"></polygon>
+<rect height="14" rx="2" ry="2" width="15" x="1" y="5"></rect>
+</svg>
+<span style="font-size: 0.95rem;"><?php echo get_field('about_pass_perk_3'); ?></span>
+</li>
+<li style="display:flex; align-items:center; gap:1rem;">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+<line x1="7" x2="7.01" y1="7" y2="7"></line>
+</svg>
+<span style="font-size: 0.95rem;"><?php echo get_field('about_pass_perk_4'); ?></span>
+</li>
+<li style="display:flex; align-items:center; gap:1rem;">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+<path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+<line x1="6" x2="6" y1="1" y2="4"></line>
+<line x1="10" x2="10" y1="1" y2="4"></line>
+<line x1="14" x2="14" y1="1" y2="4"></line>
+</svg>
+<span style="font-size: 0.95rem;"><?php echo get_field('about_pass_perk_5'); ?></span>
+</li>
+</ul>
 </div>
 </div>
 </div>

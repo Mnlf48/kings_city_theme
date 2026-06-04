@@ -117,299 +117,6 @@ get_header();
       color: var(--color-accent-red);
     }
     
-    /* Team Builder Styles */
-    .tb-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--space-md);
-      padding-bottom: var(--space-sm);
-      border-bottom: 1px solid var(--color-border-light);
-    }
-    .tb-empty-state {
-      text-align: center;
-      padding: var(--space-2xl) var(--space-md);
-      background: rgba(255,255,255,0.5);
-      border-radius: var(--radius-card-sm);
-      border: 1px dashed rgba(189, 69, 31, 0.3);
-      margin-bottom: var(--space-md);
-    }
-    .tb-roles-headers {
-      display: flex;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--color-text-muted);
-      margin-bottom: var(--space-sm);
-      padding: 0 0.5rem;
-    }
-    .tbr-item {
-      display: flex;
-      align-items: center;
-      padding: 1rem;
-      background: #fff;
-      border: 1px solid var(--color-border-light);
-      border-radius: var(--radius-sm);
-      margin-bottom: 0.5rem;
-      gap: 1rem;
-    }
-    .tbr-name {
-      flex: 1.8;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .tbr-level {
-      flex: 1.2;
-    }
-    .tbr-count {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-    }
-    .tbr-price {
-      flex: 1.2;
-      text-align: right;
-      font-weight: 700;
-      color: var(--color-primary);
-    }
-    .tbr-remove {
-      width: 30px;
-      text-align: right;
-    }
-    .btn-rem {
-      background: none;
-      border: none;
-      color: #999;
-      font-size: 1.25rem;
-      cursor: pointer;
-      padding: 0;
-    }
-    .btn-rem:hover {
-      color: #ff4444;
-    }
-    .level-sel {
-      width: 100%;
-      padding: 0.5rem;
-      border: 1px solid var(--color-border-light);
-      border-radius: 4px;
-      font-size: 0.875rem;
-      background: #fafafa;
-    }
-    .tbr-count-ctl {
-      display: inline-flex;
-      align-items: center;
-      border: 1px solid var(--color-border-light);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    .tbr-count-ctl button {
-      background: #fafafa;
-      border: none;
-      padding: 0.25rem 0.5rem;
-      cursor: pointer;
-      font-weight: bold;
-      color: var(--color-primary);
-    }
-    .tbr-count-ctl input {
-      width: 30px;
-      text-align: center;
-      border: none;
-      border-left: 1px solid var(--color-border-light);
-      border-right: 1px solid var(--color-border-light);
-      background: #fff;
-      font-size: 0.875rem;
-      padding: 0.25rem 0;
-    }
-    .tb-summary {
-      background: var(--color-primary);
-      color: #fff;
-      padding: 1.5rem;
-      border-radius: var(--radius-sm);
-      margin-bottom: var(--space-md);
-      margin-top: var(--space-lg);
-    }
-    .tb-summary-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.5rem;
-      font-size: 0.875rem;
-      color: rgba(255,255,255,0.8);
-    }
-    .tb-summary-row strong {
-      color: #fff;
-      font-size: 1rem;
-    }
-    .tb-summary-savings {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(159, 211, 175, 0.2);
-      color: #9fd3af;
-      padding: 0.75rem;
-      border-radius: 4px;
-      margin: 1rem 0;
-      font-weight: 600;
-      font-size: 0.875rem;
-    }
-    .tb-summary-total {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      padding-top: 1rem;
-      margin-top: 1rem;
-    }
-    .tb-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(43, 43, 43, 0.85);
-      z-index: 2000; /* Ensure it covers EVERYTHING including header */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(15px) grayscale(100%);
-      -webkit-backdrop-filter: blur(15px) grayscale(100%);
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      pointer-events: none;
-      padding: var(--space-md);
-    }
-    .tb-modal[aria-hidden="false"] {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-    }
-    .tb-modal-content {
-      background: var(--glass-bg-strong);
-      backdrop-filter: var(--glass-blur-strong);
-      -webkit-backdrop-filter: var(--glass-blur-strong);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      width: 100%;
-      max-width: 640px;
-      max-height: 80vh;
-      border-radius: var(--radius-card);
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-      transform: scale(0.9) translateY(40px);
-      opacity: 0;
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    .tb-modal[aria-hidden="false"] .tb-modal-content {
-      transform: scale(1) translateY(0);
-      opacity: 1;
-    }
-    .tb-modal-header {
-      padding: 1.5rem;
-      border-bottom: 1px solid var(--color-border-light);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.1);
-    }
-    .tb-modal-close {
-      background: rgba(189, 69, 31, 0.1);
-      border: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      cursor: pointer;
-      color: var(--color-primary);
-      transition: all var(--transition-fast);
-    }
-    .tb-modal-close:hover {
-      background: var(--color-primary);
-      color: #fff;
-      transform: rotate(90deg);
-    }
-    .tb-modal-body {
-      padding: 1.5rem;
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: var(--color-border-light) transparent;
-    }
-    .tb-modal-body::-webkit-scrollbar {
-      width: 6px;
-    }
-    .tb-modal-body::-webkit-scrollbar-thumb {
-      background: var(--color-border-light);
-      border-radius: 10px;
-    }
-    .tb-cat-title {
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--color-text-muted);
-      margin: 1.5rem 0 0.5rem 0;
-    }
-    .tb-cat-title:first-child {
-      margin-top: 0;
-    }
-    .tb-role-card {
-      display: flex;
-      align-items: center;
-      padding: 1.25rem;
-      background: rgba(255, 255, 255, 0.5);
-      border: 1px solid var(--color-border-light);
-      border-radius: var(--radius-card-sm);
-      margin-bottom: 0.75rem;
-      gap: 1rem;
-      transition: all var(--transition-fast);
-    }
-    .tb-role-card:hover {
-      background: rgba(255, 255, 255, 0.9);
-      transform: translateX(5px);
-      border-color: var(--color-accent-red);
-      box-shadow: var(--glass-shadow);
-    }
-    .tb-role-info {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .tb-role-info strong {
-      color: var(--color-primary);
-      margin-bottom: 0.15rem;
-      font-size: 1rem;
-    }
-    .tb-role-info span {
-      font-size: 0.8rem;
-      color: var(--color-text-muted);
-      line-height: 1.4;
-    }
-    .btn-add-role {
-      padding: 0.5rem 1.25rem;
-      background-color: var(--color-accent-red) !important;
-      color: var(--color-bg-ivory) !important;
-      border: 1px solid var(--color-accent-red);
-      border-radius: var(--radius-pill);
-      font-weight: 600;
-      font-size: 0.8125rem;
-      cursor: pointer;
-      transition: all 0.3s ease-in-out;
-      box-shadow: 0 4px 12px rgba(172, 32, 26, 0.15);
-    }
-    .btn-add-role:hover {
-      background-color: var(--color-btn-hover) !important;
-      color: var(--color-bg-ivory) !important;
-      border-color: var(--color-btn-hover) !important;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(142, 21, 16, 0.25);
-    }
-
-    /* Modal Open State — Body Lock & Global Gray Out */
-    body.modal-open {
-      overflow: hidden;
-      height: 100vh;
-    }
   </style>
 
 <main id="main-content">
@@ -464,7 +171,7 @@ get_header();
 </div>
 </div>
 <div class="form-group" style="margin-top: var(--space-md);">
-<label class="form-label" for="space_type">Which space are you interested in?</label>
+<label class="form-label" for="space_type"><?php echo get_field('sp_label_space_type') ?: 'Which space are you interested in?'; ?></label>
 <select class="form-select" id="space_type" name="space_type">
 <option value="coworking">Co-Working</option>
 <option value="meeting">Meeting Rooms</option>
@@ -475,31 +182,31 @@ get_header();
 </div>
 <div class="form-row">
 <div class="form-group">
-<label class="form-label" for="sp_first_name">First Name</label>
+<label class="form-label" for="sp_first_name"><?php echo get_field('sp_label_first_name') ?: 'First Name'; ?></label>
 <input class="form-input" id="sp_first_name" name="sp_first_name" placeholder="First Name" required="" type="text"/>
 </div>
 <div class="form-group">
-<label class="form-label" for="sp_last_name">Last Name</label>
+<label class="form-label" for="sp_last_name"><?php echo get_field('sp_label_last_name') ?: 'Last Name'; ?></label>
 <input class="form-input" id="sp_last_name" name="sp_last_name" placeholder="Last Name" required="" type="text"/>
 </div>
 </div>
 <div class="form-row">
 <div class="form-group">
-<label class="form-label" for="sp_email">Email Address</label>
+<label class="form-label" for="sp_email"><?php echo get_field('sp_label_email') ?: 'Email Address'; ?></label>
 <input class="form-input" id="sp_email" name="sp_email" placeholder="you@company.com" required="" type="email"/>
 </div>
 <div class="form-group">
-<label class="form-label" for="sp_phone">Phone Number</label>
+<label class="form-label" for="sp_phone"><?php echo get_field('sp_label_phone') ?: 'Phone Number'; ?></label>
 <input class="form-input" id="sp_phone" name="sp_phone" placeholder="+63 XXX XXX XXXX" required="" type="tel"/>
 </div>
 </div>
 <div class="form-row">
 <div class="form-group">
-<label class="form-label" for="sp_company">Company / Business Name</label>
+<label class="form-label" for="sp_company"><?php echo get_field('sp_label_company') ?: 'Company / Business Name'; ?></label>
 <input class="form-input" id="sp_company" name="sp_company" placeholder="Your company name" type="text"/>
 </div>
 <div class="form-group">
-<label class="form-label" for="sp_country">Country</label>
+<label class="form-label" for="sp_country"><?php echo get_field('sp_label_country') ?: 'Country'; ?></label>
 <select class="form-select" id="sp_country" name="sp_country">
 <option value="ph">Philippines</option>
 <option value="au">Australia</option>
@@ -511,93 +218,46 @@ get_header();
 </div>
 </div>
 <div class="form-group">
-<label class="form-label" for="sp_message">Tell Us About Your Needs</label>
+<label class="form-label" for="sp_message"><?php echo get_field('sp_label_needs') ?: 'Tell Us About Your Needs'; ?></label>
 <textarea class="form-textarea" id="sp_message" name="sp_message" placeholder="Describe what you're looking for..." rows="5"></textarea>
 </div>
 <div style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: var(--space-lg); margin-top: var(--space-sm);">
 <input id="sp_consent" name="sp_consent" required="" style="margin-top: 0.3rem; accent-color: var(--color-accent); width: 16px; height: 16px;" type="checkbox"/>
 <label for="sp_consent" style="font-size: 0.85rem; color: var(--color-text-muted); cursor: pointer; line-height: 1.5;">
-                    I agree to receive communications from Kings City regarding my application. I understand I can unsubscribe at any time.
+                    <?php echo get_field('sp_label_consent') ?: 'I agree to receive communications from Kings City regarding my application. I understand I can unsubscribe at any time.'; ?>
                   </label>
 </div>
-<button class="btn btn--large" style="width: 100%; justify-content: center; padding: 1rem;" type="submit">Submit Application</button>
+<button class="btn btn--large" style="width: 100%; justify-content: center; padding: 1rem;" type="submit"><?php echo get_field('sp_btn_submit') ?: 'Submit Application'; ?></button>
 </div>
 <!-- offshoring view -->
 <div id="offshore-view-container" style="display: none;">
-<!-- offshoring team builder ui -->
-<div class="tb-header" style="margin-top: var(--space-md);">
-<div style="display: flex; align-items: center; gap: 0.5rem;">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-<h3 style="margin:0; font-size: 1.25rem; color: var(--color-primary);"><?php echo get_field('h3_10'); ?></h3>
-</div>
-<button class="btn btn--small" id="btn-add-member" type="button">+ Add Member</button>
-</div>
-<div class="tb-body">
-<div class="tb-empty-state" id="tb-empty">
-<div style="margin-bottom: 1rem; color: var(--color-text-muted);">
-<svg fill="none" height="48" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" viewbox="0 0 24 24" width="48"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-</div>
-<h4 style="margin-bottom: 0.5rem;">Build your offshore team with Kings City.</h4>
-<p style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 1.5rem;"><?php echo get_field('p_15'); ?></p>
-<button class="btn btn--outline" id="btn-get-started" type="button">Get Started</button>
-</div>
-<div class="tb-roles-container" id="tb-roles-list" style="display:none;">
-<div class="tb-roles-headers">
-<div style="flex:1.8">Role Function</div>
-<div style="flex:1.2">Experience Level</div>
-<div style="flex:1;text-align:center;">Headcount</div>
-<div style="flex:1.2;text-align:right;">Est. Monthly</div>
-<div style="width:30px"></div>
-</div>
-<div id="tb-roles-inner"></div>
-</div>
-<div class="tb-summary" id="tb-summary" style="display:none;">
-<div class="tb-summary-row">
-<span>Team Size:</span>
-<strong id="tb-total-size">0</strong>
-</div>
-<div class="tb-summary-row">
-<span>Est. Monthly Base:</span>
-<strong id="tb-total-base">Php 0</strong>
-</div>
-<div class="tb-summary-savings" id="tb-savings" style="display:none;">
-<svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="18"><polyline points="20 6 9 17 4 12"></polyline></svg>
-<span>Saving <strong id="tb-save-amount">~ Php 0</strong> vs. local hire</span>
-</div>
-<div class="tb-summary-total">
-<span style="font-size:1.1rem;font-weight:700;">Estimated Total</span>
-<span id="tb-final-total" style="font-size:1.5rem;font-weight:700; color: #fff;">Php 0</span>
-</div>
-</div>
-</div>
-<div style="padding-top: var(--space-lg); margin-top: var(--space-md); border-top: 1px dashed rgba(189, 69, 31, 0.2);">
 <div class="form-row">
 <div class="form-group">
-<label class="form-label" for="off_first_name">First Name</label>
-<input class="form-input" id="off_first_name" name="off_first_name" placeholder="First Name" type="text"/>
+<label class="form-label" for="off_first_name"><?php echo get_field('off_label_first_name') ?: 'First Name'; ?></label>
+<input class="form-input" id="off_first_name" name="off_first_name" type="text"/>
 </div>
 <div class="form-group">
-<label class="form-label" for="off_last_name">Last Name</label>
-<input class="form-input" id="off_last_name" name="off_last_name" placeholder="Last Name" type="text"/>
+<label class="form-label" for="off_last_name"><?php echo get_field('off_label_last_name') ?: 'Last Name'; ?></label>
+<input class="form-input" id="off_last_name" name="off_last_name" type="text"/>
 </div>
 </div>
 <div class="form-row">
 <div class="form-group">
-<label class="form-label" for="off_email">Work Email</label>
+<label class="form-label" for="off_email"><?php echo get_field('off_label_email') ?: 'Email Address'; ?></label>
 <input class="form-input" id="off_email" name="off_email" placeholder="you@company.com" type="email"/>
 </div>
 <div class="form-group">
-<label class="form-label" for="off_phone">Phone Number</label>
+<label class="form-label" for="off_phone"><?php echo get_field('off_label_phone') ?: 'Phone Number'; ?></label>
 <input class="form-input" id="off_phone" name="off_phone" placeholder="+63 XXX XXX XXXX" type="tel"/>
 </div>
 </div>
 <div class="form-row">
 <div class="form-group">
-<label class="form-label" for="off_company">Company Name</label>
-<input class="form-input" id="off_company" name="off_company" placeholder="Your company name" type="text"/>
+<label class="form-label" for="off_company"><?php echo get_field('off_label_company') ?: 'Company Name'; ?></label>
+<input class="form-input" id="off_company" name="off_company" type="text"/>
 </div>
 <div class="form-group">
-<label class="form-label" for="off_country">Country</label>
+<label class="form-label" for="off_country"><?php echo get_field('off_label_country') ?: 'Country'; ?></label>
 <select class="form-select" id="off_country" name="off_country">
 <option value="ph">Philippines</option>
 <option value="au">Australia</option>
@@ -609,17 +269,70 @@ get_header();
 </div>
 </div>
 <div class="form-group">
-<label class="form-label" for="off_message">Additional Notes (Optional)</label>
-<textarea class="form-textarea" id="off_message" name="off_message" placeholder="Any specific requirements..." rows="3"></textarea>
+<label class="form-label" for="off_website"><?php echo get_field('off_label_website') ?: 'Company Website (Optional)'; ?></label>
+<input class="form-input" id="off_website" name="off_website" placeholder="https://yourcompany.com" type="text"/>
+</div>
+<div class="form-label" style="margin-top: var(--space-lg); border-bottom: 1px solid rgba(189, 69, 31, 0.2); padding-bottom: 0.5rem; margin-bottom: var(--space-md);">
+Tell Us About Your Needs
+</div>
+<div class="form-group">
+<label class="form-label" for="off_service"><?php echo get_field('off_label_service') ?: 'Which service are you interested in?'; ?></label>
+<select class="form-select" id="off_service" name="off_service">
+<option value="Managed Staff Leasing">Managed Staff Leasing</option>
+<option value="Offshoring Staffing">Offshoring Staffing</option>
+<option value="Both">Both</option>
+<option value="Not Sure">Not Sure</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label" for="off_team_size"><?php echo get_field('off_label_team_size') ?: 'How many staff are you looking to hire?'; ?></label>
+<select class="form-select" id="off_team_size" name="off_team_size">
+<option value="1-5">1–5</option>
+<option value="6-15">6–15</option>
+<option value="16-30">16–30</option>
+<option value="30+">30+</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label" for="off_roles"><?php echo get_field('off_label_roles') ?: 'What type of roles are you looking for?'; ?></label>
+<div id="off_roles" style="display: flex; flex-direction: column; gap: 0.5rem;">
+<label style="display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="off_roles[]" value="Finance &amp; Accounting"> Finance &amp; Accounting</label>
+<label style="display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="off_roles[]" value="HR"> HR</label>
+<label style="display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="off_roles[]" value="IT &amp; Development"> IT &amp; Development</label>
+<label style="display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="off_roles[]" value="Marketing"> Marketing</label>
+<label style="display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="off_roles[]" value="Operations"> Operations</label>
+<label style="display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="off_roles[]" value="Other"> Other</label>
+</div>
+</div>
+<div class="form-group">
+<label class="form-label" for="off_timeline"><?php echo get_field('off_label_timeline') ?: 'When are you looking to start?'; ?></label>
+<select class="form-select" id="off_timeline" name="off_timeline">
+<option value="ASAP">ASAP</option>
+<option value="Within 1 month">Within 1 month</option>
+<option value="1-3 months">1–3 months</option>
+<option value="Just exploring">Just exploring</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label" for="off_source"><?php echo get_field('off_label_source') ?: 'How did you hear about us?'; ?></label>
+<select class="form-select" id="off_source" name="off_source">
+<option value="Google">Google</option>
+<option value="Referral">Referral</option>
+<option value="Social Media">Social Media</option>
+<option value="Other">Other</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label" for="off_message"><?php echo get_field('off_label_notes') ?: 'Additional Notes (Optional)'; ?></label>
+<textarea class="form-textarea" id="off_message" name="off_message" placeholder="Anything else you'd like us to know?" rows="3"></textarea>
 </div>
 <div style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: var(--space-lg); margin-top: var(--space-sm);">
 <input id="off_consent" name="off_consent" style="margin-top: 0.3rem; accent-color: var(--color-accent); width: 16px; height: 16px;" type="checkbox"/>
 <label for="off_consent" style="font-size: 0.85rem; color: var(--color-text-muted); cursor: pointer; line-height: 1.5;">
-                      I agree to receive communications from Kings City regarding my application. I understand I can unsubscribe at any time.
+                      <?php echo get_field('off_label_consent') ?: 'I agree to receive communications from Kings City regarding my application. I understand I can unsubscribe at any time.'; ?>
                     </label>
 </div>
-<button class="btn btn--large" style="width: 100%; justify-content: center; padding: 1rem;" type="submit">Request Detailed Quote</button>
-</div>
+<button class="btn btn--large" style="width: 100%; justify-content: center; padding: 1rem;" type="submit"><?php echo get_field('off_btn_submit') ?: 'Request a Consultation'; ?></button>
 </div>
 </form>
 </div>
@@ -628,18 +341,18 @@ get_header();
 <div class="col-4">
 <!-- get in touch card -->
 <div class="card-glass sidebar-card">
-<h3><?php echo get_field('h3_11'); ?></h3>
+<h3><?php echo get_field('h3_contact'); ?></h3>
 <p style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: var(--space-md);"><?php echo get_field('p_16'); ?></p>
 <div class="contact-item">
-<span class="contact-label">Phone</span>
-<a class="contact-value" href="tel:+63----------">+63 ---- ---- ---</a>
+<span class="contact-label"><?php echo get_field('sb_contact_phone_lbl') ?: 'Phone'; ?></span>
+<a class="contact-value" href="tel:+63----------"><?php echo get_field('sb_contact_phone_val') ?: '+63 ---- ---- ---'; ?></a>
 </div>
 <div class="contact-item" style="margin-top: var(--space-sm);">
-<span class="contact-label">Email</span>
-<a class="contact-value" href="mailto:kingscity@kingsgroup.com.ph">kingscity@kingsgroup.com.ph</a>
+<span class="contact-label"><?php echo get_field('sb_contact_email_lbl') ?: 'Email'; ?></span>
+<a class="contact-value" href="mailto:kingscity@kingsgroup.com.ph"><?php echo get_field('sb_contact_email_val') ?: 'kingscity@kingsgroup.com.ph'; ?></a>
 </div>
 <div class="contact-item" style="margin-top: var(--space-sm);">
-<span class="contact-label">Address</span>
+<span class="contact-label"><?php echo get_field('sb_contact_addr_lbl') ?: 'Address'; ?></span>
 <span class="contact-value" style="font-size: 0.875rem; line-height: 1.6; display: inline-block;">
                 Ground Level, RCS Building,<br/>
                 Doña Soledad Ave, Better Living,<br/>
@@ -649,18 +362,18 @@ get_header();
 </div>
 <!-- why kings city offshoring card -->
 <div class="card-glass sidebar-card" style="background: var(--color-primary); color: var(--color-text-light); border-color: transparent;">
-<h3 style="color: var(--color-text-light);"><?php echo get_field('h3_12'); ?></h3>
-<p style="font-size: 0.875rem; color: rgba(255,255,255,0.8); margin-bottom: var(--space-md);"><?php echo get_field('p_17'); ?></p>
-<a class="btn" href="offshoring.html" style="background: rgba(255,255,255,0.15); color: #fff; width: 100%; justify-content: center; border: 1px solid rgba(255,255,255,0.2);">Learn More</a>
+<h3 style="color: var(--color-text-light);"><?php echo get_field('h3_why_kings'); ?></h3>
+<p style="font-size: 0.875rem; color: rgba(255,255,255,0.8); margin-bottom: var(--space-md);"><?php echo get_field('p_why_kings'); ?></p>
+<a class="btn" href="<?php echo get_field('sb_why_kings_btn_url') ?: 'offshoring.html'; ?>" style="background: rgba(255,255,255,0.15); color: #fff; width: 100%; justify-content: center; border: 1px solid rgba(255,255,255,0.2);"><?php echo get_field('sb_why_kings_btn') ?: 'Learn More'; ?></a>
 </div>
 <!-- helpful links card -->
 <div class="card-glass sidebar-card">
 <h3><?php echo get_field('h3_13'); ?></h3>
 <div style="margin-top: var(--space-md);">
-<a class="sidebar-link" href="spaces.html">Explore Spaces <span>→</span></a>
-<a class="sidebar-link" href="offshoring.html">How Offshoring Works <span>→</span></a>
-<a class="sidebar-link" href="spaces.html">Book a Tour <span>→</span></a>
-<a class="sidebar-link" href="#">Virtual Office Packages <span>→</span></a>
+<a class="sidebar-link" href="spaces.html"><?php echo get_field('sb_link1_txt') ?: 'Explore Spaces'; ?> <span>→</span></a>
+<a class="sidebar-link" href="<?php echo get_field('sb_why_kings_btn_url') ?: 'offshoring.html'; ?>"><?php echo get_field('sb_link2_txt') ?: 'How Offshoring Works'; ?> <span>→</span></a>
+<a class="sidebar-link" href="spaces.html"><?php echo get_field('sb_link3_txt') ?: 'Book a Tour'; ?> <span>→</span></a>
+<a class="sidebar-link" href="#"><?php echo get_field('sb_link4_txt') ?: 'Virtual Office Packages'; ?> <span>→</span></a>
 </div>
 </div>
 </div>
@@ -717,6 +430,7 @@ get_header();
           document.getElementById('off_email').required = true;
           document.getElementById('off_phone').required = true;
           document.getElementById('off_consent').required = true;
+          document.getElementById('off_service').required = true;
         }
       }
 
