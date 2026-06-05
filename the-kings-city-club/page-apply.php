@@ -361,8 +361,8 @@ Tell Us About Your Needs
 </div>
 </div>
 <!-- why kings city offshoring card -->
-<div class="card-glass sidebar-card" style="background: var(--color-primary); color: var(--color-text-light); border-color: transparent;">
-<h3 style="color: var(--color-text-light);"><?php echo get_field('h3_why_kings'); ?></h3>
+<div class="card-glass sidebar-card" style="background: var(--color-primary); color: #FFF9EF; border-color: transparent;">
+<h3 style="color: #FFF9EF;"><?php echo get_field('h3_why_kings'); ?></h3>
 <p style="font-size: 0.875rem; color: rgba(255,255,255,0.8); margin-bottom: var(--space-md);"><?php echo get_field('p_why_kings'); ?></p>
 <a class="btn" href="<?php echo get_field('sb_why_kings_btn_url') ?: 'offshoring.html'; ?>" style="background: rgba(255,255,255,0.15); color: #fff; width: 100%; justify-content: center; border: 1px solid rgba(255,255,255,0.2);"><?php echo get_field('sb_why_kings_btn') ?: 'Learn More'; ?></a>
 </div>

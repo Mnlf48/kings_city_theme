@@ -111,9 +111,9 @@ get_header();
 <section class="section content-panel" id="offshoring-models">
 <div class="container">
 <div class="text-center" style="margin-bottom: var(--space-2xl);">
-<span class="text-overline">Our Service Models</span>
-<h2>Two Ways to Build Your Team</h2>
-<p class="text-lead mx-auto" style="margin-top: var(--space-sm); max-width: 650px;">Whether you want a fully managed offshore division or targeted staff placement, we have a model that fits.</p>
+<span class="text-overline"><?php echo get_field('overline_models') ?: 'Our Service Models'; ?></span>
+<h2><?php echo get_field('h2_models') ?: 'Two Ways to Build Your Team'; ?></h2>
+<p class="text-lead mx-auto" style="margin-top: var(--space-sm); max-width: 650px;"><?php echo get_field('p_intro_models') ?: 'Whether you want a fully managed offshore division or targeted staff placement, we have a model that fits.'; ?></p>
 </div>
 <div style="display: flex; gap: var(--space-xl); flex-wrap: wrap;">
 <!-- model 1 card -->
@@ -127,7 +127,7 @@ get_header();
 <li style="display: flex; gap: 0.75rem; font-size: 0.9rem; align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="var(--color-primary)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Employee engagement and performance frameworks</li>
 <li style="display: flex; gap: 0.75rem; font-size: 0.9rem; align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="var(--color-primary)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Best for businesses scaling a dedicated offshore division</li>
 </ul>
-<a class="btn" href="apply.html" style="width: 100%; display: flex; justify-content: center;">Get Started</a>
+<a class="btn" href="<?php echo get_field('model1_btn_url') ?: 'apply.html'; ?>" style="width: 100%; display: flex; justify-content: center;"><?php echo get_field('model1_btn_text') ?: 'Get Started'; ?></a>
 </div>
 <!-- model 2 card -->
 <div class="card-glass" style="background: var(--color-primary); border-color: transparent; color: #fff; padding: var(--space-xl); flex: 1; min-width: 280px;">
@@ -140,13 +140,13 @@ get_header();
 <li style="display: flex; gap: 0.75rem; font-size: 0.9rem; color: rgba(255,255,255,0.9); align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Communicate your way via Zoom Skype email or on-site</li>
 <li style="display: flex; gap: 0.75rem; font-size: 0.9rem; color: rgba(255,255,255,0.9); align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Best for targeted hires and growing teams quickly</li>
 </ul>
-<a class="btn" href="apply.html" style="background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); width: 100%; display: flex; justify-content: center;">Request a Quote</a>
+<a class="btn" href="<?php echo get_field('model2_btn_url') ?: 'apply.html'; ?>" style="background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); width: 100%; display: flex; justify-content: center;"><?php echo get_field('model2_btn_text') ?: 'Request a Quote'; ?></a>
 </div>
 </div>
 <!-- transparent billing callout -->
 <div class="card-glass" style="background: var(--color-bg-ivory); margin-top: var(--space-xl); padding: var(--space-lg) var(--space-xl); text-align: center; display: block; max-width: 680px; margin-left: auto; margin-right: auto;">
 <div>
-<h4 style="margin: 0 0 0.5rem;">Transparent Billing — No Surprises</h4>
+<h4 style="margin: 0 0 0.5rem;"><?php echo get_field('billing_title') ?: 'Transparent Billing — No Surprises'; ?></h4>
 <p style="font-size: 0.9rem; color: var(--color-text-muted); margin: 0;"><?php echo get_field('p_billing'); ?></p>
 </div>
 </div>

@@ -11,7 +11,19 @@ get_header();
 <!-- text content on left -->
 <div class="split__content animate-fadeInUp hero__content--index">
 <span class="text-overline hero__overline"><?php echo get_field('overline_3'); ?></span>
-<h1 class="hero__title hero__title--inner"><?php echo get_field('h1_1'); ?></h1>
+<h1 class="hero__title hero__title--inner" style="width: 100%;">
+<?php 
+$h1_val = get_field('h1_1');
+if (!$h1_val) $h1_val = 'The Kings City Club';
+
+if (stripos($h1_val, 'the kings city club') !== false) {
+    echo '<span style="display: block;">' . trim(str_ireplace('City Club', '', $h1_val)) . '</span>';
+    echo '<span style="display: block;">City Club</span>';
+} else {
+    echo $h1_val;
+}
+?>
+</h1>
 <p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
 <div class="hero__actions hero__actions--index">
 <a class="btn" href="#our-story">
@@ -40,7 +52,7 @@ get_header();
 </div>
 <div class="split__content">
 <span class="text-overline"><?php echo get_field('overline_11'); ?></span>
-<h2 style="font-family: var(--font-heading); font-weight: 400; font-size: clamp(2.5rem, 4vw, 3.5rem); color: var(--color-primary); margin-bottom: var(--space-lg); line-height: 1.2;"><?php echo get_field('h2_8'); ?></h2>
+<h2 style="font-family: var(--font-heading); font-weight: 400; color: var(--color-primary); margin-bottom: var(--space-lg); line-height: 1.2;"><?php echo get_field('h2_8'); ?></h2>
 <p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: var(--space-md);"><?php echo get_field('p_9'); ?></p>
 <p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: 0;"><?php echo get_field('p_10'); ?></p>
 </div>
@@ -52,7 +64,7 @@ get_header();
 <div class="container grid-12">
 <div class="col-12 split">
 <!-- mission card -->
-<div class="split__content card-glass mv-card">
+<div class="split__content card-glass mv-card" style="background-color: #FBCB77;">
 <svg class="mv-card__icon" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
 <span class="text-overline"><?php echo get_field('overline_mv_mission'); ?></span>
 <h2 class="mv-card__title"><?php echo get_field('h3_mv_mission'); ?></h2>
@@ -74,7 +86,7 @@ get_header();
 <div class="col-12 split">
 <div class="split__content animate-fadeInUp">
 <span class="text-overline"><?php echo get_field('overline_17'); ?></span>
-<h2 style="font-family: var(--font-heading); font-weight: 400; font-size: clamp(2.5rem, 4vw, 3rem); color: var(--color-primary); margin-bottom: var(--space-md);"><?php echo get_field('h2_14'); ?></h2>
+<h2 style="font-family: var(--font-heading); font-weight: 400; color: var(--color-primary); margin-bottom: var(--space-md);"><?php echo get_field('h2_14'); ?></h2>
 <p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-md);"><?php echo get_field('p_15'); ?></p>
 <p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: 0;"><?php echo get_field('p_16'); ?></p>
 </div>
@@ -272,95 +284,18 @@ get_header();
 </div>
 </div>
 </section>
-<!-- the founders -->
-<section class="founders-section content-panel">
-<div class="container">
-<div class="text-center" style="margin-bottom: var(--space-3xl);">
-<span class="text-overline"><?php echo get_field('overline_56'); ?></span>
-<h2 style="font-family: var(--font-heading); font-weight: 400; font-size: clamp(2.5rem, 4vw, 3.5rem); color: var(--color-primary);"><?php echo get_field('h2_52'); ?></h2>
-<div style="width: 50px; height: 3px; background: var(--color-accent-red); margin: 1rem auto 0; border-radius: 2px;"></div>
+<!-- community section -->
+<section class="section content-panel section--community" id="community">
+<div class="container grid-12">
+<div class="col-12 split">
+<div class="split__content">
+<span class="text-overline"><?php echo get_field('overline_community'); ?></span>
+<h2 style="font-family: var(--font-heading); font-weight: 400; color: var(--color-primary); margin-bottom: var(--space-lg); line-height: 1.2;"><?php echo get_field('h2_community'); ?></h2>
+<p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: var(--space-md);"><?php echo get_field('p_community_1'); ?></p>
+<p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: 0;"><?php echo get_field('p_community_2'); ?></p>
 </div>
-<div class="founders-grid">
-<div class="founder-card">
-<div style="width: 100%; aspect-ratio: 3/4; background-color: var(--color-bg-ivory); border-radius: var(--radius-card); overflow: hidden; margin-bottom: 1.5rem; position: relative; box-shadow: 0 16px 48px rgba(0,0,0,.12); transition: transform .4s ease, box-shadow .4s ease;">
-<img alt="Cory Navarro" onmouseout="this.style.transform='scale(1)'" onmouseover="this.style.transform='scale(1.05)'" src="<?php $img = get_field('image_57'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease;"/>
-</div>
-<span style="display: block; font-size: .65rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--color-accent-red); margin-bottom: .4rem;">Founder, Kings Group of Companies</span>
-<h3 style="color: var(--color-primary); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem;"><?php echo get_field('h3_53'); ?></h3>
-<ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
-<li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-<span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">•</span> Hall of Famer, Manila's Best Dressed
-              </li>
-<li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-<span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">•</span> Hall of Famer, Zamboanga's Best Dressed
-              </li>
-<li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-<span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">•</span> Huwarang Ina Awardee (2017)
-              </li>
-<li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-<span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">•</span> Empowered Women of the Philippines (2012 / 2013)
-              </li>
-<li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-<span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">•</span> Charter President, Ambassador Charter Club of Melbourne
-              </li>
-<li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; display: flex; align-items: flex-start; gap: .5rem;">
-<span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">•</span> Pioneer Nursing Batch, Ateneo de Zamboanga University
-              </li>
-</ul>
-</div>
-<div class="founder-card">
-<div style="width: 100%; aspect-ratio: 3/4; background-color: var(--color-bg-ivory); border-radius: var(--radius-card); overflow: hidden; margin-bottom: 1.5rem; position: relative; box-shadow: 0 16px 48px rgba(0,0,0,.12); transition: transform .4s ease, box-shadow .4s ease;">
-<img alt="Camille Makasiar" onmouseout="this.style.transform='scale(1)'" onmouseover="this.style.transform='scale(1.05)'" src="<?php $img = get_field('image_58'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease;"/>
-</div>
-<span style="display: block; font-size: .65rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--color-accent-red); margin-bottom: .4rem;">Founder and Executive Director</span>
-<h3 style="color: var(--color-primary); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem;"><?php echo get_field('h3_54'); ?></h3>
-<ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
-<li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-<span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">•</span> Master in Entrepreneurship, Ateneo Graduate School of Business
-              </li>
-<li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-<span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">•</span> Member, Entrepreneurs Organization (EO), PH South Chapter
-              </li>
-<li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-<span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">•</span> Trustee, Bayan Innovation Group, Inc.
-              </li>
-<li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-<span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">•</span> President, Inner Wheel Club of Metro Manila
-              </li>
-<li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-<span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">•</span> Knowledge Management, University of Oxford
-              </li>
-<li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; display: flex; align-items: flex-start; gap: .5rem;">
-<span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">•</span> Strategic Management, Imperial College London
-              </li>
-</ul>
-</div>
-<div class="founder-card">
-<div style="width: 100%; aspect-ratio: 3/4; background-color: var(--color-bg-ivory); border-radius: var(--radius-card); overflow: hidden; margin-bottom: 1.5rem; position: relative; box-shadow: 0 16px 48px rgba(0,0,0,.12); transition: transform .4s ease, box-shadow .4s ease;">
-<img alt="Neil John S. Makasiar" onmouseout="this.style.transform='scale(1)'" onmouseover="this.style.transform='scale(1.05)'" src="<?php $img = get_field('image_59'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease;"/>
-</div>
-<span style="display: block; font-size: .65rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--color-accent-red); margin-bottom: .4rem;">Managing Director</span>
-<h3 style="color: var(--color-primary); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem;"><?php echo get_field('h3_55'); ?></h3>
-<ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
-<li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-<span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">•</span> Director, Makenter Construction and Development Corp.
-              </li>
-<li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-<span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">•</span> Vice President, Human Services Cluster, CDA Region IX
-              </li>
-<li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-<span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">•</span> Member, Rotary Club of Makati
-              </li>
-<li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-<span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">•</span> Member, Shriners International
-              </li>
-<li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: flex-start; gap: .5rem;">
-<span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">•</span> Alpha Phi Omega International Service Fraternity
-              </li>
-<li style="font-size: .85rem; line-height: 1.5; color: var(--color-text-muted); padding: .4rem 0; display: flex; align-items: flex-start; gap: .5rem;">
-<span style="color: var(--color-accent-red); font-weight: 700; flex-shrink: 0;">•</span> Bachelor's Degree, De La Salle University – Manila
-              </li>
-</ul>
+<div class="split__media">
+<img alt="Community Image" src="<?php $img = get_field('community_image'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; border-radius: var(--radius-card);"/>
 </div>
 </div>
 </div>

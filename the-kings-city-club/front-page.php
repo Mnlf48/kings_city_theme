@@ -10,7 +10,7 @@ get_header();
 <div class="container grid-12">
 <div class="col-12 split">
 <!-- slider on left -->
-<div class="split__media hero__slider" id="hero-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
+<div class="split__media hero__slider front-page-hero-slider" id="hero-slider" style="position: relative; overflow: hidden; border-radius: var(--radius-card);">
 <!-- slide 1 -->
 <img alt="Kings City Banner" class="hero__slide is-active" src="<?php echo esc_url(get_field('hero_section_img_1')['url']); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
 <!-- slide 2 -->
@@ -126,7 +126,7 @@ get_header();
 <section class="section content-panel section--offshoring">
 <div class="container grid-12">
 <div class="col-12 split">
-<div class="split__content">
+<div class="split__content" style="margin-top: 3.5rem;">
 <span class="text-overline"><?php echo get_field('section_txt_35'); ?></span>
 <h2><?php echo get_field('section_txt_33'); ?></h2>
 <p class="text-lead"><?php echo get_field('section_txt_34'); ?></p>
@@ -168,7 +168,7 @@ get_header();
 <div class="split__media">
 <img alt="One Pass. All Access. - Membership Perks" src="<?php echo esc_url(get_field('section_img_37')['url']); ?>"/>
 </div>
-<div class="split__content">
+<div class="split__content" style="margin-top: 0;">
 <span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('section_txt_40'); ?></span>
 <h2 style="margin-bottom: var(--space-md);"><?php echo get_field('section_txt_38'); ?></h2>
 <p style="margin-bottom: var(--space-lg);"><?php echo get_field('section_txt_39'); ?></p>
@@ -278,7 +278,7 @@ get_header();
 <div class="container grid-12">
 <!-- top row: heading + description -->
 <div class="col-12 split">
-<div class="split__content">
+<div class="split__content" style="margin-top: 3rem;">
 <span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('section_txt_67'); ?></span>
 <h2 style="margin-bottom: var(--space-md);"><?php echo get_field('section_txt_59'); ?></h2>
 <p style="font-size: 0.95rem; line-height: 1.7; max-width: 480px;"><?php echo get_field('section_txt_60'); ?></p>
@@ -361,8 +361,8 @@ get_header();
 </div>
 </div>
 </div>
-<div class="split__media">
-<img alt="Get Social With Us - Kings Club Community App" src="<?php echo esc_url(get_field('section_img_58')['url']); ?>"/>
+<div class="split__media" style="width: 660px; height: 630px; border-radius: var(--radius-card); overflow: hidden;">
+<img alt="Get Social With Us - Kings Club Community App" src="<?php echo esc_url(get_field('section_img_58')['url']); ?>" style="width: 100%; height: 100%; object-fit: cover;"/>
 </div>
 </div>
 </div>

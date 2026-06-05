@@ -28,7 +28,19 @@ get_header();
 <!-- text on left -->
 <div class="split__content animate-fadeInUp hero__content--index">
 <span class="text-overline hero__overline"><?php echo get_field('overline_3'); ?></span>
-<h1 class="hero__title hero__title--inner"><?php echo get_field('h1_1'); ?></h1>
+<h1 class="hero__title hero__title--inner" style="width: 100%;">
+<?php 
+$h1_val = get_field('h1_1');
+if (!$h1_val) $h1_val = 'The Kings City Space';
+
+if (stripos($h1_val, 'the kings city space') !== false) {
+    echo '<span style="display: block;">' . trim(str_ireplace('City Space', '', $h1_val)) . '</span>';
+    echo '<span style="display: block;">City Space</span>';
+} else {
+    echo $h1_val;
+}
+?>
+</h1>
 <p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
 <div class="hero__actions hero__actions--index">
 <a class="btn" href="apply.html">

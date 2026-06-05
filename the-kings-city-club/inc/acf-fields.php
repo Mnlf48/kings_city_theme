@@ -1333,6 +1333,46 @@ acf_add_local_field_group(array(
             'name' => 'about_pass_perk_5',
             'type' => 'text',
         ),
+        array(
+            'key' => 'field_tab_group_about_community',
+            'label' => 'Community Section',
+            'type' => 'tab',
+            'placement' => 'top',
+            'endpoint' => 0,
+        ),
+        array(
+            'key' => 'field_group_about_community_image',
+            'label' => 'Community Image',
+            'name' => 'community_image',
+            'type' => 'image',
+            'return_format' => 'array',
+            'preview_size' => 'medium',
+            'library' => 'all',
+        ),
+        array(
+            'key' => 'field_group_about_overline_community',
+            'label' => 'Community Overline',
+            'name' => 'overline_community',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_about_h2_community',
+            'label' => 'Community Heading',
+            'name' => 'h2_community',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_about_p_community_1',
+            'label' => 'Community Paragraph 1',
+            'name' => 'p_community_1',
+            'type' => 'textarea',
+        ),
+        array(
+            'key' => 'field_group_about_p_community_2',
+            'label' => 'Community Paragraph 2',
+            'name' => 'p_community_2',
+            'type' => 'textarea',
+        ),
 
     ),
     'location' => array(
@@ -2428,13 +2468,30 @@ acf_add_local_field_group(array(
         ),
 
         array(
-        array(
             'key' => 'field_tab_group_offshoring_models',
             'label' => 'Offshoring Models',
             'name' => '',
             'type' => 'tab',
             'placement' => 'top',
             'endpoint' => 0,
+        ),
+        array(
+            'key' => 'field_group_offshoring_overline_models',
+            'label' => 'Overline Models',
+            'name' => 'overline_models',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_offshoring_h2_models',
+            'label' => 'Heading Models',
+            'name' => 'h2_models',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_offshoring_p_intro_models',
+            'label' => 'Intro Text Models',
+            'name' => 'p_intro_models',
+            'type' => 'textarea',
         ),
         array(
             'key' => 'field_group_offshoring_h3_model1',
@@ -2449,6 +2506,24 @@ acf_add_local_field_group(array(
             'type' => 'textarea',
         ),
         array(
+            'key' => 'field_group_offshoring_model1_bullets',
+            'label' => 'Model 1 Bullets (use <li> elements)',
+            'name' => 'model1_bullets',
+            'type' => 'wysiwyg',
+        ),
+        array(
+            'key' => 'field_group_offshoring_model1_btn_text',
+            'label' => 'Model 1 Button Text',
+            'name' => 'model1_btn_text',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_offshoring_model1_btn_url',
+            'label' => 'Model 1 Button URL',
+            'name' => 'model1_btn_url',
+            'type' => 'text',
+        ),
+        array(
             'key' => 'field_group_offshoring_h3_model2',
             'label' => 'Model 2 Heading',
             'name' => 'h3_model2',
@@ -2461,30 +2536,37 @@ acf_add_local_field_group(array(
             'type' => 'textarea',
         ),
         array(
-            'key' => 'field_group_offshoring_h3_model3',
-            'label' => 'Model 3 Heading',
-            'name' => 'h3_model3',
+            'key' => 'field_group_offshoring_model2_bullets',
+            'label' => 'Model 2 Bullets (use <li> elements)',
+            'name' => 'model2_bullets',
+            'type' => 'wysiwyg',
+        ),
+        array(
+            'key' => 'field_group_offshoring_model2_btn_text',
+            'label' => 'Model 2 Button Text',
+            'name' => 'model2_btn_text',
             'type' => 'text',
         ),
         array(
-            'key' => 'field_group_offshoring_p_model3',
-            'label' => 'Model 3 Description',
-            'name' => 'p_model3',
-            'type' => 'textarea',
-        ),
-        array(
-            'key' => 'field_group_offshoring_h3_model4',
-            'label' => 'Model 4 Heading',
-            'name' => 'h3_model4',
+            'key' => 'field_group_offshoring_model2_btn_url',
+            'label' => 'Model 2 Button URL',
+            'name' => 'model2_btn_url',
             'type' => 'text',
         ),
         array(
-            'key' => 'field_group_offshoring_p_model4',
-            'label' => 'Model 4 Description',
-            'name' => 'p_model4',
+            'key' => 'field_group_offshoring_billing_title',
+            'label' => 'Billing Title',
+            'name' => 'billing_title',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_offshoring_p_billing',
+            'label' => 'Billing Description',
+            'name' => 'p_billing',
             'type' => 'textarea',
         ),
 
+        array(
             'key' => 'field_tab_group_offshoring_3',
             'label' => 'Section 3',
             'name' => '',
@@ -4408,6 +4490,342 @@ acf_add_local_field_group(array(
     'active' => true,
 ));
 
+
+
+acf_add_local_field_group(array(
+    'key' => 'group_header_settings',
+    'title' => 'Header Settings',
+    'fields' => array(
+
+        /* ── Logo Tab ── */
+        array(
+            'key' => 'field_tab_header_logo',
+            'label' => 'Logo',
+            'type' => 'tab',
+            'placement' => 'top',
+            'endpoint' => 0,
+        ),
+        array(
+            'key' => 'field_header_logo_text',
+            'label' => 'Logo Text',
+            'name' => 'header_logo_text',
+            'type' => 'text',
+        ),
+
+        /* ── Nav Links Tab ── */
+        array(
+            'key' => 'field_tab_header_nav',
+            'label' => 'Navigation Links',
+            'type' => 'tab',
+            'placement' => 'top',
+            'endpoint' => 0,
+        ),
+        array(
+            'key' => 'field_header_nav_more_label',
+            'label' => 'More Dropdown Label',
+            'name' => 'header_nav_more_label',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_header_nav_space_hire_label',
+            'label' => 'Space Hire Label',
+            'name' => 'header_nav_space_hire_label',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_header_nav_offshoring_label',
+            'label' => 'Offshoring Staffing Label',
+            'name' => 'header_nav_offshoring_label',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_header_nav_shop_label',
+            'label' => 'Shop Label',
+            'name' => 'header_nav_shop_label',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_header_nav_shop_url',
+            'label' => 'Shop URL',
+            'name' => 'header_nav_shop_url',
+            'type' => 'url',
+        ),
+        array(
+            'key' => 'field_header_nav_apply_label',
+            'label' => 'Apply Button Label',
+            'name' => 'header_nav_apply_label',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_header_nav_book_label',
+            'label' => 'Book Now Button Label',
+            'name' => 'header_nav_book_label',
+            'type' => 'text',
+        ),
+
+        /* ── Mega Menu Tab ── */
+        array(
+            'key' => 'field_tab_header_mega',
+            'label' => 'Mega Menu',
+            'type' => 'tab',
+            'placement' => 'top',
+            'endpoint' => 0,
+        ),
+        array(
+            'key' => 'field_header_mega_menu_title',
+            'label' => 'Mega Menu Title',
+            'name' => 'header_mega_menu_title',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_header_mega_menu_desc',
+            'label' => 'Mega Menu Description',
+            'name' => 'header_mega_menu_desc',
+            'type' => 'textarea',
+        ),
+        array(
+            'key' => 'field_header_mega_menu_logo',
+            'label' => 'Mega Menu Logo',
+            'name' => 'header_mega_menu_logo',
+            'type' => 'image',
+            'return_format' => 'array',
+            'preview_size' => 'medium',
+            'library' => 'all',
+        ),
+        array(
+            'key' => 'field_header_mega_link1_label',
+            'label' => 'Mega Link 1 Label',
+            'name' => 'header_mega_link1_label',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_header_mega_link2_label',
+            'label' => 'Mega Link 2 Label',
+            'name' => 'header_mega_link2_label',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_header_mega_link3_label',
+            'label' => 'Mega Link 3 Label',
+            'name' => 'header_mega_link3_label',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_header_mega_link4_label',
+            'label' => 'Mega Link 4 Label',
+            'name' => 'header_mega_link4_label',
+            'type' => 'text',
+        ),
+    ),
+    'location' => array(
+        array(
+            array(
+                'param' => 'page_template',
+                'operator' => '==',
+                'value' => 'page-header-settings.php',
+            ),
+        ),
+    ),
+    'menu_order' => 0,
+    'position' => 'normal',
+    'style' => 'seamless',
+    'label_placement' => 'top',
+    'instruction_placement' => 'label',
+    'active' => true,
+));
+
+acf_add_local_field_group(array(
+    'key' => 'group_footer_settings',
+    'title' => 'Footer Settings',
+    'fields' => array(
+
+        /* ── Brand Column Tab ── */
+        array(
+            'key' => 'field_tab_footer_brand',
+            'label' => 'Brand Column',
+            'type' => 'tab',
+            'placement' => 'top',
+            'endpoint' => 0,
+        ),
+        array(
+            'key' => 'field_footer_logo_text',
+            'label' => 'Footer Logo Text',
+            'name' => 'footer_logo_text',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_footer_address',
+            'label' => 'Address',
+            'name' => 'footer_address',
+            'type' => 'textarea',
+        ),
+        array(
+            'key' => 'field_footer_facebook_url',
+            'label' => 'Facebook URL',
+            'name' => 'footer_facebook_url',
+            'type' => 'url',
+        ),
+        array(
+            'key' => 'field_footer_instagram_url',
+            'label' => 'Instagram URL',
+            'name' => 'footer_instagram_url',
+            'type' => 'url',
+        ),
+
+        /* ── Company Column Tab ── */
+        array(
+            'key' => 'field_tab_footer_company',
+            'label' => 'Company Column',
+            'type' => 'tab',
+            'placement' => 'top',
+            'endpoint' => 0,
+        ),
+        array(
+            'key' => 'field_footer_company_title',
+            'label' => 'Column Title',
+            'name' => 'footer_company_title',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_footer_company_link1_label',
+            'label' => 'Link 1 Label (About Us)',
+            'name' => 'footer_company_link1_label',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_footer_company_link2_label',
+            'label' => 'Link 2 Label (Space Hire)',
+            'name' => 'footer_company_link2_label',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_footer_company_link3_label',
+            'label' => 'Link 3 Label (Offshoring Staffing)',
+            'name' => 'footer_company_link3_label',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_footer_company_link4_label',
+            'label' => 'Link 4 Label (Shop)',
+            'name' => 'footer_company_link4_label',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_footer_company_link5_label',
+            'label' => 'Link 5 Label (Apply)',
+            'name' => 'footer_company_link5_label',
+            'type' => 'text',
+        ),
+
+        /* ── Solutions Column Tab ── */
+        array(
+            'key' => 'field_tab_footer_solutions',
+            'label' => 'Solutions Column',
+            'type' => 'tab',
+            'placement' => 'top',
+            'endpoint' => 0,
+        ),
+        array(
+            'key' => 'field_footer_solutions_title',
+            'label' => 'Column Title',
+            'name' => 'footer_solutions_title',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_footer_solutions_link1_label',
+            'label' => 'Link 1 Label (Why Kings City)',
+            'name' => 'footer_solutions_link1_label',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_footer_solutions_link2_label',
+            'label' => 'Link 2 Label (Why Philippines)',
+            'name' => 'footer_solutions_link2_label',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_footer_solutions_link3_label',
+            'label' => 'Link 3 Label (Outsourcing Models)',
+            'name' => 'footer_solutions_link3_label',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_footer_solutions_link4_label',
+            'label' => 'Link 4 Label (News & Updates)',
+            'name' => 'footer_solutions_link4_label',
+            'type' => 'text',
+        ),
+
+        /* ── Contact Column Tab ── */
+        array(
+            'key' => 'field_tab_footer_contact',
+            'label' => 'Contact Column',
+            'type' => 'tab',
+            'placement' => 'top',
+            'endpoint' => 0,
+        ),
+        array(
+            'key' => 'field_footer_contact_title',
+            'label' => 'Column Title',
+            'name' => 'footer_contact_title',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_footer_phone',
+            'label' => 'Phone Number',
+            'name' => 'footer_phone',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_footer_email',
+            'label' => 'Email Address',
+            'name' => 'footer_email',
+            'type' => 'text',
+        ),
+
+        /* ── Bottom Bar Tab ── */
+        array(
+            'key' => 'field_tab_footer_bottom',
+            'label' => 'Bottom Bar',
+            'type' => 'tab',
+            'placement' => 'top',
+            'endpoint' => 0,
+        ),
+        array(
+            'key' => 'field_footer_copyright',
+            'label' => 'Copyright Text',
+            'name' => 'footer_copyright',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_footer_privacy_label',
+            'label' => 'Privacy Policy Label',
+            'name' => 'footer_privacy_label',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_footer_terms_label',
+            'label' => 'Terms of Use Label',
+            'name' => 'footer_terms_label',
+            'type' => 'text',
+        ),
+    ),
+    'location' => array(
+        array(
+            array(
+                'param' => 'page_template',
+                'operator' => '==',
+                'value' => 'page-footer-settings.php',
+            ),
+        ),
+    ),
+    'menu_order' => 0,
+    'position' => 'normal',
+    'style' => 'seamless',
+    'label_placement' => 'top',
+    'instruction_placement' => 'label',
+    'active' => true,
+));
 
 endif;
 ?>
