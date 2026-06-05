@@ -361,8 +361,8 @@ get_header();
 </div>
 </div>
 </div>
-<div class="split__media" style="width: 660px; height: 630px; border-radius: var(--radius-card); overflow: hidden;">
-<img alt="Get Social With Us - Kings Club Community App" src="<?php echo esc_url(get_field('section_img_58')['url']); ?>" style="width: 100%; height: 100%; object-fit: cover;"/>
+<div class="split__media">
+<img alt="Get Social With Us - Kings Club Community App" src="<?php echo esc_url(get_field('section_img_58')['url']); ?>"/>
 </div>
 </div>
 </div>
