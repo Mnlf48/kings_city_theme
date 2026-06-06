@@ -70,7 +70,8 @@ function kings_city_auto_populate_pages() {
         'Impact' => 'page-impact.php',
         'News & Insights' => 'page-news.php',
         'Apply Now' => 'page-apply.php',
-        'Book a Tour' => 'page-book-now.php'
+        'Book a Tour' => 'page-book-now.php',
+        'Step 2 Discovery' => 'page-apply-step-2.php'
     );
 
     $home_page_id = 0;
@@ -110,3 +111,56 @@ function kings_city_auto_populate_pages() {
     }
 }
 add_action( 'after_switch_theme', 'kings_city_auto_populate_pages' );
+
+/* =========================================================================
+   Register Custom Post Types & Taxonomies
+   ========================================================================= */
+function kings_city_register_cpts() {
+    // 1. Team Builder Roles
+    register_post_type('tb_role', array(
+        'labels' => array(
+            'name' => 'Team Builder Roles',
+            'singular_name' => 'Role',
+            'add_new' => 'Add New Role',
+            'add_new_item' => 'Add New Role',
+            'edit_item' => 'Edit Role',
+        ),
+        'public' => false,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'menu_icon' => 'dashicons-groups',
+        'supports' => array('title', 'editor'), // title = Role Name, editor = Description
+    ));
+
+    // 2. Staff Leasing Tiers
+    register_post_type('sl_tier', array(
+        'labels' => array(
+            'name' => 'Staff Leasing Tiers',
+            'singular_name' => 'Tier',
+            'add_new' => 'Add New Tier',
+            'add_new_item' => 'Add New Tier',
+            'edit_item' => 'Edit Tier',
+        ),
+        'public' => false,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'menu_icon' => 'dashicons-clipboard',
+        'supports' => array('title'), // title = Tier Name
+    ));
+
+    // 3. Staff Leasing Department Taxonomy
+    register_taxonomy('sl_department', array('sl_tier'), array(
+        'labels' => array(
+            'name' => 'Departments',
+            'singular_name' => 'Department',
+            'add_new_item' => 'Add New Department',
+        ),
+        'hierarchical' => true,
+        'show_ui' => true,
+        'show_in_menu' => true,
+    ));
+}
+add_action('init', 'kings_city_register_cpts');
+
+
+

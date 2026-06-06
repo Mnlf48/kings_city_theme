@@ -1,5 +1,68 @@
 <?php
 /* Template Name: Book a Tour */
+
+$booking_submitted = false;
+$error_message = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_submit'])) {
+    if (!isset($_POST['book_nonce']) || !wp_verify_nonce($_POST['book_nonce'], 'book_submission')) {
+        $error_message = "Security check failed. Please try again.";
+    } elseif (!empty($_POST['website_url_trap'])) {
+        $error_message = "Spam detected. Security check failed.";
+    } else {
+        // Sanitize and collect data
+        $space_type = sanitize_text_field($_POST['book_space_type']);
+        $first_name = sanitize_text_field($_POST['book_first_name']);
+        $last_name = sanitize_text_field($_POST['book_last_name']);
+        $email = sanitize_email($_POST['book_email']);
+        $phone = sanitize_text_field($_POST['book_phone']);
+        $duration = sanitize_text_field($_POST['book_duration']);
+        $price = sanitize_text_field($_POST['book_price']);
+        $start_date = sanitize_text_field($_POST['book_start_date']);
+        $arrival_time = sanitize_text_field($_POST['book_arrival_time']);
+        $participants = sanitize_text_field($_POST['book_participants']);
+        $special = sanitize_textarea_field($_POST['book_special']);
+        
+        $admin_email = 'lospedros479@gmail.com'; // Admin Email
+        $subject = "New Booking Request: $first_name $last_name ($space_type)";
+        
+        $body = "<h2>New Booking Request</h2>
+                 <table style='width: 100%; border-collapse: collapse; font-family: sans-serif;'>
+                    <tr><td style='padding: 8px; border-bottom: 1px solid #ddd;'><strong>Name:</strong></td><td style='padding: 8px; border-bottom: 1px solid #ddd;'>$first_name $last_name</td></tr>
+                    <tr><td style='padding: 8px; border-bottom: 1px solid #ddd;'><strong>Email:</strong></td><td style='padding: 8px; border-bottom: 1px solid #ddd;'>$email</td></tr>
+                    <tr><td style='padding: 8px; border-bottom: 1px solid #ddd;'><strong>Phone:</strong></td><td style='padding: 8px; border-bottom: 1px solid #ddd;'>$phone</td></tr>
+                    <tr><td style='padding: 8px; border-bottom: 1px solid #ddd;'><strong>Space Type:</strong></td><td style='padding: 8px; border-bottom: 1px solid #ddd;'>$space_type</td></tr>
+                    <tr><td style='padding: 8px; border-bottom: 1px solid #ddd;'><strong>Pass/Duration:</strong></td><td style='padding: 8px; border-bottom: 1px solid #ddd;'>$duration</td></tr>
+                    <tr><td style='padding: 8px; border-bottom: 1px solid #ddd;'><strong>Estimated Price:</strong></td><td style='padding: 8px; border-bottom: 1px solid #ddd;'>Php $price</td></tr>
+                    <tr><td style='padding: 8px; border-bottom: 1px solid #ddd;'><strong>Start Date:</strong></td><td style='padding: 8px; border-bottom: 1px solid #ddd;'>$start_date</td></tr>
+                    <tr><td style='padding: 8px; border-bottom: 1px solid #ddd;'><strong>Arrival Time:</strong></td><td style='padding: 8px; border-bottom: 1px solid #ddd;'>$arrival_time</td></tr>
+                    <tr><td style='padding: 8px; border-bottom: 1px solid #ddd;'><strong>Participants:</strong></td><td style='padding: 8px; border-bottom: 1px solid #ddd;'>$participants</td></tr>
+                 </table>
+                 <br>
+                 <strong>Special Requests:</strong><br>
+                 <p>" . nl2br($special) . "</p>";
+                 
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+        
+        // Send Admin Email
+        wp_mail($admin_email, $subject, $body, $headers);
+        
+        // Send Client Auto-Responder Email
+        $client_subject = "Booking Request Received: $space_type";
+        $client_body = "<h2>We've received your booking request!</h2>
+                        <p>Hi $first_name,</p>
+                        <p>Thank you for choosing Kings City. Your booking request for <strong>$space_type ($duration)</strong> on <strong>$start_date</strong> at <strong>$arrival_time</strong> has been received by our team.</p>
+                        <p><strong>Important Notice:</strong><br/>
+                        Your booking is reserved for your selected start date and time. If you do not arrive within <strong>24 hours</strong> of your start date, your reservation will be automatically cancelled. If your reservation expires, you are always welcome to book again through our website or directly at the Kings City reception desk!</p>
+                        <p>Please proceed to the Kings City reception desk upon arrival to finalize your payment of Php $price and claim your space.</p>
+                        <p>We look forward to seeing you!<br/>- The Kings City Team</p>";
+                        
+        wp_mail($email, $client_subject, $client_body, $headers);
+        
+        $booking_submitted = true;
+    }
+}
+
 get_header();
 ?>
 
@@ -256,56 +319,99 @@ get_header();
 <span class="price-est__label"><?php echo get_field('bk_label_est_price') ?: 'Estimated Price'; ?></span>
 <span class="price-est__value" id="price-display">Php 500</span>
 </div>
-<form action="#" id="booking-form">
+<?php if ($booking_submitted): ?>
+<div class="success-message" style="text-align: center; padding: 3rem 1rem;">
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 1rem;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+    <h2 style="color: var(--color-primary); margin-bottom: 1rem;">Booking Requested Successfully!</h2>
+    <p style="color: var(--color-text-muted); font-size: 1.1rem; margin-bottom: 1.5rem;">Your request has been sent to our team.</p>
+    <div style="background: #fff9ef; border: 1px solid rgba(189, 69, 31, 0.2); border-radius: 8px; padding: 1.5rem; text-align: left;">
+        <p style="color: var(--color-accent-red); font-weight: 600; margin-bottom: 0.5rem;"><i class="fa-solid fa-circle-exclamation"></i> Important Notice</p>
+        <p style="color: var(--color-text-muted); font-size: 0.95rem; margin-bottom: 0;">Your booking is reserved for your selected start date and time. If you do not arrive within <strong>24 hours</strong> of your start date, your reservation will be automatically cancelled. If your reservation expires, you are always welcome to book again through our website or directly at the Kings City reception desk!</p>
+    </div>
+</div>
+<?php else: ?>
+<?php if (!empty($error_message)): ?>
+    <div style="background: #fee2e2; color: #b91c1c; padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+        <?php echo esc_html($error_message); ?>
+    </div>
+<?php endif; ?>
+<form method="POST" action="" id="booking-form">
+<?php wp_nonce_field('book_submission', 'book_nonce'); ?>
+<input type="text" name="website_url_trap" style="display:none !important;" tabindex="-1" autocomplete="off">
+<input type="hidden" name="book_price" id="hidden-price" value="">
 <!-- space type selection -->
 <div class="form-group">
 <label class="form-label"><?php echo get_field('bk_label_space_type') ?: 'Space Type'; ?></label>
-<select class="form-control" id="space-type-select">
-<option value="coworking">Co-Working</option>
-<option value="meeting">Meeting Rooms</option>
-<option value="events">Events Place</option>
-<option value="office">Office Leasing</option>
-<option value="virtual">Virtual Office</option>
+<select class="form-control" name="book_space_type" id="space-type-select">
+<option value="Co-Working">Co-Working</option>
+<option value="Meeting Rooms">Meeting Rooms</option>
+<option value="Events Place">Events Place</option>
+<option value="Office Leasing">Office Leasing</option>
+<option value="Virtual Office">Virtual Office</option>
 </select>
 </div>
 <div class="form-row">
 <div class="form-group">
 <label class="form-label"><?php echo get_field('bk_label_first_name') ?: 'First Name'; ?></label>
-<input class="form-control" placeholder="First name" required="" type="text"/>
+<input class="form-control" name="book_first_name" placeholder="First name" required="" type="text"/>
 </div>
 <div class="form-group">
 <label class="form-label"><?php echo get_field('bk_label_last_name') ?: 'Last Name'; ?></label>
-<input class="form-control" placeholder="Last name" required="" type="text"/>
+<input class="form-control" name="book_last_name" placeholder="Last name" required="" type="text"/>
 </div>
 </div>
 <div class="form-group">
 <label class="form-label"><?php echo get_field('bk_label_email') ?: 'Email Address'; ?></label>
-<input class="form-control" placeholder="you@company.com" required="" type="email"/>
+<input class="form-control" name="book_email" placeholder="you@company.com" required="" type="email"/>
 </div>
 <div class="form-group">
 <label class="form-label"><?php echo get_field('bk_label_phone') ?: 'Phone Number'; ?></label>
-<input class="form-control" placeholder="+63 XXX XXX XXXX" required="" type="tel"/>
+<input class="form-control" name="book_phone" placeholder="+63 XXX XXX XXXX" required="" type="tel"/>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label class="form-label">Number of Participants</label>
+<input class="form-control" name="book_participants" placeholder="e.g. 1" required="" type="number" min="1"/>
 </div>
 <div class="form-group">
 <label class="form-label"><?php echo get_field('bk_label_duration') ?: 'Duration'; ?></label>
-<select class="form-control" id="duration-select">
+<select class="form-control" name="book_duration" id="duration-select">
 <!-- options dynamic based on selection -->
-<option value="500">Day Pass — Php 500</option>
-<option value="2500">Weekly Pass — Php 2,500</option>
-<option value="6000">Monthly Pass — Php 6,000</option>
-<option value="60000">Annual Pass — Php 60,000</option>
+<option value="Day Pass" data-price="500">Day Pass — Php 500</option>
+<option value="Weekly Pass" data-price="2500">Weekly Pass — Php 2,500</option>
+<option value="Monthly Pass" data-price="6000">Monthly Pass — Php 6,000</option>
+<option value="Annual Pass" data-price="60000">Annual Pass — Php 60,000</option>
 </select>
 </div>
+</div>
+<div class="form-row">
 <div class="form-group">
 <label class="form-label"><?php echo get_field('bk_label_start_date') ?: 'Start Date'; ?></label>
-<input class="form-control" required="" type="date"/>
+<input class="form-control" name="book_start_date" required="" type="date"/>
+</div>
+<div class="form-group">
+<label class="form-label">Arrival Time</label>
+<select class="form-control" name="book_arrival_time" required>
+<option value="08:00 AM">08:00 AM</option>
+<option value="09:00 AM">09:00 AM</option>
+<option value="10:00 AM">10:00 AM</option>
+<option value="11:00 AM">11:00 AM</option>
+<option value="12:00 PM">12:00 PM</option>
+<option value="01:00 PM">01:00 PM</option>
+<option value="02:00 PM">02:00 PM</option>
+<option value="03:00 PM">03:00 PM</option>
+<option value="04:00 PM">04:00 PM</option>
+<option value="05:00 PM">05:00 PM</option>
+</select>
+</div>
 </div>
 <div class="form-group">
 <label class="form-label"><?php echo get_field('bk_label_special') ?: 'Special Requests'; ?></label>
-<textarea class="form-control" placeholder="Any special requirements..."></textarea>
+<textarea class="form-control" name="book_special" placeholder="Any special requirements..."></textarea>
 </div>
-<button class="btn btn-book" type="submit"><?php echo get_field('bk_btn_submit') ?: 'Confirm Booking'; ?></button>
+<button class="btn btn-book" name="book_submit" type="submit"><?php echo get_field('bk_btn_submit') ?: 'Confirm Booking'; ?></button>
 </form>
+<?php endif; ?>
 </div>
 </div>
 </div>
@@ -324,13 +430,13 @@ get_header();
         features: ["High-Speed Wi-Fi", "Dedicated Seats", "Kitchen Access", "In-House Cafe", "Community Events", "24/7 Access"],
         formTitle: "Book Co-Working",
         options: [
-          { label: "Day Pass &mdash; Php 500", value: "500" },
-          { label: "Weekly Pass &mdash; Php 2,500", value: "2500" },
-          { label: "Monthly Pass &mdash; Php 6,000", value: "6000" },
-          { label: "Annual Pass &mdash; Php 60,000", value: "60000" }
+          { label: "Day Pass &mdash; Php 500", value: "Day Pass", price: 500 },
+          { label: "Weekly Pass &mdash; Php 2,500", value: "Weekly Pass", price: 2500 },
+          { label: "Monthly Pass &mdash; Php 6,000", value: "Monthly Pass", price: 6000 },
+          { label: "Annual Pass &mdash; Php 60,000", value: "Annual Pass", price: 60000 }
         ]
       },
-      meeting: {
+      "Meeting Rooms": {
         image: "<?php $img = get_field('image_meeting'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/kings_meeting_room03.JPG'); ?>",
         overline: "Private & Professional",
         title: "Meeting Rooms",
@@ -338,13 +444,13 @@ get_header();
         features: ["Smart TV / AV", "Whiteboard", "High-Speed Wi-Fi", "Kitchen Access", "Climate Control", "Receptionist Support"],
         formTitle: "Book Meeting Room",
         options: [
-          { label: "Small (up to 6 pax) - Per Hour &mdash; Php 500", value: "500" },
-          { label: "Small (up to 6 pax) - Full Day &mdash; Php 4,000", value: "4000" },
-          { label: "Conference (up to 12 pax) - Per Hour &mdash; Php 1,000", value: "1000" },
-          { label: "Conference (up to 12 pax) - Full Day &mdash; Php 8,000", value: "8000" }
+          { label: "Small (up to 6 pax) - Per Hour &mdash; Php 500", value: "Small (up to 6 pax) - Per Hour", price: 500 },
+          { label: "Small (up to 6 pax) - Full Day &mdash; Php 4,000", value: "Small (up to 6 pax) - Full Day", price: 4000 },
+          { label: "Conference (up to 12 pax) - Per Hour &mdash; Php 1,000", value: "Conference (up to 12 pax) - Per Hour", price: 1000 },
+          { label: "Conference (up to 12 pax) - Full Day &mdash; Php 8,000", value: "Conference (up to 12 pax) - Full Day", price: 8000 }
         ]
       },
-      events: {
+      "Events Place": {
         image: "<?php $img = get_field('image_events'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/kings_event_room02.jpg'); ?>",
         overline: "Functions & Events",
         title: "Events Place",
@@ -352,12 +458,12 @@ get_header();
         features: ["Full Venue Access", "Sound System", "Flexible Layout", "Photography Friendly", "Event Support Staff", "Catering Space"],
         formTitle: "Book Events Place",
         options: [
-          { label: "Per Hour &mdash; Php 5,000", value: "5000" },
-          { label: "4 Hours &mdash; Php 18,000", value: "18000" },
-          { label: "Full Day &mdash; Php 40,000", value: "40000" }
+          { label: "Per Hour &mdash; Php 5,000", value: "Per Hour", price: 5000 },
+          { label: "4 Hours &mdash; Php 18,000", value: "4 Hours", price: 18000 },
+          { label: "Full Day &mdash; Php 40,000", value: "Full Day", price: 40000 }
         ]
       },
-      office: {
+      "Office Leasing": {
         image: "<?php $img = get_field('image_office'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/kings_office-leasing_room04.JPG'); ?>",
         overline: "Dedicated Private Offices",
         title: "Office Leasing",
@@ -365,12 +471,12 @@ get_header();
         features: ["Fully Furnished", "Biometric Access", "Dedicated IT", "Company Branding", "Mail Handling", "Private Storage"],
         formTitle: "Inquire for Office Leasing",
         options: [
-          { label: "6-Seat Office &mdash; Php 48,000 / mo", value: "48000" },
-          { label: "9-Seat Office &mdash; Php 55,000 / mo", value: "55000" },
-          { label: "14-Seat Office &mdash; Php 112,000 / mo", value: "112000" }
+          { label: "6-Seat Office &mdash; Php 48,000 / mo", value: "6-Seat Office", price: 48000 },
+          { label: "9-Seat Office &mdash; Php 55,000 / mo", value: "9-Seat Office", price: 55000 },
+          { label: "14-Seat Office &mdash; Php 112,000 / mo", value: "14-Seat Office", price: 112000 }
         ]
       },
-      virtual: {
+      "Virtual Office": {
         image: "<?php $img = get_field('image_virtual'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/kings_virtual-office_room05.JPG'); ?>",
         overline: "Work From Anywhere",
         title: "Virtual Office",
@@ -378,10 +484,10 @@ get_header();
         features: ["Business Address", "Mail Handling", "Lounge Access", "Member Rates", "Reciprocal Access", "Call Answering"],
         formTitle: "Setup Virtual Office",
         options: [
-          { label: "Standard (Monthly) &mdash; Php 3,000", value: "3000" },
-          { label: "Standard (Annual) &mdash; Php 30,000", value: "30000" },
-          { label: "Pro (Monthly) &mdash; Php 5,000", value: "5000" },
-          { label: "Pro (Annual) &mdash; Php 50,000", value: "50000" }
+          { label: "Standard (Monthly) &mdash; Php 3,000", value: "Standard (Monthly)", price: 3000 },
+          { label: "Standard (Annual) &mdash; Php 30,000", value: "Standard (Annual)", price: 30000 },
+          { label: "Pro (Monthly) &mdash; Php 5,000", value: "Pro (Monthly)", price: 5000 },
+          { label: "Pro (Annual) &mdash; Php 50,000", value: "Pro (Annual)", price: 50000 }
         ]
       }
     };
@@ -390,33 +496,43 @@ get_header();
     const durationSelect = document.getElementById('duration-select');
     const priceDisplay = document.getElementById('price-display');
     const contentImage = document.getElementById('content-image');
+    const hiddenPrice = document.getElementById('hidden-price');
 
-    spaceTypeSelect.addEventListener('change', () => {
-      const key = spaceTypeSelect.value;
-      const data = bookingData[key];
+    if (spaceTypeSelect) {
+      spaceTypeSelect.addEventListener('change', () => {
+        const key = spaceTypeSelect.value;
+        const data = bookingData[key] || bookingData['Co-Working']; // fallback if missing
 
-      // Update content
-      contentImage.src = data.image;
-      document.getElementById('content-overline').innerText = data.overline;
-      document.getElementById('content-title').innerText = data.title;
-      document.getElementById('content-text').innerHTML = data.text;
-      document.getElementById('form-title').innerText = data.formTitle;
+        // Update content
+        if (contentImage) contentImage.src = data.image;
+        if (document.getElementById('content-overline')) document.getElementById('content-overline').innerText = data.overline;
+        if (document.getElementById('content-title')) document.getElementById('content-title').innerText = data.title;
+        if (document.getElementById('content-text')) document.getElementById('content-text').innerHTML = data.text;
+        if (document.getElementById('form-title')) document.getElementById('form-title').innerText = data.formTitle;
 
-      // Update features
-      const featureContainer = document.getElementById('content-features');
-      featureContainer.innerHTML = data.features.map(f => `<span class="feature-tag">${f}</span>`).join('');
+        // Update features
+        const featureContainer = document.getElementById('content-features');
+        if (featureContainer) featureContainer.innerHTML = data.features.map(f => `<span class="feature-tag">${f}</span>`).join('');
 
-      // Update duration select options
-      durationSelect.innerHTML = data.options.map(o => `<option value="${o.value}">${o.label}</option>`).join('');
-      
-      updatePrice();
-    });
+        // Update duration select options
+        if (durationSelect) {
+            durationSelect.innerHTML = data.options.map(o => `<option value="${o.value}" data-price="${o.price}">${o.label}</option>`).join('');
+            updatePrice();
+        }
+      });
+    }
 
-    durationSelect.addEventListener('change', updatePrice);
+    if (durationSelect) {
+        durationSelect.addEventListener('change', updatePrice);
+    }
 
     function updatePrice() {
-      const val = parseInt(durationSelect.value).toLocaleString();
-      priceDisplay.innerText = `Php ${val}`;
+      if (!durationSelect || durationSelect.selectedIndex === -1) return;
+      const selectedOption = durationSelect.options[durationSelect.selectedIndex];
+      const priceVal = selectedOption.getAttribute('data-price') || '0';
+      const val = parseInt(priceVal).toLocaleString();
+      if (priceDisplay) priceDisplay.innerText = `Php ${val}`;
+      if (hiddenPrice) hiddenPrice.value = priceVal;
     }
 
     // Initialize first price

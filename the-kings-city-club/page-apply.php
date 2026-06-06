@@ -1,5 +1,103 @@
 <?php
 /* Template Name: Apply Now */
+
+$form_submitted = false;
+$error_message = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['apply_submit'])) {
+    if (!isset($_POST['apply_nonce']) || !wp_verify_nonce($_POST['apply_nonce'], 'apply_submission')) {
+        $error_message = 'Security check failed. Please refresh and try again.';
+    } elseif (!empty($_POST['website_url_trap'])) {
+        $form_submitted = true; // Bot trap
+    } else {
+        $app_type = sanitize_text_field($_POST['application_type']); // "space" or "offshoring"
+        $to = 'lospedros479@gmail.com';
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+        
+        $body = "<h2>New Lead Application</h2>";
+        $body .= "<p><strong>Application Type:</strong> " . ucfirst($app_type) . "</p><hr>";
+
+        if ($app_type === 'space') {
+            $fname = sanitize_text_field($_POST['sp_first_name']);
+            $lname = sanitize_text_field($_POST['sp_last_name']);
+            $email = sanitize_email($_POST['sp_email']);
+            $body .= "<p><strong>Name:</strong> $fname $lname</p>";
+            $body .= "<p><strong>Email:</strong> $email</p>";
+            $body .= "<p><strong>Phone:</strong> " . sanitize_text_field($_POST['sp_phone']) . "</p>";
+            $body .= "<p><strong>Company:</strong> " . sanitize_text_field($_POST['sp_company']) . "</p>";
+            $body .= "<p><strong>Country:</strong> " . sanitize_text_field($_POST['sp_country']) . "</p>";
+            $body .= "<p><strong>Space Type:</strong> " . sanitize_text_field($_POST['space_type']) . "</p>";
+            $body .= "<p><strong>Message:</strong><br/>" . nl2br(sanitize_textarea_field($_POST['sp_message'])) . "</p>";
+            $subject = "New Space Membership Application";
+            $service = "spaces";
+        } else {
+            $fname = sanitize_text_field($_POST['off_first_name']);
+            $lname = sanitize_text_field($_POST['off_last_name']);
+            $email = sanitize_email($_POST['off_email']);
+            $service_chosen = sanitize_text_field($_POST['off_service']);
+            $body .= "<p><strong>Name:</strong> $fname $lname</p>";
+            $body .= "<p><strong>Email:</strong> $email</p>";
+            $body .= "<p><strong>Phone:</strong> " . sanitize_text_field($_POST['off_phone']) . "</p>";
+            $body .= "<p><strong>Company:</strong> " . sanitize_text_field($_POST['off_company']) . "</p>";
+            $body .= "<p><strong>Country:</strong> " . sanitize_text_field($_POST['off_country']) . "</p>";
+            $body .= "<p><strong>Website:</strong> " . sanitize_text_field($_POST['off_website']) . "</p>";
+            $body .= "<p><strong>Service Interested In:</strong> $service_chosen</p>";
+            $body .= "<p><strong>Team Size:</strong> " . sanitize_text_field($_POST['off_team_size']) . "</p>";
+            
+            $roles = isset($_POST['off_roles']) ? array_map('sanitize_text_field', $_POST['off_roles']) : [];
+            if(!empty($roles)) {
+                $body .= "<p><strong>Roles Needed:</strong> " . implode(', ', $roles) . "</p>";
+            }
+            
+            $body .= "<p><strong>Timeline:</strong> " . sanitize_text_field($_POST['off_timeline']) . "</p>";
+            $body .= "<p><strong>Message:</strong><br/>" . nl2br(sanitize_textarea_field($_POST['off_message'])) . "</p>";
+            $subject = "New Staffing/Offshoring Application";
+            
+            if ($service_chosen === 'Managed Staff Leasing') {
+                $service = 'leasing';
+            } elseif ($service_chosen === 'Offshoring Staffing') {
+                $service = 'offshoring';
+            } elseif ($service_chosen === 'Both') {
+                $service = 'both';
+            } else {
+                $service = 'notsure';
+            }
+        }
+
+        // Action Buttons
+        $reject_body = "Hi $fname,\n\nThank you for your interest in Kings City. Unfortunately, we are unable to accommodate your request at this time.\n\nBest,\nKings City Team";
+        $reject_mailto = "mailto:$email?subject=" . rawurlencode("Update on your Kings City Application") . "&body=" . rawurlencode($reject_body);
+
+        $body .= "<br><hr><br>";
+        $body .= "<table style='width:100%'><tr>";
+
+        if ($app_type === 'space') {
+            $tour_url = home_url('/apply-spaces-tour/?token=approved&client_email=' . urlencode($email));
+            $tour_body = "Hi $fname,\n\nThank you for applying for a Kings City Club Spaces Membership! We would love to invite you to the club for a personal tour so you can see the space and we can discuss your needs.\n\nPlease book a time for your tour here: \n$tour_url\n\nBest,\nKings City Team";
+            $tour_mailto = "mailto:$email?subject=" . rawurlencode("You are invited for a Kings City Club Tour!") . "&body=" . rawurlencode($tour_body);
+            
+            $body .= "<td><a href='$tour_mailto' style='display:inline-block;padding:12px 20px;background:#10b981;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold;'>🟩 Invite for Space Tour</a></td>";
+            $body .= "<td><a href='$reject_mailto' style='display:inline-block;padding:12px 20px;background:#ef4444;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold;'>🟥 Reject Application</a></td>";
+        } else {
+            // Offshoring
+            $approve_url = home_url('/step-2-discovery/?token=approved&service=' . urlencode($service) . '&client_email=' . urlencode($email));
+            $approve_body = "Hi $fname,\n\nThank you for applying. We have reviewed your initial requirements and would love to proceed. Please finish providing your discovery requirements here: \n$approve_url\n\nBest,\nKings City Team";
+            $approve_mailto = "mailto:$email?subject=" . rawurlencode("Kings City Step 2 Discovery Form") . "&body=" . rawurlencode($approve_body);
+            
+            $discovery_body = "Hi $fname,\n\nThank you for applying! I'd love to jump on a quick call to understand your needs better and see how we can help. What time works best for you this week?\n\nBest,\nKings City Team";
+            $discovery_mailto = "mailto:$email?subject=" . rawurlencode("Let's Schedule a Discovery Call") . "&body=" . rawurlencode($discovery_body);
+
+            $body .= "<td><a href='$approve_mailto' style='display:inline-block;padding:12px 20px;background:#10b981;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold;'>🟩 Approve & Send Step 2</a></td>";
+            $body .= "<td><a href='$discovery_mailto' style='display:inline-block;padding:12px 20px;background:#3b82f6;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold;'>🟦 Request Discovery Call</a></td>";
+            $body .= "<td><a href='$reject_mailto' style='display:inline-block;padding:12px 20px;background:#ef4444;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold;'>🟥 Reject Application</a></td>";
+        }
+
+        $body .= "</tr></table>";
+
+        wp_mail($to, $subject, $body, $headers);
+        $form_submitted = true;
+    }
+}
 get_header();
 ?>
 
@@ -139,15 +237,173 @@ get_header();
 </div>
 </div>
 </section>
+
+<!-- pricing section -->
+<section class="section" id="pricing-section">
+  <div class="container grid-12">
+    <!-- Subsection 1: Team Builder Pricing -->
+    <div class="col-6" style="grid-column: span 12;">
+      <div class="card-glass card-glass--strong" style="padding: var(--space-xl); height: 100%;">
+        <span class="text-overline"><?php echo get_field('pricing_tb_overline') ?: 'Team Builder Pricing'; ?></span>
+        <h2 style="margin-bottom: var(--space-lg);"><?php echo get_field('pricing_tb_heading') ?: 'Estimate Your Team'; ?></h2>
+        
+        <div class="tb-header" style="margin-top: var(--space-md);">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <h3 style="margin:0; font-size: 1.25rem; color: var(--color-primary);"><?php echo get_field('pricing_tb_subheading') ?: 'Your Team Selection'; ?></h3>
+          </div>
+          <button type="button" class="btn btn--small" id="btn-add-member">+ Add Member</button>
+        </div>
+        
+        <div class="tb-body">
+          <div class="tb-empty-state" id="tb-empty">
+            <div style="margin-bottom: 1rem; color: var(--color-text-muted);">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <h4 style="margin-bottom: 0.5rem;"><?php echo get_field('pricing_tb_body_title') ?: 'Build your offshore team with Kings City.'; ?></h4>
+            <p style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 1.5rem;"><?php echo get_field('pricing_tb_body_desc') ?: 'Select roles below and instantly see a transparent monthly estimate.'; ?></p>
+            <button type="button" class="btn btn--outline" id="btn-get-started">Get Started</button>
+          </div>
+
+          <div class="tb-roles-container" id="tb-roles-list" style="display:none;">
+            <div class="tb-roles-headers">
+              <div style="flex:1.8">Role Function</div>
+              <div style="flex:1.2">Experience Level</div>
+              <div style="flex:1;text-align:center;">Headcount</div>
+              <div style="flex:1.2;text-align:right;">Est. Monthly</div>
+              <div style="width:30px"></div>
+            </div>
+            <div id="tb-roles-inner"></div>
+          </div>
+
+          <div class="tb-summary" id="tb-summary" style="display:none;">
+            <div class="tb-summary-row">
+              <span>Team Size:</span>
+              <strong id="tb-total-size">0</strong>
+            </div>
+            <div class="tb-summary-row">
+              <span>Est. Monthly Base:</span>
+              <strong id="tb-total-base">Php 0</strong>
+            </div>
+            <div class="tb-summary-savings" id="tb-savings" style="display:none;">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Saving <strong id="tb-save-amount">~ Php 0</strong> vs. local hire</span>
+            </div>
+            <div class="tb-summary-total">
+              <span style="font-size:1.1rem;font-weight:700;">Estimated Total</span>
+              <span style="font-size:1.5rem;font-weight:700; color: #fff;" id="tb-final-total">Php 0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subsection 2: Staff Leasing Pricing -->
+    <div class="col-6" style="grid-column: span 12;">
+      <div class="card-glass card-glass--strong" style="padding: var(--space-xl); height: 100%;">
+        <span class="text-overline"><?php echo get_field('pricing_sl_overline') ?: 'Staff Leasing Pricing'; ?></span>
+        <h2 style="margin-bottom: var(--space-lg);"><?php echo get_field('pricing_sl_heading') ?: 'Monthly Rates'; ?></h2>
+        <div class="tb-leasing-scroll-container">
+          <?php 
+          $departments = get_terms(array(
+              'taxonomy' => 'sl_department',
+              'hide_empty' => false,
+          ));
+          if(!empty($departments) && !is_wp_error($departments)): 
+              foreach($departments as $dept): ?>
+            
+            <h3 class="tb-dept-title"><?php echo esc_html($dept->name); ?></h3>
+            
+            <div class="tb-roles-container">
+              <div class="tb-roles-headers" style="display: flex; margin-bottom: var(--space-sm); padding: 0 0.5rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-muted);">
+                <div style="flex:1.2">Tier Name</div>
+                <div style="flex:1">Headcount Range</div>
+                <div style="flex:1.2;text-align:right;">Est. Monthly Rate</div>
+              </div>
+              <div>
+                <?php 
+                $tier_query = new WP_Query(array(
+                    'post_type' => 'sl_tier',
+                    'posts_per_page' => -1,
+                    'post_status' => 'publish',
+                    'tax_query' => array(
+                        array(
+                            'taxonomy' => 'sl_department',
+                            'field' => 'term_id',
+                            'terms' => $dept->term_id,
+                        )
+                    )
+                ));
+                if($tier_query->have_posts()): while($tier_query->have_posts()): $tier_query->the_post(); 
+                ?>
+                <div class="tbr-item" style="padding: 1rem; margin-bottom: 0.5rem; background: #fff; border: 1px solid var(--color-border-light); border-radius: var(--radius-sm); display: flex; align-items: center; gap: 1rem;">
+                  <div style="flex:1.2; font-weight: 600; color: var(--color-primary);">
+                    <?php the_title(); ?>
+                  </div>
+                  <div style="flex:1; font-size: 0.875rem; color: var(--color-text-muted);">
+                    <?php echo esc_html(get_field('headcount_range')); ?>
+                  </div>
+                  <div style="flex:1.2; text-align: right; font-weight: 700; color: var(--color-primary);">
+                    <?php echo esc_html(get_field('monthly_rate')); ?>
+                  </div>
+                </div>
+                <?php endwhile; wp_reset_postdata(); endif; ?>
+              </div>
+            </div>
+          
+          <?php endforeach; else: ?>
+            <!-- Fallback if no departments are added -->
+            <div class="tb-roles-container">
+              <div class="tb-roles-headers" style="display: flex; margin-bottom: var(--space-sm); padding: 0 0.5rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-muted);">
+                <div style="flex:1.2">Tier Name</div>
+                <div style="flex:1">Headcount Range</div>
+                <div style="flex:1.2;text-align:right;">Est. Monthly Rate</div>
+              </div>
+              <div>
+                <div class="tbr-item" style="padding: 1rem; margin-bottom: 0.5rem; background: #fff; border: 1px solid var(--color-border-light); border-radius: var(--radius-sm); display: flex; align-items: center; gap: 1rem;">
+                  <div style="flex:1.2; font-weight: 600; color: var(--color-primary);">Starter Tier</div>
+                  <div style="flex:1; font-size: 0.875rem; color: var(--color-text-muted);">1-5 Staff</div>
+                  <div style="flex:1.2; text-align: right; font-weight: 700; color: var(--color-primary);">Php 00,000 / mo</div>
+                </div>
+                <div class="tbr-item" style="padding: 1rem; margin-bottom: 0.5rem; background: #fff; border: 1px solid var(--color-border-light); border-radius: var(--radius-sm); display: flex; align-items: center; gap: 1rem;">
+                  <div style="flex:1.2; font-weight: 600; color: var(--color-primary);">Growth Tier</div>
+                  <div style="flex:1; font-size: 0.875rem; color: var(--color-text-muted);">6-15 Staff</div>
+                  <div style="flex:1.2; text-align: right; font-weight: 700; color: var(--color-primary);">Php 00,000 / mo</div>
+                </div>
+              </div>
+            </div>
+          <?php endif; ?>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
 <!-- application layout -->
 <section class="section content-panel" id="application">
 <div class="container grid-12">
 <!-- left column: form -->
 <div class="col-8">
 <div class="card-glass card-glass--strong" style="padding: var(--space-xl);">
-<span class="text-overline"><?php echo get_field('overline_18'); ?></span>
-<h2 style="margin-bottom: var(--space-lg);"><?php echo get_field('h2_8'); ?></h2>
-<form id="apply-form" novalidate="">
+
+<?php if ($form_submitted): ?>
+    <div style="text-align:center; padding: 4rem 2rem;">
+        <i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #10b981; margin-bottom: 1.5rem;"></i>
+        <h2 style="margin-bottom:1rem; color: var(--color-primary);">Application Received!</h2>
+        <p style="color:var(--color-text-muted); font-size: 1.125rem;">Thank you for your interest in Kings City. Our team is currently reviewing your details and will send you an email shortly with the next steps.</p>
+    </div>
+<?php else: ?>
+    <span class="text-overline"><?php echo get_field('overline_18'); ?></span>
+    <h2 style="margin-bottom: var(--space-lg);"><?php echo get_field('h2_8'); ?></h2>
+
+    <?php if (!empty($error_message)): ?>
+        <div style="background:#fee2e2;color:#b91c1c;padding:1rem;margin-bottom:1.5rem;border-radius:8px;"><?php echo esc_html($error_message); ?></div>
+    <?php endif; ?>
+
+<form id="apply-form" method="POST" action="#application" novalidate="">
+<input type="hidden" name="apply_submit" value="1">
+<input type="text" name="website_url_trap" style="display:none !important;" tabindex="-1" autocomplete="off">
+<?php wp_nonce_field('apply_submission', 'apply_nonce'); ?>
 <!-- application type toggle -->
 <div class="form-group">
 <p style="font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-primary); margin-bottom: var(--space-xs);"><?php echo get_field('p_14'); ?></p>
@@ -284,7 +540,7 @@ Tell Us About Your Needs
 <option value="Not Sure">Not Sure</option>
 </select>
 </div>
-<div class="form-group">
+<div class="form-group" id="wrap_team_size">
 <label class="form-label" for="off_team_size"><?php echo get_field('off_label_team_size') ?: 'How many staff are you looking to hire?'; ?></label>
 <select class="form-select" id="off_team_size" name="off_team_size">
 <option value="1-5">1–5</option>
@@ -293,7 +549,7 @@ Tell Us About Your Needs
 <option value="30+">30+</option>
 </select>
 </div>
-<div class="form-group">
+<div class="form-group" id="wrap_roles">
 <label class="form-label" for="off_roles"><?php echo get_field('off_label_roles') ?: 'What type of roles are you looking for?'; ?></label>
 <div id="off_roles" style="display: flex; flex-direction: column; gap: 0.5rem;">
 <label style="display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="off_roles[]" value="Finance &amp; Accounting"> Finance &amp; Accounting</label>
@@ -323,7 +579,7 @@ Tell Us About Your Needs
 </select>
 </div>
 <div class="form-group">
-<label class="form-label" for="off_message"><?php echo get_field('off_label_notes') ?: 'Additional Notes (Optional)'; ?></label>
+<label class="form-label" id="label_off_message" for="off_message"><?php echo get_field('off_label_notes') ?: 'Briefly describe your goals'; ?></label>
 <textarea class="form-textarea" id="off_message" name="off_message" placeholder="Anything else you'd like us to know?" rows="3"></textarea>
 </div>
 <div style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: var(--space-lg); margin-top: var(--space-sm);">
@@ -335,6 +591,7 @@ Tell Us About Your Needs
 <button class="btn btn--large" style="width: 100%; justify-content: center; padding: 1rem;" type="submit"><?php echo get_field('off_btn_submit') ?: 'Request a Consultation'; ?></button>
 </div>
 </form>
+<?php endif; ?>
 </div>
 </div>
 <!-- right column: sidebars -->
@@ -437,40 +694,80 @@ Tell Us About Your Needs
       radioSpace.addEventListener('change', updateFormUI);
       radioOffshore.addEventListener('change', updateFormUI);
       updateFormUI();
+
+      // Dynamic Step 1 Fields based on Offshoring Service Selection
+      const offServiceSelect = document.getElementById('off_service');
+      const wrapTeamSize = document.getElementById('wrap_team_size');
+      const wrapRoles = document.getElementById('wrap_roles');
+      const labelOffMessage = document.getElementById('label_off_message');
+
+      function updateOffshoreFields() {
+        if (!offServiceSelect) return;
+        const val = offServiceSelect.value;
+        
+        if (val === 'Managed Staff Leasing') {
+          wrapTeamSize.style.display = 'block';
+          wrapRoles.style.display = 'none';
+          if(labelOffMessage) labelOffMessage.innerText = 'Briefly describe your goals';
+        } else if (val === 'Offshoring Staffing') {
+          wrapTeamSize.style.display = 'block';
+          wrapRoles.style.display = 'block';
+          if(labelOffMessage) labelOffMessage.innerText = 'Briefly describe your goals';
+        } else if (val === 'Both') {
+          wrapTeamSize.style.display = 'block';
+          wrapRoles.style.display = 'block';
+          if(labelOffMessage) labelOffMessage.innerText = 'Briefly describe your goals';
+        } else if (val === 'Not Sure') {
+          wrapTeamSize.style.display = 'none';
+          wrapRoles.style.display = 'none';
+          if(labelOffMessage) labelOffMessage.innerText = 'What are the biggest challenges you are trying to solve?';
+        }
+      }
       
-      const form = document.getElementById('apply-form');
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('Thank you for applying! Our team will contact you within 24 hours.');
-        form.reset();
-        selectedTeam = [];
-        renderTeam();
-        updateFormUI();
-      });
+      if (offServiceSelect) {
+        offServiceSelect.addEventListener('change', updateOffshoreFields);
+        updateOffshoreFields(); // trigger on load
+      }
+      
+      
+      // Form submission validation (HTML5) runs before submission
+      // Removed e.preventDefault() so the form actually submits to PHP!
 
       // 2. TEAM BUILDER LOGIC (Converted to PHP, x55 multiplier)
-      const roleCatalog = [
-        { cat: "Operations & Management", roles: [
-          { id: 'op-head', name: "Operations Head", desc: "Strategic oversight and operational management", base: 137500 },
-          { id: 'bldg-admin', name: "Building Administrator", desc: "Facility management and tenant relations", base: 66000 },
-          { id: 'culinary', name: "Culinary Administrator", desc: "Food service operations and culinary management", base: 55000 }
-        ]},
-        { cat: "Finance & Accounting", roles: [
-          { id: 'acct-head', name: "Accounting and Finance Head", desc: "Financial strategy, reporting, and team leadership", base: 121000 },
-          { id: 'acct-mgr', name: "Accounting Manager", desc: "Account management and financial operations", base: 82500 },
-          { id: 'acct-sup', name: "Accounting Supervisor", desc: "Supervise accounting staff and daily operations", base: 55000 }
-        ]},
-        { cat: "Human Resources", roles: [
-          { id: 'hr-coord', name: "HR Coordinator", desc: "Employee relations, onboarding, and HR support", base: 49500 },
-          { id: 'recruiter', name: "Recruitment Officer", desc: "Talent sourcing, interviewing, and hiring", base: 60500 },
-          { id: 'payroll-master', name: "Payroll Master", desc: "Complex payroll processing and compliance", base: 77000 }
-        ]},
-        { cat: "Technology & Marketing", roles: [
-          { id: 'dev', name: "Software Developer", desc: "Frontend, Backend, and Full Stack development", base: 110000 },
-          { id: 'ba', name: "Business Analyst", desc: "Data analysis, process improvement, reporting", base: 88000 },
-          { id: 'mktg', name: "Marketing Officer", desc: "Campaign management, branding, and communications", base: 66000 }
-        ]}
-      ];
+      <?php
+      $dynamic_roles = array();
+      $tb_query = new WP_Query(array(
+          'post_type' => 'tb_role',
+          'posts_per_page' => -1,
+          'post_status' => 'publish'
+      ));
+      if($tb_query->have_posts()) {
+          while($tb_query->have_posts()) {
+              $tb_query->the_post();
+              $cat = get_field('category');
+              if (!$cat) $cat = 'Uncategorized';
+              
+              if (!isset($dynamic_roles[$cat])) {
+                  $dynamic_roles[$cat] = array(
+                      'cat' => $cat,
+                      'roles' => array()
+                  );
+              }
+              
+              $dynamic_roles[$cat]['roles'][] = array(
+                  'id' => get_post_field('post_name', get_post()),
+                  'name' => get_the_title(),
+                  'desc' => strip_tags(get_the_content()),
+                  'base' => (int) get_field('base_price')
+              );
+          }
+          wp_reset_postdata();
+      }
+      
+      // Convert associative array to indexed array for JS
+      $roleCatalogArray = array_values($dynamic_roles);
+      ?>
+      const roleCatalog = <?php echo json_encode($roleCatalogArray); ?>;
 
       let selectedTeam = [];
 
@@ -686,5 +983,18 @@ Tell Us About Your Needs
     })();
   </script>
 
+
+  <!-- select role modal -->
+  <div class="tb-modal" id="tb-modal" aria-hidden="true">
+    <div class="tb-modal-content">
+      <div class="tb-modal-header">
+        <h3 style="margin:0;font-size:1.25rem;"><?php echo get_field('pricing_tb_modal_title') ?: 'Select a Role'; ?></h3>
+        <button type="button" class="tb-modal-close" id="tb-modal-close" aria-label="Close">&times;</button>
+      </div>
+      <div class="tb-modal-body" id="tb-modal-roles">
+        <!-- roles injected via js -->
+      </div>
+    </div>
+  </div>
 
 <?php get_footer(); ?>

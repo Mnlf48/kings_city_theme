@@ -372,6 +372,91 @@ get_header();
 </div>
 </div>
 </section>
+
+<!-- contact us section -->
+<section class="section" id="offshoring-contact" style="padding: 0;">
+<div style="display: flex; flex-wrap: wrap; width: 100%;">
+  
+  <!-- Left Column: Hero Anchor (35%) -->
+  <div class="offshoring-left" style="flex: 1 1 35%; min-width: 300px; background-color: var(--color-primary); color: #fff; display: flex; justify-content: center; align-items: center; padding: var(--space-2xl) var(--space-xl);">
+    <div style="width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: var(--space-lg);">
+      <h2 style="color: #fff; margin-bottom: var(--space-xs); font-size: 3rem; text-transform: uppercase; line-height: 1.1;"><?php echo get_field('off_contact_title') ?: 'GET IN TOUCH'; ?></h2>
+      <p style="color: rgba(255,255,255,0.8); font-size: 1.1rem;"><?php echo get_field('off_contact_subtitle') ?: 'We\'d love to hear from you'; ?></p>
+      
+      <div style="margin-top: var(--space-md); display: flex; flex-direction: column; gap: 1rem;">
+        <a href="<?php echo get_field('off_contact_ig') ?: '#'; ?>" style="color: #fff; display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 500;">
+          <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><rect height="20" rx="5" ry="5" width="20" x="2" y="2"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+          Instagram
+        </a>
+        <a href="<?php echo get_field('off_contact_fb') ?: '#'; ?>" style="color: #fff; display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 500;">
+          <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+          Facebook
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Column: Cards Grid (65%) -->
+  <div class="offshoring-right" style="flex: 1 1 65%; min-width: 300px; background-color: var(--color-bg-ivory); display: flex; justify-content: center; align-items: center; padding: var(--space-2xl) var(--space-xl);">
+    <div class="contact-cards-wrapper" style="width: 100%; max-width: 900px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-xl);">
+      
+      <!-- Card 1: Visit Manila -->
+      <div class="card-glass contact-card" style="padding: var(--space-xl); background: #fff; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center;">
+        <span class="text-overline" style="color: var(--color-primary); margin-bottom: var(--space-sm); display: block;">Visit Us</span>
+        <h3 style="margin-bottom: var(--space-md); font-size: 1.4rem;">Manila Office</h3>
+        <div style="color: var(--color-text-muted); font-size: 0.95rem; white-space: pre-wrap; line-height: 1.6;"><?php 
+          $manila_addr = get_field('off_contact_manila_addr') ?: "Manila Office\nKings City, Ground Level, RCS\nBuilding, Doña Soledad Ave,\nBetter Living, Parañaque";
+          echo str_replace("Manila Office\n", "", $manila_addr);
+        ?></div>
+      </div>
+
+      <!-- Card 2: Contact Manila -->
+      <div class="card-glass contact-card" style="padding: var(--space-xl); background: #fff; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center;">
+        <span class="text-overline" style="color: var(--color-primary); margin-bottom: var(--space-sm); display: block;">Contact Us</span>
+        <h3 style="margin-bottom: var(--space-md); font-size: 1.4rem;">Manila Phone</h3>
+        <div style="color: var(--color-text-muted); font-size: 0.95rem; white-space: pre-wrap; line-height: 1.6;"><?php 
+          $manila_phones = get_field('off_contact_manila_phones') ?: "Manila Office\nTelephone Number:\n+63 (2) 8696 4490\n\nMobile Numbers:\n+63 (917) 187 0031\n+63 (917) 122 8034\n+63 (917) 710 3221";
+          echo str_replace("Manila Office\n", "", $manila_phones);
+        ?></div>
+      </div>
+
+      <!-- Card 3: Visit Australia -->
+      <div class="card-glass contact-card" style="padding: var(--space-xl); background: #fff; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center;">
+        <span class="text-overline" style="color: var(--color-primary); margin-bottom: var(--space-sm); display: block;">Visit Us</span>
+        <h3 style="margin-bottom: var(--space-md); font-size: 1.4rem;">Australia Office</h3>
+        <div style="color: var(--color-text-muted); font-size: 0.95rem; white-space: pre-wrap; line-height: 1.6;"><?php 
+          $aus_addr = get_field('off_contact_aus_addr') ?: "Australia Office\nMelbourne G02 / 23 27,\nWellington Street, St. Kilda VIC\n3182 Australia";
+          echo str_replace("Australia Office\n", "", $aus_addr);
+        ?></div>
+      </div>
+
+      <!-- Card 4: Contact Australia & Email -->
+      <div class="card-glass contact-card" style="padding: var(--space-xl); background: #fff; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center;">
+        <span class="text-overline" style="color: var(--color-primary); margin-bottom: var(--space-sm); display: block;">Contact Us</span>
+        <h3 style="margin-bottom: var(--space-md); font-size: 1.4rem;">Aus Phone &amp; Email</h3>
+        <div style="color: var(--color-text-muted); font-size: 0.95rem; white-space: pre-wrap; line-height: 1.6; margin-bottom: var(--space-md);"><?php 
+          $aus_phones = get_field('off_contact_aus_phones') ?: "Australia Office\nTelephone Number:\n03 8375 9477 (Australia)";
+          echo str_replace("Australia Office\n", "", $aus_phones);
+        ?></div>
+        <div style="color: var(--color-text-muted); font-size: 0.95rem; white-space: pre-wrap; line-height: 1.6;"><?php 
+          echo get_field('off_contact_email') ?: "Email Address:\nkingscity@kingsgroup.com.ph";
+        ?></div>
+      </div>
+
+      <!-- Card 5: Acknowledgement (Full Width) -->
+      <div style="grid-column: 1 / -1; display: flex; justify-content: center; align-items: center; margin-top: var(--space-md);">
+        <div style="color: var(--color-text-muted); font-size: 0.85rem; font-style: italic; opacity: 0.8; text-align: center; line-height: 1.6; max-width: 600px;">
+          <?php 
+            $ack = get_field('off_contact_ack') ?: "We acknowledge and pay respect to the past, present, and future Traditional Custodians and Elders of the nation...";
+            echo str_replace("\n", " ", $ack);
+          ?>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</section>
 <!-- offshoring gallery section -->
 <section class="section content-panel" style="position: relative;">
 <button aria-label="Previous image" class="gallery-nav gallery-nav--prev" onclick="scrollGallery(-1)">

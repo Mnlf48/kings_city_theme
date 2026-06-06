@@ -40,7 +40,7 @@ get_header();
 <div class="container">
 <div class="section__header text-center mx-auto" style="max-width: 800px; margin-bottom: var(--space-xl);">
 <span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('section_txt_22'); ?></span>
-<h2 style="color: var(--color-primary); margin-bottom: var(--space-sm);"><?php echo get_field('section_txt_12'); ?></h2>
+<h2 style="color: #BD451F; margin-bottom: var(--space-sm);"><?php echo get_field('section_txt_12'); ?></h2>
 <p class="text-lead"><?php echo get_field('section_txt_17'); ?></p>
 </div>
 <div class="spaces-grid stagger-children">
@@ -170,7 +170,7 @@ get_header();
 </div>
 <div class="split__content" style="margin-top: 0;">
 <span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('section_txt_40'); ?></span>
-<h2 style="margin-bottom: var(--space-md);"><?php echo get_field('section_txt_38'); ?></h2>
+<h2 style="color: #BD451F; margin-bottom: var(--space-md);"><?php echo get_field('section_txt_38'); ?></h2>
 <p style="margin-bottom: var(--space-lg);"><?php echo get_field('section_txt_39'); ?></p>
 <ul style="display:flex; flex-direction:column; gap:1.25rem; list-style: none; padding: 0; text-align: left;">
 <li style="display:flex; align-items:center; gap:1rem;">
@@ -280,7 +280,7 @@ get_header();
 <div class="col-12 split">
 <div class="split__content" style="margin-top: 3rem;">
 <span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('section_txt_67'); ?></span>
-<h2 style="margin-bottom: var(--space-md);"><?php echo get_field('section_txt_59'); ?></h2>
+<h2 style="color: #BD451F; margin-bottom: var(--space-md);"><?php echo get_field('section_txt_59'); ?></h2>
 <p style="font-size: 0.95rem; line-height: 1.7; max-width: 480px;"><?php echo get_field('section_txt_60'); ?></p>
 <!-- feature icons grid -->
 <div class="social-features-grid">
@@ -374,7 +374,7 @@ get_header();
 <div class="container" style="position: relative; z-index: 1;">
 <div class="impact-card" style="background-color: var(--color-bg-ivory); padding: clamp(2rem, 4vw, 4rem); border-radius: var(--radius-card); max-width: 650px;">
 <span class="text-overline" style="display: block; margin-bottom: var(--space-sm); color: var(--color-primary);"><?php echo get_field('section_txt_72'); ?></span>
-<h2 style="color: var(--color-primary); margin-bottom: var(--space-md);"><?php echo get_field('section_txt_69'); ?></h2>
+<h2 style="color: #BD451F; margin-bottom: var(--space-md);"><?php echo get_field('section_txt_69'); ?></h2>
 <p style="color: var(--color-primary); margin-bottom: var(--space-md); line-height: 1.7;"><?php echo get_field('section_txt_70'); ?></p>
 <p style="color: var(--color-primary); margin-bottom: var(--space-xl); line-height: 1.7;"><?php echo get_field('section_txt_71'); ?></p>
 <div style="display: flex; align-items: center; gap: var(--space-lg); flex-wrap: wrap;">
@@ -394,7 +394,7 @@ get_header();
 <div class="section__header-row" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--space-xl); flex-wrap: wrap; gap: var(--space-md);">
 <div>
 <span class="text-overline"><?php echo get_field('section_txt_85'); ?></span>
-<h2 style="margin-bottom: 0;"><?php echo get_field('section_txt_78'); ?></h2>
+<h2 style="color: #BD451F; margin-bottom: 0;"><?php echo get_field('section_txt_78'); ?></h2>
 </div>
 <div class="journal-cta-wrap journal-cta-wrap--desktop" style="align-self: flex-end; margin-bottom: 5px;">
 <a class="btn" href="news.html">Read News <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="margin-left: 8px;" viewbox="0 0 24 24" width="16">

@@ -2877,6 +2877,106 @@ acf_add_local_field_group(array(
             'library' => 'all',
         ),
 
+        array(
+            'key' => 'field_tab_group_offshoring_contact',
+            'label' => 'Offshoring Contact Us',
+            'name' => '',
+            'type' => 'tab',
+            'placement' => 'top',
+            'endpoint' => 0,
+        ),
+        array(
+            'key' => 'field_off_contact_title',
+            'label' => 'Contact Section Title',
+            'name' => 'off_contact_title',
+            'type' => 'text',
+            'default_value' => 'GET IN TOUCH',
+        ),
+        array(
+            'key' => 'field_off_contact_subtitle',
+            'label' => 'Contact Section Subtitle',
+            'name' => 'off_contact_subtitle',
+            'type' => 'text',
+            'default_value' => 'We\'d love to hear from you',
+        ),
+        array(
+            'key' => 'field_off_contact_ig',
+            'label' => 'Instagram URL',
+            'name' => 'off_contact_ig',
+            'type' => 'url',
+            'default_value' => '#',
+        ),
+        array(
+            'key' => 'field_off_contact_fb',
+            'label' => 'Facebook URL',
+            'name' => 'off_contact_fb',
+            'type' => 'url',
+            'default_value' => '#',
+        ),
+        array(
+            'key' => 'field_off_contact_visit_title',
+            'label' => 'Visit Us Title',
+            'name' => 'off_contact_visit_title',
+            'type' => 'text',
+            'default_value' => 'visit us',
+        ),
+        array(
+            'key' => 'field_off_contact_manila_addr',
+            'label' => 'Manila Office Address',
+            'name' => 'off_contact_manila_addr',
+            'type' => 'textarea',
+            'default_value' => "Manila Office\nKings City, Ground Level, RCS\nBuilding, Doña Soledad Ave,\nBetter Living, Parañaque",
+        ),
+        array(
+            'key' => 'field_off_contact_aus_addr',
+            'label' => 'Australia Office Address',
+            'name' => 'off_contact_aus_addr',
+            'type' => 'textarea',
+            'default_value' => "Australia Office\nMelbourne G02 / 23 27,\nWellington Street, St. Kilda VIC\n3182 Australia",
+        ),
+        array(
+            'key' => 'field_off_contact_ack',
+            'label' => 'Acknowledgement Text',
+            'name' => 'off_contact_ack',
+            'type' => 'textarea',
+            'default_value' => "We acknowledge and pay respect\nto the past, present, and future\nTraditional Custodians and Elders\nof the nation...",
+        ),
+        array(
+            'key' => 'field_off_contact_us_title',
+            'label' => 'Contact Us Title',
+            'name' => 'off_contact_us_title',
+            'type' => 'text',
+            'default_value' => 'Contact us',
+        ),
+        array(
+            'key' => 'field_off_contact_manila_phones',
+            'label' => 'Manila Phones',
+            'name' => 'off_contact_manila_phones',
+            'type' => 'textarea',
+            'default_value' => "Manila Office\nTelephone Number:\n+63 (2) 8696 4490\n\nMobile Numbers:\n+63 (917) 187 0031\n+63 (917) 122 8034\n+63 (917) 710 3221",
+        ),
+        array(
+            'key' => 'field_off_contact_email',
+            'label' => 'Email Address',
+            'name' => 'off_contact_email',
+            'type' => 'text',
+            'default_value' => "Email Address:\nkingscity@kingsgroup.com.ph",
+        ),
+        array(
+            'key' => 'field_off_contact_aus_phones',
+            'label' => 'Australia Phones',
+            'name' => 'off_contact_aus_phones',
+            'type' => 'textarea',
+            'default_value' => "Australia Office\nTelephone Number:\n03 8375 9477 (Australia)",
+        ),
+        array(
+            'key' => 'field_off_contact_image',
+            'label' => 'Right Side Image',
+            'name' => 'off_contact_image',
+            'type' => 'image',
+            'return_format' => 'array',
+        ),
+
     ),
     'location' => array(
         array(
@@ -4209,6 +4309,81 @@ acf_add_local_field_group(array(
             'type' => 'text',
         ),
 
+        array(
+            'key' => 'field_tab_apply_pricing_staffing',
+            'label' => 'Pricing Staffing View',
+            'name' => '',
+            'type' => 'tab',
+            'placement' => 'top',
+            'endpoint' => 0,
+        ),
+        array(
+            'key' => 'field_pricing_tb_overline',
+            'label' => 'Team Builder Overline',
+            'name' => 'pricing_tb_overline',
+            'type' => 'text',
+            'default_value' => 'Team Builder Pricing',
+        ),
+        array(
+            'key' => 'field_pricing_tb_heading',
+            'label' => 'Team Builder Heading',
+            'name' => 'pricing_tb_heading',
+            'type' => 'text',
+            'default_value' => 'Estimate Your Team',
+        ),
+        array(
+            'key' => 'field_pricing_tb_subheading',
+            'label' => 'Team Builder Subheading',
+            'name' => 'pricing_tb_subheading',
+            'type' => 'text',
+            'default_value' => 'Your Team Selection',
+        ),
+        array(
+            'key' => 'field_pricing_tb_body_title',
+            'label' => 'Team Builder Body Title',
+            'name' => 'pricing_tb_body_title',
+            'type' => 'text',
+            'default_value' => 'Build your offshore team with Kings City.',
+        ),
+        array(
+            'key' => 'field_pricing_tb_body_desc',
+            'label' => 'Team Builder Body Description',
+            'name' => 'pricing_tb_body_desc',
+            'type' => 'textarea',
+            'default_value' => 'Select roles below and instantly see a transparent monthly estimate.',
+        ),
+        array(
+            'key' => 'field_pricing_tb_modal_title',
+            'label' => 'Team Builder Modal Title',
+            'name' => 'pricing_tb_modal_title',
+            'type' => 'text',
+            'default_value' => 'Select a Role',
+        ),
+
+        array(
+            'key' => 'field_tab_apply_pricing_leasing',
+            'label' => 'Pricing Leasing View',
+            'name' => '',
+            'type' => 'tab',
+            'placement' => 'top',
+            'endpoint' => 0,
+        ),
+        array(
+            'key' => 'field_pricing_sl_overline',
+            'label' => 'Staff Leasing Overline',
+            'name' => 'pricing_sl_overline',
+            'type' => 'text',
+            'default_value' => 'Staff Leasing Pricing',
+        ),
+        array(
+            'key' => 'field_pricing_sl_heading',
+            'label' => 'Staff Leasing Heading',
+            'name' => 'pricing_sl_heading',
+            'type' => 'text',
+            'default_value' => 'Monthly Rates',
+        ),
+
+
     ),
     'location' => array(
         array(
@@ -4822,6 +4997,84 @@ acf_add_local_field_group(array(
     'menu_order' => 0,
     'position' => 'normal',
     'style' => 'seamless',
+    'label_placement' => 'top',
+    'instruction_placement' => 'label',
+    'active' => true,
+));
+
+
+
+acf_add_local_field_group(array(
+    'key' => 'group_tb_role',
+    'title' => 'Team Builder Role Data',
+    'fields' => array(
+        array(
+            'key' => 'field_tb_role_category',
+            'label' => 'Category',
+            'name' => 'category',
+            'type' => 'text',
+            'instructions' => 'e.g., Operations & Management',
+            'required' => 1,
+        ),
+        array(
+            'key' => 'field_tb_role_base_price',
+            'label' => 'Base Price',
+            'name' => 'base_price',
+            'type' => 'number',
+            'instructions' => 'Numeric value, e.g., 137500',
+            'required' => 1,
+        ),
+    ),
+    'location' => array(
+        array(
+            array(
+                'param' => 'post_type',
+                'operator' => '==',
+                'value' => 'tb_role',
+            ),
+        ),
+    ),
+    'menu_order' => 0,
+    'position' => 'normal',
+    'style' => 'default',
+    'label_placement' => 'top',
+    'instruction_placement' => 'label',
+    'active' => true,
+));
+
+acf_add_local_field_group(array(
+    'key' => 'group_sl_tier',
+    'title' => 'Staff Leasing Tier Data',
+    'fields' => array(
+        array(
+            'key' => 'field_sl_tier_headcount',
+            'label' => 'Headcount Range',
+            'name' => 'headcount_range',
+            'type' => 'text',
+            'instructions' => 'e.g., 1-5 Staff',
+            'required' => 1,
+        ),
+        array(
+            'key' => 'field_sl_tier_monthly_rate',
+            'label' => 'Estimated Monthly Rate',
+            'name' => 'monthly_rate',
+            'type' => 'text',
+            'instructions' => 'e.g., Php 00,000 / mo',
+            'required' => 1,
+        ),
+    ),
+    'location' => array(
+        array(
+            array(
+                'param' => 'post_type',
+                'operator' => '==',
+                'value' => 'sl_tier',
+            ),
+        ),
+    ),
+    'menu_order' => 0,
+    'position' => 'normal',
+    'style' => 'default',
     'label_placement' => 'top',
     'instruction_placement' => 'label',
     'active' => true,

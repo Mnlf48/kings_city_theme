@@ -27,7 +27,7 @@
   $mega_link3        = get_field('header_mega_link3_label', $header_id) ?: 'Impact';
   $mega_link4        = get_field('header_mega_link4_label', $header_id) ?: 'News';
   $mega_logo         = get_field('header_mega_menu_logo', $header_id);
-  $mega_logo_url     = ($mega_logo && is_array($mega_logo) && isset($mega_logo['url'])) ? esc_url($mega_logo['url']) : (is_numeric($mega_logo) ? wp_get_attachment_image_url($mega_logo, 'full') : get_template_directory_uri() . '/assets/img/the_kings_city_club_terracotta_01.png');
+  $mega_logo_url     = ($mega_logo && is_array($mega_logo) && isset($mega_logo['url'])) ? esc_url($mega_logo['url']) : (is_numeric($mega_logo) ? wp_get_attachment_image_url($mega_logo, 'full') : get_template_directory_uri() . '/assets/img/page-header-img/kings-img70.png');
 ?>
 <header class="site-header" id="header">
   <div class="container container--wide site-header__inner">
@@ -112,6 +112,9 @@
       <line x1="6" y1="6" x2="18" y2="18"></line>
     </svg>
   </button>
+  <div style="text-align: center; margin-bottom: 2rem;">
+    <img src="<?php echo $mega_logo_url; ?>" alt="Kings City Icon" style="max-width: 150px; height: auto;">
+  </div>
   <nav class="nav-drawer__list">
     <div class="nav-drawer__item has-submenu">
       <button class="nav-drawer__link submenu-toggle" style="width: 100%; text-align: left; background: none; border: none; display: flex; justify-content: space-between; align-items: center;">
