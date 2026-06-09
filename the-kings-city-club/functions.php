@@ -163,4 +163,5 @@ function kings_city_register_cpts() {
 add_action('init', 'kings_city_register_cpts');
 
 
-
+// Load Kings City CRM System
+require_once get_template_directory() . '/inc/admin-crm/init.php';

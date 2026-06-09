@@ -11,90 +11,94 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['apply_submit'])) {
         $form_submitted = true; // Bot trap
     } else {
         $app_type = sanitize_text_field($_POST['application_type']); // "space" or "offshoring"
-        $to = 'lospedros479@gmail.com';
-        $headers = array('Content-Type: text/html; charset=UTF-8');
-        
-        $body = "<h2>New Lead Application</h2>";
-        $body .= "<p><strong>Application Type:</strong> " . ucfirst($app_type) . "</p><hr>";
+
+        // Generate a unique secure token for this application
+        $secure_token = wp_generate_password(32, false);
 
         if ($app_type === 'space') {
             $fname = sanitize_text_field($_POST['sp_first_name']);
             $lname = sanitize_text_field($_POST['sp_last_name']);
             $email = sanitize_email($_POST['sp_email']);
-            $body .= "<p><strong>Name:</strong> $fname $lname</p>";
-            $body .= "<p><strong>Email:</strong> $email</p>";
-            $body .= "<p><strong>Phone:</strong> " . sanitize_text_field($_POST['sp_phone']) . "</p>";
-            $body .= "<p><strong>Company:</strong> " . sanitize_text_field($_POST['sp_company']) . "</p>";
-            $body .= "<p><strong>Country:</strong> " . sanitize_text_field($_POST['sp_country']) . "</p>";
-            $body .= "<p><strong>Space Type:</strong> " . sanitize_text_field($_POST['space_type']) . "</p>";
-            $body .= "<p><strong>Message:</strong><br/>" . nl2br(sanitize_textarea_field($_POST['sp_message'])) . "</p>";
-            $subject = "New Space Membership Application";
-            $service = "spaces";
+            $phone = sanitize_text_field($_POST['sp_phone']);
+            $company = sanitize_text_field($_POST['sp_company']);
+            $country = sanitize_text_field($_POST['sp_country']);
+            $space_type = sanitize_text_field($_POST['space_type']);
+            $message = sanitize_textarea_field($_POST['sp_message']);
+            $service_label = 'Spaces Membership - ' . $space_type;
+
+            // Create the CRM ticket
+            $post_id = wp_insert_post(array(
+                'post_type'   => 'kc_application',
+                'post_title'  => $fname . ' ' . $lname,
+                'post_status' => 'publish',
+            ));
+
+            if ($post_id) {
+                update_post_meta($post_id, 'kc_first_name', $fname);
+                update_post_meta($post_id, 'kc_last_name', $lname);
+                update_post_meta($post_id, 'kc_email', $email);
+                update_post_meta($post_id, 'kc_phone', $phone);
+                update_post_meta($post_id, 'kc_company', $company);
+                update_post_meta($post_id, 'kc_country', $country);
+                update_post_meta($post_id, 'kc_service', $service_label);
+                update_post_meta($post_id, 'kc_message', $message);
+                update_post_meta($post_id, 'kc_secure_token', $secure_token);
+                update_post_meta($post_id, 'kc_status', 'Step 1 - Pending Approval');
+            }
+
         } else {
+            // Offshoring
             $fname = sanitize_text_field($_POST['off_first_name']);
             $lname = sanitize_text_field($_POST['off_last_name']);
             $email = sanitize_email($_POST['off_email']);
+            $phone = sanitize_text_field($_POST['off_phone']);
+            $company = sanitize_text_field($_POST['off_company']);
+            $country = sanitize_text_field($_POST['off_country']);
+            $website = sanitize_text_field($_POST['off_website']);
             $service_chosen = sanitize_text_field($_POST['off_service']);
-            $body .= "<p><strong>Name:</strong> $fname $lname</p>";
-            $body .= "<p><strong>Email:</strong> $email</p>";
-            $body .= "<p><strong>Phone:</strong> " . sanitize_text_field($_POST['off_phone']) . "</p>";
-            $body .= "<p><strong>Company:</strong> " . sanitize_text_field($_POST['off_company']) . "</p>";
-            $body .= "<p><strong>Country:</strong> " . sanitize_text_field($_POST['off_country']) . "</p>";
-            $body .= "<p><strong>Website:</strong> " . sanitize_text_field($_POST['off_website']) . "</p>";
-            $body .= "<p><strong>Service Interested In:</strong> $service_chosen</p>";
-            $body .= "<p><strong>Team Size:</strong> " . sanitize_text_field($_POST['off_team_size']) . "</p>";
-            
+            $team_size = sanitize_text_field($_POST['off_team_size']);
             $roles = isset($_POST['off_roles']) ? array_map('sanitize_text_field', $_POST['off_roles']) : [];
-            if(!empty($roles)) {
-                $body .= "<p><strong>Roles Needed:</strong> " . implode(', ', $roles) . "</p>";
-            }
+            $timeline = sanitize_text_field($_POST['off_timeline']);
+            $message = sanitize_textarea_field($_POST['off_message']);
             
-            $body .= "<p><strong>Timeline:</strong> " . sanitize_text_field($_POST['off_timeline']) . "</p>";
-            $body .= "<p><strong>Message:</strong><br/>" . nl2br(sanitize_textarea_field($_POST['off_message'])) . "</p>";
-            $subject = "New Staffing/Offshoring Application";
-            
+            // Map the service chosen to the exact strings expected by the prompt
             if ($service_chosen === 'Managed Staff Leasing') {
-                $service = 'leasing';
+                $service_label = 'Offshoring - Managed Staff Leasing';
             } elseif ($service_chosen === 'Offshoring Staffing') {
-                $service = 'offshoring';
+                $service_label = 'Offshoring - Staffing';
             } elseif ($service_chosen === 'Both') {
-                $service = 'both';
+                $service_label = 'Offshoring - Both';
+            } elseif ($service_chosen === 'Not Sure') {
+                $service_label = 'Offshoring - Not Sure';
             } else {
-                $service = 'notsure';
+                 $service_label = 'Offshoring - ' . $service_chosen;
+            }
+
+            // Create the CRM ticket
+            $post_id = wp_insert_post(array(
+                'post_type'   => 'kc_application',
+                'post_title'  => $fname . ' ' . $lname,
+                'post_status' => 'publish',
+            ));
+
+            if ($post_id) {
+                update_post_meta($post_id, 'kc_first_name', $fname);
+                update_post_meta($post_id, 'kc_last_name', $lname);
+                update_post_meta($post_id, 'kc_email', $email);
+                update_post_meta($post_id, 'kc_phone', $phone);
+                update_post_meta($post_id, 'kc_company', $company);
+                update_post_meta($post_id, 'kc_country', $country);
+                update_post_meta($post_id, 'kc_website', $website);
+                update_post_meta($post_id, 'kc_service', $service_label);
+                update_post_meta($post_id, 'kc_team_size', $team_size);
+                update_post_meta($post_id, 'kc_roles', implode(', ', $roles));
+                update_post_meta($post_id, 'kc_timeline', $timeline);
+                update_post_meta($post_id, 'kc_message', $message);
+                update_post_meta($post_id, 'kc_secure_token', $secure_token);
+                update_post_meta($post_id, 'kc_status', 'Step 1 - Pending Approval');
             }
         }
 
-        // Action Buttons
-        $reject_body = "Hi $fname,\n\nThank you for your interest in Kings City. Unfortunately, we are unable to accommodate your request at this time.\n\nBest,\nKings City Team";
-        $reject_mailto = "mailto:$email?subject=" . rawurlencode("Update on your Kings City Application") . "&body=" . rawurlencode($reject_body);
-
-        $body .= "<br><hr><br>";
-        $body .= "<table style='width:100%'><tr>";
-
-        if ($app_type === 'space') {
-            $tour_url = home_url('/apply-spaces-tour/?token=approved&client_email=' . urlencode($email));
-            $tour_body = "Hi $fname,\n\nThank you for applying for a Kings City Club Spaces Membership! We would love to invite you to the club for a personal tour so you can see the space and we can discuss your needs.\n\nPlease book a time for your tour here: \n$tour_url\n\nBest,\nKings City Team";
-            $tour_mailto = "mailto:$email?subject=" . rawurlencode("You are invited for a Kings City Club Tour!") . "&body=" . rawurlencode($tour_body);
-            
-            $body .= "<td><a href='$tour_mailto' style='display:inline-block;padding:12px 20px;background:#10b981;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold;'>🟩 Invite for Space Tour</a></td>";
-            $body .= "<td><a href='$reject_mailto' style='display:inline-block;padding:12px 20px;background:#ef4444;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold;'>🟥 Reject Application</a></td>";
-        } else {
-            // Offshoring
-            $approve_url = home_url('/step-2-discovery/?token=approved&service=' . urlencode($service) . '&client_email=' . urlencode($email));
-            $approve_body = "Hi $fname,\n\nThank you for applying. We have reviewed your initial requirements and would love to proceed. Please finish providing your discovery requirements here: \n$approve_url\n\nBest,\nKings City Team";
-            $approve_mailto = "mailto:$email?subject=" . rawurlencode("Kings City Step 2 Discovery Form") . "&body=" . rawurlencode($approve_body);
-            
-            $discovery_body = "Hi $fname,\n\nThank you for applying! I'd love to jump on a quick call to understand your needs better and see how we can help. What time works best for you this week?\n\nBest,\nKings City Team";
-            $discovery_mailto = "mailto:$email?subject=" . rawurlencode("Let's Schedule a Discovery Call") . "&body=" . rawurlencode($discovery_body);
-
-            $body .= "<td><a href='$approve_mailto' style='display:inline-block;padding:12px 20px;background:#10b981;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold;'>🟩 Approve & Send Step 2</a></td>";
-            $body .= "<td><a href='$discovery_mailto' style='display:inline-block;padding:12px 20px;background:#3b82f6;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold;'>🟦 Request Discovery Call</a></td>";
-            $body .= "<td><a href='$reject_mailto' style='display:inline-block;padding:12px 20px;background:#ef4444;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold;'>🟥 Reject Application</a></td>";
-        }
-
-        $body .= "</tr></table>";
-
-        wp_mail($to, $subject, $body, $headers);
         $form_submitted = true;
     }
 }

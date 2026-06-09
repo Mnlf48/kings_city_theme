@@ -8,14 +8,45 @@ add_action('wp_head', function() {
     echo '<meta name="robots" content="noindex, nofollow">' . "\n";
 });
 
-$token = isset($_GET['token']) ? sanitize_text_field($_GET['token']) : '';
-$client_email = isset($_GET['client_email']) ? sanitize_email($_GET['client_email']) : '';
-$is_valid_link = !empty($token);
+// Read token from POST (form submission) or GET (initial page load)
+$token = isset($_POST['secure_token']) ? sanitize_text_field($_POST['secure_token']) : (isset($_GET['token']) ? sanitize_text_field($_GET['token']) : '');
+$client_email = isset($_GET['client_email']) ? sanitize_email($_GET['client_email']) : ''; // Kept for legacy compatibility if needed
+$is_valid_link = false;
+$already_submitted = false;
 $form_submitted = false;
 $error_message = '';
+$service_type = '';
+
+$post_id = 0;
+
+if (!empty($token)) {
+    // Find the existing CRM ticket using the secure token
+    $existing_ticket = get_posts(array(
+        'post_type'      => 'kc_application',
+        'posts_per_page' => 1,
+        'meta_query'     => array(
+            array(
+                'key'   => 'kc_secure_token',
+                'value' => $token,
+            ),
+        ),
+    ));
+
+    if (!empty($existing_ticket)) {
+        $post_id = $existing_ticket[0]->ID;
+        $current_status = get_post_meta($post_id, 'kc_status', true);
+        
+        if ($current_status === 'Step 2 - Waiting for Client Details') {
+            $is_valid_link = true;
+            $service_type = get_post_meta($post_id, 'kc_service', true);
+        } elseif (in_array($current_status, array('Step 2 - Submitted', 'Step 3 - Discovery Call', 'Step 3 - Submitted', 'Complete'))) {
+            $already_submitted = true;
+        }
+    }
+}
 
 // Handle Form Submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['step2_submit'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['step2_submit']) && $is_valid_link) {
     
     // Security: Check Nonce
     if (!isset($_POST['step2_nonce']) || !wp_verify_nonce($_POST['step2_nonce'], 'step2_submission')) {
@@ -26,106 +57,125 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['step2_submit'])) {
         $form_submitted = true; // Silently fail for bots
     } 
     else {
-        // Sanitize and collect data
+        // Sanitize and collect data (Array handling for checkboxes)
         $departments = isset($_POST['departments']) ? array_map('sanitize_text_field', $_POST['departments']) : [];
-        $roles = isset($_POST['roles']) ? array_map('sanitize_text_field', $_POST['roles']) : [];
-        $staff_count = sanitize_text_field($_POST['staff_count']);
-        $employment_type = sanitize_text_field($_POST['employment_type']);
-        $expat_manager = sanitize_text_field($_POST['expat_manager']);
-        $kpi_notes = sanitize_textarea_field($_POST['kpi_notes']);
-        $role_details = sanitize_textarea_field($_POST['role_details']);
-        $comm_methods = isset($_POST['comm_methods']) ? array_map('sanitize_text_field', $_POST['comm_methods']) : [];
-        $report_to = sanitize_text_field($_POST['report_to']);
-        $start_date = sanitize_text_field($_POST['start_date']);
-        $additional_notes = sanitize_textarea_field($_POST['additional_notes']);
+        $staff_count = isset($_POST['staff_count']) ? sanitize_text_field($_POST['staff_count']) : '';
+        $employment_type = isset($_POST['employment_type']) ? sanitize_text_field($_POST['employment_type']) : '';
+        $expat_manager = isset($_POST['expat_manager']) ? sanitize_text_field($_POST['expat_manager']) : '';
         $min_quals = isset($_POST['min_quals']) ? sanitize_textarea_field($_POST['min_quals']) : '';
+        $kpi_notes = isset($_POST['kpi_notes']) ? sanitize_textarea_field($_POST['kpi_notes']) : '';
+
+        $step2_roles = isset($_POST['roles']) ? array_map('sanitize_text_field', $_POST['roles']) : [];
+        $role_details = isset($_POST['role_details']) ? sanitize_textarea_field($_POST['role_details']) : '';
         $job_descriptions = isset($_POST['job_descriptions']) ? sanitize_textarea_field($_POST['job_descriptions']) : '';
-        $posted_email = isset($_POST['client_email']) ? sanitize_email($_POST['client_email']) : 'Client';
+        $comm_methods = isset($_POST['comm_methods']) ? array_map('sanitize_text_field', $_POST['comm_methods']) : [];
+        $report_to = isset($_POST['report_to']) ? sanitize_text_field($_POST['report_to']) : '';
+
+        $start_date = isset($_POST['start_date']) ? sanitize_text_field($_POST['start_date']) : '';
+        $additional_notes = isset($_POST['additional_notes']) ? sanitize_textarea_field($_POST['additional_notes']) : '';
 
         // Handle File Uploads securely
-        $attachments = [];
-        $temp_dir = WP_CONTENT_DIR . '/uploads/kc_temp_docs/';
-        if (!file_exists($temp_dir)) {
-            wp_mkdir_p($temp_dir);
-            file_put_contents($temp_dir . '.htaccess', "deny from all"); // Security
-        }
-
         if (!empty($_FILES['client_files']['name'][0])) {
+            $uploaded_files = array();
+            
+            $upload_dir_info = wp_upload_dir();
+            $temp_dir_path = $upload_dir_info['basedir'] . '/kc_client_uploads/';
+            $temp_dir_url = $upload_dir_info['baseurl'] . '/kc_client_uploads/';
+            
+            if (!file_exists($temp_dir_path)) {
+                wp_mkdir_p($temp_dir_path);
+                // Prevent directory listing but allow direct file access
+                file_put_contents($temp_dir_path . '.htaccess', "Options -Indexes\n");
+            }
+            
             $file_count = count($_FILES['client_files']['name']);
             for ($i = 0; $i < $file_count; $i++) {
                 if ($_FILES['client_files']['error'][$i] === UPLOAD_ERR_OK) {
                     $original_name = sanitize_file_name($_FILES['client_files']['name'][$i]);
-                    $temp_file = $temp_dir . uniqid() . '_' . $original_name;
-                    if (move_uploaded_file($_FILES['client_files']['tmp_name'][$i], $temp_file)) {
-                        $attachments[] = $temp_file;
+                    $file_ext = strtolower(pathinfo($original_name, PATHINFO_EXTENSION));
+                    
+                    // Restrict to PDF only as per request
+                    if ($file_ext === 'pdf') {
+                        $unique_filename = uniqid() . '_' . $original_name;
+                        $temp_file = $temp_dir_path . $unique_filename;
+                        if (move_uploaded_file($_FILES['client_files']['tmp_name'][$i], $temp_file)) {
+                            // Save the public URL to the CRM so admin can click it
+                            $file_url = $temp_dir_url . $unique_filename;
+                            $uploaded_files[] = $file_url;
+                        }
                     }
                 }
             }
-        }
-
-        // Format Email
-        $to = 'lospedros479@gmail.com';
-        $subject = 'New Needs Discovery Submission (Step 2)';
-        
-        $body = "<h2>New Step 2 Requirements</h2>";
-        
-        // Managed Staff Leasing Details
-        if(!empty($departments)) $body .= "<p><strong>Staff Leasing Departments:</strong> " . implode(', ', $departments) . "</p>";
-        if(!empty($staff_count)) $body .= "<p><strong>Staff per Department:</strong> $staff_count</p>";
-        if(!empty($employment_type)) $body .= "<p><strong>Employment Type:</strong> $employment_type</p>";
-        if(!empty($expat_manager)) $body .= "<p><strong>Expat Manager On-Site:</strong> $expat_manager</p>";
-        if(!empty($min_quals)) $body .= "<p><strong>Minimum Qualifications:</strong><br/>" . nl2br($min_quals) . "</p>";
-        if(!empty($kpi_notes)) $body .= "<p><strong>KPIs/Reporting:</strong><br/>" . nl2br($kpi_notes) . "</p>";
-        
-        // Offshoring Staffing Details
-        if(!empty($roles)) $body .= "<hr><p><strong>Team Builder Roles:</strong> " . implode(', ', $roles) . "</p>";
-        if(!empty($role_details)) $body .= "<p><strong>Role Details & Headcount:</strong><br/>" . nl2br($role_details) . "</p>";
-        if(!empty($job_descriptions)) $body .= "<p><strong>Job Descriptions / Details:</strong><br/>" . nl2br($job_descriptions) . "</p>";
-        if(!empty($comm_methods)) $body .= "<p><strong>Communication Methods:</strong> " . implode(', ', $comm_methods) . "</p>";
-        if(!empty($report_to)) $body .= "<p><strong>Reports To:</strong> $report_to</p>";
-        
-        // Shared Details
-        $body .= "<hr><p><strong>Start Date:</strong> $start_date</p>";
-        if(!empty($additional_notes)) $body .= "<p><strong>Additional Notes:</strong><br/>" . nl2br($additional_notes) . "</p>";
-        if(count($attachments) > 0) $body .= "<p><strong>Attached Files:</strong> " . count($attachments) . " file(s) attached to this email.</p>";
-
-        // Admin Step 3 Reply Link
-        $step3_url = home_url('/step-3-booking/?token=approved');
-        $step3_body = "Hi there,\n\nWe have reviewed your requirements and prepared your custom proposal! Please book a Discovery Call so we can walk you through it.\n\nBook your call here: $step3_url\n\nBest,\nKings City Team";
-        $step3_mailto = "mailto:$posted_email?subject=" . rawurlencode("Your Kings City Proposal is Ready") . "&body=" . rawurlencode($step3_body);
-
-        $body .= "<hr><p><strong>Submitted By:</strong> $posted_email</p>";
-        $body .= '<p style="margin-top: 20px;"><a href="' . esc_attr($step3_mailto) . '" style="display: inline-block; padding: 10px 20px; background-color: #BD451F; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold;">Approve & Send Step 3 Link</a></p>';
-
-        $headers = array('Content-Type: text/html; charset=UTF-8');
-
-        // Send Email
-        wp_mail($to, $subject, $body, $headers, $attachments);
-        
-        // Clean up temp files immediately after sending to protect privacy
-        foreach ($attachments as $file) {
-            if (file_exists($file)) {
-                unlink($file);
+            if (!empty($uploaded_files)) {
+                $existing_files = get_post_meta($post_id, 'kc_uploaded_files', true);
+                $all_files = $existing_files ? $existing_files . "\n" . implode("\n", $uploaded_files) : implode("\n", $uploaded_files);
+                update_post_meta($post_id, 'kc_uploaded_files', $all_files);
             }
         }
+
+        // Update the ticket with Step 2 data
+        if (strpos($service_type, 'Managed Staff Leasing') !== false || strpos($service_type, 'Both') !== false) {
+            update_post_meta($post_id, 'kc_departments', implode(', ', $departments));
+            update_post_meta($post_id, 'kc_staff_count', $staff_count);
+            update_post_meta($post_id, 'kc_employment_type', $employment_type);
+            update_post_meta($post_id, 'kc_expat_manager', $expat_manager);
+            update_post_meta($post_id, 'kc_min_quals', $min_quals);
+            update_post_meta($post_id, 'kc_kpi_notes', $kpi_notes);
+        }
+
+        if (strpos($service_type, 'Staffing') !== false || strpos($service_type, 'Both') !== false) {
+            update_post_meta($post_id, 'kc_step2_roles', implode(', ', $step2_roles));
+            update_post_meta($post_id, 'kc_role_details', $role_details);
+            update_post_meta($post_id, 'kc_job_descriptions', $job_descriptions);
+            update_post_meta($post_id, 'kc_comm_methods', implode(', ', $comm_methods));
+            update_post_meta($post_id, 'kc_report_to', $report_to);
+        }
+
+        update_post_meta($post_id, 'kc_start_date', $start_date);
+        update_post_meta($post_id, 'kc_additional_notes', $additional_notes);
+
+        // Update status
+        update_post_meta($post_id, 'kc_status', 'Step 2 - Submitted');
         
         $form_submitted = true;
     }
 }
 
 get_header();
+
+// Provide fallback if there is no service_type fetched
+$is_notsure = strpos($service_type, 'Not Sure') !== false;
+$show_leasing = strpos($service_type, 'Managed Staff Leasing') !== false || strpos($service_type, 'Both') !== false;
+$show_staffing = strpos($service_type, 'Staffing') !== false || strpos($service_type, 'Both') !== false;
+$show_both = strpos($service_type, 'Both') !== false;
 ?>
 
 <main id="primary" class="site-main" style="padding: 6rem 1rem; background: var(--color-background); min-height: 80vh;">
     <div class="step2-container" style="max-width: 800px; width: 100%; background: #fff; padding: 3rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); margin: 0 auto;">
         
-        <?php if (!$is_valid_link) : ?>
+        <?php if ($already_submitted && !$form_submitted) : ?>
+            
+            <div class="step2-success" style="text-align: center; padding: 4rem 2rem;">
+                <i class="fa-solid fa-circle-check" style="font-size: 4rem; color: #10b981; margin-bottom: 1.5rem;"></i>
+                <h2 style="margin-bottom: 1rem; color: var(--color-primary);">Already Submitted</h2>
+                <p style="color: var(--color-text-muted); font-size: 1.125rem; margin-bottom: 3rem;">You have already successfully submitted your Step 2 requirements.</p>
+            </div>
+
+        <?php elseif (!$is_valid_link && !$form_submitted) : ?>
             
             <div class="step2-error" style="text-align: center; padding: 3rem 0;">
                 <i class="fa-solid fa-lock" style="font-size: 3rem; color: var(--color-text-muted); margin-bottom: 1rem;"></i>
                 <h2>Secure Link Required</h2>
-                <p style="color: var(--color-text-muted); margin-bottom: 2rem;">It looks like this link is missing a secure token or has expired.</p>
+                <p style="color: var(--color-text-muted); margin-bottom: 2rem;">It looks like this link is invalid or your application is not in the correct status.</p>
                 <a href="<?php echo esc_url(home_url('/apply')); ?>" class="kc-btn kc-btn-primary">Return to Apply Page</a>
+            </div>
+
+        <?php elseif ($is_notsure) : ?>
+
+            <div class="step2-success" style="text-align: center; padding: 4rem 2rem;">
+                <i class="fa-solid fa-calendar-check" style="font-size: 4rem; color: #10b981; margin-bottom: 1.5rem;"></i>
+                <h2 style="margin-bottom: 1rem; color: var(--color-primary);">Your application has been approved.</h2>
+                <p style="color: var(--color-text-muted); font-size: 1.125rem; margin-bottom: 3rem;">Please check your email for your Step 3 discovery call booking link.</p>
             </div>
 
         <?php elseif ($form_submitted) : ?>
@@ -133,26 +183,15 @@ get_header();
             <div class="step2-success" style="text-align: center; padding: 4rem 2rem;">
                 <i class="fa-solid fa-circle-check" style="font-size: 4rem; color: #10b981; margin-bottom: 1.5rem;"></i>
                 <h2 style="margin-bottom: 1rem; color: var(--color-primary);">Requirements Submitted!</h2>
-                <p style="color: var(--color-text-muted); font-size: 1.125rem; margin-bottom: 3rem;">Thank you for submitting your detailed requirements. Our team is already preparing your custom proposal and will send you an email shortly to book your discovery call.</p>
-                
-                <div style="display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem; background: #fff9ef; padding: 0.75rem 1.5rem; border-radius: 50px; border: 1px solid rgba(189, 69, 31, 0.1); color: var(--color-primary); font-size: 0.875rem; font-weight: 600;">
-                    <i class="fa-solid fa-spinner fa-spin"></i>
-                    <span>Redirecting back to the application page...</span>
-                </div>
-                
-                <script>
-                    setTimeout(function() {
-                        window.location.href = "<?php echo esc_url(home_url('/apply/')); ?>";
-                    }, 4000);
-                </script>
+                <p style="color: var(--color-text-muted); font-size: 1.125rem; margin-bottom: 3rem;">Your Step 2 details have been submitted. Our team will review and be in touch shortly.</p>
             </div>
 
         <?php else : ?>
             
             <div class="step2-header" style="text-align: center; margin-bottom: 2.5rem;">
-                <span style="font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-primary);">Step 2 of 3</span>
-                <h1 style="margin-bottom: 0.5rem;">Needs Discovery</h1>
-                <p style="color: var(--color-text-muted);">Please provide the detailed requirements for your team so we can prepare an accurate proposal.</p>
+                <span style="display: block; font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-primary); margin-bottom: 0.5rem; text-align: center;">Step 2 of 3</span>
+                <h1 style="margin-bottom: 0.5rem; text-align: center;">Needs Discovery</h1>
+                <p style="color: var(--color-text-muted); text-align: center;">Please provide the detailed requirements for your team so we can prepare an accurate proposal.</p>
             </div>
 
             <?php if (!empty($error_message)) : ?>
@@ -161,43 +200,12 @@ get_header();
                 </div>
             <?php endif; ?>
 
-            <form method="POST" action="" class="kc-native-form" enctype="multipart/form-data" style="text-align: center;">
+            <form method="POST" action="" class="kc-native-form" enctype="multipart/form-data" style="text-align: left;">
                 <?php wp_nonce_field('step2_submission', 'step2_nonce'); ?>
                 <!-- Honeypot -->
                 <input type="text" name="website_url_trap" style="display:none !important;" tabindex="-1" autocomplete="off">
                 <input type="hidden" name="client_email" value="<?php echo esc_attr($client_email); ?>">
-
-                <?php 
-                // Determine which sections to show based on the ?service= url parameter
-                $service_param = isset($_GET['service']) ? sanitize_text_field($_GET['service']) : 'both';
-                
-                $is_notsure = ($service_param === 'notsure');
-                $show_leasing = ($service_param === 'leasing' || $service_param === 'both');
-                $show_offshoring = ($service_param === 'offshoring' || $service_param === 'both');
-                ?>
-
-                <?php if ($is_notsure) : ?>
-                    <div style="text-align: center; padding: 2rem;">
-                        <h3 style="margin-bottom: 1rem;">Let's find the best fit!</h3>
-                        <p style="color: var(--color-text-muted); margin-bottom: 2rem;">Please book a quick discovery call below so we can understand your unique needs.</p>
-                        <!-- Calendly inline widget begin -->
-                        <div class="calendly-inline-widget" data-url="https://calendly.com/lospedros479/30min" style="min-width:320px;height:700px;"></div>
-                        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
-                        <!-- Calendly inline widget end -->
-                        <!-- IMPORTANT: Replace "https://calendly.com/calendly-demo" above with your actual Calendly link -->
-                        
-                        <div style="margin-top: 3rem; text-align: left; background: #fff9ef; padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(189, 69, 31, 0.1);">
-                            <div class="kc-form-group" style="margin-bottom: 1rem;">
-                                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-primary);">Have any existing documents or JDs?</label>
-                                <input type="file" name="client_files[]" multiple style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: var(--radius-md); background: #fff;">
-                                <small style="color: var(--color-text-muted); display: block; margin-top: 0.5rem;">Upload them here so we can review them before our call. (PDF, Word, etc.)</small>
-                            </div>
-                            <div class="kc-form-submit">
-                                <button type="submit" name="step2_submit" class="kc-btn kc-btn-primary" style="width: 100%; padding: 0.75rem; font-size: 1rem;">Submit Documents (Optional)</button>
-                            </div>
-                        </div>
-                    </div>
-                <?php else : ?>
+                <input type="hidden" name="secure_token" value="<?php echo esc_attr($token); ?>">
 
                 <!-- MANAGED STAFF LEASING FIELDS -->
                 <?php if ($show_leasing) : ?>
@@ -238,8 +246,8 @@ get_header();
                 </div>
                 <div class="kc-form-group" style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Upload Ideal Candidate Profiles or Org Charts (Optional)</label>
-                    <input type="file" name="client_files[]" multiple style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: var(--radius-md); background: #fff;">
-                    <small style="color: var(--color-text-muted);">You can select multiple files. (PDF, Word, Images)</small>
+                    <input type="file" name="client_files[]" multiple accept=".pdf" style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: var(--radius-md); background: #fff;">
+                    <small style="color: var(--color-text-muted);">You can select multiple files. (PDF files only)</small>
                 </div>
 
                 <div class="kc-form-group" style="margin-bottom: 1.5rem;">
@@ -249,7 +257,7 @@ get_header();
                 <?php endif; ?>
 
                 <!-- OFFSHORING STAFFING FIELDS -->
-                <?php if ($show_offshoring) : ?>
+                <?php if ($show_staffing) : ?>
                 <div class="kc-form-group" style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Which Team Builder Roles do you need?</label>
                     <div class="kc-checkbox-group">
@@ -278,14 +286,14 @@ get_header();
 
                 <div class="kc-form-group" style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Upload Job Descriptions or Example CVs (Optional)</label>
-                    <input type="file" name="client_files[]" multiple style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: var(--radius-md); background: #fff;">
-                    <small style="color: var(--color-text-muted);">Select multiple files to upload existing JD documents or reference resumes. (PDF, Word, etc.)</small>
+                    <input type="file" name="client_files[]" multiple accept=".pdf" style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: var(--radius-md); background: #fff;">
+                    <small style="color: var(--color-text-muted);">Select multiple files to upload existing JD documents or reference resumes. (PDF files only)</small>
                 </div>
 
                 <div class="kc-form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
                     <div class="kc-form-group">
                         <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Preferred communication method</label>
-                        <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
                             <label><input type="checkbox" name="comm_methods[]" value="Zoom"> Zoom</label>
                             <label><input type="checkbox" name="comm_methods[]" value="Skype"> Skype</label>
                             <label><input type="checkbox" name="comm_methods[]" value="Email"> Email</label>
@@ -301,6 +309,7 @@ get_header();
                 <?php endif; ?>
 
                 <!-- SHARED FIELDS -->
+                <?php if ($show_leasing || $show_staffing) : ?>
                 <div class="kc-form-group" style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Preferred start date</label>
                     <input type="date" name="start_date" style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: var(--radius-md);">
@@ -321,12 +330,11 @@ get_header();
                 <div class="kc-form-submit" style="margin-top: 2rem;">
                     <button type="submit" name="step2_submit" class="kc-btn kc-btn-primary" style="width: 100%; padding: 1rem; font-size: 1.125rem;">Submit Requirements</button>
                 </div>
-                <?php endif; // Closes: if ($is_notsure) else block (line 131) ?>
+                <?php endif; ?>
             </form>
-        <?php endif; // Closes: if (!$is_valid_link) else block (line 96) ?>
+        <?php endif; ?>
 
     </div>
 </main>
 
-<?php
-get_footer();
+<?php get_footer(); ?>

@@ -23,31 +23,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_submit'])) {
         $participants = sanitize_text_field($_POST['book_participants']);
         $special = sanitize_textarea_field($_POST['book_special']);
         
-        $admin_email = 'lospedros479@gmail.com'; // Admin Email
-        $subject = "New Booking Request: $first_name $last_name ($space_type)";
+        // Create CRM Booking Ticket
+        $post_id = wp_insert_post(array(
+            'post_type'   => 'kc_booking',
+            'post_title'  => $first_name . ' ' . $last_name,
+            'post_status' => 'publish',
+        ));
+
+        if ($post_id) {
+            update_post_meta($post_id, 'kc_first_name', $first_name);
+            update_post_meta($post_id, 'kc_last_name', $last_name);
+            update_post_meta($post_id, 'kc_email', $email);
+            update_post_meta($post_id, 'kc_phone', $phone);
+            update_post_meta($post_id, 'kc_space_type', $space_type);
+            update_post_meta($post_id, 'kc_duration', $duration);
+            update_post_meta($post_id, 'kc_price', $price);
+            update_post_meta($post_id, 'kc_start_date', $start_date);
+            update_post_meta($post_id, 'kc_arrival_time', $arrival_time);
+            update_post_meta($post_id, 'kc_participants', $participants);
+            update_post_meta($post_id, 'kc_special', $special);
+            update_post_meta($post_id, 'kc_status', 'Pending Payment');
+        }
         
-        $body = "<h2>New Booking Request</h2>
-                 <table style='width: 100%; border-collapse: collapse; font-family: sans-serif;'>
-                    <tr><td style='padding: 8px; border-bottom: 1px solid #ddd;'><strong>Name:</strong></td><td style='padding: 8px; border-bottom: 1px solid #ddd;'>$first_name $last_name</td></tr>
-                    <tr><td style='padding: 8px; border-bottom: 1px solid #ddd;'><strong>Email:</strong></td><td style='padding: 8px; border-bottom: 1px solid #ddd;'>$email</td></tr>
-                    <tr><td style='padding: 8px; border-bottom: 1px solid #ddd;'><strong>Phone:</strong></td><td style='padding: 8px; border-bottom: 1px solid #ddd;'>$phone</td></tr>
-                    <tr><td style='padding: 8px; border-bottom: 1px solid #ddd;'><strong>Space Type:</strong></td><td style='padding: 8px; border-bottom: 1px solid #ddd;'>$space_type</td></tr>
-                    <tr><td style='padding: 8px; border-bottom: 1px solid #ddd;'><strong>Pass/Duration:</strong></td><td style='padding: 8px; border-bottom: 1px solid #ddd;'>$duration</td></tr>
-                    <tr><td style='padding: 8px; border-bottom: 1px solid #ddd;'><strong>Estimated Price:</strong></td><td style='padding: 8px; border-bottom: 1px solid #ddd;'>Php $price</td></tr>
-                    <tr><td style='padding: 8px; border-bottom: 1px solid #ddd;'><strong>Start Date:</strong></td><td style='padding: 8px; border-bottom: 1px solid #ddd;'>$start_date</td></tr>
-                    <tr><td style='padding: 8px; border-bottom: 1px solid #ddd;'><strong>Arrival Time:</strong></td><td style='padding: 8px; border-bottom: 1px solid #ddd;'>$arrival_time</td></tr>
-                    <tr><td style='padding: 8px; border-bottom: 1px solid #ddd;'><strong>Participants:</strong></td><td style='padding: 8px; border-bottom: 1px solid #ddd;'>$participants</td></tr>
-                 </table>
-                 <br>
-                 <strong>Special Requests:</strong><br>
-                 <p>" . nl2br($special) . "</p>";
-                 
+        // Send Client Auto-Responder Email (client still gets their confirmation)
         $headers = array('Content-Type: text/html; charset=UTF-8');
-        
-        // Send Admin Email
-        wp_mail($admin_email, $subject, $body, $headers);
-        
-        // Send Client Auto-Responder Email
         $client_subject = "Booking Request Received: $space_type";
         $client_body = "<h2>We've received your booking request!</h2>
                         <p>Hi $first_name,</p>
@@ -323,11 +322,7 @@ get_header();
 <div class="success-message" style="text-align: center; padding: 3rem 1rem;">
     <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 1rem;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
     <h2 style="color: var(--color-primary); margin-bottom: 1rem;">Booking Requested Successfully!</h2>
-    <p style="color: var(--color-text-muted); font-size: 1.1rem; margin-bottom: 1.5rem;">Your request has been sent to our team.</p>
-    <div style="background: #fff9ef; border: 1px solid rgba(189, 69, 31, 0.2); border-radius: 8px; padding: 1.5rem; text-align: left;">
-        <p style="color: var(--color-accent-red); font-weight: 600; margin-bottom: 0.5rem;"><i class="fa-solid fa-circle-exclamation"></i> Important Notice</p>
-        <p style="color: var(--color-text-muted); font-size: 0.95rem; margin-bottom: 0;">Your booking is reserved for your selected start date and time. If you do not arrive within <strong>24 hours</strong> of your start date, your reservation will be automatically cancelled. If your reservation expires, you are always welcome to book again through our website or directly at the Kings City reception desk!</p>
-    </div>
+    <p style="color: var(--color-text-muted); font-size: 1.1rem; margin-bottom: 1.5rem;">Your booking has been received! We will be in touch to confirm payment details.</p>
 </div>
 <?php else: ?>
 <?php if (!empty($error_message)): ?>

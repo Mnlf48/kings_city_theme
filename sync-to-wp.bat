@@ -5,7 +5,7 @@ echo ========================================================
 echo.
 
 :: IMPORTANT: Change this path to match your actual local WordPress installation
-SET WP_THEME_DIR=C:\xampp\htdocs\kings-city\wp-content\themes\the-kings-city-club
+SET WP_THEME_DIR=C:\xampp\htdocs\the-kings-city-club\wp-content\themes\the-kings-city-club
 SET SOURCE_DIR=%~dp0the-kings-city-club
 
 echo Source: %SOURCE_DIR%
