@@ -162,8 +162,9 @@ get_header();
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 100%;
-      aspect-ratio: 4 / 3;
+      width: 660px;
+      height: 630px;
+      max-width: 100%;
       padding: clamp(2rem, 5vw, 4rem); 
       position: relative;
     }
@@ -352,6 +353,12 @@ get_header();
 <section class="section content-panel section--cda">
 <div class="container grid-12">
 <div class="col-12 split">
+<div class="split__content animate-fadeInLeft">
+<span class="text-overline"><?php echo get_field('overline_27'); ?></span>
+<h2 style="margin-top: 1rem; margin-bottom: var(--space-md);"><?php echo get_field('h2_24'); ?></h2>
+<p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8;"><?php echo get_field('p_25'); ?></p>
+<p style="color: var(--color-text-muted); line-height: 1.8;"><?php echo get_field('p_26'); ?></p>
+</div>
 <div class="split__media animate-fadeInRight">
 <div class="cda-card-large" style="overflow: hidden; position: relative;">
 <!-- Background Image -->
@@ -367,12 +374,6 @@ get_header();
 <span class="cda-badge-label">Cooperative</span>
 </div>
 </div>
-</div>
-<div class="split__content animate-fadeInLeft">
-<span class="text-overline"><?php echo get_field('overline_27'); ?></span>
-<h2 style="margin-top: 1rem; margin-bottom: var(--space-md);"><?php echo get_field('h2_24'); ?></h2>
-<p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8;"><?php echo get_field('p_25'); ?></p>
-<p style="color: var(--color-text-muted); line-height: 1.8;"><?php echo get_field('p_26'); ?></p>
 </div>
 </div>
 </div>

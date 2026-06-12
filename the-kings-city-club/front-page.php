@@ -21,6 +21,7 @@ get_header();
 <!-- text on right -->
 <div class="split__content animate-fadeInUp hero__content--index">
 <span class="text-overline hero__overline"><?php echo get_field('hero_section_txt_6'); ?></span>
+<h1 class="hero__title hero__title--inner hero__welcome" style="margin-bottom: 0;"><?php echo get_field('hero_section_txt_welcome'); ?></h1>
 <h1 class="hero__title hero__title--inner"><?php echo get_field('hero_section_txt_4'); ?></h1>
 <p class="hero__subtitle"><?php echo get_field('hero_section_txt_5'); ?></p>
 <div class="hero__actions hero__actions--index" style="display: block; margin-top: 40px; height: 54px; overflow: hidden;">
@@ -54,7 +55,7 @@ get_header();
 <p class="space-card__desc"><?php echo get_field('section_txt_18'); ?></p>
 </div>
 <div class="space-card__footer">
-<a class="btn btn--small" href="spaces.html">Learn More</a>
+<a class="btn btn--small" href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>">Learn More</a>
 <div class="space-card__capacity">
 <svg fill="currentColor" height="14" viewbox="0 0 24 24" width="14">
 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
@@ -73,7 +74,7 @@ get_header();
 <p class="space-card__desc"><?php echo get_field('section_txt_19'); ?></p>
 </div>
 <div class="space-card__footer">
-<a class="btn btn--small" href="spaces.html">Learn More</a>
+<a class="btn btn--small" href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>">Learn More</a>
 <div class="space-card__capacity">
 <svg fill="currentColor" height="14" viewbox="0 0 24 24" width="14">
 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
@@ -92,7 +93,7 @@ get_header();
 <p class="space-card__desc"><?php echo get_field('section_txt_20'); ?></p>
 </div>
 <div class="space-card__footer">
-<a class="btn btn--small" href="spaces.html">Learn More</a>
+<a class="btn btn--small" href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>">Learn More</a>
 <div class="space-card__capacity">
 <svg fill="currentColor" height="14" viewbox="0 0 24 24" width="14">
 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
@@ -111,12 +112,50 @@ get_header();
 <p class="space-card__desc"><?php echo get_field('section_txt_21'); ?></p>
 </div>
 <div class="space-card__footer">
-<a class="btn btn--small" href="spaces.html">Learn More</a>
+<a class="btn btn--small" href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>">Learn More</a>
 <div class="space-card__capacity">
 <svg fill="currentColor" height="14" viewbox="0 0 24 24" width="14">
 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
 </svg>
 <span><?php echo get_field('section_txt_26'); ?></span>
+</div>
+</div>
+</article>
+<!-- space card 5 -->
+<article class="space-card card-glass animate-fadeInUp" style="animation-delay: 0.4s;">
+<div class="space-card__img-wrap">
+<img alt="Virtual Office" class="space-card__img" src="<?php echo esc_url(get_field('section_img_100')['url'] ?? ''); ?>"/>
+</div>
+<div class="space-card__body">
+<h3 class="space-card__title"><?php echo get_field('section_txt_101'); ?></h3>
+<p class="space-card__desc"><?php echo get_field('section_txt_102'); ?></p>
+</div>
+<div class="space-card__footer">
+<a class="btn btn--small" href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>">Learn More</a>
+<div class="space-card__capacity">
+<svg fill="currentColor" height="14" viewbox="0 0 24 24" width="14">
+<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
+</svg>
+<span><?php echo get_field('section_txt_103'); ?></span>
+</div>
+</div>
+</article>
+<!-- space card 6 -->
+<article class="space-card card-glass animate-fadeInUp" style="animation-delay: 0.5s;">
+<div class="space-card__img-wrap">
+<img alt="Meeting Rooms" class="space-card__img" src="<?php echo esc_url(get_field('section_img_104')['url'] ?? ''); ?>"/>
+</div>
+<div class="space-card__body">
+<h3 class="space-card__title"><?php echo get_field('section_txt_105'); ?></h3>
+<p class="space-card__desc"><?php echo get_field('section_txt_106'); ?></p>
+</div>
+<div class="space-card__footer">
+<a class="btn btn--small" href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>">Learn More</a>
+<div class="space-card__capacity">
+<svg fill="currentColor" height="14" viewbox="0 0 24 24" width="14">
+<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
+</svg>
+<span><?php echo get_field('section_txt_107'); ?></span>
 </div>
 </div>
 </article>
@@ -153,7 +192,11 @@ get_header();
                 Professional HR Framework
               </li>
 </ul>
-<div style="margin-top: var(--space-md);"><?php echo get_field('section_txt_36'); ?></div>
+<div style="margin-top: var(--space-md);">
+<a class="btn" href="<?php echo esc_url( home_url( '/apply/' ) ); ?>">
+<?php echo trim(strip_tags(get_field('section_txt_36'))); ?>
+</a>
+</div>
 </div>
 <div class="split__media">
 <img alt="Offshoring Power - A professional team working in a modern office" src="<?php echo esc_url(get_field('section_img_32')['url']); ?>"/>
@@ -378,7 +421,7 @@ get_header();
 <p style="color: var(--color-primary); margin-bottom: var(--space-md); line-height: 1.7;"><?php echo get_field('section_txt_70'); ?></p>
 <p style="color: var(--color-primary); margin-bottom: var(--space-xl); line-height: 1.7;"><?php echo get_field('section_txt_71'); ?></p>
 <div style="display: flex; align-items: center; gap: var(--space-lg); flex-wrap: wrap;">
-<a class="btn" href="impact.html">Learn More</a>
+<a class="btn" href="<?php echo esc_url( home_url( '/impact/' ) ); ?>">Learn More</a>
 <!-- badges placeholder -->
 <div style="display: flex; gap: var(--space-sm);">
 <div style="width: 50px; height: 50px; background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--radius-pill); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; text-align: center; color: var(--color-primary);"><?php echo get_field('section_txt_73'); ?></div>
@@ -397,7 +440,7 @@ get_header();
 <h2 style="color: #BD451F; margin-bottom: 0;"><?php echo get_field('section_txt_78'); ?></h2>
 </div>
 <div class="journal-cta-wrap journal-cta-wrap--desktop" style="align-self: flex-end; margin-bottom: 5px;">
-<a class="btn" href="news.html">Read News <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="margin-left: 8px;" viewbox="0 0 24 24" width="16">
+<a class="btn" href="<?php echo esc_url( home_url( '/news/' ) ); ?>">Read News <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="margin-left: 8px;" viewbox="0 0 24 24" width="16">
 <line x1="5" x2="19" y1="12" y2="12"></line>
 <polyline points="12 5 19 12 12 19"></polyline>
 </svg></a>
@@ -434,7 +477,7 @@ get_header();
 </div>
 <!-- mobile read news cta -->
 <div class="journal-cta-wrap journal-cta-wrap--mobile text-right" style="margin-top: var(--space-md);">
-<a class="btn" href="news.html">Read News <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="margin-left: 8px;" viewbox="0 0 24 24" width="16">
+<a class="btn" href="<?php echo esc_url( home_url( '/news/' ) ); ?>">Read News <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="margin-left: 8px;" viewbox="0 0 24 24" width="16">
 <line x1="5" x2="19" y1="12" y2="12"></line>
 <polyline points="12 5 19 12 12 19"></polyline>
 </svg></a>

@@ -1,6 +1,12 @@
 <?php
 /* Template Name: Spaces */
 get_header();
+
+// Resolve apply and book-now page URLs by template name (safe — works regardless of slug)
+$apply_page    = get_pages( array( 'meta_key' => '_wp_page_template', 'meta_value' => 'page-apply.php' ) );
+$book_now_page = get_pages( array( 'meta_key' => '_wp_page_template', 'meta_value' => 'page-book-now.php' ) );
+$apply_url     = ! empty( $apply_page )    ? esc_url( get_permalink( $apply_page[0]->ID ) )    : esc_url( home_url( '/apply/' ) );
+$book_now_url  = ! empty( $book_now_page ) ? esc_url( get_permalink( $book_now_page[0]->ID ) ) : esc_url( home_url( '/book-now/' ) );
 ?>
 
 <style>
@@ -43,7 +49,7 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </h1>
 <p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
 <div class="hero__actions hero__actions--index">
-<a class="btn" href="apply.html">
+<a class="btn" href="<?php echo $apply_url; ?>">
                 Become a Member
               </a>
 </div>
@@ -81,8 +87,8 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 <div class="spaces-price-table__row"><span>Annual Pass</span><span>Php 60,000</span></div>
 </div>
 <div class="spaces-ctas">
-<a class="btn" href="book_now.html">Book Now</a>
-<a class="btn btn--outline" href="apply.html">Apply for Membership</a>
+<a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
+<a class="btn btn--outline" href="<?php echo $apply_url; ?>">Apply for Membership</a>
 </div>
 </div>
 </div>
@@ -109,8 +115,8 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 <div class="spaces-price-table__row"><span>Full Day</span><span>Php 8,000</span></div>
 </div>
 <div class="spaces-ctas">
-<a class="btn" href="book_now.html">Book Now</a>
-<a class="btn btn--outline" href="apply.html">Apply for Membership</a>
+<a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
+<a class="btn btn--outline" href="<?php echo $apply_url; ?>">Apply for Membership</a>
 </div>
 </div>
 </div>
@@ -137,8 +143,8 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 <div class="spaces-price-table__row"><span>Full Day</span><span>Php 40,000</span></div>
 </div>
 <div class="spaces-ctas">
-<a class="btn" href="book_now.html">Book Now</a>
-<a class="btn btn--outline" href="apply.html">Apply for Membership</a>
+<a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
+<a class="btn btn--outline" href="<?php echo $apply_url; ?>">Apply for Membership</a>
 </div>
 </div>
 </div>
@@ -165,8 +171,8 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 <div class="spaces-price-table__row"><span>14-Seat Office</span><span>Php 112,000 / mo</span></div>
 </div>
 <div class="spaces-ctas">
-<a class="btn" href="book_now.html">Book Now</a>
-<a class="btn btn--outline" href="apply.html">Apply for Membership</a>
+<a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
+<a class="btn btn--outline" href="<?php echo $apply_url; ?>">Apply for Membership</a>
 </div>
 </div>
 </div>
@@ -193,8 +199,8 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 <div class="spaces-price-table__row"><span>Annually</span><span>Php 50,000</span></div>
 </div>
 <div class="spaces-ctas">
-<a class="btn" href="book_now.html">Book Now</a>
-<a class="btn btn--outline" href="apply.html">Apply for Membership</a>
+<a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
+<a class="btn btn--outline" href="<?php echo $apply_url; ?>">Apply for Membership</a>
 </div>
 </div>
 </div>

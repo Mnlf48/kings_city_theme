@@ -18,7 +18,7 @@ if (!$h1_val) $h1_val = 'The Kings City Club';
 
 if (stripos($h1_val, 'the kings city club') !== false) {
     echo '<span style="display: block;">' . trim(str_ireplace('City Club', '', $h1_val)) . '</span>';
-    echo '<span style="display: block;">City Club</span>';
+    echo '<span style="display: block;">CITY CLUB</span>';
 } else {
     echo $h1_val;
 }

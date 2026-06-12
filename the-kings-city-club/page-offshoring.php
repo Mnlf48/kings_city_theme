@@ -1,6 +1,10 @@
 <?php
 /* Template Name: Offshoring */
 get_header();
+
+// Resolve apply page URL by template name (safe — works regardless of slug)
+$apply_page = get_pages( array( 'meta_key' => '_wp_page_template', 'meta_value' => 'page-apply.php' ) );
+$apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->ID ) ) : esc_url( home_url( '/apply/' ) );
 ?>
 
 <main id="main-content">
@@ -11,10 +15,11 @@ get_header();
 <!-- text content on left -->
 <div class="split__content animate-fadeInUp hero__content--index">
 <span class="text-overline hero__overline"><?php echo get_field('overline_3'); ?></span>
-<h1 class="hero__title hero__title--inner"><?php echo get_field('h1_1'); ?></h1>
+<h1 class="hero__title hero__title--inner hero__welcome" style="margin-bottom: 0;">Build Your</h1>
+<h1 class="hero__title hero__title--inner hero__title--offshoring">Dedicated Team in The Philippines</h1>
 <p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
 <div class="hero__actions hero__actions--index">
-<a class="btn" href="apply.html">
+<a class="btn" href="<?php echo $apply_url; ?>">
                 Request a Consultation
               </a>
 </div>
@@ -127,7 +132,7 @@ get_header();
 <li style="display: flex; gap: 0.75rem; font-size: 0.9rem; align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="var(--color-primary)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Employee engagement and performance frameworks</li>
 <li style="display: flex; gap: 0.75rem; font-size: 0.9rem; align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="var(--color-primary)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Best for businesses scaling a dedicated offshore division</li>
 </ul>
-<a class="btn" href="<?php echo get_field('model1_btn_url') ?: 'apply.html'; ?>" style="width: 100%; display: flex; justify-content: center;"><?php echo get_field('model1_btn_text') ?: 'Get Started'; ?></a>
+<a class="btn" href="<?php echo get_field('model1_btn_url') ? esc_url(get_field('model1_btn_url')) : $apply_url; ?>" style="width: 100%; display: flex; justify-content: center;"><?php echo get_field('model1_btn_text') ?: 'Get Started'; ?></a>
 </div>
 <!-- model 2 card -->
 <div class="card-glass" style="background: var(--color-primary); border-color: transparent; color: #fff; padding: var(--space-xl); flex: 1; min-width: 280px;">
@@ -140,7 +145,7 @@ get_header();
 <li style="display: flex; gap: 0.75rem; font-size: 0.9rem; color: rgba(255,255,255,0.9); align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Communicate your way via Zoom Skype email or on-site</li>
 <li style="display: flex; gap: 0.75rem; font-size: 0.9rem; color: rgba(255,255,255,0.9); align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Best for targeted hires and growing teams quickly</li>
 </ul>
-<a class="btn" href="<?php echo get_field('model2_btn_url') ?: 'apply.html'; ?>" style="background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); width: 100%; display: flex; justify-content: center;"><?php echo get_field('model2_btn_text') ?: 'Request a Quote'; ?></a>
+<a class="btn" href="<?php echo get_field('model2_btn_url') ? esc_url(get_field('model2_btn_url')) : $apply_url; ?>" style="background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); width: 100%; display: flex; justify-content: center;"><?php echo get_field('model2_btn_text') ?: 'Request a Quote'; ?></a>
 </div>
 </div>
 <!-- transparent billing callout -->
@@ -368,7 +373,7 @@ get_header();
 </div>
 <!-- inquiry first cta -->
 <div style="margin-top: var(--space-2xl);">
-<a class="btn" href="apply.html">Request a Detailed Quote</a>
+<a class="btn" href="<?php echo $apply_url; ?>">Request a Detailed Quote</a>
 </div>
 </div>
 </section>

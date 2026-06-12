@@ -46,11 +46,19 @@ acf_add_local_field_group(array(
         ),
 
         array(
+            'key' => 'field_hero_section_txt_welcome',
+            'label' => 'Text: Welcome to',
+            'name' => 'hero_section_txt_welcome',
+            'type' => 'text',
+            'default_value' => 'WELCOME TO',
+        ),
+
+        array(
             'key' => 'field_hero_section_txt_4',
-            'label' => 'Text: A creative workspace designed ...',
+            'label' => 'Text: The Kings City Club',
             'name' => 'hero_section_txt_4',
             'type' => 'text',
-            'default_value' => 'A creative workspace designed for you.',
+            'default_value' => 'THE KINGS CITY CLUB',
         ),
 
         array(
@@ -250,6 +258,74 @@ acf_add_local_field_group(array(
             'name' => 'section_txt_26',
             'type' => 'text',
             'default_value' => '1+',
+        ),
+
+        array(
+            'key' => 'field_section_img_100',
+            'label' => 'Image: Virtual Office',
+            'name' => 'section_img_100',
+            'type' => 'image',
+            'return_format' => 'array',
+            'preview_size' => 'medium',
+            'library' => 'all',
+        ),
+
+        array(
+            'key' => 'field_section_txt_101',
+            'label' => 'Text: Virtual Office',
+            'name' => 'section_txt_101',
+            'type' => 'text',
+            'default_value' => 'Virtual Office',
+        ),
+
+        array(
+            'key' => 'field_section_txt_102',
+            'label' => 'Text: Establish a professional presenc...',
+            'name' => 'section_txt_102',
+            'type' => 'text',
+            'default_value' => 'Establish a professional presence with a premium business address.',
+        ),
+
+        array(
+            'key' => 'field_section_txt_103',
+            'label' => 'Text: 1+',
+            'name' => 'section_txt_103',
+            'type' => 'text',
+            'default_value' => '1+',
+        ),
+
+        array(
+            'key' => 'field_section_img_104',
+            'label' => 'Image: Meeting Rooms',
+            'name' => 'section_img_104',
+            'type' => 'image',
+            'return_format' => 'array',
+            'preview_size' => 'medium',
+            'library' => 'all',
+        ),
+
+        array(
+            'key' => 'field_section_txt_105',
+            'label' => 'Text: Meeting Rooms',
+            'name' => 'section_txt_105',
+            'type' => 'text',
+            'default_value' => 'Meeting Rooms',
+        ),
+
+        array(
+            'key' => 'field_section_txt_106',
+            'label' => 'Text: State-of-the-art facilities fo...',
+            'name' => 'section_txt_106',
+            'type' => 'text',
+            'default_value' => 'State-of-the-art facilities for your important meetings and pitches.',
+        ),
+
+        array(
+            'key' => 'field_section_txt_107',
+            'label' => 'Text: 2-20',
+            'name' => 'section_txt_107',
+            'type' => 'text',
+            'default_value' => '2-20',
         ),
 
         array(
