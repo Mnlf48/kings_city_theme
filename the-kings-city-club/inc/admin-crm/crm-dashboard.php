@@ -81,13 +81,13 @@ function kc_render_dashboard_page() {
 
     ?>
     <div class="wrap kc-crm-wrap">
-        <h1 style="margin-bottom: 2rem; font-size: 2rem;">Kings City CRM Dashboard</h1>
+        <h1 style="margin-bottom: 2rem; ">Kings City CRM Dashboard</h1>
 
         <div class="kc-crm-dashboard-sections" style="display: flex; flex-direction: column; gap: 3rem;">
             
             <!-- Offshoring Section -->
             <section>
-                <h2 style="font-size: 1.25rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1.5rem;">Offshoring Applications</h2>
+                <h2 style="border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1.5rem;">Offshoring Applications</h2>
                 <div style="<?php echo esc_attr($grid_style); ?>">
                     <div style="<?php echo esc_attr($card_style); ?>">
                         <p style="<?php echo esc_attr($number_style); ?>"><?php echo esc_html($stats['offshoring']['pending']); ?></p>
@@ -106,7 +106,7 @@ function kc_render_dashboard_page() {
 
             <!-- Spaces Membership Section -->
             <section>
-                <h2 style="font-size: 1.25rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1.5rem;">Spaces Membership</h2>
+                <h2 style="border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1.5rem;">Spaces Membership</h2>
                 <div style="<?php echo esc_attr($grid_style); ?>">
                     <div style="<?php echo esc_attr($card_style); ?>">
                         <p style="<?php echo esc_attr($number_style); ?>"><?php echo esc_html($stats['spaces']['pending']); ?></p>
@@ -125,7 +125,7 @@ function kc_render_dashboard_page() {
 
             <!-- Book a Space Section -->
             <section>
-                <h2 style="font-size: 1.25rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1.5rem;">Space Bookings</h2>
+                <h2 style="border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1.5rem;">Space Bookings</h2>
                 <div style="<?php echo esc_attr($grid_style); ?>">
                     <div style="<?php echo esc_attr($card_style); ?>">
                         <p style="<?php echo esc_attr($number_style); ?>"><?php echo esc_html($stats['bookings']['pending']); ?></p>
@@ -144,7 +144,7 @@ function kc_render_dashboard_page() {
 
             <!-- Recent Activity Section -->
             <section>
-                <h2 style="font-size: 1.25rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1.5rem;">Recent Activity</h2>
+                <h2 style="border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1.5rem;">Recent Activity</h2>
                 <div style="background: #fff; border-radius: var(--radius-card, 8px); box-shadow: var(--shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05)); overflow: hidden;">
                     <table class="wp-list-table widefat fixed striped" style="border: none; border-radius: 0; box-shadow: none;">
                         <thead>
@@ -205,3 +205,4 @@ function kc_render_dashboard_page() {
     </div>
     <?php
 }
+

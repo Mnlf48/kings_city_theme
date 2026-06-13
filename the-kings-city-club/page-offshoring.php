@@ -385,7 +385,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
   <!-- Left Column: Hero Anchor (35%) -->
   <div class="offshoring-left" style="flex: 1 1 35%; min-width: 300px; background-color: var(--color-primary); color: #fff; display: flex; justify-content: center; align-items: center; padding: var(--space-2xl) var(--space-xl);">
     <div style="width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: var(--space-lg);">
-      <h2 style="color: #fff; margin-bottom: var(--space-xs); font-size: 3rem; text-transform: uppercase; line-height: 1.1;"><?php echo get_field('off_contact_title') ?: 'GET IN TOUCH'; ?></h2>
+      <h2 style="color: #fff; margin-bottom: var(--space-xs); text-transform: uppercase; line-height: 1.1;"><?php echo get_field('off_contact_title') ?: 'GET IN TOUCH'; ?></h2>
       <p style="color: rgba(255,255,255,0.8); font-size: 1.1rem;"><?php echo get_field('off_contact_subtitle') ?: 'We\'d love to hear from you'; ?></p>
       
       <div style="margin-top: var(--space-md); display: flex; flex-direction: column; gap: 1rem;">
@@ -408,7 +408,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
       <!-- Card 1: Visit Manila -->
       <div class="card-glass contact-card" style="padding: var(--space-xl); background: #fff; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center;">
         <span class="text-overline" style="color: var(--color-primary); margin-bottom: var(--space-sm); display: block;">Visit Us</span>
-        <h3 style="margin-bottom: var(--space-md); font-size: 1.4rem;">Manila Office</h3>
+        <h3 style="margin-bottom: var(--space-md); ">Manila Office</h3>
         <div style="color: var(--color-text-muted); font-size: 0.95rem; white-space: pre-wrap; line-height: 1.6;"><?php 
           $manila_addr = get_field('off_contact_manila_addr') ?: "Manila Office\nKings City, Ground Level, RCS\nBuilding, Doña Soledad Ave,\nBetter Living, Parañaque";
           echo str_replace("Manila Office\n", "", $manila_addr);
@@ -418,7 +418,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
       <!-- Card 2: Contact Manila -->
       <div class="card-glass contact-card" style="padding: var(--space-xl); background: #fff; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center;">
         <span class="text-overline" style="color: var(--color-primary); margin-bottom: var(--space-sm); display: block;">Contact Us</span>
-        <h3 style="margin-bottom: var(--space-md); font-size: 1.4rem;">Manila Phone</h3>
+        <h3 style="margin-bottom: var(--space-md); ">Manila Phone</h3>
         <div style="color: var(--color-text-muted); font-size: 0.95rem; white-space: pre-wrap; line-height: 1.6;"><?php 
           $manila_phones = get_field('off_contact_manila_phones') ?: "Manila Office\nTelephone Number:\n+63 (2) 8696 4490\n\nMobile Numbers:\n+63 (917) 187 0031\n+63 (917) 122 8034\n+63 (917) 710 3221";
           echo str_replace("Manila Office\n", "", $manila_phones);
@@ -428,7 +428,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
       <!-- Card 3: Visit Australia -->
       <div class="card-glass contact-card" style="padding: var(--space-xl); background: #fff; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center;">
         <span class="text-overline" style="color: var(--color-primary); margin-bottom: var(--space-sm); display: block;">Visit Us</span>
-        <h3 style="margin-bottom: var(--space-md); font-size: 1.4rem;">Australia Office</h3>
+        <h3 style="margin-bottom: var(--space-md); ">Australia Office</h3>
         <div style="color: var(--color-text-muted); font-size: 0.95rem; white-space: pre-wrap; line-height: 1.6;"><?php 
           $aus_addr = get_field('off_contact_aus_addr') ?: "Australia Office\nMelbourne G02 / 23 27,\nWellington Street, St. Kilda VIC\n3182 Australia";
           echo str_replace("Australia Office\n", "", $aus_addr);
@@ -438,7 +438,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
       <!-- Card 4: Contact Australia & Email -->
       <div class="card-glass contact-card" style="padding: var(--space-xl); background: #fff; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center;">
         <span class="text-overline" style="color: var(--color-primary); margin-bottom: var(--space-sm); display: block;">Contact Us</span>
-        <h3 style="margin-bottom: var(--space-md); font-size: 1.4rem;">Aus Phone &amp; Email</h3>
+        <h3 style="margin-bottom: var(--space-md); ">Aus Phone &amp; Email</h3>
         <div style="color: var(--color-text-muted); font-size: 0.95rem; white-space: pre-wrap; line-height: 1.6; margin-bottom: var(--space-md);"><?php 
           $aus_phones = get_field('off_contact_aus_phones') ?: "Australia Office\nTelephone Number:\n03 8375 9477 (Australia)";
           echo str_replace("Australia Office\n", "", $aus_phones);
@@ -623,3 +623,4 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 
 
 <?php get_footer(); ?>
+

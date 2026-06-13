@@ -20,7 +20,8 @@ if (stripos($h1_val, 'the kings city club') !== false) {
     echo '<span style="display: block;">' . trim(str_ireplace('City Club', '', $h1_val)) . '</span>';
     echo '<span style="display: block;">CITY CLUB</span>';
 } else {
-    echo $h1_val;
+    $w = explode(' ', trim($h1_val)); 
+    echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h1_val;
 }
 ?>
 </h1>
@@ -101,7 +102,7 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <div class="core-values-container">
 <div class="text-center" style="margin-bottom: var(--space-2xl);">
 <span class="text-overline"><?php echo get_field('overline_29'); ?></span>
-<h2 style="font-family: var(--font-heading); font-weight: 400; font-size: clamp(2rem, 3.5vw, 3rem); color: var(--color-primary);"><?php echo get_field('h2_20'); ?></h2>
+<h2 style="font-family: var(--font-heading); font-weight: 400; color: var(--color-primary);"><?php echo get_field('h2_20'); ?></h2>
 </div>
 <div class="core-values-grid">
 <div class="core-value-card">
@@ -132,7 +133,7 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <div class="container" style="max-width: 800px;">
 <div class="text-center" style="margin-bottom: var(--space-xl);">
 <span class="text-overline"><?php echo get_field('overline_50'); ?></span>
-<h2 style="font-family: var(--font-heading); font-weight: 400; font-size: clamp(2.5rem, 4vw, 3.5rem); color: var(--color-primary);"><?php echo get_field('h2_31'); ?></h2>
+<h2 style="font-family: var(--font-heading); font-weight: 400; color: var(--color-primary);"><?php echo get_field('h2_31'); ?></h2>
 </div>
 <div class="snake-timeline">
 <!-- row 1 -->
@@ -320,3 +321,4 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 
 
 <?php get_footer(); ?>
+

@@ -43,7 +43,8 @@ if (stripos($h1_val, 'the kings city space') !== false) {
     echo '<span style="display: block;">' . trim(str_ireplace('City Space', '', $h1_val)) . '</span>';
     echo '<span style="display: block;">City Space</span>';
 } else {
-    echo $h1_val;
+    $w = explode(' ', trim($h1_val)); 
+    echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h1_val;
 }
 ?>
 </h1>

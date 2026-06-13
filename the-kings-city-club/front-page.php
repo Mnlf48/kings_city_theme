@@ -20,10 +20,10 @@ get_header();
 </div>
 <!-- text on right -->
 <div class="split__content animate-fadeInUp hero__content--index">
-<span class="text-overline hero__overline"><?php echo get_field('hero_section_txt_6'); ?></span>
-<h1 class="hero__title hero__title--inner hero__welcome" style="margin-bottom: 0;"><?php echo get_field('hero_section_txt_welcome'); ?></h1>
-<h1 class="hero__title hero__title--inner"><?php echo get_field('hero_section_txt_4'); ?></h1>
-<p class="hero__subtitle"><?php echo get_field('hero_section_txt_5'); ?></p>
+<span class="text-overline hero__overline"><?php $h = get_field('hero_section_txt_6'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></span>
+<h1 class="hero__title hero__title--inner hero__welcome" style="margin-bottom: 0;"><?php $h = get_field('hero_section_txt_welcome'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></h1>
+<h1 class="hero__title hero__title--inner"><?php $h = get_field('hero_section_txt_4'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></h1>
+<p class="hero__subtitle"><?php $h = get_field('hero_section_txt_5'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></p>
 <div class="hero__actions hero__actions--index" style="display: block; margin-top: 40px; height: 54px; overflow: hidden;">
 <a class="btn" href="<?php echo esc_url( home_url( '/apply/' ) ); ?>">
 <?php 

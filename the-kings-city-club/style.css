@@ -193,16 +193,16 @@ h4 {
 }
 
 h1 {
-  font-size: clamp(2.25rem, 5vw + 1rem, 4.5rem);
+  font-size: 48px !important;
   font-weight: 800;
 }
 
 h2 {
-  font-size: clamp(1.75rem, 3.5vw + 0.5rem, 3rem);
+  font-size: 44px !important;
 }
 
 h3 {
-  font-size: clamp(1.25rem, 2vw + 0.5rem, 1.75rem);
+  font-size: 18px !important;
 }
 
 h4 {
@@ -456,6 +456,7 @@ button[type="submit"]:active,
 .premium-hero {
   background-color: var(--color-bg-ivory) !important;
   background-image: none !important;
+  margin: 0 0 44px !important;
 }
 
 #hero-section h1,
@@ -1088,7 +1089,7 @@ button[type="submit"]:active,
 .hero__title--inner {
   font-size: clamp(2rem, 4vw, 3rem);
   max-width: 100%;
-  white-space: nowrap;
+  text-wrap: balance;
 }
 
 /* Unique styling for the Offshoring Page Hero Title */
@@ -2130,6 +2131,7 @@ button[type="submit"]:active,
     /* Vertically center the text within its container */
     align-items: flex-start;
     /* Left align the flex items */
+    padding-right: 4rem;
   }
 
   .hero__content {
@@ -4594,5 +4596,10 @@ body.modal-open {
   /* Additional cleanup for the table headers so they don't break line on mobile */
   .tb-roles-headers>div {
     white-space: nowrap;
+  }
+}/* Context-Aware Hero Spacing */
+@media (min-width: 1024px) {
+  .home .hero .split__content {
+    padding-left: 4rem;
   }
 }

@@ -229,7 +229,7 @@ get_header();
 <!-- text on left -->
 <div class="split__content animate-fadeInUp hero__content--index">
 <span class="text-overline hero__overline"><?php echo get_field('overline_3'); ?></span>
-<h1 class="hero__title hero__title--inner"><?php echo get_field('h1_1'); ?></h1>
+<h1 class="hero__title hero__title--inner"><?php $h = get_field('h1_1'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></h1>
 <p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
 </div>
 <!-- media on right -->
@@ -254,7 +254,7 @@ get_header();
         <div class="tb-header" style="margin-top: var(--space-md);">
           <div style="display: flex; align-items: center; gap: 0.5rem;">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-            <h3 style="margin:0; font-size: 1.25rem; color: var(--color-primary);"><?php echo get_field('pricing_tb_subheading') ?: 'Your Team Selection'; ?></h3>
+            <h3 style="margin:0; color: var(--color-primary);"><?php echo get_field('pricing_tb_subheading') ?: 'Your Team Selection'; ?></h3>
           </div>
           <button type="button" class="btn btn--small" id="btn-add-member">+ Add Member</button>
         </div>
@@ -427,7 +427,7 @@ get_header();
 <div class="tb-header" style="margin-top: var(--space-md);">
 <div style="display: flex; align-items: center; gap: 0.5rem;">
 <svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24"><rect height="7" width="7" x="3" y="3"></rect><rect height="7" width="7" x="14" y="3"></rect><rect height="7" width="7" x="14" y="14"></rect><rect height="7" width="7" x="3" y="14"></rect></svg>
-<h3 style="margin:0; font-size: 1.25rem; color: var(--color-primary);"><?php echo get_field('h3_9'); ?></h3>
+<h3 style="margin:0; color: var(--color-primary);"><?php echo get_field('h3_9'); ?></h3>
 </div>
 </div>
 <div class="form-group" style="margin-top: var(--space-md);">
@@ -992,7 +992,7 @@ Tell Us About Your Needs
   <div class="tb-modal" id="tb-modal" aria-hidden="true">
     <div class="tb-modal-content">
       <div class="tb-modal-header">
-        <h3 style="margin:0;font-size:1.25rem;"><?php echo get_field('pricing_tb_modal_title') ?: 'Select a Role'; ?></h3>
+        <h3 style="margin:0;"><?php echo get_field('pricing_tb_modal_title') ?: 'Select a Role'; ?></h3>
         <button type="button" class="tb-modal-close" id="tb-modal-close" aria-label="Close">&times;</button>
       </div>
       <div class="tb-modal-body" id="tb-modal-roles">
@@ -1002,3 +1002,4 @@ Tell Us About Your Needs
   </div>
 
 <?php get_footer(); ?>
+

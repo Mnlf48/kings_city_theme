@@ -31,7 +31,7 @@ get_header();
                             <header class="entry-header">
                                 <?php
                                 if ( is_singular() ) :
-                                    the_title( '<h1 class="entry-title" style="font-family: var(--font-heading); color: var(--color-primary); font-size: clamp(2.5rem, 4vw, 3.5rem);">', '</h1>' );
+                                    the_title( '<h1 class="entry-title" style="font-family: var(--font-heading); color: var(--color-primary); ">', '</h1>' );
                                 else :
                                     the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
                                 endif;
@@ -72,3 +72,4 @@ get_header();
 
 <?php
 get_footer();
+

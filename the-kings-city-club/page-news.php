@@ -12,7 +12,7 @@ get_header();
 <!-- text content on left -->
 <div class="split__content animate-fadeInUp hero__content--index">
 <span class="text-overline hero__overline"><?php echo get_field('overline_3'); ?></span>
-<h1 class="hero__title hero__title--inner"><?php echo get_field('h1_1'); ?></h1>
+<h1 class="hero__title hero__title--inner"><?php $h = get_field('h1_1'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></h1>
 <p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
 </div>
 <!-- media on right -->
