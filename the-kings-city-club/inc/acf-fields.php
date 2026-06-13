@@ -2378,6 +2378,15 @@ acf_add_local_field_group(array(
             'label' => 'Heading 1 #1',
             'name' => 'h1_1',
             'type' => 'text',
+            'default_value' => 'Build Your',
+        ),
+
+        array(
+            'key' => 'field_group_offshoring_h1_2',
+            'label' => 'Heading 1 #2',
+            'name' => 'h1_2',
+            'type' => 'text',
+            'default_value' => 'Dedicated Team in The Philippines',
         ),
 
         array(

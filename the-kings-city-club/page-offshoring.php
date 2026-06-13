@@ -15,8 +15,31 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <!-- text content on left -->
 <div class="split__content animate-fadeInUp hero__content--index">
 <span class="text-overline hero__overline"><?php echo get_field('overline_3'); ?></span>
-<h1 class="hero__title hero__title--inner hero__welcome" style="margin-bottom: 0;">Build Your</h1>
-<h1 class="hero__title hero__title--inner hero__title--offshoring">Dedicated Team in The Philippines</h1>
+<?php
+  // Fetch ACF titles with fallbacks
+  $h1_1 = get_field('h1_1') ? get_field('h1_1') : 'Build Your';
+  $h1_2 = get_field('h1_2') ? get_field('h1_2') : 'Dedicated Team in The Philippines';
+
+  // Prevent orphans for H1 #1
+  $words1 = explode(' ', trim($h1_1));
+  if (count($words1) >= 3) {
+      $last_word = array_pop($words1);
+      $second_to_last = array_pop($words1);
+      $words1[] = $second_to_last . '&nbsp;' . $last_word;
+      $h1_1 = implode(' ', $words1);
+  }
+
+  // Prevent orphans for H1 #2
+  $words2 = explode(' ', trim($h1_2));
+  if (count($words2) >= 3) {
+      $last_word = array_pop($words2);
+      $second_to_last = array_pop($words2);
+      $words2[] = $second_to_last . '&nbsp;' . $last_word;
+      $h1_2 = implode(' ', $words2);
+  }
+?>
+<h1 class="hero__title hero__title--inner hero__welcome" style="margin-bottom: 0;"><?php echo $h1_1; ?></h1>
+<h1 class="hero__title hero__title--inner hero__title--offshoring" style="text-wrap: balance;"><?php echo $h1_2; ?></h1>
 <p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
 <div class="hero__actions hero__actions--index">
 <a class="btn" href="<?php echo $apply_url; ?>">
