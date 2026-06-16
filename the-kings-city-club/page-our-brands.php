@@ -29,14 +29,34 @@ get_header();
 </div>
 </section>
 <!-- intro / mission statement -->
-<section class="section content-panel section--intro">
-<div class="container grid-12">
+<section class="section content-panel section--intro" style="position: relative; overflow: hidden;">
+<!-- Background Confetti -->
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 10%; left: 5%; color: var(--color-bg-ivory); animation: floatJournal 5s infinite ease-in-out;">
+  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; bottom: 10%; right: 5%; color: var(--color-accent-gold); animation: floatJournal 6s infinite ease-in-out reverse;">
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" opacity="0.5"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 40%; right: 2%; color: var(--color-accent-red); animation: floatJournal 4.5s infinite ease-in-out;">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" opacity="0.2"><circle cx="12" cy="12" r="10"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; bottom: 15%; left: 8%; color: var(--color-bg-ivory); animation: floatJournal 5.5s infinite ease-in-out;">
+  <svg width="35" height="35" viewBox="0 0 24 24" fill="currentColor" opacity="0.4"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 15%; right: 20%; color: var(--color-accent-gold); animation: floatJournal 6.5s infinite ease-in-out;">
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" opacity="0.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+
+<div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split" style="align-items: center;">
 <div class="split__media">
 <img alt="Kings City Growth" src="<?php $img = get_field('image_11'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; border-radius: var(--radius-card);"/>
 </div>
 <div class="split__content">
-<span class="text-overline" style="margin-bottom: var(--space-sm); display: block;"><?php echo get_field('overline_10'); ?></span>
+<span class="text-overline" style="margin-bottom: var(--space-sm); display: flex; align-items: center; gap: 8px;">
+  <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color: var(--color-primary);"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+  <?php echo get_field('overline_10'); ?>
+</span>
 <h2 style="color: var(--color-primary); margin-bottom: var(--space-md);"><?php echo get_field('h2_8'); ?></h2>
 <p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: 0;"><?php echo get_field('p_9'); ?></p>
 </div>
@@ -44,8 +64,25 @@ get_header();
 </div>
 </section>
 <!-- top logo banner -->
-<section class="logo-banner content-panel">
-<div class="container">
+<section class="logo-banner content-panel" style="position: relative; overflow: hidden; background-color: var(--color-bg-ivory); padding: 4rem 0;">
+<!-- Background Confetti for Ivory Section -->
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 15%; left: 8%; color: var(--color-bg-pink); animation: floatJournal 5s infinite ease-in-out;">
+  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; bottom: 15%; right: 10%; color: var(--color-accent-gold); animation: floatJournal 6s infinite ease-in-out reverse;">
+  <svg width="35" height="35" viewBox="0 0 24 24" fill="currentColor" opacity="0.5"><circle cx="12" cy="12" r="10"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 45%; right: 25%; color: var(--color-primary); animation: floatJournal 4.5s infinite ease-in-out;">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" opacity="0.4"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; bottom: 20%; left: 20%; color: var(--color-bg-pink); animation: floatJournal 5.5s infinite ease-in-out;">
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" opacity="0.7"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 20%; right: 5%; color: var(--color-accent-gold); animation: floatJournal 6.5s infinite ease-in-out;">
+  <svg width="38" height="38" viewBox="0 0 24 24" fill="currentColor" opacity="0.4"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+
+<div class="container" style="position: relative; z-index: 2;">
 <div class="logo-banner__grid">
 <div class="logo-banner__item">
 <img alt="Kings City" src="<?php $img = get_field('image_13'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/>
@@ -80,8 +117,8 @@ get_header();
 <ul class="brand-list" id="brand-list">
 <li class="brand-list__item is-active" data-target="brand-kingscity" tabindex="0">
 <div class="brand-list__info">
-<span class="brand-list__title">Kings City</span>
-<span class="brand-list__badge" style="background: rgba(189, 69, 31, 0.1); color: var(--color-primary);">CO-WORKING</span>
+<span class="brand-list__title">The Social Manila</span>
+<span class="brand-list__badge" style="background: rgba(189, 69, 31, 0.1); color: var(--color-primary);">LIFESTYLE</span>
 </div>
 <div class="brand-list__icon">
 <svg fill="none" height="24" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="24"><polyline points="9 18 15 12 9 6"></polyline></svg>
