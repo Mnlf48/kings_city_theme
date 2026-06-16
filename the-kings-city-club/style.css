@@ -7,6 +7,13 @@ Version: 1.0.0
 
 /* style.css — kings city design system */
 
+/* Global Layout Fix: Prevent stray elements from causing whole-page horizontal scroll */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+}
+
 /* @font-face — self-hosted typography */
 
 /* hero-light — custom typography */
@@ -3635,10 +3642,14 @@ button[type="submit"]:active,
 
 /* offshoring roles — grid of role items */
 
-.off-roles-grid {
+.off-roles-desktop-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-md);
+}
+
+.off-roles-mobile-row {
+  display: contents; /* Flattens hierarchy so items join the desktop grid */
 }
 
 .off-role-item {
@@ -3684,9 +3695,13 @@ button[type="submit"]:active,
   flex-shrink: 0;
 }
 
-/* mobile view (< 768px): compact card carousel */
+/* mobile view (< 768px): two opposite-scrolling rows */
 @media (max-width: 767px) {
-  .off-roles-grid {
+  .off-roles-desktop-grid {
+    display: block; /* Disable the desktop grid wrapper */
+  }
+
+  .off-roles-mobile-row {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -3701,8 +3716,17 @@ button[type="submit"]:active,
     scrollbar-width: none;
   }
 
-  .off-roles-grid::-webkit-scrollbar {
+  .off-roles-mobile-row::-webkit-scrollbar {
     display: none;
+  }
+
+  .off-roles-mobile-row--2 {
+    direction: rtl; /* Second row starts on the right, scrolls left */
+    margin-top: var(--space-md);
+  }
+
+  .off-roles-mobile-row--2 > * {
+    direction: ltr; /* Reset text direction inside cards */
   }
 
   .compact-mobile {
@@ -3712,6 +3736,12 @@ button[type="submit"]:active,
     display: flex;
     flex-direction: column;
     gap: 0.55rem;
+    margin-right: var(--space-sm);
+  }
+  
+  .off-roles-mobile-row--2 .compact-mobile {
+    margin-right: 0;
+    margin-left: var(--space-sm); /* Reverse margin for RTL row */
   }
 
   .compact-mobile p {
@@ -3720,13 +3750,13 @@ button[type="submit"]:active,
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-  .off-roles-grid {
+  .off-roles-desktop-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 1024px) and (max-width: 1279px) {
-  .off-roles-grid {
+  .off-roles-desktop-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
@@ -4812,6 +4842,14 @@ body.modal-open {
   border: 8px solid var(--color-bg-ivory);
 }
 
+@media (max-width: 767px) {
+  .section--gallery .gallery-card {
+    width: 290px !important;
+    height: 435px !important;
+    flex: 0 0 290px !important;
+  }
+}
+
 /* ==============================================================
    GALLERY SECTION — THEME: TERRACOTTA (Front Page)
    ============================================================== */
@@ -4948,4 +4986,706 @@ body.modal-open {
 
 .section--gallery .gallery-nav:hover {
   transform: translateY(-50%) scale(1.1);
+}
+
+/* ==============================================================
+   OFFSHORING PROCESS SECTION — CUTESY / GIRLY AESTHETIC
+   ============================================================== */
+
+/* Squeeze section padding up and down */
+#offshoring-process {
+  padding-top: var(--space-2xl) !important;
+  padding-bottom: var(--space-2xl) !important;
+}
+
+/* The Steps Container */
+.off-process-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-lg);
+  position: relative;
+  z-index: 2;
+  margin-top: var(--space-xl);
+}
+
+
+
+/* The Dotted Connector Line (Treasure Map effect) */
+@media (min-width: 992px) {
+  .off-process-steps::before {
+    content: '';
+    position: absolute;
+    top: 25%;
+    left: 5%;
+    right: 5%;
+    height: 4px;
+    border-top: 4px dashed var(--color-primary);
+    opacity: 0.3;
+    z-index: -1;
+  }
+}
+
+/* The Glass Cards (Inherits from .card-glass, just adding structural flex) */
+.off-process-card {
+  position: relative;
+  padding: var(--space-xl) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 1;
+  /* Smooth transition for border-color only, avoiding layout-breaking transform animations on mobile */
+  transition: border-color 0.3s ease !important;
+}
+
+/* Mixed Border Line Hover Colors (Excluding Pink) */
+.off-process-card:nth-child(1):hover {
+  border-color: var(--color-primary) !important; /* Terracotta */
+}
+.off-process-card:nth-child(2):hover {
+  border-color: var(--color-accent-red) !important; /* Deep Red */
+}
+.off-process-card:nth-child(3):hover {
+  border-color: var(--color-accent-gold) !important; /* Muted Gold */
+}
+.off-process-card:nth-child(4):hover {
+  border-color: var(--color-bg-ivory) !important; /* Ivory */
+}
+
+/* The Soft Pastel Badge inside the card */
+.off-process-card__num {
+  background-color: var(--color-bg-ivory); /* Soft Ivory */
+  color: var(--color-primary); /* Terracotta Text */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+  margin-bottom: var(--space-md);
+  border: 2px solid rgba(189, 69, 31, 0.1); /* Very subtle terracotta border */
+}
+.off-process-card__num svg {
+  display: block; /* Let the new colorful SVGs shine! */
+}
+.off-process-card__num span {
+  font-size: 1.5rem;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+}
+
+/* Card Image Treatment */
+.off-process-card__img {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%; /* Circle images stay soft */
+  overflow: hidden;
+  margin-bottom: var(--space-md);
+  border: 4px solid rgba(255, 255, 255, 0.6); /* Soft frosted ring */
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.off-process-card:hover .off-process-card__img {
+  transform: scale(1.05); /* Gentle image zoom on hover */
+}
+
+/* Inner Text Formatting */
+.off-process-card h3 {
+  font-size: 1.3rem;
+  color: var(--color-primary);
+  margin-bottom: var(--space-sm);
+  font-family: var(--font-heading);
+}
+
+.off-process-card p {
+  font-size: 0.95rem;
+  color: var(--color-text);
+  line-height: 1.6;
+  margin-bottom: var(--space-md);
+}
+
+/* Breakdown Bubble (Glassy version) */
+.off-process-card__breakdown {
+  background-color: rgba(255, 255, 255, 0.5); /* Frosted inner bubble */
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: var(--color-text);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 16px;
+  font-size: 0.85rem;
+  text-align: left;
+  width: 100%;
+  margin-top: auto;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+.off-process-card__breakdown strong {
+  color: var(--color-primary);
+  font-weight: 700;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+/* Tablet & Mobile Layout Adjustments for Offshoring Section */
+@media (min-width: 768px) and (max-width: 991px) {
+  .off-process-steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  #offshoring-process {
+    padding-top: var(--space-lg) !important;
+    padding-bottom: var(--space-lg) !important;
+  }
+
+  .off-process-steps {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--space-xl);
+    scroll-padding: var(--space-md);
+    /* Safe full bleed: negate container padding instead of using 100vw */
+    margin-left: -15px;
+    margin-right: -15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .off-process-steps::-webkit-scrollbar {
+    display: none;
+  }
+
+  .off-process-card {
+    flex: 0 0 280px;
+    scroll-snap-align: center;
+    padding: var(--space-lg) var(--space-md) !important; /* Squeeze card up and down */
+  }
+  
+  .off-process-card__img {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .off-process-card h3 {
+    font-size: 1.15rem;
+  }
+}
+
+/* ==============================================================
+   OFFSHORING MODELS SECTION — CUTESY / GIRLY AESTHETIC
+   ============================================================== */
+
+.off-models-container {
+  display: flex;
+  gap: var(--space-xl);
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.off-models-card {
+  flex: 1;
+  min-width: 280px;
+  padding: var(--space-xl);
+  border-radius: 30px 10px 30px 10px !important; /* Playful asymmetry */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  /* Smooth transition for border-color to prevent layout breaking on mobile */
+  transition: border-color 0.3s ease !important;
+}
+
+/* Base Frosted Pink Card */
+.off-models-card--pink {
+  background: rgba(255, 191, 191, 0.4) !important; /* Frosted Soft Blush */
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 2px solid rgba(255, 255, 255, 0.6) !important;
+  transform: rotate(-1deg);
+}
+
+.off-models-card--pink h3 {
+  margin-bottom: var(--space-sm);
+  color: var(--color-primary);
+}
+
+.off-models-card--pink .off-models-card__desc {
+  font-size: 0.9rem;
+  color: var(--color-text);
+  line-height: 1.65;
+  margin-bottom: var(--space-lg);
+}
+
+/* Base Frosted Terracotta Card */
+.off-models-card--terracotta {
+  background: rgba(189, 69, 31, 0.85) !important; /* Frosted Terracotta */
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  color: #fff;
+  transform: rotate(1deg);
+}
+
+.off-models-card--terracotta h3 {
+  margin-bottom: var(--space-sm);
+  color: #fff;
+}
+
+.off-models-card--terracotta .off-models-card__desc {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.65;
+  margin-bottom: var(--space-lg);
+}
+
+/* Sticker Checkmark Badges */
+.off-models-card__list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-xl) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.off-models-card__list li {
+  display: flex;
+  gap: 0.8rem;
+  font-size: 0.95rem;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+
+.off-models-card--terracotta .off-models-card__list li {
+  color: rgba(255,255,255,0.95);
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.badge--pink {
+  background-color: var(--color-bg-ivory);
+  color: var(--color-primary);
+}
+
+.badge--terracotta {
+  background-color: var(--color-accent-gold);
+  color: var(--color-primary);
+}
+
+.off-models-btn {
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.btn--glass-white {
+  background: var(--color-secondary) !important; /* Soft Pink */
+  color: var(--color-primary) !important; /* Terracotta text */
+  border: 1px solid var(--color-secondary) !important;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+.btn--glass-white:hover {
+  background: var(--color-accent-gold) !important;
+  color: var(--color-primary) !important;
+  border-color: var(--color-accent-gold) !important;
+}
+
+/* Fairy Glow & Mixed Border Colors Hover Effects (Desktop Only) */
+@media (min-width: 992px) {
+  .off-models-card {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease, box-shadow 0.4s ease !important;
+  }
+  
+  .off-models-card--pink:hover {
+    transform: translateY(-8px) rotate(-1deg) !important;
+    border-color: var(--color-accent-red) !important; /* Deep Red Border */
+    box-shadow: 0 20px 40px rgba(172, 32, 26, 0.2) !important;
+  }
+  
+  .off-models-card--terracotta:hover {
+    transform: translateY(-8px) rotate(1deg) !important;
+    border-color: var(--color-accent-gold) !important; /* Muted Gold Border */
+    box-shadow: 0 20px 40px rgba(251, 203, 119, 0.2) !important;
+  }
+}
+
+/* ==============================================================
+   OFFSHORING ROLES SECTION — JELLY BEAN AESTHETIC
+   ============================================================== */
+
+/* Grid definition just in case it doesn't exist globally */
+.off-roles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
+}
+
+.off-role-item {
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.3s ease !important;
+  border-radius: 24px !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255,255,255,0.4) !important;
+  padding: var(--space-xl) var(--space-md) !important;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Jelly Bean Alternating Colors (Repeats every 3) */
+.off-role-item:nth-child(3n+1) {
+  background: rgba(255, 249, 239, 0.8) !important; /* Ivory / Milk Glass */
+}
+.off-role-item:nth-child(3n+2) {
+  background: rgba(251, 203, 119, 0.5) !important; /* Muted Gold / Amber Glass */
+}
+.off-role-item:nth-child(3n+3) {
+  background: rgba(255, 191, 191, 0.5) !important; /* Soft Pink / Blush Glass */
+}
+
+.off-role-icon {
+  margin-bottom: var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 50%;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.8), 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.off-role-item h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: var(--color-primary);
+}
+
+.off-role-item p {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Bouncy Hover & Wiggle */
+@media (min-width: 992px) {
+  .off-role-item:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    box-shadow: 0 15px 30px rgba(189, 69, 31, 0.15) !important;
+    border-color: #fff !important;
+    z-index: 2;
+  }
+  
+  .off-role-item:hover .off-role-icon svg {
+    animation: jellyWiggle 0.5s ease-in-out;
+  }
+}
+
+@keyframes jellyWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg) scale(1.1); }
+  50% { transform: rotate(10deg) scale(1.1); }
+  75% { transform: rotate(-5deg) scale(1.05); }
+}
+
+/* ==============================================================
+   OFFSHORING COMPARISON SECTION — LUXURY RECEIPT AESTHETIC
+   ============================================================== */
+
+/* Wrapper as frosted blush glass */
+.compare-table-wrapper {
+  background: rgba(255, 191, 191, 0.2) !important; /* Extremely soft pink tint */
+  border-radius: 24px !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 20px 40px rgba(172, 32, 26, 0.05) !important; /* Soft terracotta shadow */
+  overflow: hidden;
+  padding: var(--space-md);
+}
+
+.compare-table {
+  border-collapse: separate !important;
+  border-spacing: 0 var(--space-sm) !important; /* Gap between rows */
+  width: 100%;
+}
+
+/* Elegant headers */
+.compare-table th {
+  background: transparent !important;
+  border-bottom: 2px dashed rgba(172, 32, 26, 0.2) !important; /* Terracotta dashed line */
+  color: var(--color-primary) !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+  padding: var(--space-md) !important;
+}
+
+/* Pill-shaped rows */
+.compare-table tbody tr {
+  background: #fff !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+
+.compare-table tbody tr:hover {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 10px 20px rgba(251, 203, 119, 0.15); /* Muted gold glow */
+  background: rgba(255, 255, 255, 0.95) !important;
+  position: relative;
+  z-index: 10;
+}
+
+/* Smooth rounded corners for pill rows on desktop */
+@media (min-width: 768px) {
+  .compare-table tbody td:first-child {
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+  }
+  .compare-table tbody td:last-child {
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+}
+
+/* Cell padding */
+.compare-table td {
+  padding: var(--space-lg) var(--space-md) !important;
+  border: none !important;
+  vertical-align: middle;
+}
+
+/* Crossed-out expensive Onshore column */
+.compare-table td[data-label="Onshore (Annual)"] {
+  text-decoration: line-through;
+  text-decoration-color: var(--color-accent-red);
+  text-decoration-thickness: 2px;
+  color: var(--color-text-muted) !important;
+  opacity: 0.7;
+}
+
+/* Bold Philippines column */
+.compare-table td[data-label="Philippines with Kings City"] {
+  font-weight: 700;
+  color: var(--color-primary) !important;
+  font-size: 1.1rem;
+}
+
+/* Sticker Badges for Savings */
+.save-badge {
+  display: inline-block;
+  font-weight: 700;
+  color: var(--color-primary) !important;
+  background: var(--color-accent-gold) !important;
+  padding: 4px 12px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(251, 203, 119, 0.4);
+  transform: rotate(-2deg);
+}
+
+.save-badge::after {
+  content: " OFF!";
+  font-size: 0.75em;
+  opacity: 0.8;
+}
+
+/* Mobile responsive fixes for the Luxury Receipt */
+@media (max-width: 767px) {
+  .compare-table thead {
+    display: none !important;
+  }
+
+  .compare-table tbody tr {
+    display: block;
+    margin-bottom: var(--space-md);
+    padding: var(--space-md) 0;
+    border-radius: 20px !important;
+    border: 1px solid rgba(172, 32, 26, 0.1);
+  }
+  
+  .compare-table td {
+    display: block !important;
+    position: relative;
+    padding: 0.75rem var(--space-md) 0.75rem 50% !important;
+    border-bottom: 1px dashed rgba(0,0,0,0.05) !important;
+    text-align: right !important;
+  }
+  
+  .compare-table td:last-child {
+    border-bottom: none !important;
+  }
+  
+  .compare-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: var(--space-md);
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    font-size: 0.75rem; /* Reduced slightly for long labels */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: left;
+    white-space: normal; /* Allow wrapping */
+    width: 45%; /* Prevent overlapping the right column */
+    line-height: 1.3;
+  }
+  
+  /* Reset badge inline-block issues on mobile */
+  .save-badge {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+/* ==============================================================
+   OFFSHORING SERVICES SECTION — FLOATING MAGIC BUBBLES
+   ============================================================== */
+
+/* Make the grid items look like frosted white bubbles */
+#offshoring-services .spaces-services__item {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border-radius: 40px !important;
+  padding: var(--space-xl) var(--space-lg) !important;
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 10px 30px rgba(172, 32, 26, 0.08) !important; /* Soft terracotta shadow */
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, background 0.4s ease !important;
+  position: relative;
+  z-index: 5;
+}
+
+/* The inflate/pop hover animation */
+#offshoring-services .spaces-services__item:hover {
+  transform: translateY(-8px) scale(1.03) !important;
+  box-shadow: 0 20px 40px rgba(251, 203, 119, 0.2) !important; /* Soft gold glow */
+  background: rgba(255, 255, 255, 1) !important;
+  z-index: 10;
+}
+
+/* Warm typography for titles */
+#offshoring-services .spaces-services__item-title {
+  color: var(--color-primary) !important;
+  font-weight: 700;
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-xs);
+}
+
+/* Icon container styling */
+#offshoring-services .spaces-services__item-icon {
+  margin-bottom: var(--space-sm);
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+/* Wiggle the icon when the bubble is hovered */
+#offshoring-services .spaces-services__item:hover .spaces-services__item-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 767px) {
+  #offshoring-services .spaces-services__item {
+    border-radius: 30px !important;
+    padding: var(--space-lg) var(--space-md) !important;
+  }
+}
+
+/* ==============================================================
+   OFFSHORING CONTACT SECTION — ELEGANT LOVE LETTER
+   ============================================================== */
+
+/* Contact layout stacking behavior on mobile and tablet */
+@media (max-width: 991px) {
+  #offshoring-contact .contact-flex-container {
+    flex-direction: column !important;
+  }
+  #offshoring-contact .offshoring-left,
+  #offshoring-contact .offshoring-right {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+  #offshoring-contact .offshoring-left {
+    border-radius: 0 0 40px 40px !important;
+    padding: var(--space-xl) var(--space-lg) !important;
+  }
+  #offshoring-contact .offshoring-right {
+    padding: var(--space-xl) var(--space-lg) !important;
+  }
+}
+
+/* Force cards to 1 column on mobile */
+@media (max-width: 767px) {
+  #offshoring-contact .contact-cards-wrapper {
+    grid-template-columns: 1fr !important;
+  }
+  .contact-envelope-card {
+    padding: var(--space-lg) !important;
+  }
+}
+
+/* Envelope Contact Cards */
+.contact-envelope-card {
+  padding: var(--space-xl) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 191, 191, 0.5) !important; /* Soft pink border */
+  border-radius: 30px !important;
+  box-shadow: 0 10px 30px rgba(172, 32, 26, 0.05) !important;
+  text-align: center;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease !important;
+  position: relative;
+  overflow: visible;
+}
+
+.contact-envelope-card:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+  box-shadow: 0 20px 40px rgba(251, 203, 119, 0.2) !important; /* Muted gold shadow */
+}
+
+/* Envelope Icons */
+.contact-envelope-card .envelope-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-md);
+  transition: transform 0.3s ease;
+}
+
+.contact-envelope-card:hover .envelope-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Social media links hover */
+#offshoring-contact .offshoring-left a:hover {
+  transform: translateX(5px);
+  opacity: 0.8;
 }

@@ -60,8 +60,38 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 </div>
 </section>
 <!-- offshoring process section -->
-<section class="section content-panel" id="offshoring-process">
-<div class="container">
+<section class="section content-panel" id="offshoring-process" style="position: relative; overflow: hidden;">
+<!-- Background Confetti -->
+<!-- 1. Top Left Heart -->
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 10%; left: 5%; color: var(--color-bg-ivory); animation: floatJournal 5s infinite ease-in-out;">
+  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+<!-- 2. Bottom Right Star -->
+<div style="position: absolute; pointer-events: none; z-index: 0; bottom: 10%; right: 5%; color: var(--color-accent-gold); animation: floatJournal 6s infinite ease-in-out reverse;">
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" opacity="0.5"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+</div>
+<!-- 3. Middle Right Circle -->
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 40%; right: 2%; color: var(--color-primary); animation: floatJournal 4.5s infinite ease-in-out;">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" opacity="0.2"><circle cx="12" cy="12" r="10"/></svg>
+</div>
+<!-- 4. Bottom Left Star -->
+<div style="position: absolute; pointer-events: none; z-index: 0; bottom: 15%; left: 8%; color: var(--color-bg-ivory); animation: floatJournal 5.5s infinite ease-in-out;">
+  <svg width="35" height="35" viewBox="0 0 24 24" fill="currentColor" opacity="0.4"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+</div>
+<!-- 5. Top Center Circle -->
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 5%; left: 45%; color: var(--color-accent-red); animation: floatJournal 4.8s infinite ease-in-out reverse;">
+  <svg width="25" height="25" viewBox="0 0 24 24" fill="currentColor" opacity="0.3"><circle cx="12" cy="12" r="10"/></svg>
+</div>
+<!-- 6. Top Right Heart -->
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 15%; right: 20%; color: var(--color-accent-gold); animation: floatJournal 6.5s infinite ease-in-out;">
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" opacity="0.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+<!-- 7. Bottom Center Circle -->
+<div style="position: absolute; pointer-events: none; z-index: 0; bottom: 5%; left: 60%; color: var(--color-primary); animation: floatJournal 5.2s infinite ease-in-out;">
+  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.25"><circle cx="12" cy="12" r="10"/></svg>
+</div>
+
+<div class="container" style="position: relative; z-index: 2;">
 <div class="text-center" style="margin-bottom: var(--space-2xl);">
 <span class="text-overline"><?php echo get_field('overline_18'); ?></span>
 <h2><?php echo get_field('h2_8'); ?></h2>
@@ -71,8 +101,13 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <!-- process card 1 -->
 <div class="off-process-card card-glass">
 <div class="off-process-card__num">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="28" height="28"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-<span>1</span>
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="3" y="6" width="18" height="15" rx="2" fill="var(--color-bg-ivory)" stroke="var(--color-primary)" stroke-width="2"/>
+<path d="M3 11H21" stroke="var(--color-primary)" stroke-width="2"/>
+<path d="M8 3V7" stroke="var(--color-accent-red)" stroke-width="2" stroke-linecap="round"/>
+<path d="M16 3V7" stroke="var(--color-accent-red)" stroke-width="2" stroke-linecap="round"/>
+<rect x="7" y="14" width="4" height="4" rx="1" fill="var(--color-secondary)"/>
+</svg>
 </div>
 <div class="off-process-card__img">
 <img alt="Discovery &amp; Scoping Meeting" src="<?php $img = get_field('image_19'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
@@ -87,8 +122,12 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <!-- process card 2 -->
 <div class="off-process-card card-glass">
 <div class="off-process-card__num">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="28" height="28"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-<span>2</span>
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="10" cy="10" r="6" fill="var(--color-bg-ivory)" stroke="var(--color-primary)" stroke-width="2"/>
+<path d="M15 15L21 21" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round"/>
+<circle cx="10" cy="9" r="2" fill="var(--color-accent-red)"/>
+<path d="M7 13C7 11.5 8.5 10.5 10 10.5C11.5 10.5 13 11.5 13 13" stroke="var(--color-secondary)" stroke-width="2" stroke-linecap="round"/>
+</svg>
 </div>
 <div class="off-process-card__img">
 <img alt="Talent Working in Office" src="<?php $img = get_field('image_20'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
@@ -103,8 +142,11 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <!-- process card 3 -->
 <div class="off-process-card card-glass">
 <div class="off-process-card__num">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="28" height="28"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-<span>3</span>
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="var(--color-bg-ivory)" stroke="var(--color-primary)" stroke-width="2"/>
+<path d="M8 12L11 15L16 9" stroke="var(--color-accent-red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="12" cy="12" r="8" stroke="var(--color-secondary)" stroke-width="1.5" stroke-dasharray="4 4"/>
+</svg>
 </div>
 <div class="off-process-card__img">
 <img alt="Onboarding Consultation" src="<?php $img = get_field('image_21'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
@@ -119,8 +161,12 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <!-- process card 4 -->
 <div class="off-process-card card-glass">
 <div class="off-process-card__num">
-<svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="28" height="28"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-<span>4</span>
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="3" y="14" width="4" height="7" rx="1" fill="var(--color-secondary)" stroke="var(--color-primary)" stroke-width="1.5"/>
+<rect x="10" y="9" width="4" height="12" rx="1" fill="var(--color-accent-gold)" stroke="var(--color-primary)" stroke-width="1.5"/>
+<rect x="17" y="3" width="4" height="18" rx="1" fill="var(--color-accent-red)" stroke="var(--color-primary)" stroke-width="1.5"/>
+<path d="M4 12L10 6L14 9L20 2" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
 </div>
 <div class="off-process-card__img">
 <img alt="Team Member Productive in Office" src="<?php $img = get_field('image_22'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
@@ -136,39 +182,53 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 </div>
 </section>
 <!-- offshoring models section -->
-<section class="section content-panel" id="offshoring-models">
-<div class="container">
+<section class="section content-panel" id="offshoring-models" style="position: relative; overflow: hidden;">
+<!-- Background Confetti -->
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 15%; left: 8%; color: var(--color-secondary); animation: floatJournal 5s infinite ease-in-out;">
+  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.8"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; bottom: 10%; right: 10%; color: var(--color-accent-gold); animation: floatJournal 6s infinite ease-in-out reverse;">
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" opacity="0.6"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 40%; right: 5%; color: var(--color-primary); animation: floatJournal 4.5s infinite ease-in-out;">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" opacity="0.3"><circle cx="12" cy="12" r="10"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; bottom: 20%; left: 15%; color: var(--color-secondary); animation: floatJournal 5.5s infinite ease-in-out;">
+  <svg width="35" height="35" viewBox="0 0 24 24" fill="currentColor" opacity="0.6"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+</div>
+
+<div class="container" style="position: relative; z-index: 2;">
 <div class="text-center" style="margin-bottom: var(--space-2xl);">
 <span class="text-overline"><?php echo get_field('overline_models') ?: 'Our Service Models'; ?></span>
 <h2><?php echo get_field('h2_models') ?: 'Two Ways to Build Your Team'; ?></h2>
 <p class="text-lead mx-auto" style="margin-top: var(--space-sm); max-width: 650px;"><?php echo get_field('p_intro_models') ?: 'Whether you want a fully managed offshore division or targeted staff placement, we have a model that fits.'; ?></p>
 </div>
-<div style="display: flex; gap: var(--space-xl); flex-wrap: wrap;">
+<div class="off-models-container">
 <!-- model 1 card -->
-<div class="card-glass" style="background: var(--color-secondary); padding: var(--space-xl); flex: 1; min-width: 280px;">
-<span class="text-overline">Model 1</span>
-<h3 style="margin-bottom: var(--space-sm);"><?php echo get_field('h3_model1'); ?></h3>
-<p style="font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.65; margin-bottom: var(--space-lg);"><?php echo get_field('p_model1'); ?></p>
-<ul style="list-style: none; padding: 0; margin: 0 0 var(--space-lg) 0; display: flex; flex-direction: column; gap: 0.6rem;">
-<li style="display: flex; gap: 0.75rem; font-size: 0.9rem; align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="var(--color-primary)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Your team works exclusively for you full-time</li>
-<li style="display: flex; gap: 0.75rem; font-size: 0.9rem; align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="var(--color-primary)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Fully managed facilities IT and disaster recovery</li>
-<li style="display: flex; gap: 0.75rem; font-size: 0.9rem; align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="var(--color-primary)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Employee engagement and performance frameworks</li>
-<li style="display: flex; gap: 0.75rem; font-size: 0.9rem; align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="var(--color-primary)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Best for businesses scaling a dedicated offshore division</li>
+<div class="off-models-card off-models-card--pink card-glass">
+<span class="text-overline" style="color: var(--color-primary);">Model 1</span>
+<h3><?php echo get_field('h3_model1'); ?></h3>
+<p class="off-models-card__desc"><?php echo get_field('p_model1'); ?></p>
+<ul class="off-models-card__list">
+<li><span class="badge badge--pink"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Your team works exclusively for you full-time</li>
+<li><span class="badge badge--pink"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Fully managed facilities IT and disaster recovery</li>
+<li><span class="badge badge--pink"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Employee engagement and performance frameworks</li>
+<li><span class="badge badge--pink"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Best for businesses scaling a dedicated offshore division</li>
 </ul>
-<a class="btn btn--red" href="<?php echo get_field('model1_btn_url') ? esc_url(get_field('model1_btn_url')) : $apply_url; ?>" style="width: 100%; display: flex; justify-content: center;"><?php echo get_field('model1_btn_text') ?: 'Get Started'; ?></a>
+<a class="btn btn--red off-models-btn" href="<?php echo get_field('model1_btn_url') ? esc_url(get_field('model1_btn_url')) : $apply_url; ?>"><?php echo get_field('model1_btn_text') ?: 'Get Started'; ?></a>
 </div>
 <!-- model 2 card -->
-<div class="card-glass" style="background: var(--color-primary); border-color: transparent; color: #fff; padding: var(--space-xl); flex: 1; min-width: 280px;">
-<span class="text-overline" style="color: rgba(255,255,255,0.65);">Model 2</span>
-<h3 style="color: #fff; margin-bottom: var(--space-sm);"><?php echo get_field('h3_model2'); ?></h3>
-<p style="font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.65; margin-bottom: var(--space-lg);"><?php echo get_field('p_model2'); ?></p>
-<ul style="list-style: none; padding: 0; margin: 0 0 var(--space-lg) 0; display: flex; flex-direction: column; gap: 0.6rem;">
-<li style="display: flex; gap: 0.75rem; font-size: 0.9rem; color: rgba(255,255,255,0.9); align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Fixed fee per employee per month with no hidden costs</li>
-<li style="display: flex; gap: 0.75rem; font-size: 0.9rem; color: rgba(255,255,255,0.9); align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>First invoice only after your team starts working</li>
-<li style="display: flex; gap: 0.75rem; font-size: 0.9rem; color: rgba(255,255,255,0.9); align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Communicate your way via Zoom Skype email or on-site</li>
-<li style="display: flex; gap: 0.75rem; font-size: 0.9rem; color: rgba(255,255,255,0.9); align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Best for targeted hires and growing teams quickly</li>
+<div class="off-models-card off-models-card--terracotta card-glass">
+<span class="text-overline" style="color: var(--color-bg-ivory);">Model 2</span>
+<h3><?php echo get_field('h3_model2'); ?></h3>
+<p class="off-models-card__desc"><?php echo get_field('p_model2'); ?></p>
+<ul class="off-models-card__list">
+<li><span class="badge badge--terracotta"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Fixed fee per employee per month with no hidden costs</li>
+<li><span class="badge badge--terracotta"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>First invoice only after your team starts working</li>
+<li><span class="badge badge--terracotta"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Communicate your way via Zoom Skype email or on-site</li>
+<li><span class="badge badge--terracotta"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Best for targeted hires and growing teams quickly</li>
 </ul>
-<a class="btn" href="<?php echo get_field('model2_btn_url') ? esc_url(get_field('model2_btn_url')) : $apply_url; ?>" style="background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); width: 100%; display: flex; justify-content: center;"><?php echo get_field('model2_btn_text') ?: 'Request a Quote'; ?></a>
+<a class="btn btn--glass-white off-models-btn" href="<?php echo get_field('model2_btn_url') ? esc_url(get_field('model2_btn_url')) : $apply_url; ?>"><?php echo get_field('model2_btn_text') ?: 'Request a Quote'; ?></a>
 </div>
 </div>
 <!-- transparent billing callout -->
@@ -181,104 +241,149 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 </div>
 </section>
 <!-- offshoring roles section -->
-<section class="section content-panel" id="offshoring-roles">
-<div class="container">
+<section class="section content-panel" id="offshoring-roles" style="position: relative; overflow: hidden;">
+<!-- Background Confetti for Roles -->
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 5%; left: 10%; color: var(--color-bg-ivory); animation: floatJournal 4s infinite ease-in-out;">
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" opacity="0.6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 25%; right: 8%; color: var(--color-accent-gold); animation: floatJournal 6s infinite ease-in-out reverse;">
+  <svg width="50" height="50" viewBox="0 0 24 24" fill="currentColor" opacity="0.4"><circle cx="12" cy="12" r="10"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 45%; left: 5%; color: var(--color-primary); animation: floatJournal 5s infinite ease-in-out;">
+  <svg width="35" height="35" viewBox="0 0 24 24" fill="currentColor" opacity="0.2"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 70%; right: 12%; color: var(--color-bg-ivory); animation: floatJournal 4.5s infinite ease-in-out reverse;">
+  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; bottom: 10%; left: 15%; color: var(--color-accent-gold); animation: floatJournal 5.5s infinite ease-in-out;">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" opacity="0.6"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+</div>
+<div class="container" style="position: relative; z-index: 2;">
 <div class="text-center" style="margin-bottom: var(--space-2xl);">
 <span class="text-overline"><?php echo get_field('overline_38'); ?></span>
 <h2><?php echo get_field('h2_24'); ?></h2>
 <p style="color: var(--color-text-muted); margin: var(--space-sm) auto 0; max-width: 560px;"><?php echo get_field('p_25'); ?></p>
 </div>
-<div class="off-roles-grid">
+<div class="off-roles-desktop-grid">
+<div class="off-roles-mobile-row off-roles-mobile-row--1">
+<!-- 1. Accountants (Calculator) -->
 <div class="off-role-item card-glass compact-mobile">
 <div class="off-role-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24"><rect height="14" rx="2" ry="2" width="20" x="2" y="7"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+<svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><rect fill="var(--color-secondary)" fill-opacity="0.3" height="18" rx="2" ry="2" width="16" x="4" y="3"></rect><rect height="4" width="10" x="7" y="6" fill="var(--color-bg-ivory)"></rect><circle cx="9" cy="14" r="1" fill="var(--color-accent-gold)"></circle><circle cx="15" cy="14" r="1"></circle><circle cx="9" cy="18" r="1"></circle><circle cx="15" cy="18" r="1"></circle></svg>
 </div>
 <h4>Accountants</h4>
 <p><?php echo get_field('p_26'); ?></p>
 </div>
+<!-- 2. Bookkeepers (Book) -->
 <div class="off-role-item card-glass compact-mobile">
 <div class="off-role-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24"><rect height="14" rx="2" ry="2" width="20" x="2" y="7"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+<svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-bg-ivory)" d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path fill="var(--color-accent-gold)" fill-opacity="0.3" d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
 </div>
 <h4>Bookkeepers</h4>
 <p><?php echo get_field('p_27'); ?></p>
 </div>
+<!-- 3. Virtual Assistants (Calendar/Clock) -->
 <div class="off-role-item card-glass compact-mobile">
 <div class="off-role-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24"><rect height="14" rx="2" ry="2" width="20" x="2" y="7"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+<svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><rect fill="var(--color-secondary)" fill-opacity="0.4" height="18" rx="2" ry="2" width="18" x="3" y="4"></rect><line x1="16" x2="16" y1="2" y2="6"></line><line x1="8" x2="8" y1="2" y2="6"></line><line x1="3" x2="21" y1="10" y2="10" stroke="var(--color-primary)"></line><circle cx="12" cy="16" r="2" fill="var(--color-accent-gold)"></circle></svg>
 </div>
 <h4>Virtual Assistants</h4>
 <p><?php echo get_field('p_28'); ?></p>
 </div>
+<!-- 4. Graphic Designers (Palette) -->
 <div class="off-role-item card-glass compact-mobile">
 <div class="off-role-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24"><rect height="14" rx="2" ry="2" width="20" x="2" y="7"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+<svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-secondary)" fill-opacity="0.5" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.53-.21-1.04-.59-1.41-.37-.38-.59-.88-.59-1.41 0-1.1.9-2 2-2h1.67c2.65 0 4.83-2.18 4.83-4.83C21.83 6.31 17.43 2 12 2z"></path><circle cx="6.5" cy="10.5" r="1.5" fill="var(--color-accent-gold)"></circle><circle cx="10.5" cy="5.5" r="1.5" fill="var(--color-bg-ivory)"></circle><circle cx="16.5" cy="8.5" r="1.5" fill="var(--color-primary)"></circle></svg>
 </div>
 <h4>Graphic Designers</h4>
 <p><?php echo get_field('p_29'); ?></p>
 </div>
+<!-- 5. Web Developers (Code) -->
 <div class="off-role-item card-glass compact-mobile">
 <div class="off-role-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24"><rect height="14" rx="2" ry="2" width="20" x="2" y="7"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+<svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><rect x="2" y="4" width="20" height="16" rx="2" fill="var(--color-accent-gold)" fill-opacity="0.2"></rect><polyline points="8 10 5 13 8 16" stroke="var(--color-primary)"></polyline><polyline points="16 10 19 13 16 16" stroke="var(--color-primary)"></polyline><line x1="14" x2="10" y1="8" y2="18" stroke="var(--color-secondary)"></line></svg>
 </div>
 <h4>Web Developers</h4>
 <p><?php echo get_field('p_30'); ?></p>
 </div>
+<!-- 6. Customer Service (Headset) -->
 <div class="off-role-item card-glass compact-mobile">
 <div class="off-role-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24"><rect height="14" rx="2" ry="2" width="20" x="2" y="7"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+<svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-secondary)" fill-opacity="0.3" d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" fill="var(--color-accent-gold)"></path></svg>
 </div>
 <h4>Customer Service</h4>
 <p><?php echo get_field('p_31'); ?></p>
 </div>
+</div>
+<div class="off-roles-mobile-row off-roles-mobile-row--2">
+<!-- 7. Digital Marketers (Megaphone) -->
 <div class="off-role-item card-glass compact-mobile">
 <div class="off-role-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24"><rect height="14" rx="2" ry="2" width="20" x="2" y="7"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+<svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-bg-ivory)" d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" stroke="var(--color-accent-gold)"></path></svg>
 </div>
 <h4>Digital Marketers</h4>
 <p><?php echo get_field('p_32'); ?></p>
 </div>
+<!-- 8. Data Analysts (Bar Chart) -->
 <div class="off-role-item card-glass compact-mobile">
 <div class="off-role-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24"><rect height="14" rx="2" ry="2" width="20" x="2" y="7"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+<svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><line x1="18" x2="18" y1="20" y2="10" stroke="var(--color-secondary)" stroke-width="4"></line><line x1="12" x2="12" y1="20" y2="4" stroke="var(--color-accent-gold)" stroke-width="4"></line><line x1="6" x2="6" y1="20" y2="14" stroke="var(--color-primary)" stroke-width="4"></line></svg>
 </div>
 <h4>Data Analysts</h4>
 <p><?php echo get_field('p_33'); ?></p>
 </div>
+<!-- 9. HR Specialists (Heart/People) -->
 <div class="off-role-item card-glass compact-mobile">
 <div class="off-role-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24"><rect height="14" rx="2" ry="2" width="20" x="2" y="7"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+<svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-secondary)" fill-opacity="0.8" stroke="none" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path><circle cx="12" cy="11" r="3" fill="var(--color-bg-ivory)" stroke="var(--color-primary)"></circle></svg>
 </div>
 <h4>HR Specialists</h4>
 <p><?php echo get_field('p_34'); ?></p>
 </div>
+<!-- 10. IT Support (Wrench) -->
 <div class="off-role-item card-glass compact-mobile">
 <div class="off-role-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24"><rect height="14" rx="2" ry="2" width="20" x="2" y="7"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+<svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-bg-ivory)" d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path><circle cx="18" cy="6" r="1" fill="var(--color-accent-gold)" stroke="none"></circle></svg>
 </div>
 <h4>IT Support</h4>
 <p><?php echo get_field('p_35'); ?></p>
 </div>
+<!-- 11. Content Writers (Pen) -->
 <div class="off-role-item card-glass compact-mobile">
 <div class="off-role-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24"><rect height="14" rx="2" ry="2" width="20" x="2" y="7"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+<svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-secondary)" fill-opacity="0.4" d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586" stroke="var(--color-accent-gold)"></path><circle cx="11" cy="11" r="2" fill="var(--color-bg-ivory)"></circle></svg>
 </div>
 <h4>Content Writers</h4>
 <p><?php echo get_field('p_36'); ?></p>
 </div>
+<!-- 12. Project Managers (Clipboard) -->
 <div class="off-role-item card-glass compact-mobile">
 <div class="off-role-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24"><rect height="14" rx="2" ry="2" width="20" x="2" y="7"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+<svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-bg-ivory)" d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect fill="var(--color-accent-gold)" fill-opacity="0.6" height="4" rx="1" ry="1" width="8" x="8" y="2"></rect><path d="M9 14l2 2 4-4" stroke="var(--color-secondary)"></path></svg>
 </div>
 <h4>Project Managers</h4>
 <p><?php echo get_field('p_37'); ?></p>
 </div>
 </div>
 </div>
+</div>
 </section>
 <!-- offshoring comparison section -->
-<section class="section content-panel" id="offshoring-comparison">
-<div class="container">
+<section class="section content-panel" id="offshoring-comparison" style="position: relative; overflow: hidden;">
+<!-- Background Coins/Sparkles for Comparison -->
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 10%; left: 5%; color: var(--color-accent-gold); animation: floatJournal 5s infinite ease-in-out;">
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" opacity="0.6"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6" fill="var(--color-bg-ivory)" opacity="0.5"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 30%; right: 10%; color: var(--color-secondary); animation: floatJournal 6s infinite ease-in-out reverse;">
+  <svg width="35" height="35" viewBox="0 0 24 24" fill="currentColor" opacity="0.5"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; bottom: 20%; left: 12%; color: var(--color-primary); animation: floatJournal 4.5s infinite ease-in-out;">
+  <svg width="50" height="50" viewBox="0 0 24 24" fill="currentColor" opacity="0.2"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; bottom: 15%; right: 5%; color: var(--color-accent-gold); animation: floatJournal 5.5s infinite ease-in-out reverse;">
+  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6" fill="var(--color-bg-ivory)" opacity="0.5"/></svg>
+</div>
+<div class="container" style="position: relative; z-index: 2;">
 <div class="text-center" style="margin-bottom: var(--space-2xl);">
 <span class="text-overline"><?php echo get_field('overline_43'); ?></span>
 <h2><?php echo get_field('h2_40'); ?></h2>
@@ -299,31 +404,31 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <td data-label="Role">Accountant</td>
 <td data-label="Onshore (Annual)">?4,675,000</td>
 <td class="col-highlight" data-label="Philippines with Kings City">?1,375,000</td>
-<td class="col-highlight" data-label="You Save">~70%</td>
+<td class="col-highlight" data-label="You Save"><span class="save-badge">~70%</span></td>
 </tr>
 <tr>
 <td data-label="Role">Virtual Assistant</td>
 <td data-label="Onshore (Annual)">?3,575,000</td>
 <td class="col-highlight" data-label="Philippines with Kings City">?990,000</td>
-<td class="col-highlight" data-label="You Save">~72%</td>
+<td class="col-highlight" data-label="You Save"><span class="save-badge">~72%</span></td>
 </tr>
 <tr>
 <td data-label="Role">Web Developer</td>
 <td data-label="Onshore (Annual)">?5,775,000</td>
 <td class="col-highlight" data-label="Philippines with Kings City">?1,760,000</td>
-<td class="col-highlight" data-label="You Save">~70%</td>
+<td class="col-highlight" data-label="You Save"><span class="save-badge">~70%</span></td>
 </tr>
 <tr>
 <td data-label="Role">Customer Service Rep</td>
 <td data-label="Onshore (Annual)">?3,300,000</td>
 <td class="col-highlight" data-label="Philippines with Kings City">?880,000</td>
-<td class="col-highlight" data-label="You Save">~73%</td>
+<td class="col-highlight" data-label="You Save"><span class="save-badge">~73%</span></td>
 </tr>
 <tr>
 <td data-label="Role">Graphic Designer</td>
 <td data-label="Onshore (Annual)">?4,125,000</td>
 <td class="col-highlight" data-label="Philippines with Kings City">?1,210,000</td>
-<td class="col-highlight" data-label="You Save">~71%</td>
+<td class="col-highlight" data-label="You Save"><span class="save-badge">~71%</span></td>
 </tr>
 </tbody>
 </table>
@@ -334,18 +439,33 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 </div>
 </section>
 <!-- offshoring services section -->
-<section class="section content-panel" id="offshoring-services">
-<div class="container text-center">
+<section class="section content-panel" id="offshoring-services" style="position: relative; overflow: hidden;">
+<!-- Magical Floating Background Confetti -->
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 15%; left: 8%; color: var(--color-bg-ivory); animation: floatJournal 6s infinite ease-in-out;">
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" opacity="0.6"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; top: 25%; right: 12%; color: var(--color-accent-gold); animation: floatJournal 5s infinite ease-in-out reverse;">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" opacity="0.5"><circle cx="12" cy="12" r="10"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; bottom: 20%; left: 15%; color: var(--color-primary); animation: floatJournal 5.5s infinite ease-in-out;">
+  <svg width="35" height="35" viewBox="0 0 24 24" fill="currentColor" opacity="0.15"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+<div style="position: absolute; pointer-events: none; z-index: 0; bottom: 10%; right: 8%; color: var(--color-bg-ivory); animation: floatJournal 7s infinite ease-in-out reverse;">
+  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.4"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+</div>
+
+<div class="container text-center" style="position: relative; z-index: 2;">
 <span class="text-overline" style="margin-bottom: var(--space-sm); display: block;"><?php echo get_field('overline_50'); ?></span>
 <h2 style="margin-bottom: var(--space-xl);"><?php echo get_field('h2_45'); ?></h2>
 <div class="spaces-services-grid">
+
+<!-- Talent Recruitment -->
 <div class="spaces-services__item">
 <div class="spaces-services__item-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
-<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-<circle cx="9" cy="7" r="4"></circle>
-<path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+<svg fill="none" height="48" viewBox="0 0 24 24" width="48" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8" fill="var(--color-bg-ivory)"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2.5"></line>
+  <path fill="var(--color-secondary)" stroke="none" d="M12 14.5l-3-3a2.5 2.5 0 0 1 3.5-3.5 2.5 2.5 0 0 1 3.5 3.5z"></path>
 </svg>
 </div>
 <div>
@@ -353,12 +473,16 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <p class="spaces-services__item-text"><?php echo get_field('p_46'); ?></p>
 </div>
 </div>
+
+<!-- Infrastructure & IT -->
 <div class="spaces-services__item">
 <div class="spaces-services__item-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
-<rect height="14" rx="2" ry="2" width="20" x="2" y="3"></rect>
-<line x1="8" x2="16" y1="21" y2="21"></line>
-<line x1="12" x2="12" y1="17" y2="21"></line>
+<svg fill="none" height="48" viewBox="0 0 24 24" width="48" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="3" y="4" width="18" height="12" rx="2" fill="var(--color-bg-ivory)"></rect>
+  <path d="M2 20h20" stroke-width="2.5"></path>
+  <circle cx="12" cy="10" r="3" fill="var(--color-secondary)" stroke="none"></circle>
+  <path d="M18 2l1.5 1.5L21 2l-1.5 1.5L18 2z" fill="var(--color-accent-gold)" stroke="none"></path>
+  <path d="M4 2l1 1 1-1-1-1z" fill="var(--color-accent-gold)" stroke="none"></path>
 </svg>
 </div>
 <div>
@@ -366,11 +490,17 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <p class="spaces-services__item-text"><?php echo get_field('p_47'); ?></p>
 </div>
 </div>
+
+<!-- Managed Facilities -->
 <div class="spaces-services__item">
 <div class="spaces-services__item-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
-<path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"></path>
-<circle cx="12" cy="10" r="3"></circle>
+<svg fill="none" height="48" viewBox="0 0 24 24" width="48" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M4 22V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14" fill="var(--color-bg-ivory)"></path>
+  <path d="M12 22V12" stroke-dasharray="3 3"></path>
+  <circle cx="8" cy="10" r="2" fill="var(--color-secondary)" stroke="none"></circle>
+  <circle cx="16" cy="10" r="2" fill="var(--color-accent-gold)" stroke="none"></circle>
+  <circle cx="8" cy="16" r="2" fill="var(--color-secondary)" stroke="none"></circle>
+  <circle cx="16" cy="16" r="2" fill="var(--color-accent-gold)" stroke="none"></circle>
 </svg>
 </div>
 <div>
@@ -378,14 +508,14 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <p class="spaces-services__item-text"><?php echo get_field('p_48'); ?></p>
 </div>
 </div>
+
+<!-- HR & Compliance -->
 <div class="spaces-services__item">
 <div class="spaces-services__item-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
-<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-<polyline points="14 2 14 8 20 8"></polyline>
-<line x1="16" x2="8" y1="13" y2="13"></line>
-<line x1="16" x2="8" y1="17" y2="17"></line>
-<polyline points="10 9 9 9 8 9"></polyline>
+<svg fill="none" height="48" viewBox="0 0 24 24" width="48" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" fill="var(--color-bg-ivory)"></path>
+  <rect x="8" y="2" width="8" height="6" rx="2" fill="var(--color-secondary)" stroke="none"></rect>
+  <path d="M9 15l2 2 4-4" stroke="var(--color-accent-gold)" stroke-width="2.5"></path>
 </svg>
 </div>
 <div>
@@ -393,6 +523,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <p class="spaces-services__item-text"><?php echo get_field('p_49'); ?></p>
 </div>
 </div>
+
 </div>
 <!-- inquiry first cta -->
 <div style="margin-top: var(--space-2xl);">
@@ -403,33 +534,45 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 
 <!-- contact us section -->
 <section class="section" id="offshoring-contact" style="padding: 0;">
-<div style="display: flex; flex-wrap: wrap; width: 100%;">
+<div class="contact-flex-container" style="display: flex; flex-wrap: wrap; width: 100%;">
   
-  <!-- Left Column: Hero Anchor (35%) -->
-  <div class="offshoring-left" style="flex: 1 1 35%; min-width: 300px; background-color: var(--color-primary); color: #fff; display: flex; justify-content: center; align-items: center; padding: var(--space-2xl) var(--space-xl);">
+  <!-- Left Column: Love Letter Theme (35%) -->
+  <div class="offshoring-left" style="flex: 1 1 35%; min-width: 300px; background-color: var(--color-accent-gold); color: var(--color-primary); display: flex; justify-content: center; align-items: center; padding: var(--space-2xl) var(--space-xl); position: relative; z-index: 10; border-radius: 0 60px 60px 0; box-shadow: 10px 0 30px rgba(172, 32, 26, 0.05);">
     <div style="width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: var(--space-lg);">
-      <h2 style="color: #fff; margin-bottom: var(--space-xs); text-transform: uppercase; line-height: 1.1;"><?php echo get_field('off_contact_title') ?: 'GET IN TOUCH'; ?></h2>
-      <p style="color: rgba(255,255,255,0.8); font-size: 1.1rem;"><?php echo get_field('off_contact_subtitle') ?: 'We\'d love to hear from you'; ?></p>
+      <h2 style="color: var(--color-primary); margin-bottom: var(--space-xs); text-transform: uppercase; line-height: 1.1;"><?php echo get_field('off_contact_title') ?: 'GET IN TOUCH'; ?></h2>
+      <p style="color: var(--color-primary); font-size: 1.1rem; opacity: 0.8;"><?php echo get_field('off_contact_subtitle') ?: 'We\'d love to hear from you'; ?></p>
       
       <div style="margin-top: var(--space-md); display: flex; flex-direction: column; gap: 1rem;">
-        <a href="<?php echo get_field('off_contact_ig') ?: '#'; ?>" style="color: #fff; display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 500;">
-          <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><rect height="20" rx="5" ry="5" width="20" x="2" y="2"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+        <a href="<?php echo get_field('off_contact_ig') ?: '#'; ?>" style="color: var(--color-primary); display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 600; transition: transform 0.3s ease;">
+          <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><rect height="20" rx="5" ry="5" width="20" x="2" y="2" fill="rgba(255,255,255,0.5)" stroke="none"></rect><rect height="20" rx="5" ry="5" width="20" x="2" y="2"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
           Instagram
         </a>
-        <a href="<?php echo get_field('off_contact_fb') ?: '#'; ?>" style="color: #fff; display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 500;">
-          <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+        <a href="<?php echo get_field('off_contact_fb') ?: '#'; ?>" style="color: var(--color-primary); display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 600; transition: transform 0.3s ease;">
+          <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><rect height="20" rx="5" ry="5" width="20" x="2" y="2" fill="rgba(255,255,255,0.5)" stroke="none"></rect><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
           Facebook
         </a>
       </div>
     </div>
   </div>
 
-  <!-- Right Column: Cards Grid (65%) -->
-  <div class="offshoring-right" style="flex: 1 1 65%; min-width: 300px; background-color: var(--color-bg-ivory); display: flex; justify-content: center; align-items: center; padding: var(--space-2xl) var(--space-xl);">
-    <div class="contact-cards-wrapper" style="width: 100%; max-width: 900px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-xl);">
+  <!-- Right Column: Envelope Cards Grid (65%) -->
+  <div class="offshoring-right" style="flex: 1 1 65%; min-width: 300px; background-color: var(--color-bg-ivory); display: flex; justify-content: center; align-items: center; padding: var(--space-2xl) var(--space-xl); position: relative; overflow: hidden; z-index: 1;">
+    
+    <!-- Floating Background Confetti -->
+    <div style="position: absolute; pointer-events: none; z-index: 0; top: 10%; right: 5%; color: var(--color-accent-gold); animation: floatJournal 6s infinite ease-in-out;">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" opacity="0.4"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+    </div>
+    <div style="position: absolute; pointer-events: none; z-index: 0; bottom: 15%; right: 15%; color: var(--color-secondary); animation: floatJournal 5s infinite ease-in-out reverse;">
+      <svg width="50" height="50" viewBox="0 0 24 24" fill="currentColor" opacity="0.6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    </div>
+
+    <div class="contact-cards-wrapper" style="width: 100%; max-width: 900px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-xl); position: relative; z-index: 2;">
       
       <!-- Card 1: Visit Manila -->
-      <div class="card-glass contact-card" style="padding: var(--space-xl); background: #fff; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center;">
+      <div class="contact-envelope-card">
+        <div class="envelope-icon">
+          <svg fill="none" height="40" viewBox="0 0 24 24" width="40" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="var(--color-bg-ivory)"></path><circle cx="12" cy="10" r="3" fill="var(--color-secondary)" stroke="none"></circle></svg>
+        </div>
         <span class="text-overline" style="color: var(--color-primary); margin-bottom: var(--space-sm); display: block;">Visit Us</span>
         <h3 style="margin-bottom: var(--space-md); ">Manila Office</h3>
         <div style="color: var(--color-text-muted); font-size: 0.95rem; white-space: pre-wrap; line-height: 1.6;"><?php 
@@ -439,7 +582,10 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
       </div>
 
       <!-- Card 2: Contact Manila -->
-      <div class="card-glass contact-card" style="padding: var(--space-xl); background: #fff; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center;">
+      <div class="contact-envelope-card">
+        <div class="envelope-icon">
+          <svg fill="none" height="40" viewBox="0 0 24 24" width="40" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" fill="var(--color-bg-ivory)"></path><circle cx="17" cy="7" r="4" fill="var(--color-accent-gold)" stroke="none"></circle></svg>
+        </div>
         <span class="text-overline" style="color: var(--color-primary); margin-bottom: var(--space-sm); display: block;">Contact Us</span>
         <h3 style="margin-bottom: var(--space-md); ">Manila Phone</h3>
         <div style="color: var(--color-text-muted); font-size: 0.95rem; white-space: pre-wrap; line-height: 1.6;"><?php 
@@ -449,7 +595,10 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
       </div>
 
       <!-- Card 3: Visit Australia -->
-      <div class="card-glass contact-card" style="padding: var(--space-xl); background: #fff; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center;">
+      <div class="contact-envelope-card">
+        <div class="envelope-icon">
+          <svg fill="none" height="40" viewBox="0 0 24 24" width="40" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="var(--color-bg-ivory)"></path><circle cx="12" cy="10" r="3" fill="var(--color-accent-gold)" stroke="none"></circle></svg>
+        </div>
         <span class="text-overline" style="color: var(--color-primary); margin-bottom: var(--space-sm); display: block;">Visit Us</span>
         <h3 style="margin-bottom: var(--space-md); ">Australia Office</h3>
         <div style="color: var(--color-text-muted); font-size: 0.95rem; white-space: pre-wrap; line-height: 1.6;"><?php 
@@ -459,14 +608,17 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
       </div>
 
       <!-- Card 4: Contact Australia & Email -->
-      <div class="card-glass contact-card" style="padding: var(--space-xl); background: #fff; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center;">
+      <div class="contact-envelope-card">
+        <div class="envelope-icon">
+          <svg fill="none" height="40" viewBox="0 0 24 24" width="40" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" fill="var(--color-bg-ivory)"></path><polyline points="22,6 12,13 2,6" stroke="var(--color-primary)" stroke-width="2"></polyline><rect x="6" y="8" width="12" height="8" rx="2" fill="var(--color-secondary)" stroke="none"></rect></svg>
+        </div>
         <span class="text-overline" style="color: var(--color-primary); margin-bottom: var(--space-sm); display: block;">Contact Us</span>
         <h3 style="margin-bottom: var(--space-md); ">Aus Phone &amp; Email</h3>
         <div style="color: var(--color-text-muted); font-size: 0.95rem; white-space: pre-wrap; line-height: 1.6; margin-bottom: var(--space-md);"><?php 
           $aus_phones = get_field('off_contact_aus_phones') ?: "Australia Office\nTelephone Number:\n03 8375 9477 (Australia)";
           echo str_replace("Australia Office\n", "", $aus_phones);
         ?></div>
-        <div style="color: var(--color-text-muted); font-size: 0.95rem; white-space: pre-wrap; line-height: 1.6;"><?php 
+        <div style="color: var(--color-text-muted); font-size: 0.95rem; white-space: pre-wrap; line-height: 1.6; word-break: break-word;"><?php 
           echo get_field('off_contact_email') ?: "Email Address:\nkingscity@kingsgroup.com.ph";
         ?></div>
       </div>
