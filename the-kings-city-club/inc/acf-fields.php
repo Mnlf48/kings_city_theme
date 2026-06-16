@@ -474,6 +474,14 @@ acf_add_local_field_group(array(
         ),
 
         array(
+            'key' => 'field_section_txt_gallery_heading',
+            'label' => 'Text: Gallery Heading',
+            'name' => 'section_txt_gallery_heading',
+            'type' => 'text',
+            'default_value' => 'Virtual Tour',
+        ),
+
+        array(
             'key' => 'field_section_img_46',
             'label' => 'Image: Kings Club Makati',
             'name' => 'section_img_46',
@@ -1829,6 +1837,14 @@ acf_add_local_field_group(array(
         ),
 
         array(
+            'key' => 'field_section_txt_gallery_heading_spaces',
+            'label' => 'Text: Gallery Heading',
+            'name' => 'section_txt_gallery_heading',
+            'type' => 'text',
+            'default_value' => 'Virtual Tour',
+        ),
+
+        array(
             'key' => 'field_group_spaces_image_45',
             'label' => 'Image #45',
             'name' => 'image_45',
@@ -2863,6 +2879,14 @@ acf_add_local_field_group(array(
         ),
 
         array(
+            'key' => 'field_section_txt_gallery_heading_offshoring',
+            'label' => 'Text: Gallery Heading',
+            'name' => 'section_txt_gallery_heading',
+            'type' => 'text',
+            'default_value' => 'Virtual Tour',
+        ),
+
+        array(
             'key' => 'field_group_offshoring_image_52',
             'label' => 'Image #52',
             'name' => 'image_52',
@@ -3424,6 +3448,14 @@ acf_add_local_field_group(array(
             'type' => 'tab',
             'placement' => 'top',
             'endpoint' => 0,
+        ),
+
+        array(
+            'key' => 'field_section_txt_gallery_heading_our_brands',
+            'label' => 'Text: Gallery Heading',
+            'name' => 'section_txt_gallery_heading',
+            'type' => 'text',
+            'default_value' => 'Virtual Tour',
         ),
 
         array(

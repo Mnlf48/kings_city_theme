@@ -271,7 +271,25 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </div>
 </section>
 <!-- spaces gallery carousel -->
-<section class="section content-panel" style="position: relative;">
+<section class="section content-panel section--gallery gallery-theme-pink" style="position: relative; padding: var(--space-lg) 0 var(--space-2xl) 0; overflow: hidden;">
+<!-- Background Confetti -->
+<div class="gallery-bg-icon" style="top: 10%; right: 15%; color: var(--color-bg-ivory); animation: floatJournal 4.5s infinite ease-in-out;">
+  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.3"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+</div>
+<div class="gallery-bg-icon" style="bottom: 15%; left: 10%; color: #BD451F; animation: floatJournal 6s infinite ease-in-out reverse;">
+  <svg width="55" height="55" viewBox="0 0 24 24" fill="currentColor" opacity="0.2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+<div class="gallery-bg-icon" style="top: 50%; left: 3%; color: var(--color-accent-gold); animation: floatJournal 5.5s infinite ease-in-out;">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" opacity="0.4"><circle cx="12" cy="12" r="10"/></svg>
+</div>
+
+<!-- Heading -->
+<div class="container" style="position: relative; z-index: 2;">
+  <div style="text-align: center; margin-bottom: var(--space-xl);">
+    <h2 class="gallery-heading" style="margin-bottom: 0; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;"><?php $heading = get_field('section_txt_gallery_heading'); echo $heading ? $heading : 'Virtual Tour'; ?></h2>
+  </div>
+</div>
+
 <button aria-label="Previous image" class="gallery-nav gallery-nav--prev" onclick="scrollGallery(-1)">
 <svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="20"><polyline points="15 18 9 12 15 6"></polyline></svg>
 </button>

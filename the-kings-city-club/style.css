@@ -259,8 +259,10 @@ button[type="submit"],
   gap: 0.5rem;
   padding: 0.8125rem 1.875rem;
   border-radius: var(--radius-pill);
-  background-color: var(--color-secondary) !important; /* Soft Blush (Option B) */
-  color: var(--color-primary) !important; /* Terracotta Text */
+  background-color: var(--color-secondary) !important;
+  /* Soft Blush (Option B) */
+  color: var(--color-primary) !important;
+  /* Terracotta Text */
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 0.9375rem;
@@ -275,8 +277,10 @@ button[type="submit"],
 .btn-primary:hover,
 button[type="submit"]:hover,
 .cta-button:hover {
-  background-color: var(--color-accent-gold) !important; /* Muted Gold universal hover */
-  color: var(--color-primary) !important; /* Terracotta text on hover */
+  background-color: var(--color-accent-gold) !important;
+  /* Muted Gold universal hover */
+  color: var(--color-primary) !important;
+  /* Terracotta text on hover */
   border-color: var(--color-accent-gold) !important;
   transform: translateY(-2px);
   box-shadow: 0 6px 24px rgba(251, 203, 119, 0.4);
@@ -4677,4 +4681,271 @@ body.modal-open {
     justify-content: center !important;
     align-self: center !important;
   }
+}
+
+/* ==============================================================
+   SPACES SECTION — MULTICOLORED HOVER BORDERS
+   ============================================================== */
+.spaces-grid .space-card {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* Pseudo-element to draw the border OVER the image */
+.spaces-grid .space-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 3px solid transparent;
+  border-radius: var(--radius-card);
+  transition: border-color 0.3s ease;
+  z-index: 10;
+}
+
+/* Base Hover Shadow for all cards */
+.spaces-grid .space-card:hover {
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
+}
+
+/* Card 1 & 5: Terracotta */
+.spaces-grid .space-card:nth-child(1):hover::after,
+.spaces-grid .space-card:nth-child(5):hover::after {
+  border-color: #BD451F;
+}
+
+/* Card 2 & 6: Muted Gold */
+.spaces-grid .space-card:nth-child(2):hover::after,
+.spaces-grid .space-card:nth-child(6):hover::after {
+  border-color: var(--color-accent-gold);
+}
+
+/* Card 3: Deep Red */
+.spaces-grid .space-card:nth-child(3):hover::after {
+  border-color: var(--color-primary);
+}
+
+/* Card 4: Ivory (Replaced Pink so it pops against the pink background) */
+.spaces-grid .space-card:nth-child(4):hover::after {
+  border-color: var(--color-bg-ivory);
+}
+
+/* ==============================================================
+   SPACES SECTION — IMAGE ZOOM HOVER EFFECT
+   ============================================================== */
+.spaces-grid .space-card__img-wrap {
+  overflow: hidden;
+}
+
+.spaces-grid .space-card__img {
+  transition: transform 0.5s ease;
+}
+
+.spaces-grid .space-card:hover .space-card__img {
+  transform: scale(1.05);
+}
+
+/* ==============================================================
+   JOURNAL SECTION — CUTESY MAGAZINE STYLING
+   ============================================================== */
+.journal-grid .card-glass {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Pseudo-element to draw the border OVER the image */
+.journal-grid .card-glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 3px solid transparent;
+  border-radius: var(--radius-card);
+  transition: border-color 0.3s ease;
+  z-index: 10;
+}
+
+/* Base Hover Shadow for all cards */
+.journal-grid .card-glass:hover {
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
+}
+
+/* Card 1: Terracotta */
+.journal-grid .card-glass:nth-child(1):hover::after {
+  border-color: #BD451F;
+}
+
+/* Card 2: Muted Gold */
+.journal-grid .card-glass:nth-child(2):hover::after {
+  border-color: var(--color-accent-gold);
+}
+
+/* Card 3: Deep Red */
+.journal-grid .card-glass:nth-child(3):hover::after {
+  border-color: var(--color-primary);
+}
+
+/* Image Zoom on Hover */
+.journal-grid .card-glass img {
+  transition: transform 0.5s ease;
+}
+
+.journal-grid .card-glass:hover img {
+  transform: scale(1.05);
+}
+
+/* ==============================================================
+   GALLERY SECTION — POLAROID AESTHETIC
+   ============================================================== */
+.section--gallery .gallery-card {
+  width: 458px !important;
+  height: 510px !important;
+  flex: 0 0 420px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transition: transform 0.5s ease;
+  position: relative;
+  z-index: 2;
+  /* Base border (fallback) */
+  border: 8px solid var(--color-bg-ivory);
+}
+
+/* ==============================================================
+   GALLERY SECTION — THEME: TERRACOTTA (Front Page)
+   ============================================================== */
+.gallery-theme-terracotta .gallery-card:nth-child(6n+1) {
+  border-color: var(--color-bg-ivory) !important;
+}
+
+/* Ivory */
+.gallery-theme-terracotta .gallery-card:nth-child(6n+2) {
+  border-color: var(--color-secondary) !important;
+}
+
+/* Soft Pink */
+.gallery-theme-terracotta .gallery-card:nth-child(6n+3) {
+  border-color: var(--color-accent-red) !important;
+}
+
+/* Deep Red */
+.gallery-theme-terracotta .gallery-card:nth-child(6n+4) {
+  border-color: var(--color-accent-gold) !important;
+}
+
+/* Muted Gold */
+.gallery-theme-terracotta .gallery-card:nth-child(6n+5) {
+  border-color: var(--color-bg-ivory) !important;
+}
+
+/* Ivory */
+.gallery-theme-terracotta .gallery-card:nth-child(6n+6) {
+  border-color: var(--color-accent-red) !important;
+}
+
+/* Deep Red */
+
+.gallery-theme-terracotta .gallery-nav {
+  background-color: var(--color-secondary) !important;
+  color: var(--color-bg-ivory) !important;
+}
+
+.gallery-theme-terracotta .gallery-nav:hover {
+  background-color: var(--color-bg-ivory) !important;
+  color: var(--color-secondary) !important;
+}
+
+/* ==============================================================
+   GALLERY SECTION — THEME: PINK (Other Pages)
+   ============================================================== */
+.gallery-theme-pink {
+  background-color: var(--color-secondary) !important;
+  /* Enforce Soft Pink */
+}
+
+.gallery-theme-pink .gallery-card:nth-child(6n+1) {
+  border-color: var(--color-bg-ivory) !important;
+}
+
+/* Ivory */
+.gallery-theme-pink .gallery-card:nth-child(6n+2) {
+  border-color: var(--color-primary) !important;
+}
+
+/* Terracotta */
+.gallery-theme-pink .gallery-card:nth-child(6n+3) {
+  border-color: var(--color-accent-red) !important;
+}
+
+/* Deep Red */
+.gallery-theme-pink .gallery-card:nth-child(6n+4) {
+  border-color: var(--color-accent-gold) !important;
+}
+
+/* Muted Gold */
+.gallery-theme-pink .gallery-card:nth-child(6n+5) {
+  border-color: var(--color-bg-ivory) !important;
+}
+
+/* Ivory */
+.gallery-theme-pink .gallery-card:nth-child(6n+6) {
+  border-color: var(--color-accent-red) !important;
+}
+
+/* Deep Red */
+
+.gallery-theme-pink .gallery-nav {
+  background-color: var(--color-bg-ivory) !important;
+  color: #BD451F !important;
+}
+
+.gallery-theme-pink .gallery-nav:hover {
+  background-color: #BD451F !important;
+  color: var(--color-bg-ivory) !important;
+}
+
+.section--gallery .gallery-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.section--gallery .gallery-card:hover img {
+  transform: scale(1.05);
+}
+
+.section--gallery .gallery-bg-icon {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Bubbly Navigation Controls */
+.section--gallery .gallery-nav {
+  position: absolute;
+  top: 55%;
+  transform: translateY(-50%);
+  border-radius: 50% !important;
+  width: 48px !important;
+  height: 48px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  z-index: 5;
+}
+
+.section--gallery .gallery-nav--prev {
+  left: 2rem;
+}
+
+.section--gallery .gallery-nav--next {
+  right: 2rem;
+}
+
+.section--gallery .gallery-nav:hover {
+  transform: translateY(-50%) scale(1.1);
 }
