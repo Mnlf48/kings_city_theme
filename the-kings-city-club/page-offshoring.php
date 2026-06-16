@@ -145,7 +145,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 </div>
 <div style="display: flex; gap: var(--space-xl); flex-wrap: wrap;">
 <!-- model 1 card -->
-<div class="card-glass" style="background: #FBCB77; padding: var(--space-xl); flex: 1; min-width: 280px;">
+<div class="card-glass" style="background: var(--color-secondary); padding: var(--space-xl); flex: 1; min-width: 280px;">
 <span class="text-overline">Model 1</span>
 <h3 style="margin-bottom: var(--space-sm);"><?php echo get_field('h3_model1'); ?></h3>
 <p style="font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.65; margin-bottom: var(--space-lg);"><?php echo get_field('p_model1'); ?></p>
@@ -155,7 +155,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <li style="display: flex; gap: 0.75rem; font-size: 0.9rem; align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="var(--color-primary)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Employee engagement and performance frameworks</li>
 <li style="display: flex; gap: 0.75rem; font-size: 0.9rem; align-items: flex-start;"><svg width="20" height="20" fill="none" stroke="var(--color-primary)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Best for businesses scaling a dedicated offshore division</li>
 </ul>
-<a class="btn" href="<?php echo get_field('model1_btn_url') ? esc_url(get_field('model1_btn_url')) : $apply_url; ?>" style="width: 100%; display: flex; justify-content: center;"><?php echo get_field('model1_btn_text') ?: 'Get Started'; ?></a>
+<a class="btn btn--red" href="<?php echo get_field('model1_btn_url') ? esc_url(get_field('model1_btn_url')) : $apply_url; ?>" style="width: 100%; display: flex; justify-content: center;"><?php echo get_field('model1_btn_text') ?: 'Get Started'; ?></a>
 </div>
 <!-- model 2 card -->
 <div class="card-glass" style="background: var(--color-primary); border-color: transparent; color: #fff; padding: var(--space-xl); flex: 1; min-width: 280px;">

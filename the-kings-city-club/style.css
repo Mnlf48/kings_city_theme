@@ -63,9 +63,9 @@ Version: 1.0.0
   --font-body: 'Hero-Light-Regular';
 
   /* ── shape ── */
-  --radius-pill: 9999px;
-  --radius-card: 16px;
-  --radius-card-sm: 12px;
+  --radius-pill: 0;
+  --radius-card: 0;
+  --radius-card-sm: 0;
 
   /* ── glass ui tokens ── */
   --glass-bg: rgba(255, 255, 255, 0.55);
@@ -259,13 +259,13 @@ button[type="submit"],
   gap: 0.5rem;
   padding: 0.8125rem 1.875rem;
   border-radius: var(--radius-pill);
-  background-color: var(--color-accent-red) !important;
-  color: var(--color-bg-ivory) !important;
+  background-color: var(--color-secondary) !important; /* Soft Blush (Option B) */
+  color: var(--color-primary) !important; /* Terracotta Text */
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 0.9375rem;
   text-decoration: none;
-  border: 1px solid var(--color-accent-red);
+  border: 1px solid var(--color-secondary);
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   white-space: nowrap;
@@ -275,11 +275,43 @@ button[type="submit"],
 .btn-primary:hover,
 button[type="submit"]:hover,
 .cta-button:hover {
-  background-color: var(--color-btn-hover) !important;
-  color: var(--color-bg-ivory) !important;
-  border-color: var(--color-btn-hover) !important;
+  background-color: var(--color-accent-gold) !important; /* Muted Gold universal hover */
+  color: var(--color-primary) !important; /* Terracotta text on hover */
+  border-color: var(--color-accent-gold) !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(142, 21, 16, 0.25);
+  box-shadow: 0 6px 24px rgba(251, 203, 119, 0.4);
+}
+
+/* Explicit Red Button Utility (e.g. for Book Now in Header) */
+.btn--red {
+  background-color: var(--color-accent-red) !important;
+  color: var(--color-bg-ivory) !important;
+  border-color: var(--color-accent-red) !important;
+}
+
+.btn--red:hover {
+  background-color: var(--color-accent-gold) !important;
+  color: var(--color-primary) !important;
+  border-color: var(--color-accent-gold) !important;
+}
+
+/* Even Panels (Soft Blush backgrounds) - Deep Red Button */
+.content-panel:nth-of-type(even) .btn,
+.content-panel:nth-of-type(even) .btn-primary,
+.content-panel:nth-of-type(even) button[type="submit"],
+.content-panel:nth-of-type(even) .cta-button {
+  background-color: var(--color-accent-red) !important;
+  color: var(--color-bg-ivory) !important;
+  border-color: var(--color-accent-red) !important;
+}
+
+.content-panel:nth-of-type(even) .btn:hover,
+.content-panel:nth-of-type(even) .btn-primary:hover,
+.content-panel:nth-of-type(even) button[type="submit"]:hover,
+.content-panel:nth-of-type(even) .cta-button:hover {
+  background-color: var(--color-accent-gold) !important;
+  color: var(--color-primary) !important;
+  border-color: var(--color-accent-gold) !important;
 }
 
 .btn:active,

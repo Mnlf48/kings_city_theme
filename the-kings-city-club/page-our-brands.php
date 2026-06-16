@@ -157,8 +157,35 @@ get_header();
 </div>
 </section>
 <!-- membership perks section -->
-<section class="section content-panel section--pass">
-<div class="container grid-12">
+<section class="section content-panel section--pass" style="position: relative; overflow: hidden;">
+<!-- Background floating icons (Ivory optimized) -->
+<style>
+@keyframes floatSoft { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-10px) rotate(5deg); } 100% { transform: translateY(0px) rotate(0deg); } }
+@keyframes pulseSoft { 0% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.1); opacity: 0.6; } 100% { transform: scale(1); opacity: 0.3; } }
+.pass-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
+</style>
+<div class="pass-bg-icon" style="top: 10%; left: 5%; color: var(--color-secondary); opacity: 0.8; animation: pulseSoft 4s infinite ease-in-out;">
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+</svg>
+</div>
+<div class="pass-bg-icon" style="top: 15%; right: 8%; color: var(--color-accent-red); opacity: 0.2; animation: floatSoft 5s infinite ease-in-out;">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
+<circle cx="12" cy="12" r="10"></circle>
+</svg>
+</div>
+<div class="pass-bg-icon" style="bottom: 15%; left: 8%; color: var(--color-accent-gold); opacity: 0.5; animation: floatSoft 6s infinite ease-in-out;">
+<svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 12c2 0 2-4 4-4s2 4 4 4 2-4 4-4 2 4 4 4"></path>
+</svg>
+</div>
+<div class="pass-bg-icon" style="bottom: 10%; right: 5%; color: var(--color-primary); opacity: 0.2; animation: pulseSoft 5.5s infinite ease-in-out;">
+<svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+</svg>
+</div>
+<!-- /Background floating icons -->
+<div class="container grid-12" style="position: relative; z-index: 1;">
 <div class="col-12 split">
 <div class="split__content">
 <span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('overline_34'); ?></span>
@@ -166,43 +193,53 @@ get_header();
 <p style="color: var(--color-text-muted); margin-bottom: var(--space-lg);"><?php echo get_field('p_33'); ?></p>
 <ul style="display:flex; flex-direction:column; gap:1.25rem; color: var(--color-text-muted); list-style: none; padding: 0; text-align: left;">
 <li style="display:flex; align-items:center; gap:1rem;">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<div style="background-color: var(--color-secondary); color: var(--color-accent-red); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
 <polyline points="9 22 9 12 15 12 15 22"></polyline>
 </svg>
-<span style="font-size: 0.95rem;">A dedicated home location 24/7 access</span>
+</div>
+<span style="font-size: 0.95rem; font-weight: 600;">A dedicated home location 24/7 access</span>
 </li>
 <li style="display:flex; align-items:center; gap:1rem;">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<div style="background-color: var(--color-secondary); color: var(--color-accent-gold); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect>
 <line x1="3" x2="21" y1="9" y2="9"></line>
 <line x1="9" x2="9" y1="21" y2="9"></line>
 </svg>
-<span style="font-size: 0.95rem;">Meeting, conference, training and workshop rooms</span>
+</div>
+<span style="font-size: 0.95rem; font-weight: 600;">Meeting, conference, training and workshop rooms</span>
 </li>
 <li style="display:flex; align-items:center; gap:1rem;">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<div style="background-color: var(--color-secondary); color: var(--color-primary); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <polygon points="23 7 16 12 23 17 23 7"></polygon>
 <rect height="14" rx="2" ry="2" width="15" x="1" y="5"></rect>
 </svg>
-<span style="font-size: 0.95rem;">Event spaces, podcast studios, and photography studios</span>
+</div>
+<span style="font-size: 0.95rem; font-weight: 600;">Event spaces, podcast studios, and photography studios</span>
 </li>
 <li style="display:flex; align-items:center; gap:1rem;">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<div style="background-color: var(--color-secondary); color: var(--color-accent-red); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
 <line x1="7" x2="7.01" y1="7" y2="7"></line>
 </svg>
-<span style="font-size: 0.95rem;">Premium Gym access &amp; Kings Club wellness program</span>
+</div>
+<span style="font-size: 0.95rem; font-weight: 600;">Premium Gym access &amp; Kings Club wellness program</span>
 </li>
 <li style="display:flex; align-items:center; gap:1rem;">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<div style="background-color: var(--color-secondary); color: var(--color-accent-gold); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
 <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
 <line x1="6" x2="6" y1="1" y2="4"></line>
 <line x1="10" x2="10" y1="1" y2="4"></line>
 <line x1="14" x2="14" y1="1" y2="4"></line>
 </svg>
-<span style="font-size: 0.95rem;">Exclusive discounts at our in-house coffee shops</span>
+</div>
+<span style="font-size: 0.95rem; font-weight: 600;">Exclusive discounts at our in-house coffee shops</span>
 </li>
 </ul>
 </div>

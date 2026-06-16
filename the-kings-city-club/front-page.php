@@ -162,35 +162,75 @@ get_header();
 </div>
 </div></section>
 <!-- offshoring section -->
-<section class="section content-panel section--offshoring">
-<div class="container grid-12">
-<div class="col-12 split">
-<div class="split__content" style="margin-top: 3.5rem;">
-<span class="text-overline"><?php echo get_field('section_txt_35'); ?></span>
-<h2><?php echo get_field('section_txt_33'); ?></h2>
-<p class="text-lead"><?php echo get_field('section_txt_34'); ?></p>
-<ul style="margin-bottom: var(--space-lg); display:flex; flex-direction:column; gap:0.75rem; text-align: left; list-style: none; padding: 0;">
-<li style="display:flex; align-items:center; gap:0.5rem;">
-<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20">
-<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-<polyline points="22 4 12 14.01 9 11.01"></polyline>
+<section class="section content-panel section--offshoring" style="position: relative; overflow: hidden;">
+<!-- Background floating confetti -->
+<style>
+@keyframes floatOffshore { 0% { transform: translateY(0px) rotate(-5deg); } 50% { transform: translateY(-12px) rotate(5deg); } 100% { transform: translateY(0px) rotate(-5deg); } }
+.offshore-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
+</style>
+<!-- Ivory Sparkle -->
+<div class="offshore-bg-icon" style="top: 15%; right: 10%; color: var(--color-bg-ivory); animation: floatOffshore 5s infinite ease-in-out;">
+  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.4">
+    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+  </svg>
+</div>
+<!-- Soft Pink Heart -->
+<div class="offshore-bg-icon" style="bottom: 20%; left: 8%; color: var(--color-secondary); animation: floatOffshore 6.5s infinite ease-in-out reverse;">
+  <svg width="55" height="55" viewBox="0 0 24 24" fill="currentColor" opacity="0.6">
+    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+  </svg>
+</div>
+<!-- Muted Gold Circle -->
+<div class="offshore-bg-icon" style="top: 40%; left: 45%; color: var(--color-accent-gold); animation: floatOffshore 7s infinite ease-in-out;">
+  <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" opacity="0.5">
+    <circle cx="12" cy="12" r="9"></circle>
+  </svg>
+</div>
+
+<div class="container grid-12" style="position: relative; z-index: 1;">
+<div class="col-12 split" style="align-items: center;">
+<div class="split__content">
+<span class="text-overline" style="color: var(--color-bg-ivory); opacity: 0.8;"><?php echo get_field('section_txt_35'); ?></span>
+<h2 style="color: var(--color-bg-ivory); margin-bottom: var(--space-md);"><?php echo get_field('section_txt_33'); ?></h2>
+<p class="text-lead" style="color: var(--color-bg-ivory); opacity: 0.9;"><?php echo get_field('section_txt_34'); ?></p>
+<ul style="margin-bottom: var(--space-lg); display:flex; flex-direction:column; gap:1.25rem; text-align: left; list-style: none; padding: 0;">
+<li style="display:flex; align-items:center; gap:1rem; color: var(--color-bg-ivory); font-weight: 600; font-size: 0.95rem;">
+<div style="background-color: var(--color-secondary); color: var(--color-accent-gold); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
+<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 12 2"></polygon>
 </svg>
-                Local Dedicated Talent
-              </li>
-<li style="display:flex; align-items:center; gap:0.5rem;">
-<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20">
-<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-<polyline points="22 4 12 14.01 9 11.01"></polyline>
+</div>
+Local Dedicated Talent
+</li>
+<li style="display:flex; align-items:center; gap:1rem; color: var(--color-bg-ivory); font-weight: 600; font-size: 0.95rem;">
+<div style="background-color: var(--color-secondary); color: var(--color-bg-ivory); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
+<rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+<path d="M9 22v-4h6v4"></path>
+<path d="M8 6h.01"></path>
+<path d="M16 6h.01"></path>
+<path d="M12 6h.01"></path>
+<path d="M12 10h.01"></path>
+<path d="M12 14h.01"></path>
+<path d="M16 10h.01"></path>
+<path d="M16 14h.01"></path>
+<path d="M8 10h.01"></path>
+<path d="M8 14h.01"></path>
 </svg>
-                Fully Maintained Facilities
-              </li>
-<li style="display:flex; align-items:center; gap:0.5rem;">
-<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20">
-<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-<polyline points="22 4 12 14.01 9 11.01"></polyline>
+</div>
+Fully Maintained Facilities
+</li>
+<li style="display:flex; align-items:center; gap:1rem; color: var(--color-bg-ivory); font-weight: 600; font-size: 0.95rem;">
+<div style="background-color: var(--color-secondary); color: var(--color-primary); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
+<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+<circle cx="9" cy="7" r="4"></circle>
+<path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
 </svg>
-                Professional HR Framework
-              </li>
+</div>
+Professional HR Framework
+</li>
 </ul>
 <div style="margin-top: var(--space-md);">
 <a class="btn" href="<?php echo esc_url( home_url( '/apply/' ) ); ?>">
@@ -205,8 +245,35 @@ get_header();
 </div>
 </section>
 <!-- membership perks section -->
-<section class="section content-panel section--pass">
-<div class="container grid-12">
+<section class="section content-panel section--pass" style="position: relative; overflow: hidden;">
+<!-- Background floating icons -->
+<style>
+@keyframes floatSoft { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-10px) rotate(5deg); } 100% { transform: translateY(0px) rotate(0deg); } }
+@keyframes pulseSoft { 0% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.1); opacity: 0.6; } 100% { transform: scale(1); opacity: 0.3; } }
+.pass-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
+</style>
+<div class="pass-bg-icon" style="top: 10%; left: 5%; color: var(--color-bg-ivory); animation: pulseSoft 4s infinite ease-in-out;">
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+</svg>
+</div>
+<div class="pass-bg-icon" style="top: 15%; right: 8%; color: var(--color-accent-red); opacity: 0.4; animation: floatSoft 5s infinite ease-in-out;">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
+<circle cx="12" cy="12" r="10"></circle>
+</svg>
+</div>
+<div class="pass-bg-icon" style="bottom: 15%; left: 8%; color: var(--color-accent-gold); opacity: 0.5; animation: floatSoft 6s infinite ease-in-out;">
+<svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 12c2 0 2-4 4-4s2 4 4 4 2-4 4-4 2 4 4 4"></path>
+</svg>
+</div>
+<div class="pass-bg-icon" style="bottom: 10%; right: 5%; color: var(--color-primary); animation: pulseSoft 5.5s infinite ease-in-out;">
+<svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+</svg>
+</div>
+<!-- /Background floating icons -->
+<div class="container grid-12" style="position: relative; z-index: 1;">
 <div class="col-12 split">
 <div class="split__media">
 <img alt="One Pass. All Access. - Membership Perks" src="<?php echo esc_url(get_field('section_img_37')['url']); ?>"/>
@@ -217,43 +284,53 @@ get_header();
 <p style="margin-bottom: var(--space-lg);"><?php echo get_field('section_txt_39'); ?></p>
 <ul style="display:flex; flex-direction:column; gap:1.25rem; list-style: none; padding: 0; text-align: left;">
 <li style="display:flex; align-items:center; gap:1rem;">
-<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<div style="background-color: var(--color-bg-ivory); color: var(--color-accent-red); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
 <polyline points="9 22 9 12 15 12 15 22"></polyline>
 </svg>
-<span style="font-size: 0.95rem;"><?php echo get_field('section_txt_41'); ?></span>
+</div>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_41'); ?></span>
 </li>
 <li style="display:flex; align-items:center; gap:1rem;">
-<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<div style="background-color: var(--color-bg-ivory); color: var(--color-accent-gold); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect>
 <line x1="3" x2="21" y1="9" y2="9"></line>
 <line x1="9" x2="9" y1="21" y2="9"></line>
 </svg>
-<span style="font-size: 0.95rem;"><?php echo get_field('section_txt_42'); ?></span>
+</div>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_42'); ?></span>
 </li>
 <li style="display:flex; align-items:center; gap:1rem;">
-<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<div style="background-color: var(--color-bg-ivory); color: var(--color-primary); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <polygon points="23 7 16 12 23 17 23 7"></polygon>
 <rect height="14" rx="2" ry="2" width="15" x="1" y="5"></rect>
 </svg>
-<span style="font-size: 0.95rem;"><?php echo get_field('section_txt_43'); ?></span>
+</div>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_43'); ?></span>
 </li>
 <li style="display:flex; align-items:center; gap:1rem;">
-<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<div style="background-color: var(--color-bg-ivory); color: var(--color-accent-red); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
 <line x1="7" x2="7.01" y1="7" y2="7"></line>
 </svg>
-<span style="font-size: 0.95rem;"><?php echo get_field('section_txt_44'); ?></span>
+</div>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_44'); ?></span>
 </li>
 <li style="display:flex; align-items:center; gap:1rem;">
-<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<div style="background-color: var(--color-bg-ivory); color: var(--color-accent-gold); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
 <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
 <line x1="6" x2="6" y1="1" y2="4"></line>
 <line x1="10" x2="10" y1="1" y2="4"></line>
 <line x1="14" x2="14" y1="1" y2="4"></line>
 </svg>
-<span style="font-size: 0.95rem;"><?php echo get_field('section_txt_45'); ?></span>
+</div>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_45'); ?></span>
 </li>
 </ul>
 </div>
@@ -317,20 +394,71 @@ get_header();
 <!-- trust bar -->
 <!-- what defines us -->
 <!-- get social with us -->
-<section class="section content-panel section--social">
-<div class="container grid-12">
+<section class="section content-panel section--social" style="position: relative; overflow: hidden;">
+<!-- Floating Background "Social Stickers" -->
+<style>
+@keyframes floatSocial { 0% { transform: translateY(0px) rotate(-5deg); } 50% { transform: translateY(-12px) rotate(5deg); } 100% { transform: translateY(0px) rotate(-5deg); } }
+@keyframes pulseSocial { 0% { transform: scale(1); opacity: 0.2; } 50% { transform: scale(1.1); opacity: 0.4; } 100% { transform: scale(1); opacity: 0.2; } }
+.social-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
+</style>
+
+<!-- 1. Deep Red Heart (Top Right) -->
+<div class="social-bg-icon" style="top: 10%; right: 8%; color: var(--color-primary); animation: floatSocial 5s infinite ease-in-out;">
+  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.6">
+    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+  </svg>
+</div>
+
+<!-- 2. Gold Social Pin (Bottom Left) -->
+<div class="social-bg-icon" style="bottom: 15%; left: 8%; color: var(--color-accent-gold); animation: floatSocial 7s infinite ease-in-out;">
+  <svg width="55" height="55" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7">
+    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+  </svg>
+</div>
+
+<!-- 3. Ivory Circle (Center) -->
+<div class="social-bg-icon" style="top: 45%; left: 45%; color: var(--color-bg-ivory); animation: floatSocial 6s infinite ease-in-out reverse;">
+  <svg width="35" height="35" viewBox="0 0 24 24" fill="currentColor" opacity="0.8">
+    <circle cx="12" cy="12" r="10"></circle>
+  </svg>
+</div>
+
+<!-- 4. Ivory Plus Sign (Top Left) -->
+<div class="social-bg-icon" style="top: 15%; left: 10%; color: var(--color-bg-ivory); animation: floatSocial 5.5s infinite ease-in-out;">
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.8">
+    <line x1="12" y1="5" x2="12" y2="19"></line>
+    <line x1="5" y1="12" x2="19" y2="12"></line>
+  </svg>
+</div>
+
+<!-- 5. Deep Red Wavy Line (Bottom Right Center) -->
+<div class="social-bg-icon" style="bottom: 25%; right: 40%; color: var(--color-primary); animation: floatSocial 6.5s infinite ease-in-out reverse;">
+  <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.5">
+    <path d="M2 12c2.5-3.5 5-3.5 7.5 0 2.5 3.5 5 3.5 7.5 0s5-3.5 7.5 0"></path>
+  </svg>
+</div>
+
+<!-- 6. Gold Sparkle/Star (Bottom Right) -->
+<div class="social-bg-icon" style="bottom: 10%; right: 10%; color: var(--color-accent-gold); animation: floatSocial 8s infinite ease-in-out;">
+  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.7">
+    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+  </svg>
+</div>
+
+<div class="container grid-12" style="position: relative; z-index: 1;">
 <!-- top row: heading + description -->
-<div class="col-12 split">
-<div class="split__content" style="margin-top: 3rem;">
+<div class="col-12 split" style="align-items: center;">
+<div class="split__content">
 <span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('section_txt_67'); ?></span>
 <h2 style="color: #BD451F; margin-bottom: var(--space-md);"><?php echo get_field('section_txt_59'); ?></h2>
-<p style="font-size: 0.95rem; line-height: 1.7; max-width: 480px;"><?php echo get_field('section_txt_60'); ?></p>
-<!-- feature icons grid -->
-<div class="social-features-grid">
+<p style="font-size: 0.95rem; line-height: 1.7; max-width: 480px; margin-bottom: var(--space-lg);"><?php echo get_field('section_txt_60'); ?></p>
+
+<!-- feature list -->
+<ul style="display:flex; flex-direction:column; gap:1.25rem; list-style: none; padding: 0; text-align: left;">
 <!-- feature 1: book spaces -->
-<div class="social-feature">
-<div class="social-feature__icon">
-<svg fill="none" height="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32">
+<li style="display:flex; align-items:center; gap:1rem;">
+<div style="background-color: var(--color-bg-ivory); box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1); color: var(--color-accent-red); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <rect height="18" rx="2" ry="2" width="18" x="3" y="4"></rect>
 <line x1="16" x2="16" y1="2" y2="6"></line>
 <line x1="8" x2="8" y1="2" y2="6"></line>
@@ -338,22 +466,24 @@ get_header();
 <rect height="3" rx="0.5" width="3" x="8" y="14"></rect>
 </svg>
 </div>
-<p class="social-feature__text"><?php echo get_field('section_txt_61'); ?></p>
-</div>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_61'); ?></span>
+</li>
+
 <!-- feature 2: events & notifications -->
-<div class="social-feature">
-<div class="social-feature__icon">
-<svg fill="none" height="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32">
+<li style="display:flex; align-items:center; gap:1rem;">
+<div style="background-color: var(--color-bg-ivory); box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1); color: var(--color-accent-gold); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
 <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
 </svg>
 </div>
-<p class="social-feature__text"><?php echo get_field('section_txt_62'); ?></p>
-</div>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_62'); ?></span>
+</li>
+
 <!-- feature 3: network & connect -->
-<div class="social-feature">
-<div class="social-feature__icon">
-<svg fill="none" height="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32">
+<li style="display:flex; align-items:center; gap:1rem;">
+<div style="background-color: var(--color-bg-ivory); box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1); color: var(--color-primary); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <circle cx="12" cy="5" r="3"></circle>
 <circle cx="4" cy="12" r="2.5"></circle>
 <circle cx="20" cy="12" r="2.5"></circle>
@@ -363,12 +493,13 @@ get_header();
 <line x1="17.7" x2="14.2" y1="13" y2="17.5"></line>
 </svg>
 </div>
-<p class="social-feature__text"><?php echo get_field('section_txt_63'); ?></p>
-</div>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_63'); ?></span>
+</li>
+
 <!-- feature 4: interactive newsfeed -->
-<div class="social-feature">
-<div class="social-feature__icon">
-<svg fill="none" height="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32">
+<li style="display:flex; align-items:center; gap:1rem;">
+<div style="background-color: var(--color-bg-ivory); box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1); color: var(--color-accent-red); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <rect height="18" rx="2" width="20" x="2" y="3"></rect>
 <line x1="2" x2="22" y1="8" y2="8"></line>
 <line x1="9" x2="9" y1="8" y2="21"></line>
@@ -376,22 +507,24 @@ get_header();
 <line x1="13" x2="18" y1="16.5" y2="16.5"></line>
 </svg>
 </div>
-<p class="social-feature__text"><?php echo get_field('section_txt_64'); ?></p>
-</div>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_64'); ?></span>
+</li>
+
 <!-- feature 5: direct message -->
-<div class="social-feature">
-<div class="social-feature__icon">
-<svg fill="none" height="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32">
+<li style="display:flex; align-items:center; gap:1rem;">
+<div style="background-color: var(--color-bg-ivory); box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1); color: var(--color-accent-gold); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <line x1="22" x2="11" y1="2" y2="13"></line>
 <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
 </svg>
 </div>
-<p class="social-feature__text"><?php echo get_field('section_txt_65'); ?></p>
-</div>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_65'); ?></span>
+</li>
+
 <!-- feature 6: promote business -->
-<div class="social-feature">
-<div class="social-feature__icon">
-<svg fill="none" height="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32">
+<li style="display:flex; align-items:center; gap:1rem;">
+<div style="background-color: var(--color-bg-ivory); box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1); color: var(--color-primary); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <circle cx="12" cy="12" r="10"></circle>
 <line x1="12" x2="12" y1="8" y2="12"></line>
 <circle cx="12" cy="12" fill="currentColor" r="1" stroke="none"></circle>
@@ -400,9 +533,9 @@ get_header();
 <circle cx="18" cy="10" fill="currentColor" r="0.5" stroke="none"></circle>
 </svg>
 </div>
-<p class="social-feature__text"><?php echo get_field('section_txt_66'); ?></p>
-</div>
-</div>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_66'); ?></span>
+</li>
+</ul>
 </div>
 <div class="split__media">
 <img alt="Get Social With Us - Kings Club Community App" src="<?php echo esc_url(get_field('section_img_58')['url']); ?>"/>

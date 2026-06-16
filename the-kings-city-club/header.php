@@ -83,8 +83,8 @@
         <a href="<?php echo esc_url($nav_shop_url); ?>" class="nav-desktop__link" target="_blank" rel="noopener noreferrer"><?php echo esc_html($nav_shop); ?></a>
       </div>
       <div class="nav-desktop__actions">
-        <a href="<?php echo esc_url( home_url( '/apply-now/' ) ); ?>" class="btn btn--small"><?php echo esc_html($nav_apply); ?></a>
-        <a href="<?php echo esc_url( home_url( '/book-a-tour/' ) ); ?>" class="btn btn--small"><?php echo esc_html($nav_book); ?></a>
+        <a href="<?php echo esc_url( home_url( '/apply-now/' ) ); ?>" class="btn btn--small btn--red"><?php echo esc_html($nav_apply); ?></a>
+        <a href="<?php echo esc_url( home_url( '/book-a-tour/' ) ); ?>" class="btn btn--small btn--red"><?php echo esc_html($nav_book); ?></a>
       </div>
     </nav>
 
@@ -130,8 +130,8 @@
     <a href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>" class="nav-drawer__link"><?php echo esc_html($nav_space); ?></a>
     <a href="<?php echo esc_url( home_url( '/offshoring/' ) ); ?>" class="nav-drawer__link"><?php echo esc_html($nav_offshoring); ?></a>
     <a href="<?php echo esc_url($nav_shop_url); ?>" class="nav-drawer__link" target="_blank" rel="noopener noreferrer"><?php echo esc_html($nav_shop); ?></a>
-    <a href="<?php echo esc_url( home_url( '/apply-now/' ) ); ?>" class="btn mt-4" style="display: block; text-align: center;"><?php echo esc_html($nav_apply); ?></a>
-    <a href="<?php echo esc_url( home_url( '/book-a-tour/' ) ); ?>" class="btn mt-2" style="display: block; text-align: center;"><?php echo esc_html($nav_book); ?></a>
+    <a href="<?php echo esc_url( home_url( '/apply-now/' ) ); ?>" class="btn btn--red mt-4" style="display: block; text-align: center;"><?php echo esc_html($nav_apply); ?></a>
+    <a href="<?php echo esc_url( home_url( '/book-a-tour/' ) ); ?>" class="btn btn--red mt-2" style="display: block; text-align: center;"><?php echo esc_html($nav_book); ?></a>
   </nav>
 </div>
 
