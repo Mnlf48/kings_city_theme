@@ -531,18 +531,20 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 </div>
 </div>
 </section>
-<!-- contact us section -->
-<section class="section custom-contact-section" id="offshoring-contact" style="padding: var(--space-3xl) 0; position: relative;">
-  
-  <div class="contact-full-bg" style="position: absolute; top: 0; left: calc(-50vw + 50%); width: 100vw; height: 100%; display: flex; z-index: 0;">
-    <div style="width: 20%; background-color: var(--color-accent-gold); border-radius: 0 60px 60px 0; box-shadow: 10px 0 30px rgba(172, 32, 26, 0.05);"></div>
-    <div style="width: 80%; background-color: var(--color-bg-ivory);"></div>
-  </div>
 
+<!-- contact us section -->
+<section class="section custom-contact-section" id="offshoring-contact" style="padding: 0; position: relative;">
+  
+  <!-- Absolute Backgrounds to guarantee edge-to-edge colors -->
+  <div class="contact-edge-bg-left" style="position: absolute; top: 0; left: 0; bottom: 0; width: 45%; background-color: var(--color-accent-gold); z-index: 1; border-radius: 0 60px 60px 0; box-shadow: 10px 0 30px rgba(172, 32, 26, 0.05);"></div>
+  <div class="contact-edge-bg-right" style="position: absolute; top: 0; right: 0; bottom: 0; width: 60%; background-color: var(--color-bg-ivory); z-index: 0;"></div>
+
+  <!-- Content safely inside standard container -->
   <div class="container" style="position: relative; z-index: 10;">
-    <div class="contact-flex-container">
+    <div style="display: flex; flex-wrap: wrap;">
       
-      <div class="offshoring-left">
+      <!-- Left Content: Text over Gold Background -->
+      <div class="contact-left-content" style="flex: 1 1 35%; padding: var(--space-2xl) var(--space-xl) var(--space-2xl) 0; display: flex; flex-direction: column; justify-content: center;">
         <h2 style="color: var(--color-primary); margin-bottom: var(--space-xs); text-transform: uppercase; line-height: 1.1;"><?php echo get_field('off_contact_title') ?: 'GET IN TOUCH'; ?></h2>
         <p style="color: var(--color-primary); font-size: 1.1rem; opacity: 0.8;"><?php echo get_field('off_contact_subtitle') ?: 'We\'d love to hear from you'; ?></p>
         
@@ -558,56 +560,71 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
         </div>
       </div>
 
-      <div class="offshoring-right">
-        <div class="contact-cards-wrapper">
+      <!-- Right Content: Linear Stacked Cards -->
+      <div class="contact-right-content" style="flex: 1 1 65%; padding: var(--space-2xl) 0 var(--space-2xl) var(--space-xl); display: flex; flex-direction: column; justify-content: center; position: relative;">
+        
+        <!-- Floating Background Confetti -->
+        <div style="position: absolute; pointer-events: none; z-index: 0; top: 10%; right: 5%; color: var(--color-accent-gold); animation: floatJournal 6s infinite ease-in-out;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" opacity="0.4"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <div style="position: absolute; pointer-events: none; z-index: 0; bottom: 15%; right: 15%; color: var(--color-secondary); animation: floatJournal 5s infinite ease-in-out reverse;">
+          <svg width="50" height="50" viewBox="0 0 24 24" fill="currentColor" opacity="0.6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </div>
+
+        <!-- 1-Column Stack of Horizontal Cards -->
+        <div class="contact-linear-stack cycle-contact-cards" style="width: 100%; display: flex; flex-direction: column; gap: var(--space-md); position: relative; z-index: 2;">
           
-          <div class="card-glass contact-envelope-card">
-            <div class="envelope-icon">
+          <!-- Card 1: Visit Manila -->
+          <div class="contact-envelope-card" style="display: flex; flex-direction: row; align-items: flex-start; gap: var(--space-lg); width: 100%; text-align: left; padding: var(--space-lg) var(--space-xl);">
+            <div class="envelope-icon" style="flex-shrink: 0; margin-top: 5px;">
               <svg fill="none" height="36" viewBox="0 0 24 24" width="36" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="var(--color-bg-ivory)"></path><circle cx="12" cy="10" r="3" fill="var(--color-secondary)" stroke="none"></circle></svg>
             </div>
-            <div class="contact-envelope-content" >
+            <div class="contact-envelope-content" style="flex-grow: 1;">
               <span class="text-overline" style="color: var(--color-primary); margin-bottom: 4px; display: block; font-size: 0.8rem;">Visit Us</span>
               <h3 style="margin-bottom: 8px; font-size: 1.4rem; color: var(--color-primary);">Manila Office</h3>
-              <div style="color: var(--color-text-muted); font-size: 1rem; white-space: pre-wrap; line-height: 1.6; margin-bottom: 8px;"><?php 
+              <div style="color: var(--color-text-muted); font-size: 1rem; white-space: pre-wrap; line-height: 1.6;"><?php 
                 $manila_addr = get_field('off_contact_manila_addr') ?: "Manila Office\nKings City, Ground Level, RCS\nBuilding, Doña Soledad Ave,\nBetter Living, Parañaque";
                 echo str_replace("Manila Office\n", "", $manila_addr);
               ?></div>
             </div>
           </div>
 
-          <div class="card-glass contact-envelope-card" >
-            <div class="envelope-icon" >
+          <!-- Card 2: Contact Manila -->
+          <div class="contact-envelope-card" style="display: flex; flex-direction: row; align-items: flex-start; gap: var(--space-lg); width: 100%; text-align: left; padding: var(--space-lg) var(--space-xl);">
+            <div class="envelope-icon" style="flex-shrink: 0; margin-top: 5px;">
               <svg fill="none" height="36" viewBox="0 0 24 24" width="36" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" fill="var(--color-bg-ivory)"></path><circle cx="17" cy="7" r="4" fill="var(--color-accent-gold)" stroke="none"></circle></svg>
             </div>
-            <div class="contact-envelope-content" >
+            <div class="contact-envelope-content" style="flex-grow: 1;">
               <span class="text-overline" style="color: var(--color-primary); margin-bottom: 4px; display: block; font-size: 0.8rem;">Contact Us</span>
               <h3 style="margin-bottom: 8px; font-size: 1.4rem; color: var(--color-primary);">Manila Phone</h3>
-              <div style="color: var(--color-text-muted); font-size: 1rem; white-space: pre-wrap; line-height: 1.6; margin-bottom: 8px;"><?php 
+              <div style="color: var(--color-text-muted); font-size: 1rem; white-space: pre-wrap; line-height: 1.6;"><?php 
                 $manila_phones = get_field('off_contact_manila_phones') ?: "Manila Office\nTelephone Number:\n+63 (2) 8696 4490\n\nMobile Numbers:\n+63 (917) 187 0031\n+63 (917) 122 8034\n+63 (917) 710 3221";
                 echo str_replace("Manila Office\n", "", $manila_phones);
               ?></div>
             </div>
           </div>
 
-          <div class="card-glass contact-envelope-card" >
-            <div class="envelope-icon" >
+          <!-- Card 3: Visit Australia -->
+          <div class="contact-envelope-card" style="display: flex; flex-direction: row; align-items: flex-start; gap: var(--space-lg); width: 100%; text-align: left; padding: var(--space-lg) var(--space-xl);">
+            <div class="envelope-icon" style="flex-shrink: 0; margin-top: 5px;">
               <svg fill="none" height="36" viewBox="0 0 24 24" width="36" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="var(--color-bg-ivory)"></path><circle cx="12" cy="10" r="3" fill="var(--color-accent-gold)" stroke="none"></circle></svg>
             </div>
-            <div class="contact-envelope-content" >
+            <div class="contact-envelope-content" style="flex-grow: 1;">
               <span class="text-overline" style="color: var(--color-primary); margin-bottom: 4px; display: block; font-size: 0.8rem;">Visit Us</span>
               <h3 style="margin-bottom: 8px; font-size: 1.4rem; color: var(--color-primary);">Australia Office</h3>
-              <div style="color: var(--color-text-muted); font-size: 1rem; white-space: pre-wrap; line-height: 1.6; margin-bottom: 8px;"><?php 
+              <div style="color: var(--color-text-muted); font-size: 1rem; white-space: pre-wrap; line-height: 1.6;"><?php 
                 $aus_addr = get_field('off_contact_aus_addr') ?: "Australia Office\nMelbourne G02 / 23 27,\nWellington Street, St. Kilda VIC\n3182 Australia";
                 echo str_replace("Australia Office\n", "", $aus_addr);
               ?></div>
             </div>
           </div>
 
-          <div class="card-glass contact-envelope-card" >
-            <div class="envelope-icon" >
+          <!-- Card 4: Contact Australia & Email -->
+          <div class="contact-envelope-card" style="display: flex; flex-direction: row; align-items: flex-start; gap: var(--space-lg); width: 100%; text-align: left; padding: var(--space-lg) var(--space-xl);">
+            <div class="envelope-icon" style="flex-shrink: 0; margin-top: 5px;">
               <svg fill="none" height="36" viewBox="0 0 24 24" width="36" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" fill="var(--color-bg-ivory)"></path><polyline points="22,6 12,13 2,6" stroke="var(--color-primary)" stroke-width="2"></polyline><rect x="6" y="8" width="12" height="8" rx="2" fill="var(--color-secondary)" stroke="none"></rect></svg>
             </div>
-            <div class="contact-envelope-content" >
+            <div class="contact-envelope-content" style="flex-grow: 1;">
               <span class="text-overline" style="color: var(--color-primary); margin-bottom: 4px; display: block; font-size: 0.8rem;">Contact Us</span>
               <h3 style="margin-bottom: 8px; font-size: 1.4rem; color: var(--color-primary);">Aus Phone &amp; Email</h3>
               <div style="color: var(--color-text-muted); font-size: 1rem; white-space: pre-wrap; line-height: 1.6; margin-bottom: 8px;"><?php 
@@ -620,8 +637,10 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
             </div>
           </div>
 
-        <!-- Acknowledgement (Must be final child) -->
-        <div style="grid-column: 1 / -1; width: 100%; position: relative; z-index: 2; margin-top: var(--space-xl);">
+        </div>
+
+        <!-- Acknowledgement -->
+        <div style="width: 100%; margin-top: var(--space-xl); position: relative; z-index: 2;">
           <div style="color: var(--color-text-muted); font-size: 0.85rem; font-style: italic; opacity: 0.8; text-align: left; line-height: 1.6; border-top: 1px solid rgba(189, 69, 31, 0.1); padding-top: var(--space-md);">
             <?php 
               $ack = get_field('off_contact_ack') ?: "We acknowledge and pay respect to the past, present, and future Traditional Custodians and Elders of the nation...";
@@ -630,7 +649,6 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
           </div>
         </div>
 
-        </div>
       </div>
     </div>
   </div>
@@ -814,4 +832,5 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 
 
 <?php get_footer(); ?>
+
 

@@ -39,8 +39,8 @@ add_action( 'after_setup_theme', 'kings_city_setup' );
  * Enqueue scripts and styles.
  */
 function kings_city_scripts() {
-	// Enqueue combined style.css with cache busting
-	wp_enqueue_style( 'kings-city-style', get_stylesheet_uri(), array(), filemtime( get_stylesheet_directory() . '/style.css' ) );
+	// Enqueue combined style.css with aggressive cache busting
+	wp_enqueue_style( 'kings-city-style', get_stylesheet_uri(), array(), time() );
 
 	// Enqueue Google Fonts (from original header)
 	wp_enqueue_style( 'kings-city-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600;700&display=swap', array(), null );

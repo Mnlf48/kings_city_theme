@@ -230,13 +230,9 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 </div>
 </section>
 <!-- membership perks section -->
-<section class="section content-panel section--pass" style="position: relative; overflow: hidden;">
+<section class="section content-panel section--pass bg-ivory" style="position: relative; overflow: hidden;">
 <!-- Background floating icons (Ivory optimized) -->
-<style>
-@keyframes floatSoft { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-10px) rotate(5deg); } 100% { transform: translateY(0px) rotate(0deg); } }
-@keyframes pulseSoft { 0% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.1); opacity: 0.6; } 100% { transform: scale(1); opacity: 0.3; } }
-.pass-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
-</style>
+ 
 <div class="pass-bg-icon" style="top: 10%; left: 5%; color: var(--color-secondary); opacity: 0.8; animation: pulseSoft 4s infinite ease-in-out;">
 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
@@ -267,9 +263,9 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('about_pass_overline'); ?></span>
 <h2 style="margin-bottom: var(--space-md);"><?php echo get_field('about_pass_heading'); ?></h2>
 <p style="margin-bottom: var(--space-lg);"><?php echo get_field('about_pass_subtext'); ?></p>
-<ul style="display:flex; flex-direction:column; gap:1.25rem; list-style: none; padding: 0; text-align: left;">
-<li style="display:flex; align-items:center; gap:1rem;">
-<div style="background-color: var(--color-secondary); color: var(--color-accent-red); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<ul class="perks-list">
+<li>
+<div class="perk-bubble">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
 <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -277,8 +273,8 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 </div>
 <span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('about_pass_perk_1'); ?></span>
 </li>
-<li style="display:flex; align-items:center; gap:1rem;">
-<div style="background-color: var(--color-secondary); color: var(--color-accent-gold); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<li>
+<div class="perk-bubble">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect>
 <line x1="3" x2="21" y1="9" y2="9"></line>
@@ -287,8 +283,8 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 </div>
 <span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('about_pass_perk_2'); ?></span>
 </li>
-<li style="display:flex; align-items:center; gap:1rem;">
-<div style="background-color: var(--color-secondary); color: var(--color-primary); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<li>
+<div class="perk-bubble">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <polygon points="23 7 16 12 23 17 23 7"></polygon>
 <rect height="14" rx="2" ry="2" width="15" x="1" y="5"></rect>
@@ -296,8 +292,8 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 </div>
 <span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('about_pass_perk_3'); ?></span>
 </li>
-<li style="display:flex; align-items:center; gap:1rem;">
-<div style="background-color: var(--color-secondary); color: var(--color-accent-red); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<li>
+<div class="perk-bubble">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
 <line x1="7" x2="7.01" y1="7" y2="7"></line>
@@ -305,8 +301,8 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 </div>
 <span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('about_pass_perk_4'); ?></span>
 </li>
-<li style="display:flex; align-items:center; gap:1rem;">
-<div style="background-color: var(--color-secondary); color: var(--color-accent-gold); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<li>
+<div class="perk-bubble">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
 <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>

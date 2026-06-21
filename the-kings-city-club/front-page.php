@@ -228,7 +228,7 @@ get_header();
 </div>
 </div></section>
 <!-- offshoring section -->
-<section class="section content-panel section--offshoring" style="position: relative; overflow: hidden;">
+<section class="section content-panel section--offshoring bg-terracotta" style="position: relative; overflow: hidden;">
 <!-- Background floating confetti -->
 <style>
 @keyframes floatOffshore { 0% { transform: translateY(0px) rotate(-5deg); } 50% { transform: translateY(-12px) rotate(5deg); } 100% { transform: translateY(0px) rotate(-5deg); } }
@@ -259,17 +259,17 @@ get_header();
 <span class="text-overline" style="color: var(--color-bg-ivory); opacity: 0.8;"><?php echo get_field('section_txt_35'); ?></span>
 <h2 style="color: var(--color-bg-ivory); margin-bottom: var(--space-md);"><?php echo get_field('section_txt_33'); ?></h2>
 <p class="text-lead" style="color: var(--color-bg-ivory); opacity: 0.9;"><?php echo get_field('section_txt_34'); ?></p>
-<ul style="margin-bottom: var(--space-lg); display:flex; flex-direction:column; gap:1.25rem; text-align: left; list-style: none; padding: 0;">
-<li style="display:flex; align-items:center; gap:1rem; color: var(--color-bg-ivory); font-weight: 600; font-size: 0.95rem;">
-<div style="background-color: var(--color-secondary); color: var(--color-accent-gold); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+<ul class="perks-list" style="margin-bottom: var(--space-lg); color: var(--color-bg-ivory);">
+<li>
+<div class="perk-bubble" style="box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 12 2"></polygon>
 </svg>
 </div>
-Local Dedicated Talent
+<span style="font-size: 0.95rem; font-weight: 600;">Local Dedicated Talent</span>
 </li>
-<li style="display:flex; align-items:center; gap:1rem; color: var(--color-bg-ivory); font-weight: 600; font-size: 0.95rem;">
-<div style="background-color: var(--color-secondary); color: var(--color-bg-ivory); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+<li>
+<div class="perk-bubble" style="box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
 <path d="M9 22v-4h6v4"></path>
@@ -284,10 +284,10 @@ Local Dedicated Talent
 <path d="M8 14h.01"></path>
 </svg>
 </div>
-Fully Maintained Facilities
+<span style="font-size: 0.95rem; font-weight: 600;">Fully Maintained Facilities</span>
 </li>
-<li style="display:flex; align-items:center; gap:1rem; color: var(--color-bg-ivory); font-weight: 600; font-size: 0.95rem;">
-<div style="background-color: var(--color-secondary); color: var(--color-primary); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+<li>
+<div class="perk-bubble" style="box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
 <circle cx="9" cy="7" r="4"></circle>
@@ -295,7 +295,7 @@ Fully Maintained Facilities
 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
 </svg>
 </div>
-Professional HR Framework
+<span style="font-size: 0.95rem; font-weight: 600;">Professional HR Framework</span>
 </li>
 </ul>
 <div style="margin-top: var(--space-md);">
@@ -311,13 +311,9 @@ Professional HR Framework
 </div>
 </section>
 <!-- membership perks section -->
-<section class="section content-panel section--pass" style="position: relative; overflow: hidden;">
+<section class="section content-panel section--pass bg-blush" style="position: relative; overflow: hidden;">
 <!-- Background floating icons -->
-<style>
-@keyframes floatSoft { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-10px) rotate(5deg); } 100% { transform: translateY(0px) rotate(0deg); } }
-@keyframes pulseSoft { 0% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.1); opacity: 0.6; } 100% { transform: scale(1); opacity: 0.3; } }
-.pass-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
-</style>
+ 
 <div class="pass-bg-icon" style="top: 10%; left: 5%; color: var(--color-bg-ivory); animation: pulseSoft 4s infinite ease-in-out;">
 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
@@ -348,9 +344,9 @@ Professional HR Framework
 <span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('section_txt_40'); ?></span>
 <h2 style="color: #BD451F; margin-bottom: var(--space-md);"><?php echo get_field('section_txt_38'); ?></h2>
 <p style="margin-bottom: var(--space-lg);"><?php echo get_field('section_txt_39'); ?></p>
-<ul style="display:flex; flex-direction:column; gap:1.25rem; list-style: none; padding: 0; text-align: left;">
-<li style="display:flex; align-items:center; gap:1rem;">
-<div style="background-color: var(--color-bg-ivory); color: var(--color-accent-red); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<ul class="perks-list">
+<li>
+<div class="perk-bubble">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
 <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -358,8 +354,8 @@ Professional HR Framework
 </div>
 <span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_41'); ?></span>
 </li>
-<li style="display:flex; align-items:center; gap:1rem;">
-<div style="background-color: var(--color-bg-ivory); color: var(--color-accent-gold); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<li>
+<div class="perk-bubble">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect>
 <line x1="3" x2="21" y1="9" y2="9"></line>
@@ -368,8 +364,8 @@ Professional HR Framework
 </div>
 <span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_42'); ?></span>
 </li>
-<li style="display:flex; align-items:center; gap:1rem;">
-<div style="background-color: var(--color-bg-ivory); color: var(--color-primary); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<li>
+<div class="perk-bubble">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <polygon points="23 7 16 12 23 17 23 7"></polygon>
 <rect height="14" rx="2" ry="2" width="15" x="1" y="5"></rect>
@@ -377,8 +373,8 @@ Professional HR Framework
 </div>
 <span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_43'); ?></span>
 </li>
-<li style="display:flex; align-items:center; gap:1rem;">
-<div style="background-color: var(--color-bg-ivory); color: var(--color-accent-red); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<li>
+<div class="perk-bubble">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
 <line x1="7" x2="7.01" y1="7" y2="7"></line>
@@ -386,8 +382,8 @@ Professional HR Framework
 </div>
 <span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_44'); ?></span>
 </li>
-<li style="display:flex; align-items:center; gap:1rem;">
-<div style="background-color: var(--color-bg-ivory); color: var(--color-accent-gold); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<li>
+<div class="perk-bubble">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
 <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
@@ -482,7 +478,7 @@ Professional HR Framework
 <!-- trust bar -->
 <!-- what defines us -->
 <!-- get social with us -->
-<section class="section content-panel section--social" style="position: relative; overflow: hidden;">
+<section class="section content-panel section--social bg-blush" style="position: relative; overflow: hidden;">
 <!-- Floating Background "Social Stickers" -->
 <style>
 @keyframes floatSocial { 0% { transform: translateY(0px) rotate(-5deg); } 50% { transform: translateY(-12px) rotate(5deg); } 100% { transform: translateY(0px) rotate(-5deg); } }
@@ -542,10 +538,10 @@ Professional HR Framework
 <p style="font-size: 0.95rem; line-height: 1.7; max-width: 480px; margin-bottom: var(--space-lg);"><?php echo get_field('section_txt_60'); ?></p>
 
 <!-- feature list -->
-<ul style="display:flex; flex-direction:column; gap:1.25rem; list-style: none; padding: 0; text-align: left;">
+<ul class="perks-list">
 <!-- feature 1: book spaces -->
-<li style="display:flex; align-items:center; gap:1rem;">
-<div style="background-color: var(--color-bg-ivory); box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1); color: var(--color-accent-red); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<li>
+<div class="perk-bubble" style="box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1);">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <rect height="18" rx="2" ry="2" width="18" x="3" y="4"></rect>
 <line x1="16" x2="16" y1="2" y2="6"></line>
@@ -558,8 +554,8 @@ Professional HR Framework
 </li>
 
 <!-- feature 2: events & notifications -->
-<li style="display:flex; align-items:center; gap:1rem;">
-<div style="background-color: var(--color-bg-ivory); box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1); color: var(--color-accent-gold); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<li>
+<div class="perk-bubble" style="box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1);">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
 <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
@@ -569,8 +565,8 @@ Professional HR Framework
 </li>
 
 <!-- feature 3: network & connect -->
-<li style="display:flex; align-items:center; gap:1rem;">
-<div style="background-color: var(--color-bg-ivory); box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1); color: var(--color-primary); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<li>
+<div class="perk-bubble" style="box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1);">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <circle cx="12" cy="5" r="3"></circle>
 <circle cx="4" cy="12" r="2.5"></circle>
@@ -585,8 +581,8 @@ Professional HR Framework
 </li>
 
 <!-- feature 4: interactive newsfeed -->
-<li style="display:flex; align-items:center; gap:1rem;">
-<div style="background-color: var(--color-bg-ivory); box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1); color: var(--color-accent-red); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<li>
+<div class="perk-bubble" style="box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1);">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <rect height="18" rx="2" width="20" x="2" y="3"></rect>
 <line x1="2" x2="22" y1="8" y2="8"></line>
@@ -599,8 +595,8 @@ Professional HR Framework
 </li>
 
 <!-- feature 5: direct message -->
-<li style="display:flex; align-items:center; gap:1rem;">
-<div style="background-color: var(--color-bg-ivory); box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1); color: var(--color-accent-gold); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<li>
+<div class="perk-bubble" style="box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1);">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <line x1="22" x2="11" y1="2" y2="13"></line>
 <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
@@ -610,8 +606,8 @@ Professional HR Framework
 </li>
 
 <!-- feature 6: promote business -->
-<li style="display:flex; align-items:center; gap:1rem;">
-<div style="background-color: var(--color-bg-ivory); box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1); color: var(--color-primary); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+<li>
+<div class="perk-bubble" style="box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1);">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
 <circle cx="12" cy="12" r="10"></circle>
 <line x1="12" x2="12" y1="8" y2="12"></line>
