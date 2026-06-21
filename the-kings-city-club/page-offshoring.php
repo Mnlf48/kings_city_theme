@@ -535,7 +535,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <section class="section custom-contact-section" id="offshoring-contact" style="padding: var(--space-3xl) 0; position: relative;">
   
   <div class="contact-full-bg" style="position: absolute; top: 0; left: calc(-50vw + 50%); width: 100vw; height: 100%; display: flex; z-index: 0;">
-    <div style="width: 20%; background-color: var(--color-accent-gold); border-radius: 0 60px 60px 0; box-shadow: 10px 0 30px rgba(172, 32, 26, 0.05);"></div>
+    <div style="width: 20%; background-color: var(--color-accent-gold); box-shadow: 10px 0 30px rgba(172, 32, 26, 0.05);"></div>
     <div style="width: 80%; background-color: var(--color-bg-ivory);"></div>
   </div>
 
@@ -622,7 +622,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 
         <!-- Acknowledgement (Must be final child) -->
         <div style="grid-column: 1 / -1; width: 100%; position: relative; z-index: 2; margin-top: var(--space-xl);">
-          <div style="color: var(--color-text-muted); font-size: 0.85rem; font-style: italic; opacity: 0.8; text-align: left; line-height: 1.6; border-top: 1px solid rgba(189, 69, 31, 0.1); padding-top: var(--space-md);">
+          <div style="color: var(--color-text-muted); font-size: 0.85rem; font-style: italic; opacity: 0.8; text-align: center; line-height: 1.6; border-top: 1px solid rgba(189, 69, 31, 0.1); padding-top: var(--space-md);">
             <?php 
               $ack = get_field('off_contact_ack') ?: "We acknowledge and pay respect to the past, present, and future Traditional Custodians and Elders of the nation...";
               echo str_replace("\n", " ", $ack);

@@ -126,8 +126,8 @@ get_header();
 </li>
 <li class="brand-list__item" data-target="brand-manpower" tabindex="0">
 <div class="brand-list__info">
-<span class="brand-list__title">Kings Manpower</span>
-<span class="brand-list__badge" style="background: rgba(251, 203, 119, 0.1); color: var(--color-accent);">OFFSHORING</span>
+<span class="brand-list__title">The Social Manila</span>
+<span class="brand-list__badge" style="background: rgba(251, 203, 119, 0.1); color: var(--color-accent);">BAKESHOP</span>
 </div>
 <div class="brand-list__icon">
 <svg fill="none" height="24" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="24"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -135,8 +135,8 @@ get_header();
 </li>
 <li class="brand-list__item" data-target="brand-bakehouse" tabindex="0">
 <div class="brand-list__info">
-<span class="brand-list__title">The Social Manila</span>
-<span class="brand-list__badge" style="background: rgba(189, 69, 31, 0.1); color: var(--color-primary);">BAKESHOP</span>
+<span class="brand-list__title">Kings Manpower</span>
+<span class="brand-list__badge" style="background: rgba(189, 69, 31, 0.1); color: var(--color-primary);">OFFSHORING</span>
 </div>
 <div class="brand-list__icon">
 <svg fill="none" height="24" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="24"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -172,12 +172,12 @@ get_header();
 <div class="brand-detail" id="brand-manpower">
 <h3 style="color: var(--color-primary); margin-bottom: var(--space-md); text-transform: uppercase; letter-spacing: 0.05em;"><?php echo get_field('h3_21'); ?></h3>
 <p style="color: var(--color-text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: var(--space-lg);"><?php echo get_field('p_26'); ?></p>
-<a class="btn btn--outline" href="https://kings-group-ph.netlify.app/" rel="noopener noreferrer" style="padding: 0.75rem 2rem;" target="_blank">Learn More</a>
+<a class="btn btn--outline" href="https://thesocialmanilabakehouse.netlify.app/?fbclid=IwY2xjawSkwLNleHRuA2FlbQIxMABicmlkETFuNFQ3bVRsdWNiajB6Y1k3c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHpCuOm58btM6SnY6uiRMFd5rSAtijh2y8JmeUNSztnk8ORj1SnTTWF19Kpqb_aem_YWdncwPcYkDK9wXNA1vXPIgkYpsk&brid=YWdncwFn2eTqSVIMiL8j2OL336TH" rel="noopener noreferrer" style="padding: 0.75rem 2rem;" target="_blank">Learn More</a>
 </div>
 <div class="brand-detail" id="brand-bakehouse">
 <h3 style="color: var(--color-primary); margin-bottom: var(--space-md); text-transform: uppercase; letter-spacing: 0.05em;"><?php echo get_field('h3_22'); ?></h3>
 <p style="color: var(--color-text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: var(--space-lg);"><?php echo get_field('p_27'); ?></p>
-<a class="btn btn--outline" href="https://socialmanilabakeshop.netlify.app/?fbclid=IwY2xjawR3um5leHRuA2FlbQIxMABicmlkETF0N1VLUnQ2Ylp0a3ZVSEZQc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHq67pr7XXxo8nhR7GuE3k3l9kxwUsFrbKAB3xKN-59K9ZE2IJefpdhY5x97d_aem_YWdncwDQSlsaL4fMOQXRGuKfyOXL&amp;brid=YWdncwGD5GWCmPLegsp9eyuuRT5q" rel="noopener noreferrer" style="padding: 0.75rem 2rem;" target="_blank">Learn More</a>
+<a class="btn btn--outline" href="https://kings-group-ph.netlify.app/" rel="noopener noreferrer" style="padding: 0.75rem 2rem;" target="_blank">Learn More</a>
 </div>
 <div class="brand-detail" id="brand-homeculinary">
 <h3 style="color: var(--color-primary); margin-bottom: var(--space-md); text-transform: uppercase; letter-spacing: 0.05em;"><?php echo get_field('h3_23'); ?></h3>
