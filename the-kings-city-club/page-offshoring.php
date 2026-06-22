@@ -264,8 +264,8 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <h2><?php echo get_field('h2_24'); ?></h2>
 <p style="color: var(--color-text-muted); margin: var(--space-sm) auto 0; max-width: 560px;"><?php echo get_field('p_25'); ?></p>
 </div>
-<div class="off-roles-desktop-grid cycle-card-bg">
-<div class="off-roles-mobile-row off-roles-mobile-row--1">
+<div class="off-roles-desktop-grid">
+<div class="off-roles-mobile-row off-roles-mobile-row--1 cycle-card-bg">
 <!-- 1. Accountants (Calculator) -->
 <div class="off-role-item card-glass compact-mobile">
 <div class="universal-icon-wrapper">
@@ -315,7 +315,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <p><?php echo get_field('p_31'); ?></p>
 </div>
 </div>
-<div class="off-roles-mobile-row off-roles-mobile-row--2">
+<div class="off-roles-mobile-row off-roles-mobile-row--2 cycle-card-bg">
 <!-- 7. Digital Marketers (Megaphone) -->
 <div class="off-role-item card-glass compact-mobile">
 <div class="universal-icon-wrapper">
@@ -572,7 +572,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
       </div>
 
       <div class="offshoring-right">
-        <div class="contact-cards-wrapper">
+        <div class="contact-cards-wrapper cycle-card-bg">
           
           <div class="card-glass contact-envelope-card">
             <div class="envelope-icon">
@@ -633,16 +633,16 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
             </div>
           </div>
 
-        <!-- Acknowledgement (Must be final child) -->
-        <div style="grid-column: 1 / -1; width: 100%; position: relative; z-index: 2; margin-top: var(--space-xl);">
+        </div>
+
+        <!-- Acknowledgement (Moved outside of wrapper) -->
+        <div style="width: 100%; position: relative; z-index: 2; margin-top: var(--space-xl);">
           <div style="color: var(--color-text-muted); font-size: 0.85rem; font-style: italic; opacity: 0.8; text-align: center; line-height: 1.6; border-top: 1px solid rgba(189, 69, 31, 0.1); padding-top: var(--space-md);">
             <?php 
               $ack = get_field('off_contact_ack') ?: "We acknowledge and pay respect to the past, present, and future Traditional Custodians and Elders of the nation...";
               echo str_replace("\n", " ", $ack);
             ?>
           </div>
-        </div>
-
         </div>
       </div>
     </div>

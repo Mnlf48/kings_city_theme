@@ -611,7 +611,6 @@ get_header();
 <section class="section content-panel section--journal" style="position: relative; overflow: hidden;">
 <!-- Background floating confetti -->
 <style>
-@keyframes floatJournal { 0% { transform: translateY(0px) rotate(-5deg); } 50% { transform: translateY(-12px) rotate(5deg); } 100% { transform: translateY(0px) rotate(-5deg); } }
 .journal-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
 </style>
 <!-- Ivory Sparkle -->

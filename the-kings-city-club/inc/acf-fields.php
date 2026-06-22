@@ -1306,6 +1306,18 @@ acf_add_local_field_group(array(
             'name' => 'p_49',
             'type' => 'textarea',
         ),
+        array(
+            'key' => 'field_group_about_h3_41',
+            'label' => 'Heading 3 #41',
+            'name' => 'h3_41',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_about_p_50',
+            'label' => 'Paragraph #50',
+            'name' => 'p_50',
+            'type' => 'textarea',
+        ),
 
 
 

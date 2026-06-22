@@ -45,8 +45,30 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 </div>
 </section>
 <!-- our story / mission -->
-<section class="section content-panel section--story" id="our-story">
-<div class="container grid-12">
+<section class="section content-panel section--story" id="our-story" style="position: relative; overflow: hidden;">
+  <!-- Background Floating Icons (Pink-Optimized Mix) -->
+  <!-- 1 -->
+  <div class="floating-bg-icon anim-float-fast" style="top: 10%; left: 8%; color: var(--color-primary);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </div>
+  <!-- 2 -->
+  <div class="floating-bg-icon anim-pulse" style="top: 25%; right: 10%; color: var(--color-accent-gold);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+  <!-- 3 -->
+  <div class="floating-bg-icon anim-float-slow-rev" style="top: 55%; left: 15%; color: var(--color-accent-red);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
+  </div>
+  <!-- 4 -->
+  <div class="floating-bg-icon anim-float-fast" style="bottom: 10%; right: 15%; color: var(--color-primary);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </div>
+  <!-- 5 -->
+  <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 25%; color: var(--color-accent-gold);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+
+<div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split" style="align-items: center;">
 <div class="split__media">
 <img alt="Kings City Bag" src="<?php $img = get_field('image_12'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; border-radius: var(--radius-card);"/>
@@ -61,29 +83,78 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 </div>
 </section>
 <!-- mission and vision -->
-<section class="section content-panel" id="mission-vision">
-<div class="container grid-12">
-<div class="col-12 split">
-<!-- mission card -->
-<div class="split__content card-glass mv-card" style="background-color: var(--color-secondary);">
-<svg class="mv-card__icon" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-<span class="text-overline"><?php echo get_field('overline_mv_mission'); ?></span>
-<h2 class="mv-card__title"><?php echo get_field('h3_mv_mission'); ?></h2>
-<p class="mv-card__text"><?php echo get_field('p_mv_mission'); ?></p>
-</div>
-<!-- vision card -->
-<div class="split__content card-glass card-glass--strong section--brown mv-card">
-<svg class="mv-card__icon" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
-<span class="text-overline"><?php echo get_field('overline_mv_vision'); ?></span>
-<h2 class="mv-card__title"><?php echo get_field('h3_mv_vision'); ?></h2>
-<p class="mv-card__text"><?php echo get_field('p_mv_vision'); ?></p>
-</div>
-</div>
-</div>
+<section class="section content-panel" id="mission-vision" style="position: relative; overflow: hidden;">
+
+  <!-- Background Floating Icons (Ivory Optimized Mix) -->
+  <div class="floating-bg-icon anim-float-fast" style="top: 10%; left: 8%; color: var(--color-accent-red);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </div>
+  <div class="floating-bg-icon anim-pulse" style="top: 15%; right: 10%; color: var(--color-accent-gold);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+  <div class="floating-bg-icon anim-float-slow-rev" style="top: 35%; left: 15%; color: var(--color-secondary);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
+  </div>
+  <div class="floating-bg-icon anim-float-fast" style="top: 55%; right: 20%; color: var(--color-primary);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </div>
+  <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 10%; color: var(--color-accent-gold);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+  <div class="floating-bg-icon anim-float-slow-rev" style="bottom: 5%; right: 15%; color: var(--color-secondary);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
+  </div>
+
+  <div class="container grid-12" style="position: relative; z-index: 2;">
+    <div class="col-12 split cycle-hover-border">
+      <!-- mission card -->
+      <div class="split__content card-glass mv-card" style="background-color: var(--color-secondary);">
+        <div class="universal-icon-wrapper" style="margin-bottom: var(--space-md);">
+          <!-- Intricate Mission Compass Icon -->
+          <svg fill="none" height="32" stroke="var(--color-bg-ivory)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="32"><path fill="var(--color-primary)" fill-opacity="0.3" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.53-.21-1.04-.59-1.41-.37-.38-.59-.88-.59-1.41 0-1.1.9-2 2-2h1.67c2.65 0 4.83-2.18 4.83-4.83C21.83 6.31 17.43 2 12 2z"></path><circle cx="12" cy="12" r="3" fill="var(--color-accent-gold)" stroke="none"></circle><path d="M12 2v6" stroke="var(--color-accent-gold)"></path><path d="M12 22v-6" stroke="var(--color-accent-gold)"></path><path d="M2 12h6" stroke="var(--color-accent-gold)"></path><path d="M22 12h-6" stroke="var(--color-accent-gold)"></path></svg>
+        </div>
+        <span class="text-overline"><?php echo get_field('overline_mv_mission'); ?></span>
+        <h2 class="mv-card__title"><?php echo get_field('h3_mv_mission'); ?></h2>
+        <p class="mv-card__text"><?php echo get_field('p_mv_mission'); ?></p>
+      </div>
+      <!-- vision card -->
+      <div class="split__content card-glass card-glass--strong section--brown mv-card">
+        <div class="universal-icon-wrapper" style="margin-bottom: var(--space-md);">
+          <!-- Intricate Vision Diamond Icon -->
+          <svg fill="none" height="32" stroke="var(--color-bg-ivory)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="32"><path fill="var(--color-secondary)" fill-opacity="0.8" d="M2 12l10-10 10 10-10 10Z"></path><path fill="var(--color-accent-gold)" d="M12 8l3 4-3 4-3-4Z" stroke="none"></path><circle cx="12" cy="12" r="1.5" fill="var(--color-bg-ivory)" stroke="none"></circle></svg>
+        </div>
+        <span class="text-overline"><?php echo get_field('overline_mv_vision'); ?></span>
+        <h2 class="mv-card__title"><?php echo get_field('h3_mv_vision'); ?></h2>
+        <p class="mv-card__text"><?php echo get_field('p_mv_vision'); ?></p>
+      </div>
+    </div>
+  </div>
 </section>
 <!-- philippines map section -->
-<section class="section content-panel section--map">
-<div class="container grid-12">
+<section class="section content-panel section--map" style="position: relative; overflow: hidden;">
+  <!-- Background Floating Icons (Pink-Optimized Mix) -->
+  <!-- 1 -->
+  <div class="floating-bg-icon anim-float-fast" style="top: 10%; left: 8%; color: var(--color-primary);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </div>
+  <!-- 2 -->
+  <div class="floating-bg-icon anim-pulse" style="top: 25%; right: 10%; color: var(--color-accent-gold);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+  <!-- 3 -->
+  <div class="floating-bg-icon anim-float-slow-rev" style="top: 55%; left: 15%; color: var(--color-accent-red);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
+  </div>
+  <!-- 4 -->
+  <div class="floating-bg-icon anim-float-fast" style="bottom: 10%; right: 15%; color: var(--color-primary);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </div>
+  <!-- 5 -->
+  <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 25%; color: var(--color-accent-gold);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+
+<div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split">
 <div class="split__content animate-fadeInUp">
 <span class="text-overline"><?php echo get_field('overline_17'); ?></span>
@@ -98,39 +169,101 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 </div>
 </section>
 <!-- core values grid -->
-<section class="core-values-section content-panel">
-<div class="core-values-container">
-<div class="text-center" style="margin-bottom: var(--space-2xl);">
-<span class="text-overline"><?php echo get_field('overline_29'); ?></span>
-<h2 style="font-family: var(--font-heading); font-weight: 400; color: var(--color-primary);"><?php echo get_field('h2_20'); ?></h2>
-</div>
-<div class="core-values-grid">
-<div class="core-value-card">
-<span class="core-value-number">01.</span>
-<h3><?php echo get_field('h3_21'); ?></h3>
-<p><?php echo get_field('p_25'); ?></p>
-</div>
-<div class="core-value-card">
-<span class="core-value-number">02.</span>
-<h3><?php echo get_field('h3_22'); ?></h3>
-<p><?php echo get_field('p_26'); ?></p>
-</div>
-<div class="core-value-card">
-<span class="core-value-number">03.</span>
-<h3><?php echo get_field('h3_23'); ?></h3>
-<p><?php echo get_field('p_27'); ?></p>
-</div>
-<div class="core-value-card">
-<span class="core-value-number">04.</span>
-<h3><?php echo get_field('h3_24'); ?></h3>
-<p><?php echo get_field('p_28'); ?></p>
-</div>
-</div>
-</div>
+<section class="core-values-section content-panel bg-ivory" style="position: relative; overflow: hidden; padding: var(--space-3xl) 0;">
+
+  <!-- Background Floating Icons (Ivory Optimized Mix) -->
+  <div class="floating-bg-icon anim-float-fast" style="top: 10%; left: 8%; color: var(--color-accent-red);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </div>
+  <div class="floating-bg-icon anim-pulse" style="top: 15%; right: 10%; color: var(--color-accent-gold);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+  <div class="floating-bg-icon anim-float-slow-rev" style="top: 35%; left: 15%; color: var(--color-secondary);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
+  </div>
+  <div class="floating-bg-icon anim-float-fast" style="top: 55%; right: 20%; color: var(--color-primary);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </div>
+  <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 10%; color: var(--color-accent-gold);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+  <div class="floating-bg-icon anim-float-slow-rev" style="bottom: 5%; right: 15%; color: var(--color-secondary);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
+  </div>
+
+  <div class="core-values-container" style="position: relative; z-index: 2;">
+    <div class="text-center" style="margin-bottom: var(--space-2xl);">
+      <span class="text-overline"><?php echo get_field('overline_29'); ?></span>
+      <h2 style="font-family: var(--font-heading); font-weight: 400; color: var(--color-primary);"><?php echo get_field('h2_20'); ?></h2>
+    </div>
+    <div class="universal-glass-grid cycle-card-bg">
+      <!-- card 1 -->
+      <div class="card-glass text-center compact-mobile" style="display: flex; flex-direction: column; align-items: center; padding: var(--space-xl) var(--space-lg);">
+        <div class="universal-icon-wrapper" style="margin-bottom: var(--space-md);">
+          <!-- Glowing Heart (Value 1) -->
+          <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="32"><path fill="var(--color-accent-red)" fill-opacity="0.3" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path><circle cx="15.5" cy="8.5" r="1.5" fill="var(--color-accent-gold)" stroke="none"></circle></svg>
+        </div>
+        <span class="text-overline" style="margin-bottom: 0.5rem; color: var(--color-secondary);">01.</span>
+        <h3 style="margin-top: 0; font-size: 1.5rem;"><?php echo get_field('h3_21'); ?></h3>
+        <p style="color: var(--color-text-muted); font-size: 1rem;"><?php echo get_field('p_25'); ?></p>
+      </div>
+      <!-- card 2 -->
+      <div class="card-glass text-center compact-mobile" style="display: flex; flex-direction: column; align-items: center; padding: var(--space-xl) var(--space-lg);">
+        <div class="universal-icon-wrapper" style="margin-bottom: var(--space-md);">
+          <!-- Sparkling Crown (Value 2) -->
+          <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="32"><path fill="var(--color-secondary)" fill-opacity="0.3" d="M2 20h20"></path><path fill="var(--color-accent-gold)" fill-opacity="0.3" d="M4 20L5 8l4 4 3-6 3 6 4-4 1 12H4z"></path><circle cx="12" cy="4" r="1.5" fill="var(--color-accent-gold)" stroke="none"></circle><circle cx="5" cy="5" r="1" fill="var(--color-primary)" stroke="none"></circle><circle cx="19" cy="5" r="1" fill="var(--color-primary)" stroke="none"></circle></svg>
+        </div>
+        <span class="text-overline" style="margin-bottom: 0.5rem; color: var(--color-secondary);">02.</span>
+        <h3 style="margin-top: 0; font-size: 1.5rem;"><?php echo get_field('h3_22'); ?></h3>
+        <p style="color: var(--color-text-muted); font-size: 1rem;"><?php echo get_field('p_26'); ?></p>
+      </div>
+      <!-- card 3 -->
+      <div class="card-glass text-center compact-mobile" style="display: flex; flex-direction: column; align-items: center; padding: var(--space-xl) var(--space-lg);">
+        <div class="universal-icon-wrapper" style="margin-bottom: var(--space-md);">
+          <!-- Blooming Flower (Value 3) -->
+          <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="32"><path fill="var(--color-bg-pink)" d="M12 22v-6"></path><path fill="var(--color-primary)" fill-opacity="0.2" d="M12 16a4 4 0 0 0-4-4 4 4 0 0 0-4 4c0 2 1.5 3 4 3s4-1 4-3z"></path><path fill="var(--color-accent-gold)" fill-opacity="0.2" d="M12 16a4 4 0 0 1 4-4 4 4 0 0 1 4 4c0 2-1.5 3-4 3s-4-1-4-3z"></path><path fill="var(--color-secondary)" fill-opacity="0.4" d="M12 16a4 4 0 0 1-4-4 4 4 0 0 1 4-4c0-2 1.5-3 4-3s4 1 4 3a4 4 0 0 1-4 4z"></path></svg>
+        </div>
+        <span class="text-overline" style="margin-bottom: 0.5rem; color: var(--color-secondary);">03.</span>
+        <h3 style="margin-top: 0; font-size: 1.5rem;"><?php echo get_field('h3_23'); ?></h3>
+        <p style="color: var(--color-text-muted); font-size: 1rem;"><?php echo get_field('p_27'); ?></p>
+      </div>
+      <!-- card 4 -->
+      <div class="card-glass text-center compact-mobile" style="display: flex; flex-direction: column; align-items: center; padding: var(--space-xl) var(--space-lg);">
+        <div class="universal-icon-wrapper" style="margin-bottom: var(--space-md);">
+          <!-- Crystal Diamond (Value 4) -->
+          <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="32"><path fill="var(--color-secondary)" fill-opacity="0.3" d="M2 12l10-10 10 10-10 10Z"></path><path fill="var(--color-accent-gold)" d="M12 8l3 4-3 4-3-4Z" stroke="none"></path><circle cx="12" cy="12" r="1.5" fill="var(--color-primary)" stroke="none"></circle></svg>
+        </div>
+        <span class="text-overline" style="margin-bottom: 0.5rem; color: var(--color-secondary);">04.</span>
+        <h3 style="margin-top: 0; font-size: 1.5rem;"><?php echo get_field('h3_24'); ?></h3>
+        <p style="color: var(--color-text-muted); font-size: 1rem;"><?php echo get_field('p_28'); ?></p>
+      </div>
+    </div>
+  </div>
 </section>
 <!-- timeline / how we got here -->
-<section class="section content-panel" style="padding: var(--space-lg) 0;">
-<div class="container" style="max-width: 800px;">
+<section class="section content-panel" style="padding: var(--space-3xl) 0; position: relative; overflow: hidden;">
+
+  <!-- Background Floating Icons -->
+  <div class="floating-bg-icon anim-float-fast" style="top: 10%; left: 8%; color: var(--color-bg-ivory);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </div>
+  <div class="floating-bg-icon anim-pulse" style="top: 15%; right: 10%; color: var(--color-accent-gold);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+  <div class="floating-bg-icon anim-float-slow-rev" style="top: 35%; left: 15%; color: var(--color-primary);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
+  </div>
+  <div class="floating-bg-icon anim-float-fast" style="top: 55%; right: 20%; color: var(--color-accent-red);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </div>
+  <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 10%; color: var(--color-accent-gold);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+  <div class="floating-bg-icon anim-float-slow-rev" style="bottom: 5%; right: 15%; color: var(--color-bg-ivory);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
+  </div>
+
+<div class="container" style="max-width: 800px; position: relative; z-index: 2;">
 <div class="text-center" style="margin-bottom: var(--space-xl);">
 <span class="text-overline"><?php echo get_field('overline_50'); ?></span>
 <h2 style="font-family: var(--font-heading); font-weight: 400; color: var(--color-primary);"><?php echo get_field('h2_31'); ?></h2>
@@ -226,6 +359,22 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 </div>
 </div>
 </div>
+<!-- row 4 (2026 centered finale) -->
+<div class="snake-row snake-row--centered-finale">
+<!-- empty spacer for right (row-reverse places first item on right) -->
+<div class="snake-item" style="visibility: hidden;"></div>
+<!-- 10th item (sits in the middle) -->
+<div class="snake-item">
+<div class="snake-dot"></div>
+<div class="snake-content">
+<span class="snake-year">2026</span>
+<h3 class="snake-title"><?php echo get_field('h3_41') ?: 'Social Manila Lifestyle'; ?></h3>
+<p class="snake-desc"><?php echo get_field('p_50'); ?></p>
+</div>
+</div>
+<!-- empty spacer for left -->
+<div class="snake-item" style="visibility: hidden;"></div>
+</div>
 </div>
 </div>
 </section>
@@ -310,8 +459,22 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 </div>
 </section>
 <!-- community section -->
-<section class="section content-panel section--community" id="community">
-<div class="container grid-12">
+<section class="section content-panel section--community" id="community" style="position: relative; overflow: hidden;">
+  <!-- Background Floating Icons (Pink-Optimized Mix) -->
+  <!-- 1 -->
+  <div class="floating-bg-icon anim-float-fast" style="top: 15%; left: 10%; color: var(--color-primary);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </div>
+  <!-- 2 -->
+  <div class="floating-bg-icon anim-pulse" style="top: 50%; right: 10%; color: var(--color-accent-gold);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+  <!-- 3 -->
+  <div class="floating-bg-icon anim-float-slow-rev" style="bottom: 15%; left: 20%; color: var(--color-accent-red);">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
+  </div>
+
+<div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split">
 <div class="split__content">
 <span class="text-overline"><?php echo get_field('overline_community'); ?></span>

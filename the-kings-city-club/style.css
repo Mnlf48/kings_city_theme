@@ -2565,6 +2565,10 @@ button[type="submit"]:active,
   z-index: 1;
 }
 
+.snake-row--centered-finale::before {
+  left: 50% !important;
+}
+
 /* u-turn vertical line connecting rows */
 .snake-row:not(:last-child)::after {
   content: '';
@@ -5591,7 +5595,6 @@ body.modal-open {
 
 /* Make the grid items look like frosted white bubbles */
 #offshoring-services .spaces-services__item {
-  background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(10px) !important;
   -webkit-backdrop-filter: blur(10px) !important;
   padding: var(--space-xl) var(--space-lg) !important;
@@ -5606,7 +5609,6 @@ body.modal-open {
 #offshoring-services .spaces-services__item:hover {
   transform: translateY(-8px) scale(1.03) !important;
   box-shadow: 0 20px 40px rgba(251, 203, 119, 0.2) !important; /* Soft gold glow */
-  background: rgba(255, 255, 255, 1) !important;
   z-index: 10;
 }
 
@@ -5800,45 +5802,32 @@ body.modal-open {
 }
 
 /* Card Background Color Cycle (Universal & Bulletproof) */
-/* Process Section */
 /* Universal Girly/Cutesy Pastel Cycle (Pink, Yellow, Peach, Rose) */
-#offshoring-process .off-process-card:nth-of-type(4n+1),
-#offshoring-roles .off-role-item:nth-of-type(4n+1),
-#offshoring-services .spaces-services__item:nth-of-type(4n+1),
-#offshoring-contact .contact-cards-wrapper > div.contact-envelope-card:nth-of-type(4n+1) { 
+.cycle-card-bg > *:nth-child(4n+1) { 
   background: rgba(255, 191, 191, 0.6) !important; /* Soft Blush / Pink */
   border-color: rgba(255, 191, 191, 0.9) !important;
 }
 
-#offshoring-process .off-process-card:nth-of-type(4n+2),
-#offshoring-roles .off-role-item:nth-of-type(4n+2),
-#offshoring-services .spaces-services__item:nth-of-type(4n+2),
-#offshoring-contact .contact-cards-wrapper > div.contact-envelope-card:nth-of-type(4n+2) { 
+.cycle-card-bg > *:nth-child(4n+2) { 
   background: rgba(251, 203, 119, 0.5) !important; /* Muted Gold / Yellow */
   border-color: rgba(251, 203, 119, 0.8) !important;
 }
 
-#offshoring-process .off-process-card:nth-of-type(4n+3),
-#offshoring-roles .off-role-item:nth-of-type(4n+3),
-#offshoring-services .spaces-services__item:nth-of-type(4n+3),
-#offshoring-contact .contact-cards-wrapper > div.contact-envelope-card:nth-of-type(4n+3) { 
+.cycle-card-bg > *:nth-child(4n+3) { 
   background: rgba(189, 69, 31, 0.15) !important; /* Light Terracotta / Peach */
   border-color: rgba(189, 69, 31, 0.3) !important;
 }
 
-#offshoring-process .off-process-card:nth-of-type(4n+4),
-#offshoring-roles .off-role-item:nth-of-type(4n+4),
-#offshoring-services .spaces-services__item:nth-of-type(4n+4),
-#offshoring-contact .contact-cards-wrapper > div.contact-envelope-card:nth-of-type(4n+4) { 
+.cycle-card-bg > *:nth-child(4n+4) { 
   background: rgba(172, 32, 26, 0.15) !important; /* Light Deep Red / Rose */
   border-color: rgba(172, 32, 26, 0.3) !important;
 }
 
 /* Universal Hover Borders overlay */
-#offshoring-process .off-process-card::after,
-#offshoring-roles .off-role-item::after,
-#offshoring-services .spaces-services__item::after,
-#offshoring-contact .contact-cards-wrapper > div.contact-envelope-card::after {
+.cycle-card-bg > *, .cycle-hover-border > * {
+  position: relative; /* required for the ::after overlay */
+}
+.cycle-card-bg > *::after, .cycle-hover-border > *::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -5849,25 +5838,27 @@ body.modal-open {
   z-index: 20;
 }
 
-#offshoring-process .off-process-card:nth-of-type(4n+1):hover::after,
-#offshoring-roles .off-role-item:nth-of-type(4n+1):hover::after,
-#offshoring-services .spaces-services__item:nth-of-type(4n+1):hover::after,
-#offshoring-contact .contact-cards-wrapper > div.contact-envelope-card:nth-of-type(4n+1):hover::after { border-color: var(--color-accent-red) !important; }
+/* Universal Color-Cycling Glass Grid */
+.universal-glass-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-xl);
+  width: 100%;
+}
 
-#offshoring-process .off-process-card:nth-of-type(4n+2):hover::after,
-#offshoring-roles .off-role-item:nth-of-type(4n+2):hover::after,
-#offshoring-services .spaces-services__item:nth-of-type(4n+2):hover::after,
-#offshoring-contact .contact-cards-wrapper > div.contact-envelope-card:nth-of-type(4n+2):hover::after { border-color: var(--color-primary) !important; }
+@media (max-width: 1024px) {
+  .universal-glass-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
 
-#offshoring-process .off-process-card:nth-of-type(4n+3):hover::after,
-#offshoring-roles .off-role-item:nth-of-type(4n+3):hover::after,
-#offshoring-services .spaces-services__item:nth-of-type(4n+3):hover::after,
-#offshoring-contact .contact-cards-wrapper > div.contact-envelope-card:nth-of-type(4n+3):hover::after { border-color: var(--color-secondary) !important; }
+.cycle-card-bg > *:nth-child(4n+1):hover::after, .cycle-hover-border > *:nth-child(4n+1):hover::after { border-color: var(--color-accent-red) !important; }
+.cycle-card-bg > *:nth-child(4n+2):hover::after, .cycle-hover-border > *:nth-child(4n+2):hover::after { border-color: var(--color-primary) !important; }
+.cycle-card-bg > *:nth-child(4n+3):hover::after, .cycle-hover-border > *:nth-child(4n+3):hover::after { border-color: var(--color-secondary) !important; }
+.cycle-card-bg > *:nth-child(4n+4):hover::after, .cycle-hover-border > *:nth-child(4n+4):hover::after { border-color: var(--color-accent-gold) !important; }
 
-#offshoring-process .off-process-card:nth-of-type(4n+4):hover::after,
-#offshoring-roles .off-role-item:nth-of-type(4n+4):hover::after,
-#offshoring-services .spaces-services__item:nth-of-type(4n+4):hover::after,
-#offshoring-contact .contact-cards-wrapper > div.contact-envelope-card:nth-of-type(4n+4):hover::after { border-color: var(--color-accent-gold) !important; }
+/* Override for Terracotta background cards to ensure border visibility */
+.cycle-hover-border > .section--brown:hover::after { border-color: var(--color-accent-gold) !important; }
 
 /* Contact Us Section - Layout Overrides */
 #offshoring-contact .contact-flex-container {
@@ -5911,6 +5902,8 @@ body.modal-open {
 }
 
 /* Unified Animations */
+@keyframes floatJournal { 0% { transform: translateY(0px) rotate(-5deg); } 50% { transform: translateY(-12px) rotate(5deg); } 100% { transform: translateY(0px) rotate(-5deg); } }
+
 .anim-float-fast { animation: floatJournal 4.5s infinite ease-in-out; }
 .anim-float-normal { animation: floatJournal 5s infinite ease-in-out; }
 .anim-float-offset { animation: floatJournal 5.5s infinite ease-in-out; }
