@@ -3258,15 +3258,7 @@ acf_add_local_field_group(array(
             'library' => 'all',
         ),
 
-        array(
-            'key' => 'field_group_our_brands_image_17',
-            'label' => 'Image #17',
-            'name' => 'image_17',
-            'type' => 'image',
-            'return_format' => 'array',
-            'preview_size' => 'medium',
-            'library' => 'all',
-        ),
+
 
         array(
             'key' => 'field_tab_group_our_brands_4',
@@ -3347,19 +3339,7 @@ acf_add_local_field_group(array(
             'type' => 'textarea',
         ),
 
-        array(
-            'key' => 'field_group_our_brands_h3_24',
-            'label' => 'Heading 3 #24',
-            'name' => 'h3_24',
-            'type' => 'text',
-        ),
 
-        array(
-            'key' => 'field_group_our_brands_p_29',
-            'label' => 'Paragraph #29',
-            'name' => 'p_29',
-            'type' => 'textarea',
-        ),
 
         array(
             'key' => 'field_tab_group_our_brands_5',

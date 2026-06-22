@@ -44,34 +44,24 @@ get_header();
 .space-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
 </style>
 <!-- Ivory Sparkle -->
-<div class="space-bg-icon" style="top: 10%; right: 8%; color: var(--color-bg-ivory); animation: floatSpace 5s infinite ease-in-out;">
-  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.4">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-  </svg>
+<div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-bg-ivory);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
 </div>
 <!-- Deep Red Heart -->
-<div class="space-bg-icon" style="bottom: 15%; left: 8%; color: var(--color-primary); animation: floatSpace 6.5s infinite ease-in-out reverse;">
-  <svg width="55" height="55" viewBox="0 0 24 24" fill="currentColor" opacity="0.2">
-    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-  </svg>
+<div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-primary);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
 </div>
 <!-- Muted Gold Circle -->
-<div class="space-bg-icon" style="top: 45%; left: 5%; color: var(--color-accent-gold); animation: floatSpace 7s infinite ease-in-out;">
-  <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" opacity="0.3">
-    <circle cx="12" cy="12" r="9"></circle>
-  </svg>
+<div class="floating-bg-icon anim-float-slow-rev" style="top: 45%; left: 5%; color: var(--color-accent-gold);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
 </div>
 <!-- Deep Red Wavy Line -->
-<div class="space-bg-icon" style="top: 25%; right: 40%; color: var(--color-primary); animation: floatSpace 6s infinite ease-in-out reverse;">
-  <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.15">
-    <path d="M2 12c2.5-3.5 5-3.5 7.5 0 2.5 3.5 5 3.5 7.5 0s5-3.5 7.5 0"></path>
-  </svg>
+<div class="floating-bg-icon anim-float-fast" style="top: 25%; right: 40%; color: var(--color-primary);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
 </div>
 <!-- Ivory Star -->
-<div class="space-bg-icon" style="bottom: 10%; right: 10%; color: var(--color-bg-ivory); animation: floatSpace 8s infinite ease-in-out;">
-  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.5">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-  </svg>
+<div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: var(--color-bg-ivory);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
 </div>
 
 <div class="container" style="position: relative; z-index: 1;">
@@ -93,7 +83,7 @@ get_header();
 <div class="space-card__footer">
 <a class="btn btn--small" href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>">Learn More</a>
 <div class="space-card__capacity" style="display:flex; align-items:center; gap:0.5rem; font-weight:600; color:var(--color-primary);">
-<div style="background-color: var(--color-bg-ivory); color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
+<div class="bg-ivory" style=" color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16">
 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
 <circle cx="9" cy="7" r="4"></circle>
@@ -117,7 +107,7 @@ get_header();
 <div class="space-card__footer">
 <a class="btn btn--small" href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>">Learn More</a>
 <div class="space-card__capacity" style="display:flex; align-items:center; gap:0.5rem; font-weight:600; color:var(--color-primary);">
-<div style="background-color: var(--color-bg-ivory); color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
+<div class="bg-ivory" style=" color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16">
 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
 <circle cx="9" cy="7" r="4"></circle>
@@ -141,7 +131,7 @@ get_header();
 <div class="space-card__footer">
 <a class="btn btn--small" href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>">Learn More</a>
 <div class="space-card__capacity" style="display:flex; align-items:center; gap:0.5rem; font-weight:600; color:var(--color-primary);">
-<div style="background-color: var(--color-bg-ivory); color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
+<div class="bg-ivory" style=" color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16">
 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
 <circle cx="9" cy="7" r="4"></circle>
@@ -165,7 +155,7 @@ get_header();
 <div class="space-card__footer">
 <a class="btn btn--small" href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>">Learn More</a>
 <div class="space-card__capacity" style="display:flex; align-items:center; gap:0.5rem; font-weight:600; color:var(--color-primary);">
-<div style="background-color: var(--color-bg-ivory); color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
+<div class="bg-ivory" style=" color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16">
 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
 <circle cx="9" cy="7" r="4"></circle>
@@ -189,7 +179,7 @@ get_header();
 <div class="space-card__footer">
 <a class="btn btn--small" href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>">Learn More</a>
 <div class="space-card__capacity" style="display:flex; align-items:center; gap:0.5rem; font-weight:600; color:var(--color-primary);">
-<div style="background-color: var(--color-bg-ivory); color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
+<div class="bg-ivory" style=" color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16">
 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
 <circle cx="9" cy="7" r="4"></circle>
@@ -213,7 +203,7 @@ get_header();
 <div class="space-card__footer">
 <a class="btn btn--small" href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>">Learn More</a>
 <div class="space-card__capacity" style="display:flex; align-items:center; gap:0.5rem; font-weight:600; color:var(--color-primary);">
-<div style="background-color: var(--color-bg-ivory); color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
+<div class="bg-ivory" style=" color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16">
 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
 <circle cx="9" cy="7" r="4"></circle>
@@ -235,22 +225,16 @@ get_header();
 .offshore-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
 </style>
 <!-- Ivory Sparkle -->
-<div class="offshore-bg-icon" style="top: 15%; right: 10%; color: var(--color-bg-ivory); animation: floatOffshore 5s infinite ease-in-out;">
-  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.4">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-  </svg>
+<div class="floating-bg-icon anim-float-slow-rev" style="top: 15%; right: 10%; color: var(--color-bg-ivory);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
 </div>
 <!-- Soft Pink Heart -->
-<div class="offshore-bg-icon" style="bottom: 20%; left: 8%; color: var(--color-secondary); animation: floatOffshore 6.5s infinite ease-in-out reverse;">
-  <svg width="55" height="55" viewBox="0 0 24 24" fill="currentColor" opacity="0.6">
-    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-  </svg>
+<div class="floating-bg-icon anim-float-fast" style="bottom: 20%; left: 8%; color: var(--color-secondary);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
 </div>
 <!-- Muted Gold Circle -->
-<div class="offshore-bg-icon" style="top: 40%; left: 45%; color: var(--color-accent-gold); animation: floatOffshore 7s infinite ease-in-out;">
-  <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" opacity="0.5">
-    <circle cx="12" cy="12" r="9"></circle>
-  </svg>
+<div class="floating-bg-icon anim-pulse" style="top: 40%; left: 45%; color: var(--color-accent-gold);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
 </div>
 
 <div class="container grid-12" style="position: relative; z-index: 1;">
@@ -314,25 +298,17 @@ get_header();
 <section class="section content-panel section--pass bg-blush" style="position: relative; overflow: hidden;">
 <!-- Background floating icons -->
  
-<div class="pass-bg-icon" style="top: 10%; left: 5%; color: var(--color-bg-ivory); animation: pulseSoft 4s infinite ease-in-out;">
-<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-</svg>
+<div class="floating-bg-icon anim-float-slow-rev" style="top: 10%; left: 5%; color: var(--color-bg-ivory);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
 </div>
-<div class="pass-bg-icon" style="top: 15%; right: 8%; color: var(--color-accent-red); opacity: 0.4; animation: floatSoft 5s infinite ease-in-out;">
-<svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
-<circle cx="12" cy="12" r="10"></circle>
-</svg>
+<div class="floating-bg-icon anim-float-fast" style="top: 15%; right: 8%; color: var(--color-accent-red); opacity: 0.4;">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
 </div>
-<div class="pass-bg-icon" style="bottom: 15%; left: 8%; color: var(--color-accent-gold); opacity: 0.5; animation: floatSoft 6s infinite ease-in-out;">
-<svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-<path d="M4 12c2 0 2-4 4-4s2 4 4 4 2-4 4-4 2 4 4 4"></path>
-</svg>
+<div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-accent-gold); opacity: 0.5;">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
 </div>
-<div class="pass-bg-icon" style="bottom: 10%; right: 5%; color: var(--color-primary); animation: pulseSoft 5.5s infinite ease-in-out;">
-<svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-</svg>
+<div class="floating-bg-icon anim-float-slow-rev" style="bottom: 10%; right: 5%; color: var(--color-primary);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
 </div>
 <!-- /Background floating icons -->
 <div class="container grid-12" style="position: relative; z-index: 1;">
@@ -402,17 +378,13 @@ get_header();
 <!-- locations gallery carousel -->
 <section class="section content-panel section--gallery gallery-theme-terracotta" style="position: relative; padding: var(--space-lg) 0 var(--space-2xl) 0; overflow: hidden;">
 <!-- Background Confetti -->
-<div class="gallery-bg-icon" style="top: 10%; right: 15%; color: var(--color-bg-ivory); animation: floatJournal 4.5s infinite ease-in-out;">
-  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.3">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-  </svg>
+<div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 15%; color: var(--color-bg-ivory);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
 </div>
-<div class="gallery-bg-icon" style="bottom: 15%; left: 10%; color: var(--color-secondary); animation: floatJournal 6s infinite ease-in-out reverse;">
-  <svg width="55" height="55" viewBox="0 0 24 24" fill="currentColor" opacity="0.4">
-    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-  </svg>
+<div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 10%; color: var(--color-secondary);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
 </div>
-<div class="gallery-bg-icon" style="top: 50%; left: 3%; color: var(--color-accent-gold); animation: floatJournal 5.5s infinite ease-in-out;">
+<div class="floating-bg-icon anim-float-offset" style="top: 50%; left: 3%; color: var(--color-accent-gold);">
   <circle cx="12" cy="12" r="8" fill="currentColor" opacity="0.25"></circle>
 </div>
 
@@ -487,46 +459,33 @@ get_header();
 </style>
 
 <!-- 1. Deep Red Heart (Top Right) -->
-<div class="social-bg-icon" style="top: 10%; right: 8%; color: var(--color-primary); animation: floatSocial 5s infinite ease-in-out;">
-  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.6">
-    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-  </svg>
+<div class="floating-bg-icon anim-float-slow-rev" style="top: 10%; right: 8%; color: var(--color-primary);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
 </div>
 
 <!-- 2. Gold Social Pin (Bottom Left) -->
-<div class="social-bg-icon" style="bottom: 15%; left: 8%; color: var(--color-accent-gold); animation: floatSocial 7s infinite ease-in-out;">
-  <svg width="55" height="55" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7">
-    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-  </svg>
+<div class="floating-bg-icon anim-float-fast" style="bottom: 15%; left: 8%; color: var(--color-accent-gold);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
 </div>
 
 <!-- 3. Ivory Circle (Center) -->
-<div class="social-bg-icon" style="top: 45%; left: 45%; color: var(--color-bg-ivory); animation: floatSocial 6s infinite ease-in-out reverse;">
-  <svg width="35" height="35" viewBox="0 0 24 24" fill="currentColor" opacity="0.8">
-    <circle cx="12" cy="12" r="10"></circle>
-  </svg>
+<div class="floating-bg-icon anim-pulse" style="top: 45%; left: 45%; color: var(--color-bg-ivory);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
 </div>
 
 <!-- 4. Ivory Plus Sign (Top Left) -->
-<div class="social-bg-icon" style="top: 15%; left: 10%; color: var(--color-bg-ivory); animation: floatSocial 5.5s infinite ease-in-out;">
-  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.8">
-    <line x1="12" y1="5" x2="12" y2="19"></line>
-    <line x1="5" y1="12" x2="19" y2="12"></line>
-  </svg>
+<div class="floating-bg-icon anim-float-slow-rev" style="top: 15%; left: 10%; color: var(--color-bg-ivory);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
 </div>
 
 <!-- 5. Deep Red Wavy Line (Bottom Right Center) -->
-<div class="social-bg-icon" style="bottom: 25%; right: 40%; color: var(--color-primary); animation: floatSocial 6.5s infinite ease-in-out reverse;">
-  <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.5">
-    <path d="M2 12c2.5-3.5 5-3.5 7.5 0 2.5 3.5 5 3.5 7.5 0s5-3.5 7.5 0"></path>
-  </svg>
+<div class="floating-bg-icon anim-float-fast" style="bottom: 25%; right: 40%; color: var(--color-primary);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
 </div>
 
 <!-- 6. Gold Sparkle/Star (Bottom Right) -->
-<div class="social-bg-icon" style="bottom: 10%; right: 10%; color: var(--color-accent-gold); animation: floatSocial 8s infinite ease-in-out;">
-  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.7">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-  </svg>
+<div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: var(--color-accent-gold);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
 </div>
 
 <div class="container grid-12" style="position: relative; z-index: 1;">
@@ -632,7 +591,7 @@ get_header();
 <!-- impact background image -->
 <img alt="Impact - Giving Back" src="<?php echo esc_url(get_field('section_img_68')['url']); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;"/>
 <div class="container" style="position: relative; z-index: 1;">
-<div class="impact-card" style="background-color: var(--color-bg-ivory); padding: clamp(2rem, 4vw, 4rem); border-radius: var(--radius-card); max-width: 650px;">
+<div class="impact-card bg-ivory" style=" padding: clamp(2rem, 4vw, 4rem); border-radius: var(--radius-card); max-width: 650px;">
 <span class="text-overline" style="display: block; margin-bottom: var(--space-sm); color: var(--color-primary);"><?php echo get_field('section_txt_72'); ?></span>
 <h2 style="color: #BD451F; margin-bottom: var(--space-md);"><?php echo get_field('section_txt_69'); ?></h2>
 <p style="color: var(--color-primary); margin-bottom: var(--space-md); line-height: 1.7;"><?php echo get_field('section_txt_70'); ?></p>
@@ -656,22 +615,16 @@ get_header();
 .journal-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
 </style>
 <!-- Ivory Sparkle -->
-<div class="journal-bg-icon" style="top: 15%; right: 5%; color: var(--color-bg-ivory); animation: floatJournal 5s infinite ease-in-out;">
-  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.4">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-  </svg>
+<div class="floating-bg-icon anim-float-slow-rev" style="top: 15%; right: 5%; color: var(--color-bg-ivory);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
 </div>
 <!-- Deep Red Heart -->
-<div class="journal-bg-icon" style="bottom: 10%; left: 8%; color: var(--color-primary); animation: floatJournal 6.5s infinite ease-in-out reverse;">
-  <svg width="55" height="55" viewBox="0 0 24 24" fill="currentColor" opacity="0.2">
-    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-  </svg>
+<div class="floating-bg-icon anim-float-fast" style="bottom: 10%; left: 8%; color: var(--color-primary);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
 </div>
 <!-- Muted Gold Star -->
-<div class="journal-bg-icon" style="top: 35%; left: 45%; color: var(--color-accent-gold); animation: floatJournal 7s infinite ease-in-out;">
-  <svg width="35" height="35" viewBox="0 0 24 24" fill="currentColor" opacity="0.3">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-  </svg>
+<div class="floating-bg-icon anim-pulse" style="top: 35%; left: 45%; color: var(--color-accent-gold);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
 </div>
 
 <div class="container" style="position: relative; z-index: 1;">
@@ -692,7 +645,7 @@ get_header();
 <article class="card-glass">
 <img alt="Galentine's 2026" src="<?php echo esc_url(get_field('section_img_75')['url']); ?>" style="width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-card) var(--radius-card) 0 0;"/>
 <div class="journal-card__body">
-<div class="journal-card__meta" style="display:inline-block; background-color:var(--color-bg-ivory); color:var(--color-primary); padding:0.25rem 0.75rem; border-radius:12px; font-size:0.75rem; font-weight:700; margin-bottom:0.75rem; box-shadow:0 4px 8px rgba(0,0,0,0.05); text-transform:uppercase;"><?php echo get_field('section_txt_87'); ?></div>
+<div class="journal-card__meta bg-ivory" style="display:inline-block;  color:var(--color-primary); padding:0.25rem 0.75rem; border-radius:12px; font-size:0.75rem; font-weight:700; margin-bottom:0.75rem; box-shadow:0 4px 8px rgba(0,0,0,0.05); text-transform:uppercase;"><?php echo get_field('section_txt_87'); ?></div>
 <h3 class="journal-card__title"><?php echo get_field('section_txt_79'); ?></h3>
 <p class="journal-card__excerpt"><?php echo get_field('section_txt_82'); ?></p>
 </div>
@@ -701,7 +654,7 @@ get_header();
 <article class="card-glass">
 <img alt="Triple Anniversary Celebration" src="<?php echo esc_url(get_field('section_img_76')['url']); ?>" style="width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-card) var(--radius-card) 0 0;"/>
 <div class="journal-card__body">
-<div class="journal-card__meta" style="display:inline-block; background-color:var(--color-bg-ivory); color:var(--color-primary); padding:0.25rem 0.75rem; border-radius:12px; font-size:0.75rem; font-weight:700; margin-bottom:0.75rem; box-shadow:0 4px 8px rgba(0,0,0,0.05); text-transform:uppercase;"><?php echo get_field('section_txt_88'); ?></div>
+<div class="journal-card__meta bg-ivory" style="display:inline-block;  color:var(--color-primary); padding:0.25rem 0.75rem; border-radius:12px; font-size:0.75rem; font-weight:700; margin-bottom:0.75rem; box-shadow:0 4px 8px rgba(0,0,0,0.05); text-transform:uppercase;"><?php echo get_field('section_txt_88'); ?></div>
 <h3 class="journal-card__title"><?php echo get_field('section_txt_80'); ?></h3>
 <p class="journal-card__excerpt"><?php echo get_field('section_txt_83'); ?></p>
 </div>
@@ -710,7 +663,7 @@ get_header();
 <article class="card-glass">
 <img alt="Manille Céramique Pottery Studio" src="<?php echo esc_url(get_field('section_img_77')['url']); ?>" style="width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-card) var(--radius-card) 0 0;"/>
 <div class="journal-card__body">
-<div class="journal-card__meta" style="display:inline-block; background-color:var(--color-bg-ivory); color:var(--color-primary); padding:0.25rem 0.75rem; border-radius:12px; font-size:0.75rem; font-weight:700; margin-bottom:0.75rem; box-shadow:0 4px 8px rgba(0,0,0,0.05); text-transform:uppercase;"><?php echo get_field('section_txt_89'); ?></div>
+<div class="journal-card__meta bg-ivory" style="display:inline-block;  color:var(--color-primary); padding:0.25rem 0.75rem; border-radius:12px; font-size:0.75rem; font-weight:700; margin-bottom:0.75rem; box-shadow:0 4px 8px rgba(0,0,0,0.05); text-transform:uppercase;"><?php echo get_field('section_txt_89'); ?></div>
 <h3 class="journal-card__title"><?php echo get_field('section_txt_81'); ?></h3>
 <p class="journal-card__excerpt"><?php echo get_field('section_txt_84'); ?></p>
 </div>

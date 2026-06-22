@@ -31,20 +31,20 @@ get_header();
 <!-- intro / mission statement -->
 <section class="section content-panel section--intro" style="position: relative; overflow: hidden;">
 <!-- Background Confetti -->
-<div style="position: absolute; pointer-events: none; z-index: 0; top: 10%; left: 5%; color: var(--color-bg-ivory); animation: floatJournal 5s infinite ease-in-out;">
-  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+<div class="floating-bg-icon anim-float-fast" style="top: 10%; left: 5%; color: var(--color-bg-ivory);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
 </div>
-<div style="position: absolute; pointer-events: none; z-index: 0; bottom: 10%; right: 5%; color: var(--color-accent-gold); animation: floatJournal 6s infinite ease-in-out reverse;">
-  <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" opacity="0.5"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+<div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 5%; color: var(--color-accent-gold);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
 </div>
-<div style="position: absolute; pointer-events: none; z-index: 0; top: 40%; right: 2%; color: var(--color-accent-red); animation: floatJournal 4.5s infinite ease-in-out;">
-  <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" opacity="0.2"><circle cx="12" cy="12" r="10"/></svg>
+<div class="floating-bg-icon anim-float-slow-rev" style="top: 40%; right: 2%; color: var(--color-accent-red);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
 </div>
-<div style="position: absolute; pointer-events: none; z-index: 0; bottom: 15%; left: 8%; color: var(--color-bg-ivory); animation: floatJournal 5.5s infinite ease-in-out;">
-  <svg width="35" height="35" viewBox="0 0 24 24" fill="currentColor" opacity="0.4"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+<div class="floating-bg-icon anim-float-fast" style="bottom: 15%; left: 8%; color: var(--color-bg-ivory);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
 </div>
-<div style="position: absolute; pointer-events: none; z-index: 0; top: 15%; right: 20%; color: var(--color-accent-gold); animation: floatJournal 6.5s infinite ease-in-out;">
-  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" opacity="0.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+<div class="floating-bg-icon anim-pulse" style="top: 15%; right: 20%; color: var(--color-accent-gold);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
 </div>
 
 <div class="container grid-12" style="position: relative; z-index: 2;">
@@ -64,22 +64,22 @@ get_header();
 </div>
 </section>
 <!-- top logo banner -->
-<section class="logo-banner content-panel" style="position: relative; overflow: hidden; background-color: var(--color-bg-ivory); padding: 4rem 0;">
+<section class="logo-banner content-panel bg-ivory" style="position: relative; overflow: hidden;  padding: 4rem 0;">
 <!-- Background Confetti for Ivory Section -->
-<div style="position: absolute; pointer-events: none; z-index: 0; top: 15%; left: 8%; color: var(--color-bg-pink); animation: floatJournal 5s infinite ease-in-out;">
-  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+<div class="floating-bg-icon anim-float-slow-rev" style="top: 15%; left: 8%; color: var(--color-bg-pink);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
 </div>
-<div style="position: absolute; pointer-events: none; z-index: 0; bottom: 15%; right: 10%; color: var(--color-accent-gold); animation: floatJournal 6s infinite ease-in-out reverse;">
-  <svg width="35" height="35" viewBox="0 0 24 24" fill="currentColor" opacity="0.5"><circle cx="12" cy="12" r="10"/></svg>
+<div class="floating-bg-icon anim-float-fast" style="bottom: 15%; right: 10%; color: var(--color-accent-gold);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
 </div>
-<div style="position: absolute; pointer-events: none; z-index: 0; top: 45%; right: 25%; color: var(--color-primary); animation: floatJournal 4.5s infinite ease-in-out;">
-  <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" opacity="0.4"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+<div class="floating-bg-icon anim-pulse" style="top: 45%; right: 25%; color: var(--color-primary);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
 </div>
-<div style="position: absolute; pointer-events: none; z-index: 0; bottom: 20%; left: 20%; color: var(--color-bg-pink); animation: floatJournal 5.5s infinite ease-in-out;">
-  <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" opacity="0.7"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+<div class="floating-bg-icon anim-float-slow-rev" style="bottom: 20%; left: 20%; color: var(--color-bg-pink);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
 </div>
-<div style="position: absolute; pointer-events: none; z-index: 0; top: 20%; right: 5%; color: var(--color-accent-gold); animation: floatJournal 6.5s infinite ease-in-out;">
-  <svg width="38" height="38" viewBox="0 0 24 24" fill="currentColor" opacity="0.4"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+<div class="floating-bg-icon anim-float-fast" style="top: 20%; right: 5%; color: var(--color-accent-gold);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
 </div>
 
 <div class="container" style="position: relative; z-index: 2;">
@@ -96,15 +96,25 @@ get_header();
 <div class="logo-banner__item">
 <img alt="Home Culinary" src="<?php $img = get_field('image_16'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/>
 </div>
-<div class="logo-banner__item">
-<img alt="RPS Migration" src="<?php $img = get_field('image_17'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/>
-</div>
+
 </div>
 </div>
 </section>
 <!-- group of companies interactive list -->
-<section class="section content-panel" id="group-companies">
-<div class="container">
+<section class="section content-panel" id="group-companies" style="position: relative; overflow: hidden;">
+
+<!-- Background Floating Icons -->
+<div class="floating-bg-icon anim-pulse" style="top: 10%; right: 10%; color: var(--color-bg-pink);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+<div class="floating-bg-icon anim-float-slow-rev" style="bottom: 15%; left: 5%; color: var(--color-primary);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
+</div>
+<div class="floating-bg-icon anim-float-fast" style="top: 40%; left: 50%; color: var(--color-accent-gold);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+</div>
+
+<div class="container" style="position: relative; z-index: 2;">
 <!-- Title -->
 <div style="margin-bottom: var(--space-md); text-align: center;">
 <span class="text-overline"><?php echo get_field('overline_30'); ?></span>
@@ -151,15 +161,7 @@ get_header();
 <svg fill="none" height="24" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="24"><polyline points="9 18 15 12 9 6"></polyline></svg>
 </div>
 </li>
-<li class="brand-list__item" data-target="brand-rps" tabindex="0">
-<div class="brand-list__info">
-<span class="brand-list__title">RPS Migration</span>
-<span class="brand-list__badge" style="background: rgba(251, 203, 119, 0.1); color: var(--color-accent);">MIGRATION</span>
-</div>
-<div class="brand-list__icon">
-<svg fill="none" height="24" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="24"><polyline points="9 18 15 12 9 6"></polyline></svg>
-</div>
-</li>
+
 </ul>
 </div>
 <!-- Right Column: Details Pane -->
@@ -184,11 +186,7 @@ get_header();
 <p style="color: var(--color-text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: var(--space-lg);"><?php echo get_field('p_28'); ?></p>
 <a class="btn btn--outline" href="https://homeculinaryschool.com/" rel="noopener noreferrer" style="padding: 0.75rem 2rem;" target="_blank">Learn More</a>
 </div>
-<div class="brand-detail" id="brand-rps">
-<h3 style="color: var(--color-primary); margin-bottom: var(--space-md); text-transform: uppercase; letter-spacing: 0.05em;"><?php echo get_field('h3_24'); ?></h3>
-<p style="color: var(--color-text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: var(--space-lg);"><?php echo get_field('p_29'); ?></p>
-<a class="btn btn--outline" href="https://rpsmigration.com.au/" rel="noopener noreferrer" style="padding: 0.75rem 2rem;" target="_blank">Learn More</a>
-</div>
+
 </div>
 </div> <!-- End split pane wrapper -->
 </div>
@@ -197,25 +195,17 @@ get_header();
 <section class="section content-panel section--pass bg-ivory" style="position: relative; overflow: hidden;">
 <!-- Background floating icons (Ivory optimized) -->
  
-<div class="pass-bg-icon" style="top: 10%; left: 5%; color: var(--color-secondary); opacity: 0.8; animation: pulseSoft 4s infinite ease-in-out;">
-<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-</svg>
+<div class="floating-bg-icon anim-pulse" style="top: 10%; left: 5%; color: var(--color-secondary); opacity: 0.8;">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
 </div>
-<div class="pass-bg-icon" style="top: 15%; right: 8%; color: var(--color-accent-red); opacity: 0.2; animation: floatSoft 5s infinite ease-in-out;">
-<svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
-<circle cx="12" cy="12" r="10"></circle>
-</svg>
+<div class="floating-bg-icon anim-float-slow-rev" style="top: 15%; right: 8%; color: var(--color-accent-red); opacity: 0.2;">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
 </div>
-<div class="pass-bg-icon" style="bottom: 15%; left: 8%; color: var(--color-accent-gold); opacity: 0.5; animation: floatSoft 6s infinite ease-in-out;">
-<svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-<path d="M4 12c2 0 2-4 4-4s2 4 4 4 2-4 4-4 2 4 4 4"></path>
-</svg>
+<div class="floating-bg-icon anim-float-fast" style="bottom: 15%; left: 8%; color: var(--color-accent-gold); opacity: 0.5;">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
 </div>
-<div class="pass-bg-icon" style="bottom: 10%; right: 5%; color: var(--color-primary); opacity: 0.2; animation: pulseSoft 5.5s infinite ease-in-out;">
-<svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-</svg>
+<div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 5%; color: var(--color-primary); opacity: 0.2;">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
 </div>
 <!-- /Background floating icons -->
 <div class="container grid-12" style="position: relative; z-index: 1;">
@@ -286,14 +276,14 @@ get_header();
 <!-- locations gallery carousel -->
 <section class="section content-panel section--gallery gallery-theme-pink" style="position: relative; padding: var(--space-lg) 0 var(--space-2xl) 0; overflow: hidden;">
 <!-- Background Confetti -->
-<div class="gallery-bg-icon" style="top: 10%; right: 15%; color: var(--color-bg-ivory); animation: floatJournal 4.5s infinite ease-in-out;">
-  <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor" opacity="0.3"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+<div class="floating-bg-icon anim-float-slow-rev" style="top: 10%; right: 15%; color: var(--color-bg-ivory);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
 </div>
-<div class="gallery-bg-icon" style="bottom: 15%; left: 10%; color: #BD451F; animation: floatJournal 6s infinite ease-in-out reverse;">
-  <svg width="55" height="55" viewBox="0 0 24 24" fill="currentColor" opacity="0.2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+<div class="floating-bg-icon anim-float-fast" style="bottom: 15%; left: 10%; color: #BD451F;">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
 </div>
-<div class="gallery-bg-icon" style="top: 50%; left: 3%; color: var(--color-accent-gold); animation: floatJournal 5.5s infinite ease-in-out;">
-  <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" opacity="0.4"><circle cx="12" cy="12" r="10"/></svg>
+<div class="floating-bg-icon anim-pulse" style="top: 50%; left: 3%; color: var(--color-accent-gold);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
 </div>
 
 <!-- Heading -->

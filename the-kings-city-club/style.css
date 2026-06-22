@@ -5886,3 +5886,33 @@ body.modal-open {
   box-shadow: -10px 20px 40px rgba(189, 69, 31, 0.08) !important;
   z-index: 10;
 }
+
+/* ==========================================================================
+   Section Background Utilities & Icon Modifiers
+   ========================================================================== */
+
+/* Background Color Enforcers */
+.bg-ivory { background-color: var(--color-bg-ivory) !important; }
+.bg-blush { background-color: var(--color-secondary) !important; }
+.bg-terracotta { background-color: var(--color-primary) !important; color: var(--color-bg-ivory); }
+
+/* Floating Background Icons */
+.floating-bg-icon {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.floating-bg-icon svg {
+  width: 60px;
+  height: 60px;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}
+
+/* Unified Animations */
+.anim-float-fast { animation: floatJournal 4.5s infinite ease-in-out; }
+.anim-float-normal { animation: floatJournal 5s infinite ease-in-out; }
+.anim-float-offset { animation: floatJournal 5.5s infinite ease-in-out; }
+.anim-float-slow-rev { animation: floatJournal 6s infinite ease-in-out reverse; }
+.anim-pulse { animation: pulseSoft 4s infinite ease-in-out; }
