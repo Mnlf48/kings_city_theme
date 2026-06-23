@@ -5351,43 +5351,38 @@ acf_add_local_field_group(array(
     'active' => true,
 ));
 
+
+
+endif;
+
 acf_add_local_field_group(array(
-    'key' => 'group_sl_tier',
-    'title' => 'Staff Leasing Tier Data',
+    'key' => 'group_apply_pricing_rates',
+    'title' => 'Apply Page - Pricing Rates',
     'fields' => array(
         array(
-            'key' => 'field_sl_tier_headcount',
-            'label' => 'Headcount Range',
-            'name' => 'headcount_range',
-            'type' => 'text',
-            'instructions' => 'e.g., 1-5 Staff',
-            'required' => 1,
+            'key' => 'field_pricing_rate_aud',
+            'label' => 'AUD Exchange Rate (Multiplier)',
+            'name' => 'pricing_rate_aud',
+            'type' => 'number',
+            'instructions' => 'Example: 0.026',
+            'default_value' => '0.026',
         ),
         array(
-            'key' => 'field_sl_tier_monthly_rate',
-            'label' => 'Estimated Monthly Rate',
-            'name' => 'monthly_rate',
-            'type' => 'text',
-            'instructions' => 'e.g., Php 00,000 / mo',
-            'required' => 1,
+            'key' => 'field_pricing_rate_usd',
+            'label' => 'USD Exchange Rate (Multiplier)',
+            'name' => 'pricing_rate_usd',
+            'type' => 'number',
+            'instructions' => 'Example: 0.017',
+            'default_value' => '0.017',
         ),
     ),
     'location' => array(
         array(
             array(
-                'param' => 'post_type',
+                'param' => 'page_template',
                 'operator' => '==',
-                'value' => 'sl_tier',
+                'value' => 'page-apply.php',
             ),
         ),
     ),
-    'menu_order' => 0,
-    'position' => 'normal',
-    'style' => 'default',
-    'label_placement' => 'top',
-    'instruction_placement' => 'label',
-    'active' => true,
 ));
-
-endif;
-?>

@@ -4666,7 +4666,6 @@ button[type="submit"]:active,
 /* Modal Open State — Body Lock & Global Gray Out */
 body.modal-open {
   overflow: hidden;
-  height: 100vh;
 }
 
 @media (min-width: 768px) {

@@ -132,36 +132,13 @@ function kings_city_register_cpts() {
         'supports' => array('title', 'editor'), // title = Role Name, editor = Description
     ));
 
-    // 2. Staff Leasing Tiers
-    register_post_type('sl_tier', array(
-        'labels' => array(
-            'name' => 'Staff Leasing Tiers',
-            'singular_name' => 'Tier',
-            'add_new' => 'Add New Tier',
-            'add_new_item' => 'Add New Tier',
-            'edit_item' => 'Edit Tier',
-        ),
-        'public' => false,
-        'show_ui' => true,
-        'show_in_menu' => true,
-        'menu_icon' => 'dashicons-clipboard',
-        'supports' => array('title'), // title = Tier Name
-    ));
 
-    // 3. Staff Leasing Department Taxonomy
-    register_taxonomy('sl_department', array('sl_tier'), array(
-        'labels' => array(
-            'name' => 'Departments',
-            'singular_name' => 'Department',
-            'add_new_item' => 'Add New Department',
-        ),
-        'hierarchical' => true,
-        'show_ui' => true,
-        'show_in_menu' => true,
-    ));
 }
 add_action('init', 'kings_city_register_cpts');
 
 
 // Load Kings City CRM System
 require_once get_template_directory() . '/inc/admin-crm/init.php';
+
+// Load Currency Manager
+require_once get_template_directory() . '/inc/currency-manager.php';

@@ -262,10 +262,36 @@ get_header();
   </div>
   <div class="container grid-12" style="position: relative; z-index: 2;">
     <!-- Subsection 1: Team Builder Pricing -->
-    <div class="col-6" style="grid-column: span 12;">
+    <div class="col-10" style="grid-column: 2 / span 10;">
       <div class="card-glass card-glass--strong" style="padding: var(--space-xl); height: 100%;">
-        <span class="text-overline"><?php echo get_field('pricing_tb_overline') ?: 'Team Builder Pricing'; ?></span>
-        <h2 style="margin-bottom: var(--space-lg);"><?php echo get_field('pricing_tb_heading') ?: 'Estimate Your Team'; ?></h2>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: var(--space-lg);">
+          <div>
+            <span class="text-overline"><?php echo get_field('pricing_tb_overline') ?: 'Team Builder Pricing'; ?></span>
+            <h2 style="margin: 0;"><?php echo get_field('pricing_tb_heading') ?: 'Estimate Your Team'; ?></h2>
+          </div>
+          <div class="currency-toggle" style="display: flex; background: var(--color-bg-ivory); border-radius: var(--radius-pill); padding: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid var(--color-border-light);">
+            <?php 
+            $default_currencies = array(
+                array('code' => 'AUD', 'rate' => 0.026),
+                array('code' => 'USD', 'rate' => 0.017),
+                array('code' => 'PHP', 'rate' => 1)
+            );
+            $saved_currencies = get_option('kc_tb_currencies', $default_currencies);
+            // Fallback if empty array is saved
+            if (empty($saved_currencies)) { $saved_currencies = $default_currencies; }
+            $first = true;
+            foreach ($saved_currencies as $curr):
+                $code = esc_attr($curr['code']);
+                $activeClass = $first ? ' is-active' : '';
+                $bgStyle = $first ? 'background: var(--color-primary); color: #fff;' : 'background: transparent; color: var(--color-text-muted);';
+            ?>
+            <button type="button" class="curr-btn<?php echo $activeClass; ?>" data-curr="<?php echo $code; ?>" style="padding: 0.25rem 1rem; border-radius: var(--radius-pill); font-size: 0.8rem; font-weight: 700; <?php echo $bgStyle; ?> border: none; cursor: pointer; transition: all 0.3s ease;"><?php echo $code; ?></button>
+            <?php 
+                $first = false;
+            endforeach; 
+            ?>
+          </div>
+        </div>
         
         <div class="tb-header" style="margin-top: var(--space-md);">
           <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -315,86 +341,6 @@ get_header();
             </div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Subsection 2: Staff Leasing Pricing -->
-    <div class="col-6" style="grid-column: span 12;">
-      <div class="card-glass card-glass--strong" style="padding: var(--space-xl); height: 100%;">
-        <span class="text-overline"><?php echo get_field('pricing_sl_overline') ?: 'Staff Leasing Pricing'; ?></span>
-        <h2 style="margin-bottom: var(--space-lg);"><?php echo get_field('pricing_sl_heading') ?: 'Monthly Rates'; ?></h2>
-        <div class="tb-leasing-scroll-container">
-          <?php 
-          $departments = get_terms(array(
-              'taxonomy' => 'sl_department',
-              'hide_empty' => false,
-          ));
-          if(!empty($departments) && !is_wp_error($departments)): 
-              foreach($departments as $dept): ?>
-            
-            <h3 class="tb-dept-title"><?php echo esc_html($dept->name); ?></h3>
-            
-            <div class="tb-roles-container">
-              <div class="tb-roles-headers" style="display: flex; margin-bottom: var(--space-sm); padding: 0 0.5rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-muted);">
-                <div style="flex:1.2">Tier Name</div>
-                <div style="flex:1">Headcount Range</div>
-                <div style="flex:1.2;text-align:right;">Est. Monthly Rate</div>
-              </div>
-              <div>
-                <?php 
-                $tier_query = new WP_Query(array(
-                    'post_type' => 'sl_tier',
-                    'posts_per_page' => -1,
-                    'post_status' => 'publish',
-                    'tax_query' => array(
-                        array(
-                            'taxonomy' => 'sl_department',
-                            'field' => 'term_id',
-                            'terms' => $dept->term_id,
-                        )
-                    )
-                ));
-                if($tier_query->have_posts()): while($tier_query->have_posts()): $tier_query->the_post(); 
-                ?>
-                <div class="tbr-item" style="padding: 1rem; margin-bottom: 0.5rem; background: #fff; border: 1px solid var(--color-border-light); border-radius: var(--radius-sm); display: flex; align-items: center; gap: 1rem;">
-                  <div style="flex:1.2; font-weight: 600; color: var(--color-primary);">
-                    <?php the_title(); ?>
-                  </div>
-                  <div style="flex:1; font-size: 0.875rem; color: var(--color-text-muted);">
-                    <?php echo esc_html(get_field('headcount_range')); ?>
-                  </div>
-                  <div style="flex:1.2; text-align: right; font-weight: 700; color: var(--color-primary);">
-                    <?php echo esc_html(get_field('monthly_rate')); ?>
-                  </div>
-                </div>
-                <?php endwhile; wp_reset_postdata(); endif; ?>
-              </div>
-            </div>
-          
-          <?php endforeach; else: ?>
-            <!-- Fallback if no departments are added -->
-            <div class="tb-roles-container">
-              <div class="tb-roles-headers" style="display: flex; margin-bottom: var(--space-sm); padding: 0 0.5rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-muted);">
-                <div style="flex:1.2">Tier Name</div>
-                <div style="flex:1">Headcount Range</div>
-                <div style="flex:1.2;text-align:right;">Est. Monthly Rate</div>
-              </div>
-              <div>
-                <div class="tbr-item" style="padding: 1rem; margin-bottom: 0.5rem; background: #fff; border: 1px solid var(--color-border-light); border-radius: var(--radius-sm); display: flex; align-items: center; gap: 1rem;">
-                  <div style="flex:1.2; font-weight: 600; color: var(--color-primary);">Starter Tier</div>
-                  <div style="flex:1; font-size: 0.875rem; color: var(--color-text-muted);">1-5 Staff</div>
-                  <div style="flex:1.2; text-align: right; font-weight: 700; color: var(--color-primary);">Php 00,000 / mo</div>
-                </div>
-                <div class="tbr-item" style="padding: 1rem; margin-bottom: 0.5rem; background: #fff; border: 1px solid var(--color-border-light); border-radius: var(--radius-sm); display: flex; align-items: center; gap: 1rem;">
-                  <div style="flex:1.2; font-weight: 600; color: var(--color-primary);">Growth Tier</div>
-                  <div style="flex:1; font-size: 0.875rem; color: var(--color-text-muted);">6-15 Staff</div>
-                  <div style="flex:1.2; text-align: right; font-weight: 700; color: var(--color-primary);">Php 00,000 / mo</div>
-                </div>
-              </div>
-            </div>
-          <?php endif; ?>
-        </div>
-
       </div>
     </div>
   </div>
@@ -804,6 +750,28 @@ Tell Us About Your Needs
       $roleCatalogArray = array_values($dynamic_roles);
       ?>
       const roleCatalog = <?php echo json_encode($roleCatalogArray); ?>;
+      <?php 
+      $saved_currencies = get_option('kc_tb_currencies', array(
+          array('code' => 'AUD', 'rate' => 0.026),
+          array('code' => 'USD', 'rate' => 0.017),
+          array('code' => 'PHP', 'rate' => 1)
+      ));
+      if (empty($saved_currencies)) {
+          $saved_currencies = array(
+              array('code' => 'AUD', 'rate' => 0.026),
+              array('code' => 'USD', 'rate' => 0.017),
+              array('code' => 'PHP', 'rate' => 1)
+          );
+      }
+      $rates_map = array();
+      foreach ($saved_currencies as $c) {
+          $rates_map[$c['code']] = (float)$c['rate'];
+      }
+      $default_curr = $saved_currencies[0]['code'];
+      ?>
+      const currencyRates = <?php echo json_encode($rates_map); ?>;
+      let currentCurr = '<?php echo esc_js($default_curr); ?>'; // Default currency
+
 
       let selectedTeam = [];
 
@@ -823,8 +791,18 @@ Tell Us About Your Needs
       const tbSavingsBox = document.getElementById('tb-savings');
       const tbSaveAmount = document.getElementById('tb-save-amount');
 
-      function formatPhp(num) {
-        return 'Php ' + num.toLocaleString('en-US');
+      function formatCurrency(numPhp) {
+        let rate = currencyRates[currentCurr] || 1;
+        let converted = Math.round(numPhp * rate);
+        
+        let prefix = currentCurr + " ";
+        if (currentCurr === "AUD") prefix = "A$ ";
+        if (currentCurr === "USD") prefix = "$ ";
+        if (currentCurr === "PHP") prefix = "Php ";
+        if (currentCurr === "GBP") prefix = "£ ";
+        if (currentCurr === "EUR") prefix = "€ ";
+
+        return prefix + converted.toLocaleString('en-US');
       }
 
       function renderCatalog() {
@@ -930,7 +908,7 @@ Tell Us About Your Needs
                 </div>
               </div>
               <div class="tbr-price">
-                ${formatPhp(price)}<span style="color:var(--color-text-muted);font-weight:500;font-size:0.75rem;">/mo</span>
+                ${formatCurrency(price)}<span style="color:var(--color-text-muted);font-weight:500;font-size:0.75rem;">/mo</span>
               </div>
               <div class="tbr-remove">
                 <button type="button" class="btn-rem" title="Remove">&times;</button>
@@ -972,13 +950,13 @@ Tell Us About Your Needs
         });
 
         tbTotalSize.textContent = size;
-        tbTotalBase.textContent = formatPhp(baseTotal);
-        tbFinalTotal.textContent = formatPhp(baseTotal);
+        tbTotalBase.textContent = formatCurrency(baseTotal);
+        tbFinalTotal.textContent = formatCurrency(baseTotal);
 
         if(size > 0) {
           let localCost = baseTotal * 2.5; // Estimated 2.5x local cost
           let savings = localCost - baseTotal;
-          tbSaveAmount.textContent = '~ ' + formatPhp(savings);
+          tbSaveAmount.textContent = '~ ' + formatCurrency(savings);
           tbSavingsBox.style.display = 'flex';
         } else {
           tbSavingsBox.style.display = 'none';
@@ -998,6 +976,29 @@ Tell Us About Your Needs
       if(btnGetStarted) btnGetStarted.addEventListener('click', openModal);
       if(btnCloseModal) btnCloseModal.addEventListener('click', closeModal);
       modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
+      // Currency Toggle Logic
+      const currBtns = document.querySelectorAll('.curr-btn');
+      currBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          // Remove active state
+          currBtns.forEach(b => {
+            b.classList.remove('is-active');
+            b.style.background = 'transparent';
+            b.style.color = 'var(--color-text-muted)';
+          });
+          // Set active state
+          const clicked = e.target;
+          clicked.classList.add('is-active');
+          clicked.style.background = 'var(--color-primary)';
+          clicked.style.color = '#fff';
+          
+          currentCurr = clicked.dataset.curr;
+          
+          // Force UI to re-render with new currency
+          renderTeam(); // recalculate entire team list and total
+        });
+      });
+
 
       renderCatalog();
     });
