@@ -70,8 +70,7 @@ function kings_city_auto_populate_pages() {
         'Impact' => 'page-impact.php',
         'News & Insights' => 'page-news.php',
         'Apply Now' => 'page-apply.php',
-        'Book a Tour' => 'page-book-now.php',
-        'Step 2 Discovery' => 'page-apply-step-2.php'
+        'Book a Tour' => 'page-book-now.php'
     );
 
     $home_page_id = 0;
@@ -132,6 +131,27 @@ function kings_city_register_cpts() {
         'supports' => array('title', 'editor'), // title = Role Name, editor = Description
     ));
 
+    // 2. Team Builder Role Categories
+    register_taxonomy('tb_role_category', array('tb_role'), array(
+        'hierarchical' => true,
+        'labels' => array(
+            'name' => 'Role Categories',
+            'singular_name' => 'Role Category',
+            'search_items' => 'Search Role Categories',
+            'all_items' => 'All Role Categories',
+            'parent_item' => 'Parent Role Category',
+            'parent_item_colon' => 'Parent Role Category:',
+            'edit_item' => 'Edit Role Category',
+            'update_item' => 'Update Role Category',
+            'add_new_item' => 'Add New Role Category',
+            'new_item_name' => 'New Role Category Name',
+            'menu_name' => 'Role Categories',
+        ),
+        'show_ui' => true,
+        'show_admin_column' => true,
+        'query_var' => true,
+        'rewrite' => array('slug' => 'role-category'),
+    ));
 
 }
 add_action('init', 'kings_city_register_cpts');

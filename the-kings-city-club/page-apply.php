@@ -316,116 +316,300 @@ get_header();
         <div style="background:#fee2e2;color:#b91c1c;padding:1rem;margin-bottom:1.5rem;border-radius:8px;"><?php echo esc_html($error_message); ?></div>
     <?php endif; ?>
 
-<form id="apply-form" method="POST" action="#application" novalidate="">
+<form id="apply-form" method="POST" action="#application" novalidate="" enctype="multipart/form-data">
 <input type="hidden" name="apply_submit" value="1">
 <input type="text" name="website_url_trap" style="display:none !important;" tabindex="-1" autocomplete="off">
 <?php wp_nonce_field('apply_submission', 'apply_nonce'); ?>
-<!-- offshoring view -->
-<div id="offshore-view-container">
-<div class="form-row">
-<div class="form-group">
-<label class="form-label" for="off_first_name"><?php echo get_field('off_label_first_name') ?: 'First Name'; ?></label>
-<input class="form-input" id="off_first_name" name="off_first_name" required="" type="text"/>
+
+<!-- PROGRESS BAR -->
+<div class="stepper">
+    <div class="step active" id="step1-indicator">
+        <div class="step-circle">1</div>
+        <div class="step-label"><?php echo get_field('ft_step1_lbl') ?: 'Upload CV'; ?></div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step" id="step2-indicator">
+        <div class="step-circle">2</div>
+        <div class="step-label"><?php echo get_field('ft_step2_lbl') ?: 'Your Info'; ?></div>
+    </div>
 </div>
-<div class="form-group">
-<label class="form-label" for="off_last_name"><?php echo get_field('off_label_last_name') ?: 'Last Name'; ?></label>
-<input class="form-input" id="off_last_name" name="off_last_name" required="" type="text"/>
+
+<!-- STEP 1: CV UPLOAD -->
+<div id="step-1-container">
+    <div class="file-drop-area" id="file-drop-area">
+        <input class="file-input" type="file" id="cv_upload" name="cv_upload" accept=".pdf,.doc,.docx" required>
+        <div class="file-msg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 48px; height: 48px; margin-bottom: 1rem; color: var(--color-accent-gold);"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            <h4 style="margin-bottom: 0.5rem;"><?php echo get_field('ft_cv_title') ?: 'Drag & drop your CV here'; ?></h4>
+            <p style="margin-bottom: 0.5rem; color: var(--color-text-muted);"><?php echo get_field('ft_cv_sub') ?: 'or browse files'; ?></p>
+            <small style="color: var(--color-text-muted); opacity: 0.7;"><?php echo get_field('ft_cv_limits') ?: 'PDF, DOCX — Max 5 MB'; ?></small>
+        </div>
+        <div class="file-name" id="file-name-display" style="display:none; margin-top: 1rem; position: relative; z-index: 10;">
+            <span id="file-name-text" style="font-weight: bold; color: var(--color-primary);"></span>
+            <button type="button" class="remove-file-btn" id="btn-remove-file" title="Remove file" style="margin-left: 0.5rem;">✕</button>
+        </div>
+    </div>
+    <button type="button" class="btn btn--large" id="btn-continue" style="width: 100%; justify-content: center; padding: 1rem; margin-top: 1.5rem;"><?php echo get_field('ft_btn_continue') ?: 'CONTINUE'; ?></button>
 </div>
-</div>
-<div class="form-row">
-<div class="form-group">
-<label class="form-label" for="off_email"><?php echo get_field('off_label_email') ?: 'Email Address'; ?></label>
-<input class="form-input" id="off_email" name="off_email" placeholder="you@company.com" required="" type="email"/>
-</div>
-<div class="form-group">
-<label class="form-label" for="off_phone"><?php echo get_field('off_label_phone') ?: 'Phone Number'; ?></label>
-<input class="form-input" id="off_phone" name="off_phone" placeholder="+63 XXX XXX XXXX" required="" type="tel"/>
-</div>
-</div>
-<div class="form-row">
-<div class="form-group">
-<label class="form-label" for="off_company"><?php echo get_field('off_label_company') ?: 'Company Name'; ?></label>
-<input class="form-input" id="off_company" name="off_company" type="text"/>
-</div>
-<div class="form-group">
-<label class="form-label" for="off_country"><?php echo get_field('off_label_country') ?: 'Country'; ?></label>
-<select class="form-select" id="off_country" name="off_country">
-<option value="ph">Philippines</option>
-<option value="au">Australia</option>
-<option value="nz">New Zealand</option>
-<option value="us">United States</option>
-<option value="uk">United Kingdom</option>
-<option value="other">Other</option>
-</select>
-</div>
-</div>
-<div class="form-group">
-<label class="form-label" for="off_website"><?php echo get_field('off_label_website') ?: 'Company Website (Optional)'; ?></label>
-<input class="form-input" id="off_website" name="off_website" placeholder="https://yourcompany.com" type="text"/>
-</div>
-<div class="form-label" style="margin-top: var(--space-lg); border-bottom: 1px solid rgba(189, 69, 31, 0.2); padding-bottom: 0.5rem; margin-bottom: var(--space-md);">
-Tell Us About Your Needs
-</div>
-<div class="form-group">
-<label class="form-label" for="off_service"><?php echo get_field('off_label_service') ?: 'Which service are you interested in?'; ?></label>
-<select class="form-select" id="off_service" name="off_service" required="">
-<option value="Managed Staff Leasing">Managed Staff Leasing</option>
-<option value="Offshoring Staffing">Offshoring Staffing</option>
-<option value="Both">Both</option>
-<option value="Not Sure">Not Sure</option>
-</select>
-</div>
-<div class="form-group" id="wrap_team_size">
-<label class="form-label" for="off_team_size"><?php echo get_field('off_label_team_size') ?: 'How many staff are you looking to hire?'; ?></label>
-<select class="form-select" id="off_team_size" name="off_team_size">
-<option value="1-5">1–5</option>
-<option value="6-15">6–15</option>
-<option value="16-30">16–30</option>
-<option value="30+">30+</option>
-</select>
-</div>
-<div class="form-group" id="wrap_roles">
-<label class="form-label" for="off_roles"><?php echo get_field('off_label_roles') ?: 'What type of roles are you looking for?'; ?></label>
-<div id="off_roles" style="display: flex; flex-direction: column; gap: 0.5rem;">
-<label style="display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="off_roles[]" value="Finance &amp; Accounting"> Finance &amp; Accounting</label>
-<label style="display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="off_roles[]" value="HR"> HR</label>
-<label style="display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="off_roles[]" value="IT &amp; Development"> IT &amp; Development</label>
-<label style="display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="off_roles[]" value="Marketing"> Marketing</label>
-<label style="display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="off_roles[]" value="Operations"> Operations</label>
-<label style="display: flex; align-items: center; gap: 0.5rem;"><input type="checkbox" name="off_roles[]" value="Other"> Other</label>
-</div>
-</div>
-<div class="form-group">
-<label class="form-label" for="off_timeline"><?php echo get_field('off_label_timeline') ?: 'When are you looking to start?'; ?></label>
-<select class="form-select" id="off_timeline" name="off_timeline">
-<option value="ASAP">ASAP</option>
-<option value="Within 1 month">Within 1 month</option>
-<option value="1-3 months">1–3 months</option>
-<option value="Just exploring">Just exploring</option>
-</select>
-</div>
-<div class="form-group">
-<label class="form-label" for="off_source"><?php echo get_field('off_label_source') ?: 'How did you hear about us?'; ?></label>
-<select class="form-select" id="off_source" name="off_source">
-<option value="Google">Google</option>
-<option value="Referral">Referral</option>
-<option value="Social Media">Social Media</option>
-<option value="Other">Other</option>
-</select>
-</div>
-<div class="form-group">
-<label class="form-label" id="label_off_message" for="off_message"><?php echo get_field('off_label_notes') ?: 'Briefly describe your goals'; ?></label>
-<textarea class="form-textarea" id="off_message" name="off_message" placeholder="Anything else you'd like us to know?" rows="3"></textarea>
-</div>
-<div style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: var(--space-lg); margin-top: var(--space-sm);">
-<input id="off_consent" name="off_consent" required="" style="margin-top: 0.3rem; accent-color: var(--color-accent); width: 16px; height: 16px;" type="checkbox"/>
-<label for="off_consent" style="font-size: 0.85rem; color: var(--color-text-muted); cursor: pointer; line-height: 1.5;">
-                      <?php echo get_field('off_label_consent') ?: 'I agree to receive communications from Kings City regarding my application. I understand I can unsubscribe at any time.'; ?>
-                    </label>
-</div>
-<button class="btn btn--large" style="width: 100%; justify-content: center; padding: 1rem;" type="submit"><?php echo get_field('off_btn_submit') ?: 'Request a Consultation'; ?></button>
+
+<!-- STEP 2: YOUR INFO -->
+<div id="step-2-container" style="display:none;">
+    <div class="form-group" style="margin-bottom: var(--space-md);">
+        <label class="form-label" style="font-weight:bold; color: var(--color-primary);">Application Purpose</label>
+        <div style="display:flex; gap: 1.5rem; margin-top: 0.5rem; flex-wrap: wrap;">
+            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; color: var(--color-text-muted); font-size: 0.95rem;">
+                <input type="radio" name="app_purpose" value="For Pooling" checked style="accent-color: var(--color-accent-gold);"> For Pooling (Future Openings)
+            </label>
+            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; color: var(--color-text-muted); font-size: 0.95rem;">
+                <input type="radio" name="app_purpose" value="Active Candidate" style="accent-color: var(--color-accent-gold);"> Looking for a Job (Active Candidate)
+            </label>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <input class="form-input" name="first_name" placeholder="<?php echo get_field('ft_lbl_fname') ?: 'First Name'; ?>" required="" type="text"/>
+        </div>
+        <div class="form-group">
+            <input class="form-input" name="middle_name" placeholder="<?php echo get_field('ft_lbl_mname') ?: 'Middle Name (Optional)'; ?>" type="text"/>
+        </div>
+        <div class="form-group">
+            <input class="form-input" name="last_name" placeholder="<?php echo get_field('ft_lbl_lname') ?: 'Last Name'; ?>" required="" type="text"/>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label class="form-label" style="font-size: 0.85rem; margin-bottom: 0.3rem;"><?php echo get_field('ft_lbl_gender') ?: 'Gender'; ?></label>
+            <select class="form-select" name="gender" required="">
+                <option value="" disabled selected>Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Others">Others</option>
+                <option value="Prefer not to say">Prefer not to say</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label" style="font-size: 0.85rem; margin-bottom: 0.3rem;"><?php echo get_field('ft_lbl_bdate') ?: 'Birthdate'; ?></label>
+            <input class="form-input" name="birthdate" required="" type="date"/>
+        </div>
+    </div>
+
+    <div class="form-label" style="margin-top: var(--space-md); border-bottom: 1px solid rgba(189, 69, 31, 0.2); padding-bottom: 0.5rem; margin-bottom: var(--space-sm); font-weight: bold; color: var(--color-primary);">
+        <?php echo get_field('ft_lbl_address') ?: 'Address Details'; ?>
+    </div>
+    <div class="form-group">
+        <input class="form-input" name="street_address" placeholder="<?php echo get_field('ft_lbl_st_address') ?: 'Street Address'; ?>" required="" type="text"/>
+    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <select class="form-select" id="region-select" name="region" required="">
+                <option value="" disabled selected><?php echo get_field('ft_lbl_region') ?: 'Select Region'; ?></option>
+            </select>
+            <input type="hidden" id="region-name" name="region_name" value="">
+        </div>
+        <div class="form-group">
+            <select class="form-select" id="city-select" name="city" required="" disabled>
+                <option value="" disabled selected><?php echo get_field('ft_lbl_city') ?: 'Select City / Municipality'; ?></option>
+            </select>
+            <input type="hidden" id="city-name" name="city_name" value="">
+        </div>
+        <div class="form-group">
+            <select class="form-select" id="barangay-select" name="barangay" required="" disabled>
+                <option value="" disabled selected><?php echo get_field('ft_lbl_brgy') ?: 'Select Barangay'; ?></option>
+            </select>
+            <input type="hidden" id="barangay-name" name="barangay_name" value="">
+        </div>
+    </div>
+
+    <div class="form-row" style="margin-top: var(--space-md);">
+        <div class="form-group">
+            <input class="form-input" name="email" placeholder="<?php echo get_field('ft_lbl_email') ?: 'Email Address'; ?>" required="" type="email"/>
+        </div>
+        <div class="form-group">
+            <input class="form-input" name="phone" placeholder="<?php echo get_field('ft_lbl_phone') ?: 'Phone Number (+63)'; ?>" required="" type="tel"/>
+        </div>
+    </div>
+
+    <div class="form-group" style="margin-top: var(--space-md);">
+        <label class="form-label" style="font-weight:bold; color: var(--color-primary);"><?php echo get_field('ft_lbl_roles') ?: 'Preferred Role(s) *'; ?></label>
+        <div class="roles-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem; max-height: 250px; overflow-y: auto; border: 1px solid #e2e8f0; padding: 1rem; border-radius: var(--radius-sm); background: #f8fafc;">
+            <?php
+            $roles_query = new WP_Query(array(
+                'post_type' => 'tb_role',
+                'posts_per_page' => -1,
+                'orderby' => 'title',
+                'order' => 'ASC'
+            ));
+            if ($roles_query->have_posts()) {
+                while ($roles_query->have_posts()) {
+                    $roles_query->the_post();
+                    $role_title = get_the_title();
+                    echo '<label style="display:flex; align-items:center; gap:0.5rem; font-size: 0.85rem; padding: 0.35rem; border: 1px solid #e2e8f0; border-radius: var(--radius-sm); background: #fff; cursor: pointer; color: var(--color-text-muted); transition: border-color 0.2s;">';
+                    echo '<input type="checkbox" name="pref_roles[]" value="' . esc_attr($role_title) . '" style="accent-color: var(--color-accent-gold);"> ' . esc_html($role_title);
+                    echo '</label>';
+                }
+                wp_reset_postdata();
+            } else {
+                echo '<p style="color:var(--color-text-muted); font-size:0.9rem;">No roles available.</p>';
+            }
+            ?>
+        </div>
+    </div>
+
+    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+        <button type="button" class="btn btn--outline" id="btn-back" style="flex: 1; justify-content: center; padding: 1rem;"><?php echo get_field('ft_btn_back') ?: 'BACK'; ?></button>
+        <button class="btn btn--large" style="flex: 2; justify-content: center; padding: 1rem;" type="submit"><?php echo get_field('ft_btn_submit') ?: 'SUBMIT APPLICATION'; ?></button>
+    </div>
 </div>
 </form>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const btnContinue = document.getElementById('btn-continue');
+    const btnBack = document.getElementById('btn-back');
+    const step1 = document.getElementById('step-1-container');
+    const step2 = document.getElementById('step-2-container');
+    const ind1 = document.getElementById('step1-indicator');
+    const ind2 = document.getElementById('step2-indicator');
+    const fileInput = document.getElementById('cv_upload');
+    const fileDropArea = document.getElementById('file-drop-area');
+    const fileNameDisplay = document.getElementById('file-name-display');
+    const fileNameText = document.getElementById('file-name-text');
+    const fileMsg = document.querySelector('.file-msg');
+    const btnRemoveFile = document.getElementById('btn-remove-file');
+
+    // File Drop UI
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        fileDropArea.addEventListener(eventName, preventDefaults, false);
+    });
+    function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+    ['dragenter', 'dragover'].forEach(eventName => {
+        fileDropArea.addEventListener(eventName, () => fileDropArea.classList.add('is-active'), false);
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+        fileDropArea.addEventListener(eventName, () => fileDropArea.classList.remove('is-active'), false);
+    });
+    
+    fileInput.addEventListener('change', function() {
+        if(this.files && this.files.length > 0) {
+            fileDropArea.classList.add('is-active');
+            fileMsg.style.display = 'none'; // hide the drag and drop msg to center the file name
+            fileNameDisplay.style.display = 'block';
+            fileNameText.textContent = 'Selected File: ' + this.files[0].name;
+        } else {
+            resetFileDropUI();
+        }
+    });
+
+    btnRemoveFile.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        fileInput.value = ''; // clear input
+        resetFileDropUI();
+    });
+
+    function resetFileDropUI() {
+        fileDropArea.classList.remove('is-active');
+        fileNameDisplay.style.display = 'none';
+        fileMsg.style.display = 'flex'; // show msg again
+    }
+
+    // Navigation
+    btnContinue.addEventListener('click', function() {
+        if(!fileInput.files || fileInput.files.length === 0) {
+            alert('Please drop or browse for your CV before continuing.');
+            return;
+        }
+        step1.style.display = 'none';
+        step2.style.display = 'block';
+        ind1.classList.remove('active');
+        ind2.classList.add('active');
+    });
+    btnBack.addEventListener('click', function() {
+        step2.style.display = 'none';
+        step1.style.display = 'block';
+        ind2.classList.remove('active');
+        ind1.classList.add('active');
+    });
+
+    // PSGC API for PH Addresses
+    const regionSelect = document.getElementById('region-select');
+    const citySelect = document.getElementById('city-select');
+    const brgySelect = document.getElementById('barangay-select');
+    const regionNameInput = document.getElementById('region-name');
+    const cityNameInput = document.getElementById('city-name');
+    const brgyNameInput = document.getElementById('barangay-name');
+
+    // 1. Fetch Regions
+    fetch('https://psgc.gitlab.io/api/regions/')
+        .then(res => res.json())
+        .then(data => {
+            data.sort((a,b) => a.name.localeCompare(b.name));
+            data.forEach(region => {
+                let opt = document.createElement('option');
+                opt.value = region.code;
+                opt.textContent = region.name;
+                regionSelect.appendChild(opt);
+            });
+        }).catch(err => console.log('PSGC API Error:', err));
+
+    // 2. Fetch Cities when Region changes
+    regionSelect.addEventListener('change', function() {
+        citySelect.innerHTML = '<option value="" disabled selected>Loading...</option>';
+        brgySelect.innerHTML = '<option value="" disabled selected>Select Barangay</option>';
+        citySelect.disabled = true; brgySelect.disabled = true;
+        
+        regionNameInput.value = regionSelect.options[regionSelect.selectedIndex].text;
+
+        const rCode = this.value;
+        Promise.all([
+            fetch(`https://psgc.gitlab.io/api/regions/${rCode}/cities/`).then(r => r.json()).catch(()=>[]),
+            fetch(`https://psgc.gitlab.io/api/regions/${rCode}/municipalities/`).then(r => r.json()).catch(()=>[])
+        ]).then(([cities, muns]) => {
+            let combined = cities.concat(muns);
+            combined.sort((a,b) => a.name.localeCompare(b.name));
+            citySelect.innerHTML = '<option value="" disabled selected>Select City / Municipality</option>';
+            combined.forEach(city => {
+                let opt = document.createElement('option');
+                opt.value = city.code;
+                opt.textContent = city.name;
+                citySelect.appendChild(opt);
+            });
+            citySelect.disabled = false;
+        });
+    });
+
+    // 3. Fetch Barangays when City changes
+    citySelect.addEventListener('change', function() {
+        brgySelect.innerHTML = '<option value="" disabled selected>Loading...</option>';
+        brgySelect.disabled = true;
+        
+        cityNameInput.value = citySelect.options[citySelect.selectedIndex].text;
+
+        const cCode = this.value;
+        fetch(`https://psgc.gitlab.io/api/cities-municipalities/${cCode}/barangays/`)
+            .then(res => res.json())
+            .then(data => {
+                data.sort((a,b) => a.name.localeCompare(b.name));
+                brgySelect.innerHTML = '<option value="" disabled selected>Select Barangay</option>';
+                data.forEach(brgy => {
+                    let opt = document.createElement('option');
+                    opt.value = brgy.code;
+                    opt.textContent = brgy.name;
+                    brgySelect.appendChild(opt);
+                });
+                brgySelect.disabled = false;
+            }).catch(err => console.log('PSGC API Error:', err));
+    });
+
+    brgySelect.addEventListener('change', function() {
+        brgyNameInput.value = brgySelect.options[brgySelect.selectedIndex].text;
+    });
+});
+</script>
 <?php endif; ?>
 </div>
 </div>
@@ -525,8 +709,8 @@ Tell Us About Your Needs
       if($tb_query->have_posts()) {
           while($tb_query->have_posts()) {
               $tb_query->the_post();
-              $cat = get_field('category');
-              if (!$cat) $cat = 'Uncategorized';
+              $terms = get_the_terms(get_the_ID(), 'tb_role_category');
+              $cat = ($terms && !is_wp_error($terms)) ? $terms[0]->name : 'Uncategorized';
               
               if (!isset($dynamic_roles[$cat])) {
                   $dynamic_roles[$cat] = array(
