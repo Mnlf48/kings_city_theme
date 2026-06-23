@@ -68,8 +68,17 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </div>
 </section>
 <!-- co working section -->
-<section class="section content-panel section--spaces" id="coworking">
-<div class="container grid-12">
+<section class="section content-panel section--spaces" id="coworking" style="position: relative; overflow: hidden;">
+<div class="floating-bg-icon anim-float-slow-rev" style="top: 15%; left: 5%; color: var(--color-bg-ivory);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
+</div>
+<div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 5%; color: var(--color-primary);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+<div class="floating-bg-icon anim-float-fast" style="top: 40%; right: 10%; color: var(--color-bg-ivory);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+</div>
+<div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split">
 <div class="split__media">
 <img alt="Kings City Co-Working Space" src="<?php $img = get_field('image_12'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--radius-card);"/>
@@ -96,8 +105,17 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </div>
 </section>
 <!-- meeting rooms section -->
-<section class="section content-panel section--spaces" id="meeting">
-<div class="container grid-12">
+<section class="section content-panel section--spaces" id="meeting" style="position: relative; overflow: hidden;">
+<div class="floating-bg-icon anim-pulse" style="top: 20%; left: 8%; color: var(--color-accent-gold);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+<div class="floating-bg-icon anim-float-slow-rev" style="bottom: 15%; right: 12%; color: var(--color-primary);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
+</div>
+<div class="floating-bg-icon anim-float-fast" style="top: 50%; right: 5%; color: var(--color-accent-gold);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+</div>
+<div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split split--reverse">
 <div class="split__media">
 <img alt="Kings City Meeting Room" src="<?php $img = get_field('image_18'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--radius-card);"/>
@@ -124,8 +142,17 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </div>
 </section>
 <!-- events place section -->
-<section class="section content-panel section--spaces" id="events">
-<div class="container grid-12">
+<section class="section content-panel section--spaces" id="events" style="position: relative; overflow: hidden;">
+<div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-bg-ivory);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+</div>
+<div class="floating-bg-icon anim-pulse" style="bottom: 20%; left: 5%; color: var(--color-primary);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+<div class="floating-bg-icon anim-float-slow-rev" style="top: 60%; left: 10%; color: var(--color-bg-ivory);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
+</div>
+<div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split">
 <div class="split__media">
 <img alt="Kings City Events Place" src="<?php $img = get_field('image_24'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--radius-card);"/>
@@ -152,8 +179,17 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </div>
 </section>
 <!-- office leasing section -->
-<section class="section content-panel section--spaces" id="office">
-<div class="container grid-12">
+<section class="section content-panel section--spaces" id="office" style="position: relative; overflow: hidden;">
+<div class="floating-bg-icon anim-pulse" style="top: 15%; right: 15%; color: var(--color-primary);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+<div class="floating-bg-icon anim-float-slow-rev" style="bottom: 10%; left: 10%; color: var(--color-accent-gold);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
+</div>
+<div class="floating-bg-icon anim-float-fast" style="top: 45%; left: 5%; color: var(--color-primary);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+</div>
+<div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split split--reverse">
 <div class="split__media">
 <img alt="Kings City Private Office" src="<?php $img = get_field('image_30'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--radius-card);"/>
@@ -180,8 +216,17 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </div>
 </section>
 <!-- virtual office section -->
-<section class="section content-panel section--spaces" id="virtual">
-<div class="container grid-12">
+<section class="section content-panel section--spaces" id="virtual" style="position: relative; overflow: hidden;">
+<div class="floating-bg-icon anim-float-slow-rev" style="top: 20%; left: 8%; color: var(--color-primary);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
+</div>
+<div class="floating-bg-icon anim-pulse" style="bottom: 15%; right: 10%; color: var(--color-bg-ivory);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+<div class="floating-bg-icon anim-float-fast" style="top: 50%; right: 5%; color: var(--color-bg-ivory);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+</div>
+<div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split">
 <div class="split__media">
 <img alt="Kings City Virtual Office Service" src="<?php $img = get_field('image_36'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--radius-card);"/>
@@ -208,14 +253,24 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </div>
 </section>
 <!-- service section -->
-<section class="section content-panel" id="spaces-services">
-<div class="container text-center">
+<section class="section content-panel" id="spaces-services" style="position: relative; overflow: hidden;">
+<div class="floating-bg-icon anim-pulse" style="top: 15%; left: 8%; color: var(--color-accent-gold);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+<div class="floating-bg-icon anim-float-slow-rev" style="top: 25%; right: 12%; color: var(--color-primary);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
+</div>
+<div class="floating-bg-icon anim-float-fast" style="bottom: 20%; left: 15%; color: var(--color-accent-gold);">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+</div>
+<div class="container text-center" style="position: relative; z-index: 2;">
 <span class="text-overline" style="margin-bottom: var(--space-sm); display: block;"><?php echo get_field('overline_43'); ?></span>
 <h2 style="margin-bottom: var(--space-xl);"><?php echo get_field('h2_38'); ?></h2>
-<div class="spaces-services-grid">
-<div class="spaces-services__item">
-<div class="spaces-services__item-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<div class="spaces-services-grid cycle-card-bg">
+<div class="spaces-services__item card-glass compact-mobile">
+<div class="universal-icon-wrapper">
+<svg fill="none" height="48" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="48">
+<circle cx="11" cy="11" r="8" fill="var(--color-bg-ivory)" stroke="none"></circle>
 <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"></path>
 <circle cx="12" cy="10" r="3"></circle>
 </svg>
@@ -225,9 +280,10 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 <p class="spaces-services__item-text"><?php echo get_field('p_39'); ?></p>
 </div>
 </div>
-<div class="spaces-services__item">
-<div class="spaces-services__item-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<div class="spaces-services__item card-glass compact-mobile">
+<div class="universal-icon-wrapper">
+<svg fill="none" height="48" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="48">
+<circle cx="11" cy="11" r="8" fill="var(--color-bg-ivory)" stroke="none"></circle>
 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
 <circle cx="9" cy="7" r="4"></circle>
 <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
@@ -239,22 +295,23 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 <p class="spaces-services__item-text"><?php echo get_field('p_40'); ?></p>
 </div>
 </div>
-<div class="spaces-services__item">
-<div class="spaces-services__item-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
-<rect height="14" rx="2" ry="2" width="20" x="2" y="3"></rect>
-<line x1="8" x2="16" y1="21" y2="21"></line>
-<line x1="12" x2="12" y1="17" y2="21"></line>
+<div class="spaces-services__item card-glass compact-mobile">
+<div class="universal-icon-wrapper">
+<svg fill="none" height="48" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="48">
+<circle cx="11" cy="11" r="8" fill="var(--color-bg-ivory)" stroke="none"></circle>
+<path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"></path>
+<line x1="6" x2="18" y1="17" y2="17"></line>
 </svg>
 </div>
 <div>
-<h4 class="spaces-services__item-title">Facilities &amp; Equipment</h4>
+<h4 class="spaces-services__item-title">Social Manila Bakehouse</h4>
 <p class="spaces-services__item-text"><?php echo get_field('p_41'); ?></p>
 </div>
 </div>
-<div class="spaces-services__item">
-<div class="spaces-services__item-icon">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="24">
+<div class="spaces-services__item card-glass compact-mobile">
+<div class="universal-icon-wrapper">
+<svg fill="none" height="48" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="48">
+<circle cx="11" cy="11" r="8" fill="var(--color-bg-ivory)" stroke="none"></circle>
 <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
 <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
 <line x1="6" x2="6" y1="1" y2="4"></line>
@@ -263,7 +320,7 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </svg>
 </div>
 <div>
-<h4 class="spaces-services__item-title">Kitchen &amp; Café</h4>
+<h4 class="spaces-services__item-title">Taza</h4>
 <p class="spaces-services__item-text"><?php echo get_field('p_42'); ?></p>
 </div>
 </div>
