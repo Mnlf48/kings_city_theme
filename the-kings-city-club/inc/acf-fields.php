@@ -4275,94 +4275,6 @@ acf_add_local_field_group(array(
             'type' => 'text',
         ),
 
-        array(
-            'key' => 'field_group_apply_p_14',
-            'label' => 'Paragraph #14',
-            'name' => 'p_14',
-            'type' => 'textarea',
-        ),
-
-        array(
-            'key' => 'field_group_apply_h3_9',
-            'label' => 'Heading 3 #9',
-            'name' => 'h3_9',
-            'type' => 'text',
-        ),
-
-        array(
-            'key' => 'field_group_apply_h3_10',
-            'label' => 'Heading 3 #10',
-            'name' => 'h3_10',
-            'type' => 'text',
-        ),
-
-        array(
-            'key' => 'field_group_apply_p_15',
-            'label' => 'Paragraph #15',
-            'name' => 'p_15',
-            'type' => 'textarea',
-        ),
-
-        array(
-            'key' => 'field_group_apply_sp_label_space_type',
-            'label' => 'Which space are you interested in?',
-            'name' => 'sp_label_space_type',
-            'type' => 'text',
-        ),
-        array(
-            'key' => 'field_group_apply_sp_label_first_name',
-            'label' => 'First Name',
-            'name' => 'sp_label_first_name',
-            'type' => 'text',
-        ),
-        array(
-            'key' => 'field_group_apply_sp_label_last_name',
-            'label' => 'Last Name',
-            'name' => 'sp_label_last_name',
-            'type' => 'text',
-        ),
-        array(
-            'key' => 'field_group_apply_sp_label_email',
-            'label' => 'Email Address',
-            'name' => 'sp_label_email',
-            'type' => 'text',
-        ),
-        array(
-            'key' => 'field_group_apply_sp_label_phone',
-            'label' => 'Phone Number',
-            'name' => 'sp_label_phone',
-            'type' => 'text',
-        ),
-        array(
-            'key' => 'field_group_apply_sp_label_company',
-            'label' => 'Company / Business Name',
-            'name' => 'sp_label_company',
-            'type' => 'text',
-        ),
-        array(
-            'key' => 'field_group_apply_sp_label_country',
-            'label' => 'Country',
-            'name' => 'sp_label_country',
-            'type' => 'text',
-        ),
-        array(
-            'key' => 'field_group_apply_sp_label_needs',
-            'label' => 'Tell Us About Your Needs',
-            'name' => 'sp_label_needs',
-            'type' => 'text',
-        ),
-        array(
-            'key' => 'field_group_apply_sp_label_consent',
-            'label' => 'Consent Text',
-            'name' => 'sp_label_consent',
-            'type' => 'textarea',
-        ),
-        array(
-            'key' => 'field_group_apply_sp_btn_submit',
-            'label' => 'Submit Button',
-            'name' => 'sp_btn_submit',
-            'type' => 'text',
-        ),
 
         array(
             'key' => 'field_tab_group_apply_offshoring',
@@ -4881,6 +4793,26 @@ acf_add_local_field_group(array(
             'key' => 'field_group_book_now_image_virtual',
             'label' => 'Virtual Office Image',
             'name' => 'image_virtual',
+            'type' => 'image',
+            'return_format' => 'array',
+            'preview_size' => 'medium',
+            'library' => 'all',
+        ),
+
+        array(
+            'key' => 'field_group_book_now_image_bakehouse',
+            'label' => 'Bakehouse Image',
+            'name' => 'image_bakehouse',
+            'type' => 'image',
+            'return_format' => 'array',
+            'preview_size' => 'medium',
+            'library' => 'all',
+        ),
+
+        array(
+            'key' => 'field_group_book_now_image_manille',
+            'label' => 'Manille Ceramic Image',
+            'name' => 'image_manille',
             'type' => 'image',
             'return_format' => 'array',
             'preview_size' => 'medium',

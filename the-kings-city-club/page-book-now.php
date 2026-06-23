@@ -359,6 +359,8 @@ get_header();
 <option value="Events Place">Events Place</option>
 <option value="Office Leasing">Office Leasing</option>
 <option value="Virtual Office">Virtual Office</option>
+<option value="Bakehouse">Bakehouse</option>
+<option value="Manille Ceramic (Limited)">Manille Ceramic (Limited)</option>
 </select>
 </div>
 <div class="form-row">
@@ -499,6 +501,30 @@ get_header();
           { label: "Standard (Annual) &mdash; Php 30,000", value: "Standard (Annual)", price: 30000 },
           { label: "Pro (Monthly) &mdash; Php 5,000", value: "Pro (Monthly)", price: 5000 },
           { label: "Pro (Annual) &mdash; Php 50,000", value: "Pro (Annual)", price: 50000 }
+        ]
+      },
+      "Bakehouse": {
+        image: "<?php $img = get_field('image_bakehouse'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>",
+        overline: "Test Kitchen",
+        title: "Social Manila Bakehouse",
+        text: "<p>Welcome to The Social Manila Bakehouse, a fully equipped commercial-grade test kitchen designed to bring your culinary visions to life. Whether you are hosting an intimate baking class, testing a new menu, or organizing a food tasting, our space provides everything you need in a professional yet welcoming environment.</p><p>Beyond its functional layout, the Bakehouse is highly photogenic, making it the ideal setting for food photography, content creation, and culinary demonstrations. You have the option to rent the space exclusively or include the expertise of our resident Baker and Chef.</p>",
+        features: ["Ideal for Content Creation", "Baking & Cooking Classes", "Kitchen Access"],
+        formTitle: "Book Bakehouse",
+        options: [
+          { label: "Test Kitchen Exclusive - Per Hour &mdash; Php 5,000", value: "Test Kitchen Exclusive - Per Hour", price: 5000 },
+          { label: "With Baker and Chef - Per Hour &mdash; Php 5,000", value: "With Baker and Chef - Per Hour", price: 5000 }
+        ]
+      },
+      "Manille Ceramic (Limited)": {
+        image: "<?php $img = get_field('image_manille'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>",
+        overline: "Studio Manille",
+        title: "Manille Céramique",
+        text: "<p>Step into Manille Céramique, a dynamic and beautifully designed studio space perfect for your creative endeavors. Engineered for flexibility, the studio features movable props and modular furniture that can easily adapt to your specific production needs, workshops, or private sessions.</p><p>Designed with content creation in mind, it provides the perfect lighting and backdrops for photo shoots, video production, or artistic gatherings. Choose to rent just the stunning backdrop or secure the entire studio for exclusive use.</p>",
+        features: ["Ideal for Content Creation", "Flexible layout", "Movable props & furniture"],
+        formTitle: "Book Manille Ceramic",
+        options: [
+          { label: "Backdrop Only - Per Hour &mdash; Php 1,000", value: "Backdrop Only - Per Hour", price: 1000 },
+          { label: "Exclusive Use - Per Hour &mdash; Php 5,000", value: "Exclusive Use - Per Hour", price: 5000 }
         ]
       }
     };

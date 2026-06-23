@@ -10,93 +10,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['apply_submit'])) {
     } elseif (!empty($_POST['website_url_trap'])) {
         $form_submitted = true; // Bot trap
     } else {
-        $app_type = sanitize_text_field($_POST['application_type']); // "space" or "offshoring"
-
         // Generate a unique secure token for this application
         $secure_token = wp_generate_password(32, false);
 
-        if ($app_type === 'space') {
-            $fname = sanitize_text_field($_POST['sp_first_name']);
-            $lname = sanitize_text_field($_POST['sp_last_name']);
-            $email = sanitize_email($_POST['sp_email']);
-            $phone = sanitize_text_field($_POST['sp_phone']);
-            $company = sanitize_text_field($_POST['sp_company']);
-            $country = sanitize_text_field($_POST['sp_country']);
-            $space_type = sanitize_text_field($_POST['space_type']);
-            $message = sanitize_textarea_field($_POST['sp_message']);
-            $service_label = 'Spaces Membership - ' . $space_type;
-
-            // Create the CRM ticket
-            $post_id = wp_insert_post(array(
-                'post_type'   => 'kc_application',
-                'post_title'  => $fname . ' ' . $lname,
-                'post_status' => 'publish',
-            ));
-
-            if ($post_id) {
-                update_post_meta($post_id, 'kc_first_name', $fname);
-                update_post_meta($post_id, 'kc_last_name', $lname);
-                update_post_meta($post_id, 'kc_email', $email);
-                update_post_meta($post_id, 'kc_phone', $phone);
-                update_post_meta($post_id, 'kc_company', $company);
-                update_post_meta($post_id, 'kc_country', $country);
-                update_post_meta($post_id, 'kc_service', $service_label);
-                update_post_meta($post_id, 'kc_message', $message);
-                update_post_meta($post_id, 'kc_secure_token', $secure_token);
-                update_post_meta($post_id, 'kc_status', 'Step 1 - Pending Approval');
-            }
-
+        // Offshoring
+        $fname = sanitize_text_field($_POST['off_first_name']);
+        $lname = sanitize_text_field($_POST['off_last_name']);
+        $email = sanitize_email($_POST['off_email']);
+        $phone = sanitize_text_field($_POST['off_phone']);
+        $company = sanitize_text_field($_POST['off_company']);
+        $country = sanitize_text_field($_POST['off_country']);
+        $website = sanitize_text_field($_POST['off_website']);
+        $service_chosen = sanitize_text_field($_POST['off_service']);
+        $team_size = sanitize_text_field($_POST['off_team_size']);
+        $roles = isset($_POST['off_roles']) ? array_map('sanitize_text_field', $_POST['off_roles']) : [];
+        $timeline = sanitize_text_field($_POST['off_timeline']);
+        $message = sanitize_textarea_field($_POST['off_message']);
+        
+        // Map the service chosen to the exact strings expected by the prompt
+        if ($service_chosen === 'Managed Staff Leasing') {
+            $service_label = 'Offshoring - Managed Staff Leasing';
+        } elseif ($service_chosen === 'Offshoring Staffing') {
+            $service_label = 'Offshoring - Staffing';
+        } elseif ($service_chosen === 'Both') {
+            $service_label = 'Offshoring - Both';
+        } elseif ($service_chosen === 'Not Sure') {
+            $service_label = 'Offshoring - Not Sure';
         } else {
-            // Offshoring
-            $fname = sanitize_text_field($_POST['off_first_name']);
-            $lname = sanitize_text_field($_POST['off_last_name']);
-            $email = sanitize_email($_POST['off_email']);
-            $phone = sanitize_text_field($_POST['off_phone']);
-            $company = sanitize_text_field($_POST['off_company']);
-            $country = sanitize_text_field($_POST['off_country']);
-            $website = sanitize_text_field($_POST['off_website']);
-            $service_chosen = sanitize_text_field($_POST['off_service']);
-            $team_size = sanitize_text_field($_POST['off_team_size']);
-            $roles = isset($_POST['off_roles']) ? array_map('sanitize_text_field', $_POST['off_roles']) : [];
-            $timeline = sanitize_text_field($_POST['off_timeline']);
-            $message = sanitize_textarea_field($_POST['off_message']);
-            
-            // Map the service chosen to the exact strings expected by the prompt
-            if ($service_chosen === 'Managed Staff Leasing') {
-                $service_label = 'Offshoring - Managed Staff Leasing';
-            } elseif ($service_chosen === 'Offshoring Staffing') {
-                $service_label = 'Offshoring - Staffing';
-            } elseif ($service_chosen === 'Both') {
-                $service_label = 'Offshoring - Both';
-            } elseif ($service_chosen === 'Not Sure') {
-                $service_label = 'Offshoring - Not Sure';
-            } else {
-                 $service_label = 'Offshoring - ' . $service_chosen;
-            }
+             $service_label = 'Offshoring - ' . $service_chosen;
+        }
 
-            // Create the CRM ticket
-            $post_id = wp_insert_post(array(
-                'post_type'   => 'kc_application',
-                'post_title'  => $fname . ' ' . $lname,
-                'post_status' => 'publish',
-            ));
+        // Create the CRM ticket
+        $post_id = wp_insert_post(array(
+            'post_type'   => 'kc_application',
+            'post_title'  => $fname . ' ' . $lname,
+            'post_status' => 'publish',
+        ));
 
-            if ($post_id) {
-                update_post_meta($post_id, 'kc_first_name', $fname);
-                update_post_meta($post_id, 'kc_last_name', $lname);
-                update_post_meta($post_id, 'kc_email', $email);
-                update_post_meta($post_id, 'kc_phone', $phone);
-                update_post_meta($post_id, 'kc_company', $company);
-                update_post_meta($post_id, 'kc_country', $country);
-                update_post_meta($post_id, 'kc_website', $website);
-                update_post_meta($post_id, 'kc_service', $service_label);
-                update_post_meta($post_id, 'kc_team_size', $team_size);
-                update_post_meta($post_id, 'kc_roles', implode(', ', $roles));
-                update_post_meta($post_id, 'kc_timeline', $timeline);
-                update_post_meta($post_id, 'kc_message', $message);
-                update_post_meta($post_id, 'kc_secure_token', $secure_token);
-                update_post_meta($post_id, 'kc_status', 'Step 1 - Pending Approval');
-            }
+        if ($post_id) {
+            update_post_meta($post_id, 'kc_first_name', $fname);
+            update_post_meta($post_id, 'kc_last_name', $lname);
+            update_post_meta($post_id, 'kc_email', $email);
+            update_post_meta($post_id, 'kc_phone', $phone);
+            update_post_meta($post_id, 'kc_company', $company);
+            update_post_meta($post_id, 'kc_country', $country);
+            update_post_meta($post_id, 'kc_website', $website);
+            update_post_meta($post_id, 'kc_service', $service_label);
+            update_post_meta($post_id, 'kc_team_size', $team_size);
+            update_post_meta($post_id, 'kc_roles', implode(', ', $roles));
+            update_post_meta($post_id, 'kc_timeline', $timeline);
+            update_post_meta($post_id, 'kc_message', $message);
+            update_post_meta($post_id, 'kc_secure_token', $secure_token);
+            update_post_meta($post_id, 'kc_status', 'Step 1 - Pending Approval');
         }
 
         $form_submitted = true;
@@ -144,38 +109,7 @@ get_header();
       box-shadow: 0 0 0 3px rgba(255, 191, 191, 0.2);
     }
     
-    /* Radio Toggle */
-    .type-toggle-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-sm);
-      margin-bottom: var(--space-lg);
-    }
-    .type-toggle-label {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 1rem;
-      border: 2px solid var(--color-border-light);
-      border-radius: var(--radius-card-sm);
-      cursor: pointer;
-      font-weight: 600;
-      transition: all var(--transition-base);
-      background: rgba(255, 255, 255, 0.4);
-    }
-    .type-toggle-label:hover {
-      background: rgba(255, 255, 255, 0.8);
-    }
-    .type-toggle-label.is-active {
-      border-color: var(--color-accent-red);
-      background: rgba(255, 191, 191, 0.15);
-      color: var(--color-accent-red);
-    }
-    .type-toggle-input {
-      accent-color: var(--color-accent-red);
-    }
+
     
     /* Sidebar Styles */
     .sidebar-card {
@@ -303,7 +237,7 @@ get_header();
         
         <div class="tb-body">
           <div class="tb-empty-state" id="tb-empty">
-            <div style="margin-bottom: 1rem; color: var(--color-text-muted);">
+            <div style="margin-bottom: 1rem; color: var(--color-text-muted); display: flex; justify-content: center; align-items: center;">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
             </div>
             <h4 style="margin-bottom: 0.5rem;"><?php echo get_field('pricing_tb_body_title') ?: 'Build your offshore team with Kings City.'; ?></h4>
@@ -386,107 +320,26 @@ get_header();
 <input type="hidden" name="apply_submit" value="1">
 <input type="text" name="website_url_trap" style="display:none !important;" tabindex="-1" autocomplete="off">
 <?php wp_nonce_field('apply_submission', 'apply_nonce'); ?>
-<!-- application type toggle -->
-<div class="form-group">
-<p style="font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-primary); margin-bottom: var(--space-xs);"><?php echo get_field('p_14'); ?></p>
-<div class="type-toggle-group">
-<label class="type-toggle-label is-active" id="lbl-space">
-<input checked="" class="type-toggle-input" name="application_type" type="radio" value="space"/> 
-                    Spaces Membership
-                  </label>
-<label class="type-toggle-label" id="lbl-offshore">
-<input class="type-toggle-input" name="application_type" type="radio" value="offshoring"/> 
-                    Offshoring / Staffing
-                  </label>
-</div>
-</div>
-<!-- spaces view -->
-<div id="space-view-container">
-<div class="tb-header" style="margin-top: var(--space-md);">
-<div style="display: flex; align-items: center; gap: 0.5rem;">
-<svg fill="none" height="24" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24"><rect height="7" width="7" x="3" y="3"></rect><rect height="7" width="7" x="14" y="3"></rect><rect height="7" width="7" x="14" y="14"></rect><rect height="7" width="7" x="3" y="14"></rect></svg>
-<h3 style="margin:0; color: var(--color-primary);"><?php echo get_field('h3_9'); ?></h3>
-</div>
-</div>
-<div class="form-group" style="margin-top: var(--space-md);">
-<label class="form-label" for="space_type"><?php echo get_field('sp_label_space_type') ?: 'Which space are you interested in?'; ?></label>
-<select class="form-select" id="space_type" name="space_type">
-<option value="coworking">Co-Working</option>
-<option value="meeting">Meeting Rooms</option>
-<option value="events">Events Place</option>
-<option value="office">Office Leasing</option>
-<option value="virtual">Virtual Assistant / Virtual Office</option>
-</select>
-</div>
-<div class="form-row">
-<div class="form-group">
-<label class="form-label" for="sp_first_name"><?php echo get_field('sp_label_first_name') ?: 'First Name'; ?></label>
-<input class="form-input" id="sp_first_name" name="sp_first_name" placeholder="First Name" required="" type="text"/>
-</div>
-<div class="form-group">
-<label class="form-label" for="sp_last_name"><?php echo get_field('sp_label_last_name') ?: 'Last Name'; ?></label>
-<input class="form-input" id="sp_last_name" name="sp_last_name" placeholder="Last Name" required="" type="text"/>
-</div>
-</div>
-<div class="form-row">
-<div class="form-group">
-<label class="form-label" for="sp_email"><?php echo get_field('sp_label_email') ?: 'Email Address'; ?></label>
-<input class="form-input" id="sp_email" name="sp_email" placeholder="you@company.com" required="" type="email"/>
-</div>
-<div class="form-group">
-<label class="form-label" for="sp_phone"><?php echo get_field('sp_label_phone') ?: 'Phone Number'; ?></label>
-<input class="form-input" id="sp_phone" name="sp_phone" placeholder="+63 XXX XXX XXXX" required="" type="tel"/>
-</div>
-</div>
-<div class="form-row">
-<div class="form-group">
-<label class="form-label" for="sp_company"><?php echo get_field('sp_label_company') ?: 'Company / Business Name'; ?></label>
-<input class="form-input" id="sp_company" name="sp_company" placeholder="Your company name" type="text"/>
-</div>
-<div class="form-group">
-<label class="form-label" for="sp_country"><?php echo get_field('sp_label_country') ?: 'Country'; ?></label>
-<select class="form-select" id="sp_country" name="sp_country">
-<option value="ph">Philippines</option>
-<option value="au">Australia</option>
-<option value="nz">New Zealand</option>
-<option value="us">United States</option>
-<option value="uk">United Kingdom</option>
-<option value="other">Other</option>
-</select>
-</div>
-</div>
-<div class="form-group">
-<label class="form-label" for="sp_message"><?php echo get_field('sp_label_needs') ?: 'Tell Us About Your Needs'; ?></label>
-<textarea class="form-textarea" id="sp_message" name="sp_message" placeholder="Describe what you're looking for..." rows="5"></textarea>
-</div>
-<div style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: var(--space-lg); margin-top: var(--space-sm);">
-<input id="sp_consent" name="sp_consent" required="" style="margin-top: 0.3rem; accent-color: var(--color-accent); width: 16px; height: 16px;" type="checkbox"/>
-<label for="sp_consent" style="font-size: 0.85rem; color: var(--color-text-muted); cursor: pointer; line-height: 1.5;">
-                    <?php echo get_field('sp_label_consent') ?: 'I agree to receive communications from Kings City regarding my application. I understand I can unsubscribe at any time.'; ?>
-                  </label>
-</div>
-<button class="btn btn--large" style="width: 100%; justify-content: center; padding: 1rem;" type="submit"><?php echo get_field('sp_btn_submit') ?: 'Submit Application'; ?></button>
-</div>
 <!-- offshoring view -->
-<div id="offshore-view-container" style="display: none;">
+<div id="offshore-view-container">
 <div class="form-row">
 <div class="form-group">
 <label class="form-label" for="off_first_name"><?php echo get_field('off_label_first_name') ?: 'First Name'; ?></label>
-<input class="form-input" id="off_first_name" name="off_first_name" type="text"/>
+<input class="form-input" id="off_first_name" name="off_first_name" required="" type="text"/>
 </div>
 <div class="form-group">
 <label class="form-label" for="off_last_name"><?php echo get_field('off_label_last_name') ?: 'Last Name'; ?></label>
-<input class="form-input" id="off_last_name" name="off_last_name" type="text"/>
+<input class="form-input" id="off_last_name" name="off_last_name" required="" type="text"/>
 </div>
 </div>
 <div class="form-row">
 <div class="form-group">
 <label class="form-label" for="off_email"><?php echo get_field('off_label_email') ?: 'Email Address'; ?></label>
-<input class="form-input" id="off_email" name="off_email" placeholder="you@company.com" type="email"/>
+<input class="form-input" id="off_email" name="off_email" placeholder="you@company.com" required="" type="email"/>
 </div>
 <div class="form-group">
 <label class="form-label" for="off_phone"><?php echo get_field('off_label_phone') ?: 'Phone Number'; ?></label>
-<input class="form-input" id="off_phone" name="off_phone" placeholder="+63 XXX XXX XXXX" type="tel"/>
+<input class="form-input" id="off_phone" name="off_phone" placeholder="+63 XXX XXX XXXX" required="" type="tel"/>
 </div>
 </div>
 <div class="form-row">
@@ -515,7 +368,7 @@ Tell Us About Your Needs
 </div>
 <div class="form-group">
 <label class="form-label" for="off_service"><?php echo get_field('off_label_service') ?: 'Which service are you interested in?'; ?></label>
-<select class="form-select" id="off_service" name="off_service">
+<select class="form-select" id="off_service" name="off_service" required="">
 <option value="Managed Staff Leasing">Managed Staff Leasing</option>
 <option value="Offshoring Staffing">Offshoring Staffing</option>
 <option value="Both">Both</option>
@@ -565,7 +418,7 @@ Tell Us About Your Needs
 <textarea class="form-textarea" id="off_message" name="off_message" placeholder="Anything else you'd like us to know?" rows="3"></textarea>
 </div>
 <div style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: var(--space-lg); margin-top: var(--space-sm);">
-<input id="off_consent" name="off_consent" style="margin-top: 0.3rem; accent-color: var(--color-accent); width: 16px; height: 16px;" type="checkbox"/>
+<input id="off_consent" name="off_consent" required="" style="margin-top: 0.3rem; accent-color: var(--color-accent); width: 16px; height: 16px;" type="checkbox"/>
 <label for="off_consent" style="font-size: 0.85rem; color: var(--color-text-muted); cursor: pointer; line-height: 1.5;">
                       <?php echo get_field('off_label_consent') ?: 'I agree to receive communications from Kings City regarding my application. I understand I can unsubscribe at any time.'; ?>
                     </label>
@@ -621,61 +474,7 @@ Tell Us About Your Needs
 </main>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // 1. Form Toggle Logic: Spaces vs Offshoring
-      const radioSpace = document.querySelector('input[value="space"]');
-      const radioOffshore = document.querySelector('input[value="offshoring"]');
-      const spaceViewContainer = document.getElementById('space-view-container');
-      const offshoreViewContainer = document.getElementById('offshore-view-container');
-      
-      const labelSpace = document.getElementById('lbl-space');
-      const labelOffshore = document.getElementById('lbl-offshore');
 
-      function updateFormUI() {
-        if (radioSpace.checked) {
-          spaceViewContainer.style.display = 'block';
-          offshoreViewContainer.style.display = 'none';
-          
-          labelSpace.classList.add('is-active');
-          labelOffshore.classList.remove('is-active');
-
-          // Required fields toggle
-          document.getElementById('sp_first_name').required = true;
-          document.getElementById('sp_last_name').required = true;
-          document.getElementById('sp_email').required = true;
-          document.getElementById('sp_phone').required = true;
-          document.getElementById('sp_consent').required = true;
-
-          document.getElementById('off_first_name').required = false;
-          document.getElementById('off_last_name').required = false;
-          document.getElementById('off_email').required = false;
-          document.getElementById('off_phone').required = false;
-          document.getElementById('off_consent').required = false;
-        } else {
-          spaceViewContainer.style.display = 'none';
-          offshoreViewContainer.style.display = 'block';
-          
-          labelOffshore.classList.add('is-active');
-          labelSpace.classList.remove('is-active');
-
-          // Required fields toggle
-          document.getElementById('sp_first_name').required = false;
-          document.getElementById('sp_last_name').required = false;
-          document.getElementById('sp_email').required = false;
-          document.getElementById('sp_phone').required = false;
-          document.getElementById('sp_consent').required = false;
-
-          document.getElementById('off_first_name').required = true;
-          document.getElementById('off_last_name').required = true;
-          document.getElementById('off_email').required = true;
-          document.getElementById('off_phone').required = true;
-          document.getElementById('off_consent').required = true;
-          document.getElementById('off_service').required = true;
-        }
-      }
-
-      radioSpace.addEventListener('change', updateFormUI);
-      radioOffshore.addEventListener('change', updateFormUI);
-      updateFormUI();
 
       // Dynamic Step 1 Fields based on Offshoring Service Selection
       const offServiceSelect = document.getElementById('off_service');
@@ -868,7 +667,7 @@ Tell Us About Your Needs
 
       function renderTeam() {
         if(selectedTeam.length === 0) {
-          emptyState.style.display = 'block';
+          emptyState.style.display = 'flex';
           rolesList.style.display = 'none';
           tbSummary.style.display = 'none';
           updateTotals();

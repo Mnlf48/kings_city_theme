@@ -142,3 +142,19 @@ require_once get_template_directory() . '/inc/admin-crm/init.php';
 
 // Load Currency Manager
 require_once get_template_directory() . '/inc/currency-manager.php';
+
+/* =========================================================================
+   Configure WP Mail SMTP for Brevo
+   ========================================================================= */
+add_action( 'phpmailer_init', 'kings_city_setup_brevo_smtp' );
+function kings_city_setup_brevo_smtp( $phpmailer ) {
+    $phpmailer->isSMTP();
+    $phpmailer->Host       = 'smtp-relay.brevo.com';
+    $phpmailer->SMTPAuth   = true;
+    $phpmailer->Port       = 587; // You can also use 465
+    $phpmailer->Username   = 'afbfad001@smtp-brevo.com'; // e.g., your login email to Brevo
+    $phpmailer->Password   = '';    // REMOVED FOR SECURITY: Your master SMTP Key from Brevo
+    $phpmailer->SMTPSecure = 'tls'; // Change to 'ssl' if using port 465
+    $phpmailer->From       = 'info@kings-city.com'; // Must be an authenticated domain in Brevo
+    $phpmailer->FromName   = 'Kings City';
+}
