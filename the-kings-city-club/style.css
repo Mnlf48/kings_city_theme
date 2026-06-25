@@ -4211,43 +4211,10 @@ button[type="submit"]:active,
 }
 
 /* offshoring contact section */
-#offshoring-contact .contact-flex-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: stretch;
-  gap: var(--space-lg);
-  width: 100%;
-}
-
-#offshoring-contact .offshoring-left {
-  flex: 0 0 20vw;
-  margin-left: calc(-50vw + 50%);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: var(--space-xl) var(--space-lg);
-  text-align: left;
-}
-
-#offshoring-contact .offshoring-left > * {
-  max-width: 280px;
-  width: 100%;
-}
-
-#offshoring-contact .offshoring-right {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-}
-
 @media (min-width: 768px) {
   #offshoring-contact .contact-cards-wrapper {
     display: grid;
-    grid-template-columns: repeat(4, minmax(250px, 1fr));
+    grid-template-columns: repeat(5, 1fr);
     gap: var(--space-lg);
     width: 100%;
   }
@@ -4266,14 +4233,6 @@ button[type="submit"]:active,
     min-width: 100% !important;
     flex: 1 1 100% !important;
     min-height: auto !important;
-  }
-
-  .offshoring-left {
-    padding: var(--space-xl) var(--space-md) !important;
-  }
-
-  .offshoring-right {
-    padding: var(--space-xl) 0 !important;
   }
 
   .contact-cards-wrapper {
@@ -4885,36 +4844,12 @@ body.modal-open {
 /* ==============================================================
    GALLERY SECTION — THEME: TERRACOTTA (Front Page)
    ============================================================== */
-.gallery-theme-terracotta .gallery-card:nth-child(6n+1) {
-  border-color: var(--color-bg-ivory) !important;
-}
-
-/* Ivory */
-.gallery-theme-terracotta .gallery-card:nth-child(6n+2) {
-  border-color: var(--color-secondary) !important;
-}
-
-/* Soft Pink */
-.gallery-theme-terracotta .gallery-card:nth-child(6n+3) {
-  border-color: var(--color-accent-red) !important;
-}
-
-/* Deep Red */
-.gallery-theme-terracotta .gallery-card:nth-child(6n+4) {
-  border-color: var(--color-accent-gold) !important;
-}
-
-/* Muted Gold */
-.gallery-theme-terracotta .gallery-card:nth-child(6n+5) {
-  border-color: var(--color-bg-ivory) !important;
-}
-
-/* Ivory */
-.gallery-theme-terracotta .gallery-card:nth-child(6n+6) {
-  border-color: var(--color-accent-red) !important;
-}
-
-/* Deep Red */
+/* Universal 5-Color Cycle for Gallery Cards */
+.section--gallery .gallery-card:nth-child(5n+1) { border-color: var(--color-primary) !important; } /* Terracotta */
+.section--gallery .gallery-card:nth-child(5n+2) { border-color: var(--color-accent-red) !important; } /* Red */
+.section--gallery .gallery-card:nth-child(5n+3) { border-color: var(--color-secondary) !important; } /* Soft Pink Blush */
+.section--gallery .gallery-card:nth-child(5n+4) { border-color: var(--color-accent-gold) !important; } /* Muted Gold */
+.section--gallery .gallery-card:nth-child(5n+5) { border-color: var(--color-bg-ivory) !important; } /* Ivory */
 
 .gallery-theme-terracotta .gallery-nav {
   background-color: var(--color-secondary) !important;
@@ -4934,36 +4869,7 @@ body.modal-open {
   /* Enforce Soft Pink */
 }
 
-.gallery-theme-pink .gallery-card:nth-child(6n+1) {
-  border-color: var(--color-bg-ivory) !important;
-}
 
-/* Ivory */
-.gallery-theme-pink .gallery-card:nth-child(6n+2) {
-  border-color: var(--color-primary) !important;
-}
-
-/* Terracotta */
-.gallery-theme-pink .gallery-card:nth-child(6n+3) {
-  border-color: var(--color-accent-red) !important;
-}
-
-/* Deep Red */
-.gallery-theme-pink .gallery-card:nth-child(6n+4) {
-  border-color: var(--color-accent-gold) !important;
-}
-
-/* Muted Gold */
-.gallery-theme-pink .gallery-card:nth-child(6n+5) {
-  border-color: var(--color-bg-ivory) !important;
-}
-
-/* Ivory */
-.gallery-theme-pink .gallery-card:nth-child(6n+6) {
-  border-color: var(--color-accent-red) !important;
-}
-
-/* Deep Red */
 
 .gallery-theme-pink .gallery-nav {
   background-color: var(--color-bg-ivory) !important;
@@ -5828,6 +5734,108 @@ body.modal-open {
   border-color: rgba(172, 32, 26, 0.3) !important;
 }
 
+/* Specific pattern override for Spaces Services section (Pink, Gold, Pink, Gold) */
+#spaces-services .cycle-card-bg > *:nth-child(4n+3) {
+  background: rgba(255, 191, 191, 0.6) !important; /* Soft Blush / Pink */
+  border-color: rgba(255, 191, 191, 0.9) !important;
+}
+#spaces-services .cycle-card-bg > *:nth-child(4n+4) {
+  background: rgba(251, 203, 119, 0.5) !important; /* Muted Gold / Yellow */
+  border-color: rgba(251, 203, 119, 0.8) !important;
+}
+#spaces-services .cycle-card-bg .spaces-services__item-title,
+#spaces-services .cycle-card-bg h2,
+#spaces-services .cycle-card-bg h4 {
+  color: var(--color-primary) !important; /* Terracotta text for card headings */
+}
+
+/* Specific pattern override for Offshoring Services section (Gold, Terracotta alternating) */
+#offshoring-services .cycle-card-bg > *:nth-child(odd) {
+  background: rgba(251, 203, 119, 0.5) !important; /* Muted Gold / Yellow */
+  border-color: rgba(251, 203, 119, 0.8) !important;
+}
+#offshoring-services .cycle-card-bg > *:nth-child(even) {
+  background: rgba(189, 69, 31, 0.6) !important; /* Terracotta */
+  border-color: rgba(189, 69, 31, 0.9) !important;
+}
+
+/* Fix text and icon colors for the dark Terracotta cards (even cards) */
+#offshoring-services .cycle-card-bg > *:nth-child(even) h2,
+#offshoring-services .cycle-card-bg > *:nth-child(even) h3,
+#offshoring-services .cycle-card-bg > *:nth-child(even) h4,
+#offshoring-services .cycle-card-bg > *:nth-child(even) p,
+#offshoring-services .cycle-card-bg > *:nth-child(even) .spaces-services__item-title {
+  color: var(--color-bg-ivory) !important;
+}
+#offshoring-services .cycle-card-bg > *:nth-child(even) svg {
+  stroke: var(--color-accent-gold) !important;
+}
+#offshoring-services .cycle-card-bg > *:nth-child(even) svg circle {
+  fill: rgba(255, 249, 239, 0.2) !important; /* Sheer ivory for contrast */
+}
+
+/* Specific pattern override for Offshoring Roles section (3-color cycle: Gold, Terracotta, Deep Red) */
+#offshoring-roles .cycle-card-bg > *:nth-child(3n+1) {
+  background: rgba(251, 203, 119, 0.5) !important; /* Muted Gold */
+  border-color: rgba(251, 203, 119, 0.8) !important;
+}
+#offshoring-roles .cycle-card-bg > *:nth-child(3n+2) {
+  background: rgba(189, 69, 31, 0.6) !important; /* Terracotta */
+  border-color: rgba(189, 69, 31, 0.9) !important;
+}
+#offshoring-roles .cycle-card-bg > *:nth-child(3n+3) {
+  background: rgba(172, 32, 26, 0.6) !important; /* Deep Red */
+  border-color: rgba(172, 32, 26, 0.9) !important;
+}
+
+/* Fix text and icon colors for the dark cards (Terracotta and Deep Red) */
+#offshoring-roles .cycle-card-bg > *:nth-child(3n+2) h4,
+#offshoring-roles .cycle-card-bg > *:nth-child(3n+2) p,
+#offshoring-roles .cycle-card-bg > *:nth-child(3n+3) h4,
+#offshoring-roles .cycle-card-bg > *:nth-child(3n+3) p {
+  color: var(--color-bg-ivory) !important;
+}
+#offshoring-roles .cycle-card-bg > *:nth-child(3n+2) svg,
+#offshoring-roles .cycle-card-bg > *:nth-child(3n+3) svg {
+  stroke: var(--color-bg-ivory) !important;
+}
+
+/* Specific pattern override for Offshoring Process section (Gold, Terracotta alternating) */
+.off-process-steps.cycle-card-bg > *:nth-child(odd) {
+  background: rgba(251, 203, 119, 0.5) !important; /* Muted Gold */
+  border-color: rgba(251, 203, 119, 0.8) !important;
+}
+.off-process-steps.cycle-card-bg > *:nth-child(even) {
+  background: rgba(189, 69, 31, 0.6) !important; /* Terracotta */
+  border-color: rgba(189, 69, 31, 0.9) !important;
+}
+
+/* Fix text and icon colors for the dark Terracotta cards (even cards) */
+.off-process-steps.cycle-card-bg > *:nth-child(even) h2,
+.off-process-steps.cycle-card-bg > *:nth-child(even) h3,
+.off-process-steps.cycle-card-bg > *:nth-child(even) h4,
+.off-process-steps.cycle-card-bg > *:nth-child(even) p,
+.off-process-steps.cycle-card-bg > *:nth-child(even) .off-process-card__title {
+  color: var(--color-bg-ivory) !important;
+}
+.off-process-steps.cycle-card-bg > *:nth-child(even) svg * {
+  stroke: var(--color-accent-gold) !important;
+}
+.off-process-steps.cycle-card-bg > *:nth-child(even) svg rect[fill="var(--color-bg-ivory)"],
+.off-process-steps.cycle-card-bg > *:nth-child(even) svg circle[fill="var(--color-bg-ivory)"] {
+  fill: rgba(255, 249, 239, 0.2) !important; /* Sheer ivory for contrast */
+}
+
+/* Specific pattern override for Core Values section (Pink, Gold alternating) */
+.core-values-section .cycle-card-bg > *:nth-child(odd) {
+  background: rgba(255, 191, 191, 0.6) !important; /* Soft Blush / Pink */
+  border-color: rgba(255, 191, 191, 0.9) !important;
+}
+.core-values-section .cycle-card-bg > *:nth-child(even) {
+  background: rgba(251, 203, 119, 0.5) !important; /* Muted Gold / Yellow */
+  border-color: rgba(251, 203, 119, 0.8) !important;
+}
+
 /* Universal Hover Borders overlay */
 .cycle-card-bg > *, .cycle-hover-border > * {
   position: relative; /* required for the ::after overlay */
@@ -5881,6 +5889,16 @@ body.modal-open {
   transform: translateX(10px) !important;
   box-shadow: -10px 20px 40px rgba(189, 69, 31, 0.08) !important;
   z-index: 10;
+}
+
+/* Specific pattern override for Contact Us section (Pink, Gold alternating) */
+#offshoring-contact .contact-cards-wrapper.cycle-card-bg > *:nth-child(odd) {
+  background: rgba(255, 191, 191, 0.6) !important; /* Soft Blush / Pink */
+  border-color: rgba(255, 191, 191, 0.9) !important;
+}
+#offshoring-contact .contact-cards-wrapper.cycle-card-bg > *:nth-child(even) {
+  background: rgba(251, 203, 119, 0.5) !important; /* Muted Gold / Yellow */
+  border-color: rgba(251, 203, 119, 0.8) !important;
 }
 
 /* ==========================================================================

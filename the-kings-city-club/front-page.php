@@ -45,19 +45,16 @@ get_header();
 </style>
 <!-- Ivory Sparkle -->
 <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-bg-ivory);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
 </div>
 <!-- Deep Red Heart -->
 <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-primary);">
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
 </div>
 <!-- Muted Gold Circle -->
-<div class="floating-bg-icon anim-float-slow-rev" style="top: 45%; left: 5%; color: var(--color-accent-gold);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
-</div>
 <!-- Deep Red Wavy Line -->
 <div class="floating-bg-icon anim-float-fast" style="top: 25%; right: 40%; color: var(--color-primary);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
 </div>
 <!-- Ivory Star -->
 <div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: var(--color-bg-ivory);">
@@ -225,12 +222,9 @@ get_header();
 .offshore-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
 </style>
 <!-- Ivory Sparkle -->
-<div class="floating-bg-icon anim-float-slow-rev" style="top: 15%; right: 10%; color: var(--color-bg-ivory);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
-</div>
 <!-- Soft Pink Heart -->
 <div class="floating-bg-icon anim-float-fast" style="bottom: 20%; left: 8%; color: var(--color-secondary);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
 </div>
 <!-- Muted Gold Circle -->
 <div class="floating-bg-icon anim-pulse" style="top: 40%; left: 45%; color: var(--color-accent-gold);">
@@ -298,17 +292,11 @@ get_header();
 <section class="section content-panel section--pass bg-blush" style="position: relative; overflow: hidden;">
 <!-- Background floating icons -->
  
-<div class="floating-bg-icon anim-float-slow-rev" style="top: 10%; left: 5%; color: var(--color-bg-ivory);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
-</div>
 <div class="floating-bg-icon anim-float-fast" style="top: 15%; right: 8%; color: var(--color-accent-red); opacity: 0.4;">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
 </div>
 <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-accent-gold); opacity: 0.5;">
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-</div>
-<div class="floating-bg-icon anim-float-slow-rev" style="bottom: 10%; right: 5%; color: var(--color-primary);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
 </div>
 <!-- /Background floating icons -->
 <div class="container grid-12" style="position: relative; z-index: 1;">
@@ -379,7 +367,7 @@ get_header();
 <section class="section content-panel section--gallery gallery-theme-terracotta" style="position: relative; padding: var(--space-lg) 0 var(--space-2xl) 0; overflow: hidden;">
 <!-- Background Confetti -->
 <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 15%; color: var(--color-bg-ivory);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
 </div>
 <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 10%; color: var(--color-secondary);">
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
@@ -417,9 +405,7 @@ get_header();
 <div class="gallery-card">
 <img alt="Kings Club Quezon City" src="<?php echo esc_url(get_field('section_img_50')['url']); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
-<div class="gallery-card">
-<img alt="Kings Club Pasay" src="<?php echo esc_url(get_field('section_img_51')['url']); ?>" style="width:100%; height:100%; object-fit:cover;"/>
-</div>
+
 <!-- duplicated set for infinite loop -->
 <div class="gallery-card">
 <img alt="Kings Club Makati" src="<?php echo esc_url(get_field('section_img_52')['url']); ?>" style="width:100%; height:100%; object-fit:cover;"/>
@@ -436,9 +422,7 @@ get_header();
 <div class="gallery-card">
 <img alt="Kings Club Quezon City" src="<?php echo esc_url(get_field('section_img_56')['url']); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
-<div class="gallery-card">
-<img alt="Kings Club Pasay" src="<?php echo esc_url(get_field('section_img_57')['url']); ?>" style="width:100%; height:100%; object-fit:cover;"/>
-</div>
+
 </div>
 <button aria-label="Next image" class="gallery-nav gallery-nav--next" onclick="scrollGallery(1)">
 <svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="20">
@@ -459,13 +443,10 @@ get_header();
 </style>
 
 <!-- 1. Deep Red Heart (Top Right) -->
-<div class="floating-bg-icon anim-float-slow-rev" style="top: 10%; right: 8%; color: var(--color-primary);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
-</div>
 
 <!-- 2. Gold Social Pin (Bottom Left) -->
 <div class="floating-bg-icon anim-float-fast" style="bottom: 15%; left: 8%; color: var(--color-accent-gold);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
 </div>
 
 <!-- 3. Ivory Circle (Center) -->
@@ -474,13 +455,10 @@ get_header();
 </div>
 
 <!-- 4. Ivory Plus Sign (Top Left) -->
-<div class="floating-bg-icon anim-float-slow-rev" style="top: 15%; left: 10%; color: var(--color-bg-ivory);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
-</div>
 
 <!-- 5. Deep Red Wavy Line (Bottom Right Center) -->
 <div class="floating-bg-icon anim-float-fast" style="bottom: 25%; right: 40%; color: var(--color-primary);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
 </div>
 
 <!-- 6. Gold Sparkle/Star (Bottom Right) -->
@@ -614,12 +592,9 @@ get_header();
 .journal-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
 </style>
 <!-- Ivory Sparkle -->
-<div class="floating-bg-icon anim-float-slow-rev" style="top: 15%; right: 5%; color: var(--color-bg-ivory);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3C6.44772 3 6 3.44772 6 4V20C6 20.5523 6.44772 21 7 21C7.55228 21 8 20.5523 8 20V13.8L14.0723 19.8723C14.4628 20.2628 15.096 20.2628 15.4865 19.8723C15.877 19.4818 15.877 18.8486 15.4865 18.4581L10.354 13.3255L14.8698 8.80971C15.2604 8.41919 15.2604 7.78602 14.8698 7.3955C14.4793 7.00497 13.8461 7.00497 13.4556 7.3955L8 12.8511V4C8 3.44772 7.55228 3 7 3Z" /></svg>
-</div>
 <!-- Deep Red Heart -->
 <div class="floating-bg-icon anim-float-fast" style="bottom: 10%; left: 8%; color: var(--color-primary);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.8 9.2H22L16.2 13.8L18.4 21L12 16.5L5.6 21L7.8 13.8L2 9.2H9.2L12 2Z"/><path d="M3 3L7 7M2 6L5 9M6 2L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
 </div>
 <!-- Muted Gold Star -->
 <div class="floating-bg-icon anim-pulse" style="top: 35%; left: 45%; color: var(--color-accent-gold);">
