@@ -6,6 +6,7 @@ function kc_get_dashboard_stats() {
         'offshoring' => array('pending' => 0, 'in_progress' => 0, 'complete' => 0),
         'spaces'     => array('pending' => 0, 'in_progress' => 0, 'complete' => 0),
         'bookings'   => array('pending' => 0, 'confirmed' => 0, 'cancelled' => 0),
+        'quotes'     => array('pending' => 0, 'contacted' => 0, 'closed' => 0, 'revenue_php' => 0)
     );
 
     // Offshoring & Spaces Stats
@@ -56,6 +57,39 @@ function kc_get_dashboard_stats() {
         }
     }
 
+    // Quote Requests Stats
+    $quotes = get_posts(array(
+        'post_type'      => 'kg_quote_lead',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+    ));
+
+    foreach ($quotes as $quote) {
+        $status = get_post_meta($quote->ID, 'lead_status', true);
+        if (!$status) $status = 'Pending';
+        
+        if ($status === 'Pending') {
+            $stats['quotes']['pending']++;
+        } elseif ($status === 'Contacted') {
+            $stats['quotes']['contacted']++;
+        } elseif ($status === 'Closed') {
+            $stats['quotes']['closed']++;
+            
+            // Calculate revenue in PHP
+            $currency = get_post_meta($quote->ID, 'currency_used', true);
+            $est_str = get_post_meta($quote->ID, 'total_est', true);
+            $val = (float) preg_replace('/[^0-9.]/', '', $est_str);
+            
+            if ($currency === 'USD') {
+                $val = $val / 0.017; // Convert back to PHP using the rate from page-apply
+            } elseif ($currency === 'AUD') {
+                $val = $val / 0.026;
+            }
+            
+            $stats['quotes']['revenue_php'] += $val;
+        }
+    }
+
     return $stats;
 }
 
@@ -84,6 +118,30 @@ function kc_render_dashboard_page() {
         <h1 style="margin-bottom: 2rem; ">Kings City CRM Dashboard</h1>
 
         <div class="kc-crm-dashboard-sections" style="display: flex; flex-direction: column; gap: 3rem;">
+            
+            <!-- KPI / Revenue Section -->
+            <section>
+                <h2 style="border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1.5rem;">KPI Dashboard: Team Builder Revenue</h2>
+                <div style="<?php echo esc_attr($grid_style); ?>">
+                    <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border-radius: var(--radius-card, 8px); box-shadow: var(--shadow-md); padding: 2rem; text-align: center; grid-column: 1 / -1;">
+                        <p style="font-size: 1.1rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 0.5rem 0; opacity: 0.9;">Estimated Monthly Revenue (Closed Leads)</p>
+                        <p style="font-size: 3.5rem; font-weight: bold; margin: 0; line-height: 1;">Php <?php echo number_format($stats['quotes']['revenue_php']); ?></p>
+                    </div>
+                    
+                    <div style="<?php echo esc_attr($card_style); ?>">
+                        <p style="<?php echo esc_attr($number_style); ?>"><?php echo esc_html($stats['quotes']['pending']); ?></p>
+                        <p style="<?php echo esc_attr($label_style); ?>">Pending Quotes</p>
+                    </div>
+                    <div style="<?php echo esc_attr($card_style); ?>">
+                        <p style="<?php echo esc_attr($number_style); ?>"><?php echo esc_html($stats['quotes']['contacted']); ?></p>
+                        <p style="<?php echo esc_attr($label_style); ?>">Contacted / Negotiating</p>
+                    </div>
+                    <div style="<?php echo esc_attr($card_style); ?>">
+                        <p style="<?php echo esc_attr($number_style); ?>; color: #10b981;"><?php echo esc_html($stats['quotes']['closed']); ?></p>
+                        <p style="<?php echo esc_attr($label_style); ?>">Closed (Won)</p>
+                    </div>
+                </div>
+            </section>
             
             <!-- Offshoring Section -->
             <section>

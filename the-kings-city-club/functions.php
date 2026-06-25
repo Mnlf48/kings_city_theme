@@ -160,8 +160,11 @@ add_action('init', 'kings_city_register_cpts');
 // Load Kings City CRM System
 require_once get_template_directory() . '/inc/admin-crm/init.php';
 
-// Load Currency Manager
+// Currency Manager
 require_once get_template_directory() . '/inc/currency-manager.php';
+
+// Quote Requests CRM
+require_once get_template_directory() . '/inc/cpt-quotes.php';
 
 /* =========================================================================
    Configure WP Mail SMTP for Brevo

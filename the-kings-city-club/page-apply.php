@@ -4,69 +4,90 @@
 $form_submitted = false;
 $error_message = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['apply_submit'])) {
-    if (!isset($_POST['apply_nonce']) || !wp_verify_nonce($_POST['apply_nonce'], 'apply_submission')) {
-        $error_message = 'Security check failed. Please refresh and try again.';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quote_submit'])) {
+    if (!isset($_POST['quote_nonce']) || !wp_verify_nonce($_POST['quote_nonce'], 'quote_submission')) {
+        $error_message = 'Security check failed. Please try again.';
     } elseif (!empty($_POST['website_url_trap'])) {
-        $form_submitted = true; // Bot trap
+        $error_message = 'Spam detected.';
     } else {
-        // Generate a unique secure token for this application
-        $secure_token = wp_generate_password(32, false);
-
-        // Offshoring
-        $fname = sanitize_text_field($_POST['off_first_name']);
-        $lname = sanitize_text_field($_POST['off_last_name']);
-        $email = sanitize_email($_POST['off_email']);
-        $phone = sanitize_text_field($_POST['off_phone']);
-        $company = sanitize_text_field($_POST['off_company']);
-        $country = sanitize_text_field($_POST['off_country']);
-        $website = sanitize_text_field($_POST['off_website']);
-        $service_chosen = sanitize_text_field($_POST['off_service']);
-        $team_size = sanitize_text_field($_POST['off_team_size']);
-        $roles = isset($_POST['off_roles']) ? array_map('sanitize_text_field', $_POST['off_roles']) : [];
-        $timeline = sanitize_text_field($_POST['off_timeline']);
-        $message = sanitize_textarea_field($_POST['off_message']);
+        $fname = sanitize_text_field($_POST['first_name']);
+        $mname = sanitize_text_field($_POST['middle_name']);
+        $lname = sanitize_text_field($_POST['last_name']);
+        $email = sanitize_email($_POST['email']);
+        $phone = sanitize_text_field($_POST['phone']);
+        $address = sanitize_textarea_field($_POST['address']);
+        $team_json = stripslashes($_POST['team_json']);
         
-        // Map the service chosen to the exact strings expected by the prompt
-        if ($service_chosen === 'Managed Staff Leasing') {
-            $service_label = 'Offshoring - Managed Staff Leasing';
-        } elseif ($service_chosen === 'Offshoring Staffing') {
-            $service_label = 'Offshoring - Staffing';
-        } elseif ($service_chosen === 'Both') {
-            $service_label = 'Offshoring - Both';
-        } elseif ($service_chosen === 'Not Sure') {
-            $service_label = 'Offshoring - Not Sure';
+        $team_data = json_decode($team_json, true);
+        
+        $to = 'kingscity@kingsgroup.com.ph';
+        $subject = 'New Quote Request from ' . $fname . ' ' . $lname;
+        
+        $message = "You have received a new quote request.\n\n";
+        $message .= "Name: $fname $mname $lname\n";
+        $message .= "Email: $email\n";
+        $message .= "Phone: $phone\n";
+        $message .= "Address:\n$address\n\n";
+        
+        $message .= "--- TEAM BUILDER SELECTION ---\n";
+        if (!empty($team_data) && is_array($team_data)) {
+            $message .= "Currency: " . esc_html($_POST['currency_used']) . "\n";
+            $message .= "Total Estimated Monthly Base: " . esc_html($_POST['total_est']) . "\n\n";
+            foreach ($team_data as $role) {
+                $message .= "- " . $role['title'] . " (" . $role['level'] . ")\n";
+                $message .= "  Headcount: " . $role['headcount'] . "\n";
+                $message .= "  Est. Monthly: " . $role['monthly'] . "\n\n";
+            }
         } else {
-             $service_label = 'Offshoring - ' . $service_chosen;
+            $message .= "No team roles selected.\n";
         }
-
-        // Create the CRM ticket
-        $post_id = wp_insert_post(array(
-            'post_type'   => 'kc_application',
-            'post_title'  => $fname . ' ' . $lname,
-            'post_status' => 'publish',
+        
+        // Check for recent submissions from the same email
+        $recent_leads = get_posts(array(
+            'post_type'      => 'kg_quote_lead',
+            'meta_key'       => 'email',
+            'meta_value'     => $email,
+            'date_query'     => array(
+                array(
+                    'after' => '7 days ago'
+                )
+            ),
+            'posts_per_page' => 1
         ));
 
-        if ($post_id) {
-            update_post_meta($post_id, 'kc_first_name', $fname);
-            update_post_meta($post_id, 'kc_last_name', $lname);
-            update_post_meta($post_id, 'kc_email', $email);
-            update_post_meta($post_id, 'kc_phone', $phone);
-            update_post_meta($post_id, 'kc_company', $company);
-            update_post_meta($post_id, 'kc_country', $country);
-            update_post_meta($post_id, 'kc_website', $website);
-            update_post_meta($post_id, 'kc_service', $service_label);
-            update_post_meta($post_id, 'kc_team_size', $team_size);
-            update_post_meta($post_id, 'kc_roles', implode(', ', $roles));
-            update_post_meta($post_id, 'kc_timeline', $timeline);
-            update_post_meta($post_id, 'kc_message', $message);
-            update_post_meta($post_id, 'kc_secure_token', $secure_token);
-            update_post_meta($post_id, 'kc_status', 'Step 1 - Pending Approval');
-        }
+        if (!empty($recent_leads)) {
+            $error_message = 'We have already received a recent quote request from this email. Please allow up to 7 days before submitting another, or contact us directly.';
+        } else {
+            $post_id = wp_insert_post(array(
+                'post_title'   => $fname . ' ' . $lname . ' - ' . esc_html($_POST['total_est']),
+                'post_type'    => 'kg_quote_lead',
+                'post_status'  => 'publish'
+            ));
 
-        $form_submitted = true;
+        if (!is_wp_error($post_id)) {
+            update_post_meta($post_id, 'first_name', $fname);
+            update_post_meta($post_id, 'middle_name', $mname);
+            update_post_meta($post_id, 'last_name', $lname);
+            update_post_meta($post_id, 'email', $email);
+            update_post_meta($post_id, 'phone', $phone);
+            update_post_meta($post_id, 'address', $address);
+            update_post_meta($post_id, 'team_json', $team_json);
+            update_post_meta($post_id, 'currency_used', sanitize_text_field($_POST['currency_used']));
+            update_post_meta($post_id, 'total_est', sanitize_text_field($_POST['total_est']));
+            update_post_meta($post_id, 'lead_status', 'Pending');
+            
+            // Also send notification email
+            $headers = array('Reply-To: ' . $email);
+            wp_mail($to, $subject, $message, $headers);
+            // Set 7-day cookie
+            setcookie('kc_quote_submitted', '1', time() + (7 * 24 * 60 * 60), "/");
+            
+            $form_submitted = true;
+        }
+        }
     }
 }
+
 get_header();
 ?>
 
@@ -194,7 +215,32 @@ get_header();
   <div class="container grid-12" style="position: relative; z-index: 2;">
     <!-- Subsection 1: Team Builder Pricing -->
     <div class="col-10" style="grid-column: 2 / span 10;">
-      <div class="card-glass card-glass--strong" style="padding: var(--space-xl); height: 100%;">
+      <form id="quote-form" method="POST" action="#pricing-section" novalidate>
+        <input type="hidden" name="quote_submit" value="1">
+        <input type="text" name="website_url_trap" style="display:none !important;" tabindex="-1" autocomplete="off">
+        <?php wp_nonce_field('quote_submission', 'quote_nonce'); ?>
+        <input type="hidden" id="team_json" name="team_json" value="">
+        <input type="hidden" id="currency_used" name="currency_used" value="">
+        <input type="hidden" id="total_est" name="total_est" value="">
+        
+        <div class="card-glass card-glass--strong" style="padding: var(--space-xl); height: 100%;">
+          <?php if (isset($_COOKIE['kc_quote_submitted'])): ?>
+              <div style="text-align:center; padding: 4rem 2rem;">
+                  <i class="fa-solid fa-clock" style="font-size: 4rem; color: var(--color-primary); margin-bottom: 1.5rem;"></i>
+                  <h2 style="margin-bottom:1rem; color: var(--color-primary);">Quote Request Under Review</h2>
+                  <p style="color:var(--color-text-muted); font-size: 1.125rem;">You recently requested a quote. Our team is currently reviewing your requirements and will be in touch shortly.</p>
+              </div>
+          <?php elseif ($form_submitted): ?>
+              <div style="text-align:center; padding: 4rem 2rem;">
+                  <i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #10b981; margin-bottom: 1.5rem;"></i>
+                  <h2 style="margin-bottom:1rem; color: var(--color-primary);">Quote Request Received!</h2>
+                  <p style="color:var(--color-text-muted); font-size: 1.125rem;">Thank you for your interest. Our team will review your requirements and get back to you shortly.</p>
+              </div>
+          <?php else: ?>
+          
+          <?php if (!empty($error_message)): ?>
+              <div style="background:#fee2e2;color:#b91c1c;padding:1rem;margin-bottom:1.5rem;border-radius:8px;"><?php echo esc_html($error_message); ?></div>
+          <?php endif; ?>
         <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: var(--space-lg);">
           <div>
             <span class="text-overline"><?php echo get_field('pricing_tb_overline') ?: 'Team Builder Pricing'; ?></span>
@@ -270,427 +316,52 @@ get_header();
               <span style="font-size:1.1rem;font-weight:700;">Estimated Total</span>
               <span style="font-size:1.5rem;font-weight:700; color: #fff;" id="tb-final-total">Php 0</span>
             </div>
+
+            <!-- NEW LEAD CAPTURE FIELDS -->
+            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px dashed rgba(255,255,255,0.2);">
+              <h4 style="margin-bottom: 1.5rem; color: #fff;">Request Your Detailed Quote</h4>
+              
+              <div class="form-row">
+                  <div class="form-group">
+                      <input class="form-input" name="first_name" placeholder="First Name" required="" type="text"/>
+                  </div>
+                  <div class="form-group">
+                      <input class="form-input" name="middle_name" placeholder="Middle Name (Optional)" type="text"/>
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="form-group">
+                      <input class="form-input" name="last_name" placeholder="Last Name" required="" type="text"/>
+                  </div>
+                  <div class="form-group">
+                      <input class="form-input" name="email" placeholder="Your Work Email" required="" type="email"/>
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="form-group">
+                      <input class="form-input" name="phone" placeholder="Phone Number" required="" type="tel"/>
+                  </div>
+                  <div class="form-group">
+                      <textarea class="form-textarea" name="address" placeholder="Address" required="" rows="2"></textarea>
+                  </div>
+              </div>
+              
+              <button class="btn btn--large" style="width: 100%; justify-content: center; margin-top: 1rem; background-color: var(--color-accent-red); color: white;" type="submit">REQUEST DETAILED QUOTE</button>
+            </div>
+            <!-- END LEAD CAPTURE FIELDS -->
+            
           </div>
         </div>
+        <?php endif; ?>
       </div>
+      </form>
     </div>
   </div>
-</section>
-<!-- application layout -->
-<section class="section content-panel" id="application" style="position: relative; overflow: hidden;">
-  <!-- Background Floating Icons -->
-  <div class="floating-bg-icon anim-float-fast" style="top: 10%; left: 8%; color: var(--color-primary);">
-    <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
-  </div>
-  <div class="floating-bg-icon anim-pulse" style="top: 25%; right: 10%; color: var(--color-accent-gold);">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-  </div>
-    <div class="floating-bg-icon anim-float-fast" style="bottom: 10%; right: 15%; color: var(--color-primary);">
-    <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
-  </div>
-  <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 25%; color: var(--color-accent-gold);">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-  </div>
-<div class="container grid-12" style="position: relative; z-index: 2;">
-<!-- left column: form -->
-<div class="col-8">
-<div class="card-glass card-glass--strong" style="padding: var(--space-xl);">
-
-<?php if ($form_submitted): ?>
-    <div style="text-align:center; padding: 4rem 2rem;">
-        <i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #10b981; margin-bottom: 1.5rem;"></i>
-        <h2 style="margin-bottom:1rem; color: var(--color-primary);">Application Received!</h2>
-        <p style="color:var(--color-text-muted); font-size: 1.125rem;">Thank you for your interest in Kings City. Our team is currently reviewing your details and will send you an email shortly with the next steps.</p>
-    </div>
-<?php else: ?>
-    <span class="text-overline"><?php echo get_field('overline_18'); ?></span>
-    <h2 style="margin-bottom: var(--space-lg);"><?php echo get_field('h2_8'); ?></h2>
-
-    <?php if (!empty($error_message)): ?>
-        <div style="background:#fee2e2;color:#b91c1c;padding:1rem;margin-bottom:1.5rem;border-radius:8px;"><?php echo esc_html($error_message); ?></div>
-    <?php endif; ?>
-
-<form id="apply-form" method="POST" action="#application" novalidate="" enctype="multipart/form-data">
-<input type="hidden" name="apply_submit" value="1">
-<input type="text" name="website_url_trap" style="display:none !important;" tabindex="-1" autocomplete="off">
-<?php wp_nonce_field('apply_submission', 'apply_nonce'); ?>
-
-<!-- PROGRESS BAR -->
-<div class="stepper">
-    <div class="step active" id="step1-indicator">
-        <div class="step-circle">1</div>
-        <div class="step-label"><?php echo get_field('ft_step1_lbl') ?: 'Upload CV'; ?></div>
-    </div>
-    <div class="step-line"></div>
-    <div class="step" id="step2-indicator">
-        <div class="step-circle">2</div>
-        <div class="step-label"><?php echo get_field('ft_step2_lbl') ?: 'Your Info'; ?></div>
-    </div>
-</div>
-
-<!-- STEP 1: CV UPLOAD -->
-<div id="step-1-container">
-    <div class="file-drop-area" id="file-drop-area">
-        <input class="file-input" type="file" id="cv_upload" name="cv_upload" accept=".pdf,.doc,.docx" required>
-        <div class="file-msg">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 48px; height: 48px; margin-bottom: 1rem; color: var(--color-accent-gold);"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-            <h4 style="margin-bottom: 0.5rem;"><?php echo get_field('ft_cv_title') ?: 'Drag & drop your CV here'; ?></h4>
-            <p style="margin-bottom: 0.5rem; color: var(--color-text-muted);"><?php echo get_field('ft_cv_sub') ?: 'or browse files'; ?></p>
-            <small style="color: var(--color-text-muted); opacity: 0.7;"><?php echo get_field('ft_cv_limits') ?: 'PDF, DOCX — Max 5 MB'; ?></small>
-        </div>
-        <div class="file-name" id="file-name-display" style="display:none; margin-top: 1rem; position: relative; z-index: 10;">
-            <span id="file-name-text" style="font-weight: bold; color: var(--color-primary);"></span>
-            <button type="button" class="remove-file-btn" id="btn-remove-file" title="Remove file" style="margin-left: 0.5rem;">✕</button>
-        </div>
-    </div>
-    <button type="button" class="btn btn--large" id="btn-continue" style="width: 100%; justify-content: center; padding: 1rem; margin-top: 1.5rem;"><?php echo get_field('ft_btn_continue') ?: 'CONTINUE'; ?></button>
-</div>
-
-<!-- STEP 2: YOUR INFO -->
-<div id="step-2-container" style="display:none;">
-    <div class="form-group" style="margin-bottom: var(--space-md);">
-        <label class="form-label" style="font-weight:bold; color: var(--color-primary);">Application Purpose</label>
-        <div style="display:flex; gap: 1.5rem; margin-top: 0.5rem; flex-wrap: wrap;">
-            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; color: var(--color-text-muted); font-size: 0.95rem;">
-                <input type="radio" name="app_purpose" value="For Pooling" checked style="accent-color: var(--color-accent-gold);"> For Pooling (Future Openings)
-            </label>
-            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; color: var(--color-text-muted); font-size: 0.95rem;">
-                <input type="radio" name="app_purpose" value="Active Candidate" style="accent-color: var(--color-accent-gold);"> Looking for a Job (Active Candidate)
-            </label>
-        </div>
-    </div>
-
-    <div class="form-row">
-        <div class="form-group">
-            <input class="form-input" name="first_name" placeholder="<?php echo get_field('ft_lbl_fname') ?: 'First Name'; ?>" required="" type="text"/>
-        </div>
-        <div class="form-group">
-            <input class="form-input" name="middle_name" placeholder="<?php echo get_field('ft_lbl_mname') ?: 'Middle Name (Optional)'; ?>" type="text"/>
-        </div>
-        <div class="form-group">
-            <input class="form-input" name="last_name" placeholder="<?php echo get_field('ft_lbl_lname') ?: 'Last Name'; ?>" required="" type="text"/>
-        </div>
-    </div>
-
-    <div class="form-row">
-        <div class="form-group">
-            <label class="form-label" style="font-size: 0.85rem; margin-bottom: 0.3rem;"><?php echo get_field('ft_lbl_gender') ?: 'Gender'; ?></label>
-            <select class="form-select" name="gender" required="">
-                <option value="" disabled selected>Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Others">Others</option>
-                <option value="Prefer not to say">Prefer not to say</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="form-label" style="font-size: 0.85rem; margin-bottom: 0.3rem;"><?php echo get_field('ft_lbl_bdate') ?: 'Birthdate'; ?></label>
-            <input class="form-input" name="birthdate" required="" type="date"/>
-        </div>
-    </div>
-
-    <div class="form-label" style="margin-top: var(--space-md); border-bottom: 1px solid rgba(189, 69, 31, 0.2); padding-bottom: 0.5rem; margin-bottom: var(--space-sm); font-weight: bold; color: var(--color-primary);">
-        <?php echo get_field('ft_lbl_address') ?: 'Address Details'; ?>
-    </div>
-    <div class="form-group">
-        <input class="form-input" name="street_address" placeholder="<?php echo get_field('ft_lbl_st_address') ?: 'Street Address'; ?>" required="" type="text"/>
-    </div>
-    <div class="form-row">
-        <div class="form-group">
-            <select class="form-select" id="region-select" name="region" required="">
-                <option value="" disabled selected><?php echo get_field('ft_lbl_region') ?: 'Select Region'; ?></option>
-            </select>
-            <input type="hidden" id="region-name" name="region_name" value="">
-        </div>
-        <div class="form-group">
-            <select class="form-select" id="city-select" name="city" required="" disabled>
-                <option value="" disabled selected><?php echo get_field('ft_lbl_city') ?: 'Select City / Municipality'; ?></option>
-            </select>
-            <input type="hidden" id="city-name" name="city_name" value="">
-        </div>
-        <div class="form-group">
-            <select class="form-select" id="barangay-select" name="barangay" required="" disabled>
-                <option value="" disabled selected><?php echo get_field('ft_lbl_brgy') ?: 'Select Barangay'; ?></option>
-            </select>
-            <input type="hidden" id="barangay-name" name="barangay_name" value="">
-        </div>
-    </div>
-
-    <div class="form-row" style="margin-top: var(--space-md);">
-        <div class="form-group">
-            <input class="form-input" name="email" placeholder="<?php echo get_field('ft_lbl_email') ?: 'Email Address'; ?>" required="" type="email"/>
-        </div>
-        <div class="form-group">
-            <input class="form-input" name="phone" placeholder="<?php echo get_field('ft_lbl_phone') ?: 'Phone Number (+63)'; ?>" required="" type="tel"/>
-        </div>
-    </div>
-
-    <div class="form-group" style="margin-top: var(--space-md);">
-        <label class="form-label" style="font-weight:bold; color: var(--color-primary);"><?php echo get_field('ft_lbl_roles') ?: 'Preferred Role(s) *'; ?></label>
-        <div class="roles-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem; max-height: 250px; overflow-y: auto; border: 1px solid #e2e8f0; padding: 1rem; border-radius: var(--radius-sm); background: #f8fafc;">
-            <?php
-            $roles_query = new WP_Query(array(
-                'post_type' => 'tb_role',
-                'posts_per_page' => -1,
-                'orderby' => 'title',
-                'order' => 'ASC'
-            ));
-            if ($roles_query->have_posts()) {
-                while ($roles_query->have_posts()) {
-                    $roles_query->the_post();
-                    $role_title = get_the_title();
-                    echo '<label style="display:flex; align-items:center; gap:0.5rem; font-size: 0.85rem; padding: 0.35rem; border: 1px solid #e2e8f0; border-radius: var(--radius-sm); background: #fff; cursor: pointer; color: var(--color-text-muted); transition: border-color 0.2s;">';
-                    echo '<input type="checkbox" name="pref_roles[]" value="' . esc_attr($role_title) . '" style="accent-color: var(--color-accent-gold);"> ' . esc_html($role_title);
-                    echo '</label>';
-                }
-                wp_reset_postdata();
-            } else {
-                echo '<p style="color:var(--color-text-muted); font-size:0.9rem;">No roles available.</p>';
-            }
-            ?>
-        </div>
-    </div>
-
-    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-        <button type="button" class="btn btn--outline" id="btn-back" style="flex: 1; justify-content: center; padding: 1rem;"><?php echo get_field('ft_btn_back') ?: 'BACK'; ?></button>
-        <button class="btn btn--large" style="flex: 2; justify-content: center; padding: 1rem;" type="submit"><?php echo get_field('ft_btn_submit') ?: 'SUBMIT APPLICATION'; ?></button>
-    </div>
-</div>
-</form>
-
-
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const btnContinue = document.getElementById('btn-continue');
-    const btnBack = document.getElementById('btn-back');
-    const step1 = document.getElementById('step-1-container');
-    const step2 = document.getElementById('step-2-container');
-    const ind1 = document.getElementById('step1-indicator');
-    const ind2 = document.getElementById('step2-indicator');
-    const fileInput = document.getElementById('cv_upload');
-    const fileDropArea = document.getElementById('file-drop-area');
-    const fileNameDisplay = document.getElementById('file-name-display');
-    const fileNameText = document.getElementById('file-name-text');
-    const fileMsg = document.querySelector('.file-msg');
-    const btnRemoveFile = document.getElementById('btn-remove-file');
-
-    // File Drop UI
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        fileDropArea.addEventListener(eventName, preventDefaults, false);
-    });
-    function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
-    ['dragenter', 'dragover'].forEach(eventName => {
-        fileDropArea.addEventListener(eventName, () => fileDropArea.classList.add('is-active'), false);
-    });
-    ['dragleave', 'drop'].forEach(eventName => {
-        fileDropArea.addEventListener(eventName, () => fileDropArea.classList.remove('is-active'), false);
-    });
-    
-    fileInput.addEventListener('change', function() {
-        if(this.files && this.files.length > 0) {
-            fileDropArea.classList.add('is-active');
-            fileMsg.style.display = 'none'; // hide the drag and drop msg to center the file name
-            fileNameDisplay.style.display = 'block';
-            fileNameText.textContent = 'Selected File: ' + this.files[0].name;
-        } else {
-            resetFileDropUI();
-        }
-    });
-
-    btnRemoveFile.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        fileInput.value = ''; // clear input
-        resetFileDropUI();
-    });
-
-    function resetFileDropUI() {
-        fileDropArea.classList.remove('is-active');
-        fileNameDisplay.style.display = 'none';
-        fileMsg.style.display = 'flex'; // show msg again
-    }
-
-    // Navigation
-    btnContinue.addEventListener('click', function() {
-        if(!fileInput.files || fileInput.files.length === 0) {
-            alert('Please drop or browse for your CV before continuing.');
-            return;
-        }
-        step1.style.display = 'none';
-        step2.style.display = 'block';
-        ind1.classList.remove('active');
-        ind2.classList.add('active');
-    });
-    btnBack.addEventListener('click', function() {
-        step2.style.display = 'none';
-        step1.style.display = 'block';
-        ind2.classList.remove('active');
-        ind1.classList.add('active');
-    });
-
-    // PSGC API for PH Addresses
-    const regionSelect = document.getElementById('region-select');
-    const citySelect = document.getElementById('city-select');
-    const brgySelect = document.getElementById('barangay-select');
-    const regionNameInput = document.getElementById('region-name');
-    const cityNameInput = document.getElementById('city-name');
-    const brgyNameInput = document.getElementById('barangay-name');
-
-    // 1. Fetch Regions
-    fetch('https://psgc.gitlab.io/api/regions/')
-        .then(res => res.json())
-        .then(data => {
-            data.sort((a,b) => a.name.localeCompare(b.name));
-            data.forEach(region => {
-                let opt = document.createElement('option');
-                opt.value = region.code;
-                opt.textContent = region.name;
-                regionSelect.appendChild(opt);
-            });
-        }).catch(err => console.log('PSGC API Error:', err));
-
-    // 2. Fetch Cities when Region changes
-    regionSelect.addEventListener('change', function() {
-        citySelect.innerHTML = '<option value="" disabled selected>Loading...</option>';
-        brgySelect.innerHTML = '<option value="" disabled selected>Select Barangay</option>';
-        citySelect.disabled = true; brgySelect.disabled = true;
-        
-        regionNameInput.value = regionSelect.options[regionSelect.selectedIndex].text;
-
-        const rCode = this.value;
-        Promise.all([
-            fetch(`https://psgc.gitlab.io/api/regions/${rCode}/cities/`).then(r => r.json()).catch(()=>[]),
-            fetch(`https://psgc.gitlab.io/api/regions/${rCode}/municipalities/`).then(r => r.json()).catch(()=>[])
-        ]).then(([cities, muns]) => {
-            let combined = cities.concat(muns);
-            combined.sort((a,b) => a.name.localeCompare(b.name));
-            citySelect.innerHTML = '<option value="" disabled selected>Select City / Municipality</option>';
-            combined.forEach(city => {
-                let opt = document.createElement('option');
-                opt.value = city.code;
-                opt.textContent = city.name;
-                citySelect.appendChild(opt);
-            });
-            citySelect.disabled = false;
-        });
-    });
-
-    // 3. Fetch Barangays when City changes
-    citySelect.addEventListener('change', function() {
-        brgySelect.innerHTML = '<option value="" disabled selected>Loading...</option>';
-        brgySelect.disabled = true;
-        
-        cityNameInput.value = citySelect.options[citySelect.selectedIndex].text;
-
-        const cCode = this.value;
-        fetch(`https://psgc.gitlab.io/api/cities-municipalities/${cCode}/barangays/`)
-            .then(res => res.json())
-            .then(data => {
-                data.sort((a,b) => a.name.localeCompare(b.name));
-                brgySelect.innerHTML = '<option value="" disabled selected>Select Barangay</option>';
-                data.forEach(brgy => {
-                    let opt = document.createElement('option');
-                    opt.value = brgy.code;
-                    opt.textContent = brgy.name;
-                    brgySelect.appendChild(opt);
-                });
-                brgySelect.disabled = false;
-            }).catch(err => console.log('PSGC API Error:', err));
-    });
-
-    brgySelect.addEventListener('change', function() {
-        brgyNameInput.value = brgySelect.options[brgySelect.selectedIndex].text;
-    });
-});
-</script>
-<?php endif; ?>
-</div>
-</div>
-<!-- right column: sidebars -->
-<div class="col-4">
-<!-- get in touch card -->
-<div class="card-glass sidebar-card">
-<h3><?php echo get_field('h3_contact'); ?></h3>
-<p style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: var(--space-md);"><?php echo get_field('p_16'); ?></p>
-<div class="contact-item">
-<span class="contact-label"><?php echo get_field('sb_contact_phone_lbl') ?: 'Phone'; ?></span>
-<a class="contact-value" href="tel:+63----------"><?php echo get_field('sb_contact_phone_val') ?: '+63 ---- ---- ---'; ?></a>
-</div>
-<div class="contact-item" style="margin-top: var(--space-sm);">
-<span class="contact-label"><?php echo get_field('sb_contact_email_lbl') ?: 'Email'; ?></span>
-<a class="contact-value" href="mailto:kingscity@kingsgroup.com.ph"><?php echo get_field('sb_contact_email_val') ?: 'kingscity@kingsgroup.com.ph'; ?></a>
-</div>
-<div class="contact-item" style="margin-top: var(--space-sm);">
-<span class="contact-label"><?php echo get_field('sb_contact_addr_lbl') ?: 'Address'; ?></span>
-<span class="contact-value" style="font-size: 0.875rem; line-height: 1.6; display: inline-block;">
-                Ground Level, RCS Building,<br/>
-                Doña Soledad Ave, Better Living,<br/>
-                Parañaque City, Philippines
-              </span>
-</div>
-</div>
-<!-- why kings city offshoring card -->
-<div class="card-glass sidebar-card" style="background: var(--color-primary); color: #FFF9EF; border-color: transparent;">
-<h3 style="color: #FFF9EF;"><?php echo get_field('h3_why_kings'); ?></h3>
-<p style="font-size: 0.875rem; color: rgba(255,255,255,0.8); margin-bottom: var(--space-md);"><?php echo get_field('p_why_kings'); ?></p>
-<a class="btn" href="<?php echo get_field('sb_why_kings_btn_url') ?: 'offshoring.html'; ?>" style="background: rgba(255,255,255,0.15); color: #fff; width: 100%; justify-content: center; border: 1px solid rgba(255,255,255,0.2);"><?php echo get_field('sb_why_kings_btn') ?: 'Learn More'; ?></a>
-</div>
-<!-- helpful links card -->
-<div class="card-glass sidebar-card">
-<h3><?php echo get_field('h3_13'); ?></h3>
-<div style="margin-top: var(--space-md);">
-<a class="sidebar-link" href="spaces.html"><?php echo get_field('sb_link1_txt') ?: 'Explore Spaces'; ?> <span>→</span></a>
-<a class="sidebar-link" href="<?php echo get_field('sb_why_kings_btn_url') ?: 'offshoring.html'; ?>"><?php echo get_field('sb_link2_txt') ?: 'How Offshoring Works'; ?> <span>→</span></a>
-<a class="sidebar-link" href="spaces.html"><?php echo get_field('sb_link3_txt') ?: 'Book a Tour'; ?> <span>→</span></a>
-<a class="sidebar-link" href="#"><?php echo get_field('sb_link4_txt') ?: 'Virtual Office Packages'; ?> <span>→</span></a>
-</div>
-</div>
-</div>
-</div>
 </section>
 </main>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-
-      // Dynamic Step 1 Fields based on Offshoring Service Selection
-      const offServiceSelect = document.getElementById('off_service');
-      const wrapTeamSize = document.getElementById('wrap_team_size');
-      const wrapRoles = document.getElementById('wrap_roles');
-      const labelOffMessage = document.getElementById('label_off_message');
-
-      function updateOffshoreFields() {
-        if (!offServiceSelect) return;
-        const val = offServiceSelect.value;
-        
-        if (val === 'Managed Staff Leasing') {
-          wrapTeamSize.style.display = 'block';
-          wrapRoles.style.display = 'none';
-          if(labelOffMessage) labelOffMessage.innerText = 'Briefly describe your goals';
-        } else if (val === 'Offshoring Staffing') {
-          wrapTeamSize.style.display = 'block';
-          wrapRoles.style.display = 'block';
-          if(labelOffMessage) labelOffMessage.innerText = 'Briefly describe your goals';
-        } else if (val === 'Both') {
-          wrapTeamSize.style.display = 'block';
-          wrapRoles.style.display = 'block';
-          if(labelOffMessage) labelOffMessage.innerText = 'Briefly describe your goals';
-        } else if (val === 'Not Sure') {
-          wrapTeamSize.style.display = 'none';
-          wrapRoles.style.display = 'none';
-          if(labelOffMessage) labelOffMessage.innerText = 'What are the biggest challenges you are trying to solve?';
-        }
-      }
-      
-      if (offServiceSelect) {
-        offServiceSelect.addEventListener('change', updateOffshoreFields);
-        updateOffshoreFields(); // trigger on load
-      }
-      
-      
-      // Form submission validation (HTML5) runs before submission
-      // Removed e.preventDefault() so the form actually submits to PHP!
 
       // 2. TEAM BUILDER LOGIC (Converted to PHP, x55 multiplier)
       <?php
@@ -978,6 +649,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
       renderCatalog();
+
+      // Populate hidden fields before submit
+      const quoteForm = document.getElementById('quote-form');
+      if (quoteForm) {
+        quoteForm.addEventListener('submit', function(e) {
+          if (selectedTeam.length === 0) {
+            e.preventDefault();
+            alert("Please add at least one role to your team before requesting a quote.");
+            return;
+          }
+          
+          let teamListForSubmit = selectedTeam.map(t => {
+            let levelLabel = 'Junior';
+            if (t.level == 1.3) levelLabel = 'Mid';
+            if (t.level == 1.7) levelLabel = 'Senior';
+            return {
+              title: t.name,
+              level: levelLabel,
+              headcount: t.count,
+              monthly: formatCurrency((t.base * t.level) * t.count)
+            };
+          });
+          
+          document.getElementById('team_json').value = JSON.stringify(teamListForSubmit);
+          document.getElementById('currency_used').value = currentCurr;
+          document.getElementById('total_est').value = document.getElementById('tb-final-total').innerText;
+        });
+      }
     });
 
     // hero slider logic
