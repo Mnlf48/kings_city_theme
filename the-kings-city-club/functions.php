@@ -157,14 +157,17 @@ function kings_city_register_cpts() {
 add_action('init', 'kings_city_register_cpts');
 
 
-// Load Kings City CRM System
-require_once get_template_directory() . '/inc/admin-crm/init.php';
-
 // Currency Manager
 require_once get_template_directory() . '/inc/currency-manager.php';
 
 // Quote Requests CRM
 require_once get_template_directory() . '/inc/cpt-quotes.php';
+
+// Bookings CRM & Dashboard
+require_once get_template_directory() . '/inc/settings-capacity.php';
+require_once get_template_directory() . '/inc/kpi-dashboard.php';
+require_once get_template_directory() . '/inc/cpt-bookings.php';
+require_once get_template_directory() . '/inc/dashboard-widget.php';
 
 /* =========================================================================
    Configure WP Mail SMTP for Brevo

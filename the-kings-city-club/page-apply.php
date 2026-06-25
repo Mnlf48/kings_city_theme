@@ -342,7 +342,7 @@ get_header();
                       <input class="form-input" name="phone" placeholder="Phone Number" required="" type="tel"/>
                   </div>
                   <div class="form-group">
-                      <textarea class="form-textarea" name="address" placeholder="Address" required="" rows="2"></textarea>
+                      <input class="form-input" name="address" placeholder="Address" required="" type="text"/>
                   </div>
               </div>
               

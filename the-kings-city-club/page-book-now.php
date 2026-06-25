@@ -23,42 +23,88 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_submit'])) {
         $participants = sanitize_text_field($_POST['book_participants']);
         $special = sanitize_textarea_field($_POST['book_special']);
         
-        // Create CRM Booking Ticket
-        $post_id = wp_insert_post(array(
-            'post_type'   => 'kc_booking',
-            'post_title'  => $first_name . ' ' . $last_name,
-            'post_status' => 'publish',
-        ));
-
-        if ($post_id) {
-            update_post_meta($post_id, 'kc_first_name', $first_name);
-            update_post_meta($post_id, 'kc_last_name', $last_name);
-            update_post_meta($post_id, 'kc_email', $email);
-            update_post_meta($post_id, 'kc_phone', $phone);
-            update_post_meta($post_id, 'kc_space_type', $space_type);
-            update_post_meta($post_id, 'kc_duration', $duration);
-            update_post_meta($post_id, 'kc_price', $price);
-            update_post_meta($post_id, 'kc_start_date', $start_date);
-            update_post_meta($post_id, 'kc_arrival_time', $arrival_time);
-            update_post_meta($post_id, 'kc_participants', $participants);
-            update_post_meta($post_id, 'kc_special', $special);
-            update_post_meta($post_id, 'kc_status', 'Pending Payment');
+        // Check Capacity
+        $opt_map = array(
+            'Co-Working' => 'kc_capacity_co_working',
+            'Meeting Rooms' => 'kc_capacity_meeting_rooms',
+            'Events Place' => 'kc_capacity_events_place',
+            'Office Leasing' => 'kc_capacity_office_leasing',
+            'Virtual Office' => 'kc_capacity_virtual_office',
+            'Bakehouse' => 'kc_capacity_bakehouse',
+            'Manille Ceramic (Limited)' => 'kc_capacity_manille_ceramic',
+        );
+        $opt_key = isset($opt_map[$space_type]) ? $opt_map[$space_type] : '';
+        
+        $is_full = false;
+        if ($opt_key && $start_date) {
+            $limit = get_option($opt_key, 50); // Fallback to 50
+            
+            $existing_query = new WP_Query(array(
+                'post_type' => 'kc_booking',
+                'posts_per_page' => -1,
+                'meta_query' => array(
+                    'relation' => 'AND',
+                    array(
+                        'key' => 'kc_start_date',
+                        'value' => $start_date
+                    ),
+                    array(
+                        'key' => 'kc_space_type',
+                        'value' => $space_type
+                    ),
+                    array(
+                        'key' => 'kc_status',
+                        'value' => array('Pending', 'Contacted', 'Completed'),
+                        'compare' => 'IN'
+                    )
+                )
+            ));
+            
+            if ($existing_query->found_posts >= $limit) {
+                $is_full = true;
+            }
         }
-        
-        // Send Client Auto-Responder Email (client still gets their confirmation)
-        $headers = array('Content-Type: text/html; charset=UTF-8');
-        $client_subject = "Booking Request Received: $space_type";
-        $client_body = "<h2>We've received your booking request!</h2>
-                        <p>Hi $first_name,</p>
-                        <p>Thank you for choosing Kings City. Your booking request for <strong>$space_type ($duration)</strong> on <strong>$start_date</strong> at <strong>$arrival_time</strong> has been received by our team.</p>
-                        <p><strong>Important Notice:</strong><br/>
-                        Your booking is reserved for your selected start date and time. If you do not arrive within <strong>24 hours</strong> of your start date, your reservation will be automatically cancelled. If your reservation expires, you are always welcome to book again through our website or directly at the Kings City reception desk!</p>
-                        <p>Please proceed to the Kings City reception desk upon arrival to finalize your payment of Php $price and claim your space.</p>
-                        <p>We look forward to seeing you!<br/>- The Kings City Team</p>";
-                        
-        wp_mail($email, $client_subject, $client_body, $headers);
-        
-        $booking_submitted = true;
+
+        if ($is_full) {
+            $error_message = "Sorry, " . esc_html($space_type) . " is fully booked on " . esc_html($start_date) . ". Please select another date.";
+        } else {
+            // Create CRM Booking Ticket
+            $post_id = wp_insert_post(array(
+                'post_type'   => 'kc_booking',
+                'post_title'  => $first_name . ' ' . $last_name,
+                'post_status' => 'publish',
+            ));
+
+            if ($post_id) {
+                update_post_meta($post_id, 'kc_first_name', $first_name);
+                update_post_meta($post_id, 'kc_last_name', $last_name);
+                update_post_meta($post_id, 'kc_email', $email);
+                update_post_meta($post_id, 'kc_phone', $phone);
+                update_post_meta($post_id, 'kc_space_type', $space_type);
+                update_post_meta($post_id, 'kc_duration', $duration);
+                update_post_meta($post_id, 'kc_price', $price);
+                update_post_meta($post_id, 'kc_start_date', $start_date);
+                update_post_meta($post_id, 'kc_arrival_time', $arrival_time);
+                update_post_meta($post_id, 'kc_participants', $participants);
+                update_post_meta($post_id, 'kc_special', $special);
+                update_post_meta($post_id, 'kc_status', 'Pending');
+            }
+            
+            $booking_submitted = true;
+            
+            // Send Client Auto-Responder Email (client still gets their confirmation)
+            $headers = array('Content-Type: text/html; charset=UTF-8');
+            $client_subject = "Booking Request Received: $space_type";
+            $client_body = "<h2>We've received your booking request!</h2>
+                            <p>Hi $first_name,</p>
+                            <p>Thank you for choosing Kings City. Your booking request for <strong>$space_type ($duration)</strong> on <strong>$start_date</strong> at <strong>$arrival_time</strong> has been received by our team.</p>
+                            <p><strong>Important Notice:</strong><br/>
+                            Your booking is reserved for your selected start date and time. If you do not arrive within <strong>24 hours</strong> of your start date, your reservation will be automatically cancelled. If your reservation expires, you are always welcome to book again through our website or directly at the Kings City reception desk!</p>
+                            <p>Please proceed to the Kings City reception desk upon arrival to finalize your payment of Php $price and claim your space.</p>
+                            <p>We look forward to seeing you!<br/>- The Kings City Team</p>";
+                            
+            wp_mail($email, $client_subject, $client_body, $headers);
+        }
     }
 }
 
