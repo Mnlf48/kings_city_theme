@@ -160,6 +160,9 @@ add_action('init', 'kings_city_register_cpts');
 // Currency Manager
 require_once get_template_directory() . '/inc/currency-manager.php';
 
+// News & Insights CPT
+require_once get_template_directory() . '/inc/cpt-news.php';
+
 // Quote Requests CRM
 require_once get_template_directory() . '/inc/cpt-quotes.php';
 
@@ -169,18 +172,94 @@ require_once get_template_directory() . '/inc/kpi-dashboard.php';
 require_once get_template_directory() . '/inc/cpt-bookings.php';
 require_once get_template_directory() . '/inc/dashboard-widget.php';
 
-/* =========================================================================
-   Configure WP Mail SMTP for Brevo
-   ========================================================================= */
-add_action( 'phpmailer_init', 'kings_city_setup_brevo_smtp' );
-function kings_city_setup_brevo_smtp( $phpmailer ) {
-    $phpmailer->isSMTP();
-    $phpmailer->Host       = 'smtp-relay.brevo.com';
-    $phpmailer->SMTPAuth   = true;
-    $phpmailer->Port       = 587; // You can also use 465
-    $phpmailer->Username   = 'afbfad001@smtp-brevo.com'; // e.g., your login email to Brevo
-    $phpmailer->Password   = '';    // REMOVED FOR SECURITY: Your master SMTP Key from Brevo
-    $phpmailer->SMTPSecure = 'tls'; // Change to 'ssl' if using port 465
-    $phpmailer->From       = 'info@kings-city.com'; // Must be an authenticated domain in Brevo
-    $phpmailer->FromName   = 'Kings City';
+
+// --- AJAX Inline Status Updater ---
+
+add_action('wp_ajax_kc_update_inline_status', 'kc_ajax_update_inline_status');
+function kc_ajax_update_inline_status() {
+    check_ajax_referer('kc_inline_status_nonce', 'nonce');
+    if (!current_user_can('edit_posts')) {
+        wp_send_json_error('Unauthorized');
+    }
+
+    $post_id = intval($_POST['post_id']);
+    $post_type = sanitize_text_field($_POST['post_type']);
+    $new_status = sanitize_text_field($_POST['new_status']);
+
+    if ($post_type === 'kc_booking') {
+        $old_status = get_post_meta($post_id, 'kc_status', true);
+        if (!$old_status) $old_status = 'Pending';
+        if ($old_status !== $new_status) {
+            kc_process_booking_status_change($post_id, $new_status, $old_status);
+        }
+    } elseif ($post_type === 'kg_quote_lead') {
+        $old_status = get_post_meta($post_id, 'lead_status', true);
+        if (!$old_status) $old_status = 'Pending';
+        if ($old_status !== $new_status) {
+            kc_process_quote_status_change($post_id, $new_status, $old_status);
+        }
+    }
+
+    wp_send_json_success('Updated');
+}
+
+// Inject JS for the inline dropdowns on the admin list tables
+add_action('admin_footer', 'kc_inline_status_js');
+function kc_inline_status_js() {
+    $screen = get_current_screen();
+    if (!$screen || ($screen->post_type !== 'kc_booking' && $screen->post_type !== 'kg_quote_lead')) {
+        return;
+    }
+    ?>
+    <script type="text/javascript">
+    jQuery(document).ready(function($) {
+        $('.kc-inline-status-select').on('change', function() {
+            var select = $(this);
+            var post_id = select.data('post-id');
+            var post_type = select.data('post-type');
+            var new_status = select.val();
+            var spinner = $('#kc-spinner-' + post_id);
+
+            select.prop('disabled', true);
+            spinner.addClass('is-active');
+
+            $.ajax({
+                url: ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'kc_update_inline_status',
+                    nonce: '<?php echo wp_create_nonce("kc_inline_status_nonce"); ?>',
+                    post_id: post_id,
+                    post_type: post_type,
+                    new_status: new_status
+                },
+                success: function(response) {
+                    spinner.removeClass('is-active');
+                    select.prop('disabled', false);
+                    if(response.success) {
+                        var bg = '#fef08a', color = '#854d0e'; // Pending
+                        if (new_status === 'Contacted') { bg = '#bfdbfe'; color = '#1e3a8a'; }
+                        if (new_status === 'Completed' || new_status === 'Closed') { bg = '#bbf7d0'; color = '#166534'; }
+                        if (new_status === 'Rejected' || new_status === 'Cancelled') { bg = '#fecaca'; color = '#991b1b'; }
+                        
+                        select.css({
+                            'background-color': bg,
+                            'color': color,
+                            'border': '2px solid #10b981' // Temp flash green
+                        });
+                        setTimeout(function(){ select.css('border', '1px solid ' + color); }, 1500);
+                    } else {
+                        alert('Error updating status.');
+                    }
+                },
+                error: function() {
+                    spinner.removeClass('is-active');
+                    select.prop('disabled', false);
+                    alert('Server error.');
+                }
+            });
+        });
+    });
+    </script>
+    <?php
 }

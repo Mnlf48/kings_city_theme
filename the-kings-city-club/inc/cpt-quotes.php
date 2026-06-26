@@ -60,7 +60,8 @@ function kc_custom_kg_quote_lead_column($column, $post_id) {
         case 'client_info':
             $fname = get_post_meta($post_id, 'first_name', true);
             $lname = get_post_meta($post_id, 'last_name', true);
-            echo esc_html($fname . ' ' . $lname);
+            $edit_link = get_edit_post_link($post_id);
+            echo "<strong><a href='" . esc_url($edit_link) . "' class='row-title'>" . esc_html($fname . ' ' . $lname) . "</a></strong>";
             break;
         case 'email':
             $email = get_post_meta($post_id, 'email', true);
@@ -92,7 +93,13 @@ function kc_custom_kg_quote_lead_column($column, $post_id) {
             if ($status === 'Closed') { $bg = '#bbf7d0'; $color = '#166534'; }
             if ($status === 'Rejected') { $bg = '#fecaca'; $color = '#991b1b'; }
             
-            echo '<span style="background-color: ' . esc_attr($bg) . '; color: ' . esc_attr($color) . '; padding: 4px 8px; border-radius: 4px; font-weight: 600; font-size: 0.85em; display: inline-block;">' . esc_html($status) . '</span>';
+            echo "<select class='kc-inline-status-select' data-post-id='{$post_id}' data-post-type='kg_quote_lead' style='background-color: {$bg}; color: {$color}; border: 1px solid {$color}; font-weight: 600; font-size:12px; padding:2px 24px 2px 8px; height:auto; min-height:26px; border-radius:4px;'>";
+            $options = ['Pending', 'Contacted', 'Closed', 'Rejected'];
+            foreach ($options as $opt) {
+                echo "<option value='{$opt}' style='background-color:#fff; color:#000;' " . selected($status, $opt, false) . ">{$opt}</option>";
+            }
+            echo "</select>";
+            echo "<span class='kc-inline-status-spinner spinner' id='kc-spinner-{$post_id}' style='float:none; margin:0 0 0 5px;'></span>";
             break;
     }
 }
@@ -158,6 +165,28 @@ function kc_quote_lead_status_html($post) {
     echo '<p class="description">Changing to Contacted or Rejected will trigger an automated email to the client.</p>';
 }
 
+function kc_process_quote_status_change($post_id, $new_status, $old_status) {
+    if ($old_status === $new_status) return;
+
+    update_post_meta($post_id, 'lead_status', $new_status);
+    
+    // Trigger Emails
+    $email = get_post_meta($post_id, 'email', true);
+    $fname = get_post_meta($post_id, 'first_name', true);
+    
+    if ($new_status === 'Contacted' && !empty($email)) {
+        $subject = "Your Kings City Quote Request - Let's Talk!";
+        $message = "Hi $fname,\n\nThank you for requesting a team builder quote with Kings City. We've reviewed your requirements and would love to set up a quick discovery call to discuss the details.\n\nPlease let us know what time works best for you, or book a time on our calendar: [Insert Calendar Link]\n\nBest regards,\nKings City Team";
+        wp_mail($email, $subject, $message);
+    }
+    
+    if ($new_status === 'Rejected' && !empty($email)) {
+        $subject = "Update on your Kings City Quote Request";
+        $message = "Hi $fname,\n\nThank you for reaching out to Kings City. After reviewing your team configuration request, we unfortunately cannot fulfill your specific role requirements at this time.\n\nWe appreciate your interest and wish you the best in your search.\n\nBest regards,\nKings City Team";
+        wp_mail($email, $subject, $message);
+    }
+}
+
 function kc_save_quote_lead_meta($post_id) {
     if (!isset($_POST['kc_quote_lead_nonce']) || !wp_verify_nonce($_POST['kc_quote_lead_nonce'], 'kc_save_quote_lead')) {
         return;
@@ -170,23 +199,7 @@ function kc_save_quote_lead_meta($post_id) {
         $new_status = sanitize_text_field($_POST['lead_status']);
         
         if ($old_status !== $new_status) {
-            update_post_meta($post_id, 'lead_status', $new_status);
-            
-            // Trigger Emails
-            $email = get_post_meta($post_id, 'email', true);
-            $fname = get_post_meta($post_id, 'first_name', true);
-            
-            if ($new_status === 'Contacted' && !empty($email)) {
-                $subject = "Your Kings City Quote Request - Let's Talk!";
-                $message = "Hi $fname,\n\nThank you for requesting a team builder quote with Kings City. We've reviewed your requirements and would love to set up a quick discovery call to discuss the details.\n\nPlease let us know what time works best for you, or book a time on our calendar: [Insert Calendar Link]\n\nBest regards,\nKings City Team";
-                wp_mail($email, $subject, $message);
-            }
-            
-            if ($new_status === 'Rejected' && !empty($email)) {
-                $subject = "Update on your Kings City Quote Request";
-                $message = "Hi $fname,\n\nThank you for reaching out to Kings City. After reviewing your team configuration request, we unfortunately cannot fulfill your specific role requirements at this time.\n\nWe appreciate your interest and wish you the best in your search.\n\nBest regards,\nKings City Team";
-                wp_mail($email, $subject, $message);
-            }
+            kc_process_quote_status_change($post_id, $new_status, $old_status);
         }
     }
 }
