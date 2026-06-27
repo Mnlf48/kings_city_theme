@@ -4693,6 +4693,11 @@ body.modal-open {
     padding-top: calc(6vh + 60px) !important;
   }
 
+  /* When the announcement bar is present, add its 40px height to maintain perfect balance */
+  body.has-announcement .hero.premium-hero {
+    padding-top: calc(6vh + 100px) !important;
+  }
+
   /* 2. Reset negative margins — let flexbox do the centering */
   .hero .container {
     margin-top: 0 !important;
