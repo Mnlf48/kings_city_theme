@@ -4688,6 +4688,11 @@ body.modal-open {
     padding-bottom: 6vh !important;
   }
 
+  /* Center hero vertically in available visual space (compensating for the fixed header) */
+  .hero.premium-hero {
+    padding-top: calc(6vh + 60px) !important;
+  }
+
   /* 2. Reset negative margins — let flexbox do the centering */
   .hero .container {
     margin-top: 0 !important;
