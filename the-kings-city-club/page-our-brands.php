@@ -21,9 +21,9 @@ get_header();
 </div>
 <!-- slider on right -->
 <div class="split__media hero__slider" id="hero-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
-<img alt="Kings City Our Brands 1" class="hero__slide is-active" src="<?php $img = get_field('image_4'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img alt="Kings City Our Brands 2" class="hero__slide" src="<?php $img = get_field('image_5'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img alt="Kings City Our Brands 3" class="hero__slide" src="<?php $img = get_field('image_6'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img alt="Kings City Our Brands 1" class="hero__slide is-active" src="<?php echo kc_img('image_4', 'front-page-img/kings_img02.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
+<img alt="Kings City Our Brands 2" class="hero__slide" src="<?php echo kc_img('image_5', 'page-our-brands-img/kings-img42.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img alt="Kings City Our Brands 3" class="hero__slide" src="<?php echo kc_img('image_6', 'kings-img30-2-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 </div>
 </div>
@@ -40,7 +40,7 @@ get_header();
           <div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split" style="align-items: center;">
 <div class="split__media">
-<img alt="Kings City Growth" src="<?php $img = get_field('image_11'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; border-radius: var(--radius-card);"/>
+<img alt="Kings City Growth" src="<?php echo kc_img('image_11', 'kings-img19-1-scaled.webp'); ?>" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; border-radius: var(--radius-card);"/>
 </div>
 <div class="split__content">
 <span class="text-overline" style="margin-bottom: var(--space-sm); display: flex; align-items: center; gap: 8px;">
@@ -75,16 +75,16 @@ get_header();
 <div class="container" style="position: relative; z-index: 2;">
 <div class="logo-banner__grid">
 <div class="logo-banner__item">
-<img alt="Kings City" src="<?php $img = get_field('image_13'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/>
+<img alt="Kings City" src="<?php echo kc_img('image_13', 'kings-img84-terracotta-1.png'); ?>"/>
 </div>
 <div class="logo-banner__item">
-<img alt="Kings Manpower" src="<?php $img = get_field('image_14'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/>
+<img alt="Kings Manpower" src="<?php echo kc_img('image_14', 'page-our-brands-img/kings-img60.png'); ?>"/>
 </div>
 <div class="logo-banner__item">
-<img alt="The Social Manila Bakehouse" src="<?php $img = get_field('image_15'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/>
+<img alt="The Social Manila Bakehouse" src="<?php echo kc_img('image_15', 'page-our-brands-img/kings-img61.png'); ?>"/>
 </div>
 <div class="logo-banner__item">
-<img alt="Home Culinary" src="<?php $img = get_field('image_16'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/>
+<img alt="Home Culinary" src="<?php echo kc_img('image_16', 'page-our-brands-img/kings-img62.png'); ?>"/>
 </div>
 
 </div>
@@ -263,7 +263,7 @@ get_header();
 </div>
 <div class="split__media">
 <!-- placeholder: a membership card on a desk or coffee shop setting -->
-<img alt="Kings City Membership Access" src="<?php $img = get_field('image_35'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; border-radius: var(--radius-card);"/>
+<img alt="Kings City Membership Access" src="<?php echo kc_img('image_35', 'kings_img07-1-scaled.webp'); ?>" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; border-radius: var(--radius-card);"/>
 </div>
 </div>
 </div>
@@ -307,36 +307,36 @@ get_header();
 <div class="gallery-carousel" id="gallery-carousel">
 <!-- original set -->
 <div class="gallery-card">
-<img alt="Kings Club Makati" src="<?php $img = get_field('image_37'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Makati" src="<?php echo kc_img('image_37', 'kings-img53-3-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 <div class="gallery-card">
-<img alt="Kings Club BGC" src="<?php $img = get_field('image_38'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club BGC" src="<?php echo kc_img('image_38', 'kings-img16-3-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 <div class="gallery-card">
-<img alt="Kings Club Ortigas" src="<?php $img = get_field('image_39'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Ortigas" src="<?php echo kc_img('image_39', 'kings-img17-3-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 <div class="gallery-card">
-<img alt="Kings Club Alabang" src="<?php $img = get_field('image_40'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Alabang" src="<?php echo kc_img('image_40', 'kings_img06-3-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 <div class="gallery-card">
-<img alt="Kings Club Quezon City" src="<?php $img = get_field('image_41'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Quezon City" src="<?php echo kc_img('image_41', 'kings-img40-3-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 
 <!-- duplicated set for infinite loop -->
 <div class="gallery-card">
-<img alt="Kings Club Makati" src="<?php $img = get_field('image_43'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Makati" src="<?php echo kc_img('image_43', 'kings-img37-4-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 <div class="gallery-card">
-<img alt="Kings Club BGC" src="<?php $img = get_field('image_44'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club BGC" src="<?php echo kc_img('image_44', 'kings-img20-3-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 <div class="gallery-card">
-<img alt="Kings Club Ortigas" src="<?php $img = get_field('image_45'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Ortigas" src="<?php echo kc_img('image_45', 'kings_img06-3-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 <div class="gallery-card">
-<img alt="Kings Club Alabang" src="<?php $img = get_field('image_46'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Alabang" src="<?php echo kc_img('image_46', 'kings-img53-3-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 <div class="gallery-card">
-<img alt="Kings Club Quezon City" src="<?php $img = get_field('image_47'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Quezon City" src="<?php echo kc_img('image_47', 'kings-img47-1-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 
 </div>

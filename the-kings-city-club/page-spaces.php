@@ -58,11 +58,11 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 <!-- slider on right -->
 <div class="split__media hero__slider" id="hero-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
 <!-- slide 1 -->
-<img alt="Collaborative Workspace" class="hero__slide is-active" src="<?php $img = get_field('image_4'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
+<img alt="Collaborative Workspace" class="hero__slide is-active" src="<?php echo kc_img('image_4', 'page-spaces-img/kings-img49.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
 <!-- slide 2 -->
-<img alt="Comfortable Lounge Area" class="hero__slide" src="<?php $img = get_field('image_5'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img alt="Comfortable Lounge Area" class="hero__slide" src="<?php echo kc_img('image_5', 'page-spaces-img/kings-img19.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 <!-- slide 3 -->
-<img alt="Modern Open Office" class="hero__slide" src="<?php $img = get_field('image_6'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img alt="Modern Open Office" class="hero__slide" src="<?php echo kc_img('image_6', 'page-spaces-img/kings-img52.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 </div>
 </div>
@@ -78,9 +78,9 @@ if (stripos($h1_val, 'the kings city space') !== false) {
           <div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split">
 <div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
-<img class="spaces__slide is-active" alt="Kings City Co-Working Space 1" src="<?php $img = get_field('image_12'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Co-Working Space 2" src="<?php $img = get_field('image_12_2'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Co-Working Space 3" src="<?php $img = get_field('image_12_3'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide is-active" alt="Kings City Co-Working Space 1" src="<?php echo kc_img('image_12', 'page-spaces-img/kings-img95.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Kings City Co-Working Space 2" src="<?php echo kc_img('image_12_2', 'page-offshoring-img/kings-img26.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Kings City Co-Working Space 3" src="<?php echo kc_img('image_12_3', 'page-offshoring-img/kings-img27.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 <div class="split__content text-center">
 <span class="text-overline"><?php echo get_field('overline_11'); ?></span>
@@ -129,9 +129,9 @@ if (stripos($h1_val, 'the kings city space') !== false) {
           <div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split split--reverse">
 <div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
-<img class="spaces__slide is-active" alt="Kings City Meeting Room 1" src="<?php $img = get_field('image_18'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Meeting Room 2" src="<?php $img = get_field('image_18_2'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Meeting Room 3" src="<?php $img = get_field('image_18_3'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide is-active" alt="Kings City Meeting Room 1" src="<?php echo kc_img('image_18', 'page-spaces-img/kings-img93.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Kings City Meeting Room 2" src="<?php echo kc_img('image_18_2', 'kings_img06-2-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Kings City Meeting Room 3" src="<?php echo kc_img('image_18_3', 'kings-img53-1-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 <div class="split__content text-center">
 <span class="text-overline"><?php echo get_field('overline_17'); ?></span>
@@ -180,9 +180,9 @@ if (stripos($h1_val, 'the kings city space') !== false) {
           <div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split">
 <div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
-<img class="spaces__slide is-active" alt="Kings City Events Place 1" src="<?php $img = get_field('image_24'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Events Place 2" src="<?php $img = get_field('image_24_2'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Events Place 3" src="<?php $img = get_field('image_24_3'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide is-active" alt="Kings City Events Place 1" src="<?php echo kc_img('image_24', 'page-spaces-img/kings-img13.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Kings City Events Place 2" src="<?php echo kc_img('image_24_2', 'front-page-img/kings-img48.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Kings City Events Place 3" src="<?php echo kc_img('image_24_3', 'kings-img53-1-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 <div class="split__content text-center">
 <span class="text-overline"><?php echo get_field('overline_23'); ?></span>
@@ -231,9 +231,9 @@ if (stripos($h1_val, 'the kings city space') !== false) {
           <div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split split--reverse">
 <div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
-<img class="spaces__slide is-active" alt="Kings City Private Office 1" src="<?php $img = get_field('image_30'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Private Office 2" src="<?php $img = get_field('image_30_2'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Private Office 3" src="<?php $img = get_field('image_30_3'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide is-active" alt="Kings City Private Office 1" src="<?php echo kc_img('image_30', 'page-spaces-img/kings-img36.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Kings City Private Office 2" src="<?php echo kc_img('image_30_2', 'page-spaces-img/kings-img28.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Kings City Private Office 3" src="<?php echo kc_img('image_30_3', 'kings-img16-1-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 <div class="split__content text-center">
 <span class="text-overline"><?php echo get_field('overline_29'); ?></span>
@@ -282,9 +282,9 @@ if (stripos($h1_val, 'the kings city space') !== false) {
           <div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split">
 <div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
-<img class="spaces__slide is-active" alt="Kings City Virtual Office Service 1" src="<?php $img = get_field('image_36'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Virtual Office Service 2" src="<?php $img = get_field('image_36_2'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Virtual Office Service 3" src="<?php $img = get_field('image_36_3'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide is-active" alt="Kings City Virtual Office Service 1" src="<?php echo kc_img('image_36', 'page-spaces-img/kings-img18.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Kings City Virtual Office Service 2" src="<?php echo kc_img('image_36_2', 'front-page-img/kings-img79.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Kings City Virtual Office Service 3" src="<?php echo kc_img('image_36_3', 'front-page-img/kings-img83.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 <div class="split__content text-center">
 <span class="text-overline"><?php echo get_field('overline_35'); ?></span>
@@ -334,9 +334,9 @@ if (stripos($h1_val, 'the kings city space') !== false) {
           <div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split split--reverse">
 <div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
-<img class="spaces__slide is-active" alt="Test Kitchen 1" src="<?php $img = get_field('tk_img1'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Test Kitchen 2" src="<?php $img = get_field('tk_img2'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Test Kitchen 3" src="<?php $img = get_field('tk_img3'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide is-active" alt="Test Kitchen 1" src="<?php echo kc_img('tk_img1', 'page-spaces-img/kings-img88.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Test Kitchen 2" src="<?php echo kc_img('tk_img2', 'kings-img74-3-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Test Kitchen 3" src="<?php echo kc_img('tk_img3', 'front-page-img/kings-img72.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 <div class="split__content text-center">
 <span class="text-overline"><?php echo get_field('tk_overline'); ?></span>
@@ -384,9 +384,9 @@ if (stripos($h1_val, 'the kings city space') !== false) {
           <div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split">
 <div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
-<img class="spaces__slide is-active" alt="Manille Ceramics 1" src="<?php $img = get_field('mc_img1'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Manille Ceramics 2" src="<?php $img = get_field('mc_img2'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Manille Ceramics 3" src="<?php $img = get_field('mc_img3'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide is-active" alt="Manille Ceramics 1" src="<?php echo kc_img('mc_img1', 'page-spaces-img/kings-img86.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Manille Ceramics 2" src="<?php echo kc_img('mc_img2', 'page-spaces-img/kings-img85.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Manille Ceramics 3" src="<?php echo kc_img('mc_img3', 'kings-img84-1-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 <div class="split__content text-center">
 <span class="text-overline"><?php echo get_field('mc_overline'); ?></span>
@@ -534,35 +534,35 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 <div class="gallery-carousel" id="gallery-carousel">
 <!-- original set -->
 <div class="gallery-card">
-<img alt="Premium Hot Desking" src="<?php $img = get_field('image_45'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Premium Hot Desking" src="<?php echo kc_img('image_45', 'kings-img53-1-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 <div class="gallery-card">
-<img alt="Executive Meeting Rooms" src="<?php $img = get_field('image_46'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Executive Meeting Rooms" src="<?php echo kc_img('image_46', 'kings-img16-1-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 <div class="gallery-card">
-<img alt="Event Space" src="<?php $img = get_field('image_47'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Event Space" src="<?php echo kc_img('image_47', 'kings-img17-1-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 <div class="gallery-card">
-<img alt="Private Suites" src="<?php $img = get_field('image_48'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Private Suites" src="<?php echo kc_img('image_48', 'kings_img06-1-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 <div class="gallery-card">
-<img alt="Community Kitchen" src="<?php $img = get_field('image_49'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Community Kitchen" src="<?php echo kc_img('image_49', 'kings-img40-1-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 <!-- duplicated set for infinite loop -->
 <div class="gallery-card">
-<img alt="Premium Hot Desking" src="<?php $img = get_field('image_50'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Premium Hot Desking" src="<?php echo kc_img('image_50', 'page-spaces-img/kings-img36.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 <div class="gallery-card">
-<img alt="Executive Meeting Rooms" src="<?php $img = get_field('image_51'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Executive Meeting Rooms" src="<?php echo kc_img('image_51', 'kings-img37-1-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 <div class="gallery-card">
-<img alt="Event Space" src="<?php $img = get_field('image_52'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Event Space" src="<?php echo kc_img('image_52', 'kings-img20-1-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 <div class="gallery-card">
-<img alt="Private Suites" src="<?php $img = get_field('image_53'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Private Suites" src="<?php echo kc_img('image_53', 'kings_img06-1-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 <div class="gallery-card">
-<img alt="Community Kitchen" src="<?php $img = get_field('image_54'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Community Kitchen" src="<?php echo kc_img('image_54', 'page-spaces-img/kings-img18.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 </div>
 <button aria-label="Next image" class="gallery-nav gallery-nav--next" onclick="scrollGallery(1)">

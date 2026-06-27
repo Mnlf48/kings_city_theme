@@ -27,7 +27,7 @@
   $mega_link3        = get_field('header_mega_link3_label', $header_id) ?: 'Impact';
   $mega_link4        = get_field('header_mega_link4_label', $header_id) ?: 'News';
   $mega_logo         = get_field('header_mega_menu_logo', $header_id);
-  $mega_logo_url     = ($mega_logo && is_array($mega_logo) && isset($mega_logo['url'])) ? esc_url($mega_logo['url']) : (is_numeric($mega_logo) ? wp_get_attachment_image_url($mega_logo, 'full') : get_template_directory_uri() . '/assets/img/page-header-img/kings-img70.png');
+  $mega_logo_url     = kc_img('header_mega_menu_logo', 'the_kings_city_club_terracotta_01.png', $header_id);
 ?>
 <!-- Announcement Bar -->
 <div class="announcement-bar" id="top-announcement" aria-hidden="false">

@@ -269,3 +269,17 @@ function kc_inline_status_js() {
     </script>
     <?php
 }
+
+/**
+ * Helper function for ACF images with a local theme fallback.
+ * Allows images to be cleared from the WP Media Library without breaking the site.
+ */
+function kc_img($acf_field_name, $fallback_image_path, $post_id = false) {
+    $img = get_field($acf_field_name, $post_id);
+    // If image exists in ACF (Wordpress Admin), use it
+    if ($img && isset($img['url'])) {
+        return esc_url($img['url']);
+    }
+    // Otherwise, fallback to the local theme image!
+    return get_template_directory_uri() . '/assets/img/' . ltrim($fallback_image_path, '/');
+}

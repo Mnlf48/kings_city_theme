@@ -320,9 +320,9 @@ get_header();
 </div>
 <!-- media on right -->
 <div class="split__media hero__slider" id="hero-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
-<img alt="Kings City Book Now 1" class="hero__slide is-active" src="<?php $img = get_field('image_4'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img alt="Kings City Book Now 2" class="hero__slide" src="<?php $img = get_field('image_5'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img alt="Kings City Book Now 3" class="hero__slide" src="<?php $img = get_field('image_6'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img alt="Kings City Book Now 1" class="hero__slide is-active" src="<?php echo kc_img('image_4', 'page-book-now-img/kings_img09.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
+<img alt="Kings City Book Now 2" class="hero__slide" src="<?php echo kc_img('image_5', 'page-book-now-img/kings_img010.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img alt="Kings City Book Now 3" class="hero__slide" src="<?php echo kc_img('image_6', 'kings_img011-1-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 </div>
 </div>
@@ -341,7 +341,7 @@ get_header();
 <!-- left: content information -->
 <div class="book-content" id="booking-info">
 <div class="book-content__media">
-<img alt="Workspace" id="content-image" src="<?php $img = get_field('image_14'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/>
+<img alt="Workspace" id="content-image" src="<?php echo kc_img('image_14', 'kings-img12-1-scaled.webp'); ?>"/>
 </div>
 <span class="text-overline" id="content-overline"><?php echo get_field('overline_13'); ?></span>
 <h2 class="book-content__title" id="content-title"><?php echo get_field('h2_8'); ?></h2>
@@ -486,13 +486,13 @@ get_header();
 </main>
 <script>
     // Tab Data Mapping
-    const bookingData = {
+        const bookingData = {
       "Co-Working": {
-        image: "<?php $img = get_field('image_coworking'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/kings_co-working_room01.JPG'); ?>",
-        overline: "Hot Desks & Dedicated Seats",
-        title: "Co-Working",
-        text: "<p>Our communal tables and working stations are designed for connections to happen. Staying true to our purpose, it is our mission to contribute to the growth of the economy by continuously providing jobs and beautiful workspaces for our members.</p><p>Solve your monotonous daily routine with our vibrant environment &mdash; surrounded by like-minded professionals who inspire and energize.</p>",
-        features: ["High-Speed Wi-Fi", "Dedicated Seats", "Kitchen Access", "In-House Cafe", "Community Events", "24/7 Access"],
+        image: "<?php echo kc_img('image_coworking', 'kings-img12-1-scaled.webp'); ?>",
+        overline: "Co-Working",
+        title: "Shared Workspaces",
+        text: "<p>Work alongside other professionals in our beautifully designed open-plan coworking areas. Perfect for freelancers, remote workers, and small teams looking for a vibrant and inspiring environment.</p><p>Enjoy access to premium amenities, high-speed internet, and unlimited premium coffee to keep you productive throughout the day.</p>",
+        features: ["High-speed Wi-Fi", "Unlimited Coffee", "Lounge Access"],
         formTitle: "Book Co-Working",
         options: [
           { label: "Day Pass &mdash; Php 500", value: "Day Pass", price: 500 },
@@ -502,25 +502,25 @@ get_header();
         ]
       },
       "Meeting Rooms": {
-        image: "<?php $img = get_field('image_meeting'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/kings_meeting_room03.JPG'); ?>",
-        overline: "Private & Professional",
-        title: "Meeting Rooms",
-        text: "<p>A meeting is like a delicate eco-system &mdash; all the participants and amenities have to be in perfect balance for the call or presentation to reach its greatest potential.</p><p>Our private and professional conference rooms come with comfortable furniture, high-speed Internet, kitchen facilities, and state-of-the-art presentation equipment.</p>",
-        features: ["Smart TV / AV", "Whiteboard", "High-Speed Wi-Fi", "Kitchen Access", "Climate Control", "Receptionist Support"],
+        image: "<?php echo kc_img('image_meeting', 'kings-img28-1-scaled.webp'); ?>",
+        overline: "Meeting Rooms",
+        title: "Professional Meeting Spaces",
+        text: "<p>Host your next client presentation, team brainstorming session, or board meeting in our fully equipped meeting rooms. Designed for productivity and privacy.</p><p>Our meeting rooms feature state-of-the-art audiovisual equipment, high-speed Wi-Fi, and comfortable seating to ensure your meetings run smoothly.</p>",
+        features: ["AV Equipment", "High-speed Wi-Fi", "Whiteboards"],
         formTitle: "Book Meeting Room",
         options: [
-          { label: "Small (up to 6 pax) - Per Hour &mdash; Php 500", value: "Small (up to 6 pax) - Per Hour", price: 500 },
-          { label: "Small (up to 6 pax) - Full Day &mdash; Php 4,000", value: "Small (up to 6 pax) - Full Day", price: 4000 },
-          { label: "Conference (up to 12 pax) - Per Hour &mdash; Php 1,000", value: "Conference (up to 12 pax) - Per Hour", price: 1000 },
-          { label: "Conference (up to 12 pax) - Full Day &mdash; Php 8,000", value: "Conference (up to 12 pax) - Full Day", price: 8000 }
+          { label: "Small Meeting Room (up to 6 pax) - Per Hour &mdash; Php 500", value: "Small Meeting Room - Per Hour", price: 500 },
+          { label: "Small Meeting Room (up to 6 pax) - Full Day &mdash; Php 4,000", value: "Small Meeting Room - Full Day", price: 4000 },
+          { label: "Conference Room (up to 12 pax) - Per Hour &mdash; Php 1,000", value: "Conference Room - Per Hour", price: 1000 },
+          { label: "Conference Room (up to 12 pax) - Full Day &mdash; Php 8,000", value: "Conference Room - Full Day", price: 8000 }
         ]
       },
       "Events Place": {
-        image: "<?php $img = get_field('image_events'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/kings_event_room02.jpg'); ?>",
-        overline: "Functions & Events",
-        title: "Events Place",
-        text: "<p>We offer a venue for your company's special events &mdash; a space perfect for more intimate functions. The layout can accommodate over 100 guests if there will be no tables included in the layout.</p><p>Whether it's a product launch, company party, training seminar, or networking community &mdash; our events place is the perfect backdrop.</p>",
-        features: ["Full Venue Access", "Sound System", "Flexible Layout", "Photography Friendly", "Event Support Staff", "Catering Space"],
+        image: "<?php echo kc_img('image_events', 'kings-img13-1-scaled.webp'); ?>",
+        overline: "Events Place",
+        title: "Versatile Event Spaces",
+        text: "<p>Whether you're hosting a corporate seminar, a product launch, or a networking mixer, our versatile event spaces provide the perfect backdrop for a memorable occasion.</p><p>Our dedicated events team will work with you to customize the layout and arrange catering, ensuring every detail is taken care of.</p>",
+        features: ["Customizable Layout", "Dedicated Events Team", "Catering Options"],
         formTitle: "Book Events Place",
         options: [
           { label: "Per Hour &mdash; Php 5,000", value: "Per Hour", price: 5000 },
@@ -529,34 +529,34 @@ get_header();
         ]
       },
       "Office Leasing": {
-        image: "<?php $img = get_field('image_office'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/kings_office-leasing_room04.JPG'); ?>",
-        overline: "Dedicated Private Offices",
-        title: "Office Leasing",
-        text: "<p>Whether your company is an established enterprise or a growing startup, we offer office spaces that inspire your most impactful work. Our private offices are fully equipped and ready for your team from day one.</p><p>Each office comes with high-speed internet, dedicated IT support, access to our in-house caf&eacute;, and the full Kings City community experience.</p>",
-        features: ["Fully Furnished", "Biometric Access", "Dedicated IT", "Company Branding", "Mail Handling", "Private Storage"],
-        formTitle: "Inquire for Office Leasing",
+        image: "<?php echo kc_img('image_office', 'kings-img36-2.webp'); ?>",
+        overline: "Private Offices",
+        title: "Dedicated Office Leasing",
+        text: "<p>Establish your business presence with a dedicated private office. Fully furnished and move-in ready, our private offices offer the privacy you need with the benefits of a shared community.</p><p>Enjoy 24/7 access, customized branding options, and complimentary meeting room credits every month.</p>",
+        features: ["24/7 Access", "Fully Furnished", "Meeting Room Credits"],
+        formTitle: "Book Office Leasing",
         options: [
-          { label: "6-Seat Office &mdash; Php 48,000 / mo", value: "6-Seat Office", price: 48000 },
-          { label: "9-Seat Office &mdash; Php 55,000 / mo", value: "9-Seat Office", price: 55000 },
-          { label: "14-Seat Office &mdash; Php 112,000 / mo", value: "14-Seat Office", price: 112000 }
+          { label: "6-Seat Office - Monthly &mdash; Php 48,000", value: "6-Seat Office", price: 48000 },
+          { label: "9-Seat Office - Monthly &mdash; Php 55,000", value: "9-Seat Office", price: 55000 },
+          { label: "14-Seat Office - Monthly &mdash; Php 112,000", value: "14-Seat Office", price: 112000 }
         ]
       },
       "Virtual Office": {
-        image: "<?php $img = get_field('image_virtual'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/kings_virtual-office_room05.JPG'); ?>",
-        overline: "Work From Anywhere",
-        title: "Virtual Office",
-        text: "<p>Virtual office is part of a flexible workspace that provides businesses with any combination of services, space and/or technology &mdash; without those businesses bearing the capital expenses of owning or leasing a traditional office.</p><p>Get a prestigious Para&ntilde;aque City business address, mail handling, telephone answering, and access to our facilities &mdash; all without a full-time lease.</p>",
-        features: ["Business Address", "Mail Handling", "Lounge Access", "Member Rates", "Reciprocal Access", "Call Answering"],
-        formTitle: "Setup Virtual Office",
+        image: "<?php echo kc_img('image_virtual', 'kings-img18-1-scaled.webp'); ?>",
+        overline: "Virtual Office",
+        title: "Professional Business Address",
+        text: "<p>Elevate your brand image with a prestigious business address at The Kings City Club. Our virtual office packages give you a professional presence without the overhead of a physical space.</p><p>Benefit from mail handling services, a dedicated local phone number, and access to our meeting rooms and coworking spaces when you need them.</p>",
+        features: ["Prestigious Address", "Mail Handling", "Lounge Access"],
+        formTitle: "Book Virtual Office",
         options: [
-          { label: "Standard (Monthly) &mdash; Php 3,000", value: "Standard (Monthly)", price: 3000 },
-          { label: "Standard (Annual) &mdash; Php 30,000", value: "Standard (Annual)", price: 30000 },
-          { label: "Pro (Monthly) &mdash; Php 5,000", value: "Pro (Monthly)", price: 5000 },
-          { label: "Pro (Annual) &mdash; Php 50,000", value: "Pro (Annual)", price: 50000 }
+          { label: "Standard Plan - Monthly &mdash; Php 3,000", value: "Standard Plan - Monthly", price: 3000 },
+          { label: "Standard Plan - Annually &mdash; Php 30,000", value: "Standard Plan - Annually", price: 30000 },
+          { label: "Pro Plan - Monthly &mdash; Php 5,000", value: "Pro Plan - Monthly", price: 5000 },
+          { label: "Pro Plan - Annually &mdash; Php 50,000", value: "Pro Plan - Annually", price: 50000 }
         ]
       },
       "Bakehouse": {
-        image: "<?php $img = get_field('image_bakehouse'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>",
+        image: "<?php echo kc_img('image_bakehouse', 'page-spaces-img/kings-img88.webp'); ?>",
         overline: "Test Kitchen",
         title: "Social Manila Bakehouse",
         text: "<p>Welcome to The Social Manila Bakehouse, a fully equipped commercial-grade test kitchen designed to bring your culinary visions to life. Whether you are hosting an intimate baking class, testing a new menu, or organizing a food tasting, our space provides everything you need in a professional yet welcoming environment.</p><p>Beyond its functional layout, the Bakehouse is highly photogenic, making it the ideal setting for food photography, content creation, and culinary demonstrations. You have the option to rent the space exclusively or include the expertise of our resident Baker and Chef.</p>",
@@ -568,7 +568,7 @@ get_header();
         ]
       },
       "Manille Ceramic (Limited)": {
-        image: "<?php $img = get_field('image_manille'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>",
+        image: "<?php echo kc_img('image_manille', 'page-spaces-img/kings-img85.webp'); ?>",
         overline: "Studio Manille",
         title: "Manille Céramique",
         text: "<p>Step into Manille Céramique, a dynamic and beautifully designed studio space perfect for your creative endeavors. Engineered for flexibility, the studio features movable props and modular furniture that can easily adapt to your specific production needs, workshops, or private sessions.</p><p>Designed with content creation in mind, it provides the perfect lighting and backdrops for photo shoots, video production, or artistic gatherings. Choose to rent just the stunning backdrop or secure the entire studio for exclusive use.</p>",

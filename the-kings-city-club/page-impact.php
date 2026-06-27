@@ -300,11 +300,11 @@ get_header();
 <!-- slider on right -->
 <div class="split__media hero__slider" id="hero-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
 <!-- slide 1 -->
-<img alt="Impact 1" class="hero__slide is-active" src="<?php $img = get_field('image_4'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
+<img alt="Impact 1" class="hero__slide is-active" src="<?php echo kc_img('image_4', 'page-impact-img/kings-img21.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
 <!-- slide 2 -->
-<img alt="Impact 2" class="hero__slide" src="<?php $img = get_field('image_5'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img alt="Impact 2" class="hero__slide" src="<?php echo kc_img('image_5', 'page-impact-img/kings-img22.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 <!-- slide 3 -->
-<img alt="Impact 3" class="hero__slide" src="<?php $img = get_field('image_6'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img alt="Impact 3" class="hero__slide" src="<?php echo kc_img('image_6', 'page-impact-img/kings-img23.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 </div>
 </div>
@@ -358,7 +358,7 @@ get_header();
 <!-- great place to work section -->
 <section class="section content-panel section--impact-bg">
 <div class="section--impact-bg__media">
-<img alt="Great Place to Work Background" src="<?php $img = get_field('image_22'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;"/>
+<img alt="Great Place to Work Background" src="<?php echo kc_img('image_22', 'page-impact-img/kings_img011.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;"/>
 </div>
 <div class="container">
 <div class="impact-card animate-fadeInLeft" style="background: var(--glass-bg-dark); box-shadow: var(--glass-shadow-lg); backdrop-filter: var(--glass-blur); border-radius: var(--radius-card);">
@@ -386,7 +386,7 @@ get_header();
 <div class="split__media animate-fadeInRight">
 <div class="cda-card-large" style="overflow: hidden; position: relative;">
 <!-- Background Image -->
-<img alt="CDA Registered Cooperative" src="<?php $img = get_field('image_28'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;"/>
+<img alt="CDA Registered Cooperative" src="<?php echo kc_img('image_28', 'page-impact-img/kings_img03.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;"/>
 <!-- Original text and badge -->
 <div class="cda-badge-system" style="position: relative; z-index: 2;">
 <span class="cda-badge-label">Certified</span>
@@ -473,15 +473,15 @@ get_header();
 </div>
 <div class="animate-fadeInRight">
 <div class="brand-logos-3x3">
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php $img = get_field('image_38'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/></div>
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php $img = get_field('image_39'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/></div>
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php $img = get_field('image_40'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/></div>
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php $img = get_field('image_41'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/></div>
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php $img = get_field('image_42'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/></div>
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php $img = get_field('image_43'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/></div>
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php $img = get_field('image_44'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/></div>
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php $img = get_field('image_45'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/></div>
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php $img = get_field('image_46'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_38', 'page-impact-img/kings-img69.png'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_39', 'page-impact-img/Metro.png'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_40', 'Sterlingpaper-logo.png'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_41', 'page-impact-img/maxicare.png'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_42', 'page-impact-img/SanitaryCare.png'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_43', 'page-impact-img/concentrix.png'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_44', 'page-impact-img/Jollibee.png'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_45', 'page-impact-img/volvic.png'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_46', 'page-impact-img/Sofitel.png'); ?>"/></div>
 </div>
 </div>
 </div>

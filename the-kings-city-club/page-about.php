@@ -35,11 +35,11 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <!-- slider on right -->
 <div class="split__media hero__slider" id="hero-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
 <!-- slide 1 -->
-<img alt="About Kings City 1" class="hero__slide is-active" src="<?php $img = get_field('image_4'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
+<img alt="About Kings City 1" class="hero__slide is-active" src="<?php echo kc_img('image_4', 'page-apply-img/kings-img30.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
 <!-- slide 2 -->
-<img alt="About Kings City 2" class="hero__slide" src="<?php $img = get_field('image_5'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img alt="About Kings City 2" class="hero__slide" src="<?php echo kc_img('image_5', 'page-about-img/kings_img05.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 <!-- slide 3 -->
-<img alt="About Kings City 3" class="hero__slide" src="<?php $img = get_field('image_6'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img alt="About Kings City 3" class="hero__slide" src="<?php echo kc_img('image_6', 'kings_img06-4-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 </div>
 </div>
@@ -55,7 +55,7 @@ if (stripos($h1_val, 'the kings city club') !== false) {
   <div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split" style="align-items: center;">
 <div class="split__media">
-<img alt="Kings City Bag" src="<?php $img = get_field('image_12'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; border-radius: var(--radius-card);"/>
+<img alt="Kings City Bag" src="<?php echo kc_img('image_12', 'page-about-img/kings_img08.webp'); ?>" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; border-radius: var(--radius-card);"/>
 </div>
 <div class="split__content">
 <span class="text-overline"><?php echo get_field('overline_11'); ?></span>
@@ -156,7 +156,7 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: 0;"><?php echo get_field('p_16'); ?></p>
 </div>
 <div class="split__media text-center">
-<img alt="Philippine Map" src="<?php $img = get_field('image_18'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="max-width: 100%; height: auto; max-height: 400px; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05));"/>
+<img alt="Philippine Map" src="<?php echo kc_img('image_18', 'page-about-img/kings-img58.png'); ?>" style="max-width: 100%; height: auto; max-height: 400px; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05));"/>
 </div>
 </div>
 </div>
@@ -406,7 +406,7 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <div class="container grid-12" style="position: relative; z-index: 1;">
 <div class="col-12 split">
 <div class="split__media">
-<img alt="One Pass. All Access. - Membership Perks" src="<?php $img = get_field('about_pass_image'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>"/>
+<img alt="One Pass. All Access. - Membership Perks" src="<?php echo kc_img('about_pass_image', 'kings_img07-2-scaled.webp'); ?>"/>
 </div>
 <div class="split__content">
 <span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('about_pass_overline'); ?></span>
@@ -505,7 +505,7 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: 0;"><?php echo get_field('p_community_2'); ?></p>
 </div>
 <div class="split__media">
-<img alt="Community Image" src="<?php $img = get_field('community_image'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; border-radius: var(--radius-card);"/>
+<img alt="Community Image" src="<?php echo kc_img('community_image', 'page-about-img/kings-img55.webp'); ?>" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; border-radius: var(--radius-card);"/>
 </div>
 </div>
 </div>
