@@ -32,6 +32,9 @@ function kings_city_setup() {
 
 	// Add theme support for selective refresh for widgets.
 	add_theme_support( 'customize-selective-refresh-widgets' );
+
+    // Enable HTML5 markup for galleries and captions
+    add_theme_support('html5', array('gallery', 'caption'));
 }
 add_action( 'after_setup_theme', 'kings_city_setup' );
 
@@ -165,6 +168,9 @@ require_once get_template_directory() . '/inc/cpt-news.php';
 
 // Quote Requests CRM
 require_once get_template_directory() . '/inc/cpt-quotes.php';
+
+// Welcome Packets (Newsletters)
+require_once get_template_directory() . '/inc/cpt-welcome-packets.php';
 
 // Bookings CRM & Dashboard
 require_once get_template_directory() . '/inc/settings-capacity.php';

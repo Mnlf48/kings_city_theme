@@ -378,8 +378,71 @@ function kc_process_booking_status_change($post_id, $new_status, $old_status) {
     // 1. Email Logic
     if ($new_status === 'Contacted') {
         $subject = "Your Kings City Booking is Confirmed!";
-        $message = "Hi $fname,\n\nYour booking for the $space on $date has been confirmed.\n\nPlease arrive on your chosen date and complete your payment at our front desk.\n\nSee you soon,\nThe Kings City Team";
-        wp_mail($email, $subject, $message);
+        
+        // --- SMART WELCOME PACKET LOGIC ---
+        $active_packet_id = get_option('options_kc_active_welcome_packet'); // ACF saves options with 'options_' prefix
+        $send_packet = false;
+        $packet_url = '';
+
+        if ($active_packet_id) {
+            // Check ALL past bookings for this email to see if they've received this specific packet ID
+            $past_bookings = get_posts(array(
+                'post_type'      => 'kc_booking',
+                'posts_per_page' => -1,
+                'meta_key'       => 'kc_email',
+                'meta_value'     => $email,
+                'fields'         => 'ids',
+            ));
+
+            $has_received = false;
+            foreach ($past_bookings as $pb_id) {
+                $pb_received = get_post_meta($pb_id, 'kc_received_packet_ids', true);
+                if (is_array($pb_received) && in_array($active_packet_id, $pb_received)) {
+                    $has_received = true;
+                    break;
+                }
+            }
+
+            if (!$has_received) {
+                $send_packet = true;
+                $packet_url = get_post_meta($active_packet_id, 'kc_packet_url', true);
+                
+                // Log that they are receiving it on THIS current booking
+                $received_packets = get_post_meta($post_id, 'kc_received_packet_ids', true);
+                if (!is_array($received_packets)) $received_packets = array();
+                $received_packets[] = $active_packet_id;
+                update_post_meta($post_id, 'kc_received_packet_ids', $received_packets);
+            }
+        }
+
+        if ($send_packet && !empty($packet_url)) {
+            // Send HTML Email with Welcome Packet
+            $message = "
+            <html>
+            <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
+                <p>Hi " . esc_html($fname) . ",</p>
+                <p>Your booking for the <strong>" . esc_html($space) . "</strong> on <strong>" . esc_html($date) . "</strong> has been confirmed.</p>
+                <p>Please arrive on your chosen date and complete your payment at our front desk.</p>
+                
+                <div style='margin: 30px 0; padding: 25px; background-color: #fffaf5; border: 1px solid #f6e5d4; border-radius: 8px; text-align: center;'>
+                    <h3 style='margin-top:0; color: #db582e; font-size: 18px;'>Your Welcome Packet</h3>
+                    <p style='margin-bottom: 20px; color: #555;'>We've prepared some important information and resources for your upcoming visit.</p>
+                    <a href='" . esc_url($packet_url) . "' style='display: inline-block; padding: 12px 24px; background-color: #db582e; color: #ffffff; text-decoration: none; font-weight: bold; border-radius: 4px;'>View Welcome Packet</a>
+                </div>
+
+                <p>See you soon,<br>The Kings City Team</p>
+            </body>
+            </html>
+            ";
+            
+            $headers = array('Content-Type: text/html; charset=UTF-8');
+            wp_mail($email, $subject, $message, $headers);
+            
+        } else {
+            // Send Standard Plain Text Email (already received packet or no active packet)
+            $message = "Hi $fname,\n\nYour booking for the $space on $date has been confirmed.\n\nPlease arrive on your chosen date and complete your payment at our front desk.\n\nSee you soon,\nThe Kings City Team";
+            wp_mail($email, $subject, $message);
+        }
     } elseif ($new_status === 'Rejected') {
         $subject = "Update regarding your Kings City Booking";
         $message = "Hi $fname,\n\nUnfortunately, we are unable to accommodate your booking request for the $space on $date.\n\nReason:\n$note\n\nIf you have any questions, please reply to this email.\n\nThank you,\nThe Kings City Team";
