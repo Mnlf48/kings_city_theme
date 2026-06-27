@@ -912,16 +912,16 @@ button[type="submit"]:active,
 }
 
 .nav-desktop__link:hover {
-  color: var(--color-accent) !important;
+  color: #FBCB77 !important;
 }
 
 .site-header.is-scrolled .nav-desktop__link:hover {
-  color: var(--color-accent) !important;
+  color: #FBCB77 !important;
 }
 
 .nav-desktop__link:hover::after {
   width: 100%;
-  background: var(--color-accent) !important;
+  background: #FBCB77 !important;
 }
 
 .nav-desktop__actions {
@@ -1053,7 +1053,7 @@ button[type="submit"]:active,
 }
 
 .nav-drawer__link:hover {
-  color: var(--color-accent);
+  color: #FBCB77;
   padding-left: 0.5rem;
 }
 
@@ -1908,7 +1908,7 @@ button[type="submit"]:active,
 }
 
 .site-footer a:hover {
-  color: var(--color-text-light);
+  color: #FBCB77; /* Muted Gold */
 }
 
 .footer-grid {
@@ -1986,6 +1986,11 @@ button[type="submit"]:active,
   width: 18px;
   height: 18px;
   fill: var(--color-text-light);
+  transition: fill var(--transition-fast);
+}
+
+.footer-social__link:hover svg {
+  fill: #FBCB77; /* Muted Gold */
 }
 
 
@@ -4422,8 +4427,8 @@ button[type="submit"]:active,
 }
 
 .tb-summary {
-  background: var(--color-primary);
-  color: #fff;
+  background: var(--color-bg-ivory);
+  color: var(--color-primary);
   padding: 1.5rem;
   border-radius: var(--radius-sm);
   margin-bottom: var(--space-md);
@@ -4435,11 +4440,11 @@ button[type="submit"]:active,
   justify-content: space-between;
   margin-bottom: 0.5rem;
   font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--color-primary);
 }
 
 .tb-summary-row strong {
-  color: #fff;
+  color: var(--color-primary);
   font-size: 1rem;
 }
 
@@ -4460,7 +4465,7 @@ button[type="submit"]:active,
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--color-border);
   padding-top: 1rem;
   margin-top: 1rem;
 }
@@ -5132,7 +5137,7 @@ body.modal-open {
   flex: 1;
   min-width: 280px;
   padding: var(--space-xl);
-  border-radius: 30px 10px 30px 10px !important; /* Playful asymmetry */
+  border-radius: 0 !important;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -5694,10 +5699,58 @@ body.modal-open {
 .bg-blush .perks-list li:nth-child(3n+2) .perk-bubble { background-color: #AC201A; }
 .bg-blush .perks-list li:nth-child(3n+3) .perk-bubble { background-color: #FBCB77; }
 
+/* Membership Perks Specific Context (2-color cycle) */
+.bg-blush .perks-list--membership li:nth-child(2n+1) .perk-bubble { 
+  background-color: #FBCB77; 
+  color: var(--color-primary) !important; 
+}
+.bg-blush .perks-list--membership li:nth-child(2n+2) .perk-bubble { 
+  background-color: #BD451F; 
+  color: #FFF9EF !important; 
+}
+
+/* Social Perks Specific Context (3-color cycle) */
+.bg-blush .perks-list--social li:nth-child(3n+1) .perk-bubble { 
+  background-color: #FBCB77; 
+  color: var(--color-primary) !important; 
+}
+.bg-blush .perks-list--social li:nth-child(3n+2) .perk-bubble { 
+  background-color: #BD451F; 
+  color: #FFF9EF !important; 
+}
+.bg-blush .perks-list--social li:nth-child(3n+3) .perk-bubble { 
+  background-color: #AC201A; 
+  color: #FFF9EF !important; 
+}
+
+/* Brands/About Perks Specific Context (2-color cycle) */
+.perks-list--brands-about li:nth-child(2n+1) .perk-bubble { 
+  background-color: #FFBFBF !important; 
+  color: var(--color-primary) !important; 
+}
+.perks-list--brands-about li:nth-child(2n+2) .perk-bubble { 
+  background-color: #FBCB77 !important; 
+  color: var(--color-primary) !important; 
+}
+
 /* Terracotta Background Context */
 .bg-terracotta .perks-list li:nth-child(3n+1) .perk-bubble { background-color: #FFF9EF; } /* Warm Ivory */
 .bg-terracotta .perks-list li:nth-child(3n+2) .perk-bubble { background-color: #FFBFBF; } /* Soft Blush */
 .bg-terracotta .perks-list li:nth-child(3n+3) .perk-bubble { background-color: #FBCB77; } /* Muted Gold */
+
+/* Offshoring Perks Specific Context (3-color cycle) */
+.bg-terracotta .perks-list--offshoring li:nth-child(3n+1) .perk-bubble { 
+  background-color: #FBCB77; 
+  color: var(--color-primary) !important; 
+}
+.bg-terracotta .perks-list--offshoring li:nth-child(3n+2) .perk-bubble { 
+  background-color: #FFBFBF; 
+  color: var(--color-primary) !important; 
+}
+.bg-terracotta .perks-list--offshoring li:nth-child(3n+3) .perk-bubble { 
+  background-color: #AC201A; 
+  color: #FFF9EF !important; 
+}
 
 /* --- Offshoring Universal System --- */
 .universal-icon-wrapper {

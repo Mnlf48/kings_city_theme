@@ -43,24 +43,11 @@ get_header();
 @keyframes floatSpace { 0% { transform: translateY(0px) rotate(-5deg); } 50% { transform: translateY(-12px) rotate(5deg); } 100% { transform: translateY(0px) rotate(-5deg); } }
 .space-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
 </style>
-<!-- Ivory Sparkle -->
-<div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-bg-ivory);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
-</div>
-<!-- Deep Red Heart -->
-<div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-primary);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-</div>
-<!-- Muted Gold Circle -->
-<!-- Deep Red Wavy Line -->
-<div class="floating-bg-icon anim-float-fast" style="top: 25%; right: 40%; color: var(--color-primary);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
-</div>
-<!-- Ivory Star -->
-<div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: var(--color-bg-ivory);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-</div>
-
+<!-- 1. Ivory Sparkle -->
+<!-- 2. Deep Red Heart -->
+<!-- 3. Muted Gold Circle -->
+<!-- 4. Ivory Star -->
+<!-- 5. Soft Blush Sparkle -->
 <div class="container" style="position: relative; z-index: 1;">
 <div class="section__header text-center mx-auto" style="max-width: 800px; margin-bottom: var(--space-xl);">
 <span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('section_txt_22'); ?></span>
@@ -213,7 +200,22 @@ get_header();
 </div>
 </article>
 </div>
-</div></section>
+</div>
+
+          <!-- 1. Star -->
+          <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
+          <!-- 2. Heart -->
+          <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+          <!-- 3. Star -->
+          <div class="floating-bg-icon anim-float-fast" style="top: 25%; right: 40%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
+          <!-- 4. Heart -->
+          <div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+          <!-- 5. Star -->
+          <div class="floating-bg-icon anim-float-fast" style="top: 15%; left: 12%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
+          <!-- 6. Heart -->
+          <div class="floating-bg-icon anim-pulse" style="top: 45%; left: 25%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+
+</section>
 <!-- offshoring section -->
 <section class="section content-panel section--offshoring bg-terracotta" style="position: relative; overflow: hidden;">
 <!-- Background floating confetti -->
@@ -221,23 +223,18 @@ get_header();
 @keyframes floatOffshore { 0% { transform: translateY(0px) rotate(-5deg); } 50% { transform: translateY(-12px) rotate(5deg); } 100% { transform: translateY(0px) rotate(-5deg); } }
 .offshore-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
 </style>
-<!-- Ivory Sparkle -->
-<!-- Soft Pink Heart -->
-<div class="floating-bg-icon anim-float-fast" style="bottom: 20%; left: 8%; color: var(--color-secondary);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
-</div>
-<!-- Muted Gold Circle -->
-<div class="floating-bg-icon anim-pulse" style="top: 40%; left: 45%; color: var(--color-accent-gold);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-</div>
-
+<!-- 1. Ivory Sparkle -->
+<!-- 2. Soft Blush Heart -->
+<!-- 3. Red Sparkle -->
+<!-- 4. Ivory Heart -->
+<!-- 5. Soft Blush Sparkle -->
 <div class="container grid-12" style="position: relative; z-index: 1;">
 <div class="col-12 split" style="align-items: center;">
 <div class="split__content">
 <span class="text-overline" style="color: var(--color-bg-ivory); opacity: 0.8;"><?php echo get_field('section_txt_35'); ?></span>
 <h2 style="color: var(--color-bg-ivory); margin-bottom: var(--space-md);"><?php echo get_field('section_txt_33'); ?></h2>
 <p class="text-lead" style="color: var(--color-bg-ivory); opacity: 0.9;"><?php echo get_field('section_txt_34'); ?></p>
-<ul class="perks-list" style="margin-bottom: var(--space-lg); color: var(--color-bg-ivory);">
+<ul class="perks-list perks-list--offshoring" style="margin-bottom: var(--space-lg); color: var(--color-bg-ivory);">
 <li>
 <div class="perk-bubble" style="box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
@@ -287,17 +284,30 @@ get_header();
 </div>
 </div>
 </div>
+
+
+          <!-- 1. Star -->
+          <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-bg-ivory);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
+          <!-- 2. Heart -->
+          <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+          <!-- 3. Star -->
+          <div class="floating-bg-icon anim-float-fast" style="top: 25%; right: 40%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
+          <!-- 4. Heart -->
+          <div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: var(--color-bg-ivory);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+          <!-- 5. Star -->
+          <div class="floating-bg-icon anim-float-fast" style="top: 15%; left: 12%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
+          <!-- 6. Heart -->
+          <div class="floating-bg-icon anim-pulse" style="top: 45%; left: 25%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+
 </section>
 <!-- membership perks section -->
 <section class="section content-panel section--pass bg-blush" style="position: relative; overflow: hidden;">
 <!-- Background floating icons -->
- 
-<div class="floating-bg-icon anim-float-fast" style="top: 15%; right: 8%; color: var(--color-accent-red); opacity: 0.4;">
-  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
-</div>
-<div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-accent-gold); opacity: 0.5;">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-</div>
+<!-- 1. Red Sparkle -->
+<!-- 2. Terracotta Heart -->
+<!-- 3. Ivory Sparkle -->
+<!-- 4. Red Heart -->
+<!-- 5. Terracotta Sparkle -->
 <!-- /Background floating icons -->
 <div class="container grid-12" style="position: relative; z-index: 1;">
 <div class="col-12 split">
@@ -308,7 +318,7 @@ get_header();
 <span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('section_txt_40'); ?></span>
 <h2 style="color: #BD451F; margin-bottom: var(--space-md);"><?php echo get_field('section_txt_38'); ?></h2>
 <p style="margin-bottom: var(--space-lg);"><?php echo get_field('section_txt_39'); ?></p>
-<ul class="perks-list">
+<ul class="perks-list perks-list--membership">
 <li>
 <div class="perk-bubble">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
@@ -362,20 +372,30 @@ get_header();
 </div>
 </div>
 </div>
+
+
+          <!-- 1. Star -->
+          <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
+          <!-- 2. Heart -->
+          <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+          <!-- 3. Star -->
+          <div class="floating-bg-icon anim-float-fast" style="top: 25%; right: 40%; color: var(--color-bg-ivory);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
+          <!-- 4. Heart -->
+          <div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+          <!-- 5. Star -->
+          <div class="floating-bg-icon anim-float-fast" style="top: 15%; left: 12%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
+          <!-- 6. Heart -->
+          <div class="floating-bg-icon anim-pulse" style="top: 45%; left: 25%; color: var(--color-bg-ivory);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+
 </section>
 <!-- locations gallery carousel -->
 <section class="section content-panel section--gallery gallery-theme-terracotta" style="position: relative; padding: var(--space-lg) 0 var(--space-2xl) 0; overflow: hidden;">
 <!-- Background Confetti -->
-<div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 15%; color: var(--color-bg-ivory);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
-</div>
-<div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 10%; color: var(--color-secondary);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-</div>
-<div class="floating-bg-icon anim-float-offset" style="top: 50%; left: 3%; color: var(--color-accent-gold);">
-  <circle cx="12" cy="12" r="8" fill="currentColor" opacity="0.25"></circle>
-</div>
-
+<!-- 1. Ivory Sparkle -->
+<!-- 2. Soft Blush Heart -->
+<!-- 3. Red Sparkle -->
+<!-- 4. Ivory Heart -->
+<!-- 5. Soft Blush Sparkle -->
 <!-- Heading -->
 <div class="container" style="position: relative; z-index: 2;">
   <div style="text-align: center; margin-bottom: var(--space-xl);">
@@ -430,6 +450,21 @@ get_header();
 </svg>
 </button>
 
+
+
+          <!-- 1. Star -->
+          <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-bg-ivory);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
+          <!-- 2. Heart -->
+          <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+          <!-- 3. Star -->
+          <div class="floating-bg-icon anim-float-fast" style="top: 25%; right: 40%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
+          <!-- 4. Heart -->
+          <div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: var(--color-bg-ivory);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+          <!-- 5. Star -->
+          <div class="floating-bg-icon anim-float-fast" style="top: 15%; left: 12%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
+          <!-- 6. Heart -->
+          <div class="floating-bg-icon anim-pulse" style="top: 45%; left: 25%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+
 </section>
 <!-- trust bar -->
 <!-- what defines us -->
@@ -444,28 +479,11 @@ get_header();
 
 <!-- 1. Deep Red Heart (Top Right) -->
 
-<!-- 2. Gold Social Pin (Bottom Left) -->
-<div class="floating-bg-icon anim-float-fast" style="bottom: 15%; left: 8%; color: var(--color-accent-gold);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
-</div>
-
-<!-- 3. Ivory Circle (Center) -->
-<div class="floating-bg-icon anim-pulse" style="top: 45%; left: 45%; color: var(--color-bg-ivory);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-</div>
-
-<!-- 4. Ivory Plus Sign (Top Left) -->
-
-<!-- 5. Deep Red Wavy Line (Bottom Right Center) -->
-<div class="floating-bg-icon anim-float-fast" style="bottom: 25%; right: 40%; color: var(--color-primary);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
-</div>
-
-<!-- 6. Gold Sparkle/Star (Bottom Right) -->
-<div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: var(--color-accent-gold);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-</div>
-
+<!-- 1. Red Sparkle -->
+<!-- 2. Ivory Heart -->
+<!-- 3. Terracotta Sparkle -->
+<!-- 4. Red Heart -->
+<!-- 5. Ivory Sparkle -->
 <div class="container grid-12" style="position: relative; z-index: 1;">
 <!-- top row: heading + description -->
 <div class="col-12 split" style="align-items: center;">
@@ -475,7 +493,7 @@ get_header();
 <p style="font-size: 0.95rem; line-height: 1.7; max-width: 480px; margin-bottom: var(--space-lg);"><?php echo get_field('section_txt_60'); ?></p>
 
 <!-- feature list -->
-<ul class="perks-list">
+<ul class="perks-list perks-list--social">
 <!-- feature 1: book spaces -->
 <li>
 <div class="perk-bubble" style="box-shadow: 0 4px 12px rgba(189, 69, 31, 0.1);">
@@ -563,6 +581,21 @@ get_header();
 </div>
 </div>
 </div>
+
+
+          <!-- 1. Star -->
+          <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
+          <!-- 2. Heart -->
+          <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+          <!-- 3. Star -->
+          <div class="floating-bg-icon anim-float-fast" style="top: 25%; right: 40%; color: var(--color-bg-ivory);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
+          <!-- 4. Heart -->
+          <div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+          <!-- 5. Star -->
+          <div class="floating-bg-icon anim-float-fast" style="top: 15%; left: 12%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
+          <!-- 6. Heart -->
+          <div class="floating-bg-icon anim-pulse" style="top: 45%; left: 25%; color: var(--color-bg-ivory);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+
 </section>
 <!-- impact section -->
 <section class="section content-panel section--impact" style="position: relative; padding: var(--space-3xl) 0;">
@@ -586,16 +619,11 @@ get_header();
 <style>
 .journal-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
 </style>
-<!-- Ivory Sparkle -->
-<!-- Deep Red Heart -->
-<div class="floating-bg-icon anim-float-fast" style="bottom: 10%; left: 8%; color: var(--color-primary);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
-</div>
-<!-- Muted Gold Star -->
-<div class="floating-bg-icon anim-pulse" style="top: 35%; left: 45%; color: var(--color-accent-gold);">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-</div>
-
+<!-- 1. Terracotta Sparkle -->
+<!-- 2. Soft Blush Heart -->
+<!-- 3. Ivory Sparkle -->
+<!-- 4. Terracotta Heart -->
+<!-- 5. Soft Blush Sparkle -->
 <div class="container" style="position: relative; z-index: 1;">
 <div class="section__header-row" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--space-xl); flex-wrap: wrap; gap: var(--space-md);">
 <div>
@@ -646,6 +674,21 @@ get_header();
 </svg></a>
 </div>
 </div>
+
+
+          <!-- 1. Star -->
+          <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
+          <!-- 2. Heart -->
+          <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+          <!-- 3. Star -->
+          <div class="floating-bg-icon anim-float-fast" style="top: 25%; right: 40%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
+          <!-- 4. Heart -->
+          <div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+          <!-- 5. Star -->
+          <div class="floating-bg-icon anim-float-fast" style="top: 15%; left: 12%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
+          <!-- 6. Heart -->
+          <div class="floating-bg-icon anim-pulse" style="top: 45%; left: 25%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+
 </section>
 </main>
 
