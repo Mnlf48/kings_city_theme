@@ -789,7 +789,8 @@ button[type="submit"]:active,
   transition: background var(--transition-base),
     backdrop-filter var(--transition-base),
     padding var(--transition-base),
-    box-shadow var(--transition-base);
+    box-shadow var(--transition-base),
+    top var(--transition-base);
 }
 
 /* initial state: ivory glass header */
@@ -6019,5 +6020,66 @@ body.modal-open {
   font-style: italic;
   font-size: 1.2rem;
   color: var(--color-text-muted);
+}
+
+/* Announcement Bar */
+.announcement-bar {
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1001;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.announcement-bar__inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  min-height: 40px;
+  padding: 0.5rem 1rem;
+}
+
+.announcement-bar__text {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+.announcement-bar__close {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+}
+
+.announcement-bar__close:hover {
+  opacity: 0.7;
+}
+
+body.has-announcement .site-header {
+  top: 40px;
+}
+
+body.hide-announcement .announcement-bar {
+  transform: translateY(-100%);
+}
+
+body.hide-announcement .site-header {
+  top: 0;
 }
 

@@ -478,7 +478,7 @@ get_header();
 <script>
     // Tab Data Mapping
     const bookingData = {
-      coworking: {
+      "Co-Working": {
         image: "<?php $img = get_field('image_coworking'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/kings_co-working_room01.JPG'); ?>",
         overline: "Hot Desks & Dedicated Seats",
         title: "Co-Working",

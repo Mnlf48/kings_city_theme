@@ -6,7 +6,7 @@
     <title><?php wp_title('|', true, 'right'); bloginfo('name'); ?></title>
     <?php wp_head(); ?>
 </head>
-<body <?php body_class(); ?>>
+<body <?php body_class('has-announcement'); ?>>
 <?php wp_body_open(); ?>
 <?php 
   $header_page = get_page_by_title('Header'); 
@@ -29,6 +29,22 @@
   $mega_logo         = get_field('header_mega_menu_logo', $header_id);
   $mega_logo_url     = ($mega_logo && is_array($mega_logo) && isset($mega_logo['url'])) ? esc_url($mega_logo['url']) : (is_numeric($mega_logo) ? wp_get_attachment_image_url($mega_logo, 'full') : get_template_directory_uri() . '/assets/img/page-header-img/kings-img70.png');
 ?>
+<!-- Announcement Bar -->
+<div class="announcement-bar" id="top-announcement" aria-hidden="false">
+  <div class="container announcement-bar__inner">
+    <span class="announcement-bar__text">- WHERE AMBITION MEETS COMMUNITY -</span>
+    <button class="announcement-bar__close" id="close-announcement" aria-label="Close Announcement">
+      <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+  </div>
+</div>
+<script>
+  // Instant check to prevent flicker
+  if (sessionStorage.getItem('announcementDismissed') === 'true') {
+    document.getElementById('top-announcement').style.display = 'none';
+    document.body.classList.remove('has-announcement');
+  }
+</script>
 <header class="site-header" id="header">
   <div class="container container--wide site-header__inner">
     <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="site-header__logo" aria-label="Kings City Home" style="text-decoration: none;">
@@ -135,3 +151,30 @@
   </nav>
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const annBar = document.getElementById('top-announcement');
+  const closeBtn = document.getElementById('close-announcement');
+  const header = document.getElementById('header');
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      annBar.style.display = 'none';
+      document.body.classList.remove('has-announcement');
+      sessionStorage.setItem('announcementDismissed', 'true');
+    });
+  }
+
+  let lastScrollY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    if (sessionStorage.getItem('announcementDismissed') === 'true') return;
+    
+    if (window.scrollY > 100 && window.scrollY > lastScrollY) {
+      document.body.classList.add('hide-announcement');
+    } else {
+      document.body.classList.remove('hide-announcement');
+    }
+    lastScrollY = window.scrollY;
+  });
+});
+</script>
