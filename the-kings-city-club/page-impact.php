@@ -351,14 +351,13 @@ get_header();
 <img alt="Great Place to Work Background" src="<?php $img = get_field('image_22'); echo ($img && is_array($img) && isset($img['url'])) ? esc_url($img['url']) : (is_numeric($img) ? wp_get_attachment_image_url($img, 'full') : get_template_directory_uri() . '/assets/img/placeholder.jpg'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;"/>
 </div>
 <div class="container">
-<div class="impact-card animate-fadeInLeft" style="background-color: var(--color-bg-ivory); box-shadow: var(--glass-shadow-lg); backdrop-filter: blur(10px); border-radius: var(--radius-card);">
-<span class="text-overline"><?php echo get_field('overline_21'); ?></span>
-<h2 style="margin-top: 1rem;"><?php echo get_field('h2_18'); ?></h2>
-<p><?php echo get_field('p_19'); ?></p>
-<p><?php echo get_field('p_20'); ?></p>
+<div class="impact-card animate-fadeInLeft" style="background: var(--glass-bg-dark); box-shadow: var(--glass-shadow-lg); backdrop-filter: var(--glass-blur); border-radius: var(--radius-card);">
+<span class="text-overline" style="color: var(--color-bg-ivory);"><?php echo get_field('overline_21'); ?></span>
+<h2 style="margin-top: 1rem; color: var(--color-bg-ivory);"><?php echo get_field('h2_18'); ?></h2>
+<p style="color: var(--color-bg-ivory);"><?php echo get_field('p_19'); ?></p>
+<p style="color: var(--color-bg-ivory);"><?php echo get_field('p_20'); ?></p>
 <div style="display: flex; align-items: center; gap: var(--space-md); margin-top: var(--space-lg);">
-<img alt="Certified" src="<?php echo get_template_directory_uri(); ?>/assets/svg/impact-certified.svg" style="width: 64px; height: 64px;"/>
-<span style="font-size: 0.9rem; font-weight: 600; color: var(--color-primary);">Verified Global Standards</span>
+<span style="font-size: 0.9rem; font-weight: 600; color: var(--color-bg-ivory);">Verified Global Standards</span>
 </div>
 </div>
 </div>

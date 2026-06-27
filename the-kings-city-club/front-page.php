@@ -569,18 +569,13 @@ get_header();
 <!-- impact background image -->
 <img alt="Impact - Giving Back" src="<?php echo esc_url(get_field('section_img_68')['url']); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;"/>
 <div class="container" style="position: relative; z-index: 1;">
-<div class="impact-card bg-ivory" style=" padding: clamp(2rem, 4vw, 4rem); border-radius: var(--radius-card); max-width: 650px;">
-<span class="text-overline" style="display: block; margin-bottom: var(--space-sm); color: var(--color-primary);"><?php echo get_field('section_txt_72'); ?></span>
-<h2 style="color: #BD451F; margin-bottom: var(--space-md);"><?php echo get_field('section_txt_69'); ?></h2>
-<p style="color: var(--color-primary); margin-bottom: var(--space-md); line-height: 1.7;"><?php echo get_field('section_txt_70'); ?></p>
-<p style="color: var(--color-primary); margin-bottom: var(--space-xl); line-height: 1.7;"><?php echo get_field('section_txt_71'); ?></p>
+<div class="impact-card" style="background: var(--glass-bg-dark); backdrop-filter: var(--glass-blur); padding: clamp(2rem, 4vw, 4rem); border-radius: var(--radius-card); max-width: 650px;">
+<span class="text-overline" style="display: block; margin-bottom: var(--space-sm); color: var(--color-bg-ivory);"><?php echo get_field('section_txt_72'); ?></span>
+<h2 style="color: var(--color-bg-ivory); margin-bottom: var(--space-md);"><?php echo get_field('section_txt_69'); ?></h2>
+<p style="color: var(--color-bg-ivory); margin-bottom: var(--space-md); line-height: 1.7;"><?php echo get_field('section_txt_70'); ?></p>
+<p style="color: var(--color-bg-ivory); margin-bottom: var(--space-xl); line-height: 1.7;"><?php echo get_field('section_txt_71'); ?></p>
 <div style="display: flex; align-items: center; gap: var(--space-lg); flex-wrap: wrap;">
 <a class="btn" href="<?php echo esc_url( home_url( '/impact/' ) ); ?>">Learn More</a>
-<!-- badges placeholder -->
-<div style="display: flex; gap: var(--space-sm);">
-<div style="width: 50px; height: 50px; background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--radius-pill); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; text-align: center; color: var(--color-primary);"><?php echo get_field('section_txt_73'); ?></div>
-<div style="width: 50px; height: 50px; background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--radius-pill); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; text-align: center; color: var(--color-primary);"><?php echo get_field('section_txt_74'); ?></div>
-</div>
 </div>
 </div>
 </div>

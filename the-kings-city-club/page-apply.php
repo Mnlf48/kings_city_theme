@@ -223,18 +223,18 @@ get_header();
         <input type="hidden" id="currency_used" name="currency_used" value="">
         <input type="hidden" id="total_est" name="total_est" value="">
         
-        <div class="card-glass card-glass--strong" style="padding: var(--space-xl); height: 100%;">
+        <div class="card-glass card-glass--strong" style="background: var(--glass-bg-dark); padding: var(--space-xl); height: 100%;">
           <?php if (isset($_COOKIE['kc_quote_submitted'])): ?>
               <div style="text-align:center; padding: 4rem 2rem;">
-                  <i class="fa-solid fa-clock" style="font-size: 4rem; color: var(--color-primary); margin-bottom: 1.5rem;"></i>
-                  <h2 style="margin-bottom:1rem; color: var(--color-primary);">Quote Request Under Review</h2>
-                  <p style="color:var(--color-text-muted); font-size: 1.125rem;">You recently requested a quote. Our team is currently reviewing your requirements and will be in touch shortly.</p>
+                  <i class="fa-solid fa-clock" style="font-size: 4rem; color: var(--color-bg-ivory); margin-bottom: 1.5rem;"></i>
+                  <h2 style="margin-bottom:1rem; color: var(--color-bg-ivory);">Quote Request Under Review</h2>
+                  <p style="color:var(--color-bg-ivory); font-size: 1.125rem;">You recently requested a quote. Our team is currently reviewing your requirements and will be in touch shortly.</p>
               </div>
           <?php elseif ($form_submitted): ?>
               <div style="text-align:center; padding: 4rem 2rem;">
                   <i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #10b981; margin-bottom: 1.5rem;"></i>
-                  <h2 style="margin-bottom:1rem; color: var(--color-primary);">Quote Request Received!</h2>
-                  <p style="color:var(--color-text-muted); font-size: 1.125rem;">Thank you for your interest. Our team will review your requirements and get back to you shortly.</p>
+                  <h2 style="margin-bottom:1rem; color: var(--color-bg-ivory);">Quote Request Received!</h2>
+                  <p style="color:var(--color-bg-ivory); font-size: 1.125rem;">Thank you for your interest. Our team will review your requirements and get back to you shortly.</p>
               </div>
           <?php else: ?>
           
@@ -243,8 +243,8 @@ get_header();
           <?php endif; ?>
         <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: var(--space-lg);">
           <div>
-            <span class="text-overline"><?php echo get_field('pricing_tb_overline') ?: 'Team Builder Pricing'; ?></span>
-            <h2 style="margin: 0;"><?php echo get_field('pricing_tb_heading') ?: 'Estimate Your Team'; ?></h2>
+            <span class="text-overline" style="color: var(--color-bg-ivory);"><?php echo get_field('pricing_tb_overline') ?: 'Team Builder Pricing'; ?></span>
+            <h2 style="margin: 0; color: var(--color-bg-ivory);"><?php echo get_field('pricing_tb_heading') ?: 'Estimate Your Team'; ?></h2>
           </div>
           <div class="currency-toggle" style="display: flex; background: var(--color-bg-ivory); border-radius: var(--radius-pill); padding: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid var(--color-border-light);">
             <?php 
@@ -260,7 +260,7 @@ get_header();
             foreach ($saved_currencies as $curr):
                 $code = esc_attr($curr['code']);
                 $activeClass = $first ? ' is-active' : '';
-                $bgStyle = $first ? 'background: var(--color-primary); color: #fff;' : 'background: transparent; color: var(--color-text-muted);';
+                $bgStyle = $first ? 'background: var(--color-secondary); color: var(--color-primary);' : 'background: transparent; color: var(--color-primary);';
             ?>
             <button type="button" class="curr-btn<?php echo $activeClass; ?>" data-curr="<?php echo $code; ?>" style="padding: 0.25rem 1rem; border-radius: var(--radius-pill); font-size: 0.8rem; font-weight: 700; <?php echo $bgStyle; ?> border: none; cursor: pointer; transition: all 0.3s ease;"><?php echo $code; ?></button>
             <?php 
@@ -272,20 +272,20 @@ get_header();
         
         <div class="tb-header" style="margin-top: var(--space-md);">
           <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-            <h3 style="margin:0; color: var(--color-primary);"><?php echo get_field('pricing_tb_subheading') ?: 'Your Team Selection'; ?></h3>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-bg-ivory)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <h3 style="margin:0; color: var(--color-bg-ivory);"><?php echo get_field('pricing_tb_subheading') ?: 'Your Team Selection'; ?></h3>
           </div>
-          <button type="button" class="btn btn--small" id="btn-add-member">+ Add Member</button>
+          <button type="button" class="btn btn--small" id="btn-add-member" style="background: var(--color-secondary) !important; color: var(--color-primary) !important; border-color: var(--color-primary) !important;">+ Add Member</button>
         </div>
         
-        <div class="tb-body">
+        <div class="tb-body" style="background-color: #FBCB77; padding: var(--space-md); border-radius: var(--radius-card);">
           <div class="tb-empty-state" id="tb-empty">
-            <div style="margin-bottom: 1rem; color: var(--color-text-muted); display: flex; justify-content: center; align-items: center;">
+            <div style="margin-bottom: 1rem; color: var(--color-primary); display: flex; justify-content: center; align-items: center;">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
             </div>
-            <h4 style="margin-bottom: 0.5rem;"><?php echo get_field('pricing_tb_body_title') ?: 'Build your offshore team with Kings City.'; ?></h4>
-            <p style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 1.5rem;"><?php echo get_field('pricing_tb_body_desc') ?: 'Select roles below and instantly see a transparent monthly estimate.'; ?></p>
-            <button type="button" class="btn btn--outline" id="btn-get-started">Get Started</button>
+            <h4 style="margin-bottom: 0.5rem; color: var(--color-primary);"><?php echo get_field('pricing_tb_body_title') ?: 'Build your offshore team with Kings City.'; ?></h4>
+            <p style="font-size: 0.875rem; color: var(--color-primary); margin-bottom: 1.5rem;"><?php echo get_field('pricing_tb_body_desc') ?: 'Select roles below and instantly see a transparent monthly estimate.'; ?></p>
+            <button type="button" class="btn btn--outline" id="btn-get-started" style="background: var(--color-secondary) !important; color: var(--color-primary) !important; border-color: var(--color-primary) !important;">Get Started</button>
           </div>
 
           <div class="tb-roles-container" id="tb-roles-list" style="display:none;">
@@ -632,13 +632,13 @@ get_header();
           currBtns.forEach(b => {
             b.classList.remove('is-active');
             b.style.background = 'transparent';
-            b.style.color = 'var(--color-text-muted)';
+            b.style.color = 'var(--color-primary)';
           });
           // Set active state
           const clicked = e.target;
           clicked.classList.add('is-active');
-          clicked.style.background = 'var(--color-primary)';
-          clicked.style.color = '#fff';
+          clicked.style.background = 'var(--color-secondary)';
+          clicked.style.color = 'var(--color-primary)';
           
           currentCurr = clicked.dataset.curr;
           
