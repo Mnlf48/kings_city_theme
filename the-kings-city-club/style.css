@@ -2150,7 +2150,7 @@ button[type="submit"]:active,
   }
 
   .hero .split {
-    grid-template-columns: 1.5fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--space-2xl);
     align-items: flex-start;
     /* Anchor top to prevent jumping, matching other pages */
@@ -2165,7 +2165,7 @@ button[type="submit"]:active,
 
   /* when card is on the right — vertically center content at desktop */
   .hero .split--media-right {
-    grid-template-columns: 1fr 1.5fr;
+    grid-template-columns: repeat(2, 1fr);
     align-items: flex-start;
     /* Anchor top to prevent jumping */
   }
