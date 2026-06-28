@@ -35,11 +35,11 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <!-- slider on right -->
 <div class="split__media hero__slider" id="hero-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
 <!-- slide 1 -->
-<img alt="About Kings City 1" class="hero__slide is-active" src="<?php echo kc_img('image_4', 'page-apply-img/kings-img30.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
+<img alt="About Kings City 1" class="hero__slide is-active" src="<?php echo kc_img('image_4', 'page-about-img/kings-img30.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
 <!-- slide 2 -->
 <img alt="About Kings City 2" class="hero__slide" src="<?php echo kc_img('image_5', 'page-about-img/kings_img05.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 <!-- slide 3 -->
-<img alt="About Kings City 3" class="hero__slide" src="<?php echo kc_img('image_6', 'kings_img06-4-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img alt="About Kings City 3" class="hero__slide" src="<?php echo kc_img('image_6', 'page-about-img/kings_img06.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 </div>
 </div>
@@ -406,7 +406,7 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <div class="container grid-12" style="position: relative; z-index: 1;">
 <div class="col-12 split">
 <div class="split__media">
-<img alt="One Pass. All Access. - Membership Perks" src="<?php echo kc_img('about_pass_image', 'kings_img07-2-scaled.webp'); ?>"/>
+<img alt="One Pass. All Access. - Membership Perks" src="<?php echo kc_img('about_pass_image', 'page-about-img/kings_img07.webp'); ?>"/>
 </div>
 <div class="split__content">
 <span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('about_pass_overline'); ?></span>

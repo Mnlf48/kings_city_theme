@@ -58,7 +58,7 @@ get_header();
 <!-- space card 1 -->
 <article class="space-card card-glass animate-fadeInUp">
 <div class="space-card__img-wrap">
-<img alt="Coworking Space" class="space-card__img" src="<?php echo kc_img('section_img_8', 'front-page-img/kings-img45.webp'); ?>"/>
+<img alt="Coworking Space" class="space-card__img" src="<?php echo kc_img('section_img_8', 'front-page-img/kings-img45.webp'); ?>" loading="lazy"/>
 </div>
 <div class="space-card__body">
 <h3 class="space-card__title"><?php echo get_field('section_txt_13'); ?></h3>
@@ -82,7 +82,7 @@ get_header();
 <!-- space card 2 -->
 <article class="space-card card-glass animate-fadeInUp" style="animation-delay: 0.1s;">
 <div class="space-card__img-wrap">
-<img alt="Private Office Space" class="space-card__img" src="<?php echo kc_img('section_img_9', 'front-page-img/kings-img48.webp'); ?>"/>
+<img alt="Private Office Space" class="space-card__img" src="<?php echo kc_img('section_img_9', 'front-page-img/kings-img48.webp'); ?>" loading="lazy"/>
 </div>
 <div class="space-card__body">
 <h3 class="space-card__title"><?php echo get_field('section_txt_14'); ?></h3>
@@ -106,7 +106,7 @@ get_header();
 <!-- space card 3 -->
 <article class="space-card card-glass animate-fadeInUp" style="animation-delay: 0.2s;">
 <div class="space-card__img-wrap">
-<img alt="Enterprise" class="space-card__img" src="<?php echo kc_img('section_img_10', 'front-page-img/kings-img26.webp'); ?>"/>
+<img alt="Enterprise" class="space-card__img" src="<?php echo kc_img('section_img_10', 'front-page-img/kings-img26.webp'); ?>" loading="lazy"/>
 </div>
 <div class="space-card__body">
 <h3 class="space-card__title"><?php echo get_field('section_txt_15'); ?></h3>
@@ -130,7 +130,7 @@ get_header();
 <!-- space card 4 -->
 <article class="space-card card-glass animate-fadeInUp" style="animation-delay: 0.3s;">
 <div class="space-card__img-wrap">
-<img alt="On-Demand" class="space-card__img" src="<?php echo kc_img('section_img_11', 'front-page-img/kings-img32.webp'); ?>"/>
+<img alt="On-Demand" class="space-card__img" src="<?php echo kc_img('section_img_11', 'front-page-img/kings-img32.webp'); ?>" loading="lazy"/>
 </div>
 <div class="space-card__body">
 <h3 class="space-card__title"><?php echo get_field('section_txt_16'); ?></h3>
@@ -154,7 +154,7 @@ get_header();
 <!-- space card 5 -->
 <article class="space-card card-glass animate-fadeInUp" style="animation-delay: 0.4s;">
 <div class="space-card__img-wrap">
-<img alt="Virtual Office" class="space-card__img" src="<?php echo kc_img('section_img_100', 'front-page-img/kings-img74.webp'); ?>"/>
+<img alt="Virtual Office" class="space-card__img" src="<?php echo kc_img('section_img_100', 'front-page-img/kings-img74.webp'); ?>" loading="lazy"/>
 </div>
 <div class="space-card__body">
 <h3 class="space-card__title"><?php echo get_field('section_txt_101'); ?></h3>
@@ -178,7 +178,7 @@ get_header();
 <!-- space card 6 -->
 <article class="space-card card-glass animate-fadeInUp" style="animation-delay: 0.5s;">
 <div class="space-card__img-wrap">
-<img alt="Meeting Rooms" class="space-card__img" src="<?php echo kc_img('section_img_104', 'front-page-img/kings-img73.webp'); ?>"/>
+<img alt="Meeting Rooms" class="space-card__img" src="<?php echo kc_img('section_img_104', 'front-page-img/kings-img73.webp'); ?>" loading="lazy"/>
 </div>
 <div class="space-card__body">
 <h3 class="space-card__title"><?php echo get_field('section_txt_105'); ?></h3>
@@ -280,7 +280,7 @@ get_header();
 </div>
 </div>
 <div class="split__media">
-<img alt="Offshoring Power - A professional team working in a modern office" src="<?php echo kc_img('section_img_32', 'front-page-img/kings-img37.webp'); ?>"/>
+<img alt="Offshoring Power - A professional team working in a modern office" src="<?php echo kc_img('section_img_32', 'front-page-img/kings-img37.webp'); ?>" loading="lazy"/>
 </div>
 </div>
 </div>
@@ -312,7 +312,7 @@ get_header();
 <div class="container grid-12" style="position: relative; z-index: 1;">
 <div class="col-12 split">
 <div class="split__media">
-<img alt="One Pass. All Access. - Membership Perks" src="<?php echo kc_img('section_img_37', 'front-page-img/kings_img07.webp'); ?>"/>
+<img alt="One Pass. All Access. - Membership Perks" src="<?php echo kc_img('section_img_37', 'front-page-img/kings_img07.webp'); ?>" loading="lazy"/>
 </div>
 <div class="split__content" style="margin-top: 0;">
 <span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('section_txt_40'); ?></span>
@@ -411,36 +411,36 @@ get_header();
 <div class="gallery-carousel" id="gallery-carousel">
 <!-- original set -->
 <div class="gallery-card">
-<img alt="Kings Club Makati" src="<?php echo kc_img('section_img_46', 'front-page-img/kings-img53.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Makati" src="<?php echo kc_img('section_img_46', 'front-page-img/kings-img53.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Kings Club BGC" src="<?php echo kc_img('section_img_47', 'front-page-img/kings-img16.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club BGC" src="<?php echo kc_img('section_img_47', 'front-page-img/kings-img16.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Kings Club Ortigas" src="<?php echo kc_img('section_img_48', 'front-page-img/kings-img17.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Ortigas" src="<?php echo kc_img('section_img_48', 'front-page-img/kings-img17.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Kings Club Alabang" src="<?php echo kc_img('section_img_49', 'front-page-img/kings_img06.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Alabang" src="<?php echo kc_img('section_img_49', 'front-page-img/kings_img06.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Kings Club Quezon City" src="<?php echo kc_img('section_img_50', 'front-page-img/kings-img40.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Quezon City" src="<?php echo kc_img('section_img_50', 'front-page-img/kings-img40.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 
 <!-- duplicated set for infinite loop -->
 <div class="gallery-card">
-<img alt="Kings Club Makati" src="<?php echo kc_img('section_img_52', 'front-page-img/kings-img37.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Makati" src="<?php echo kc_img('section_img_52', 'front-page-img/kings-img37.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Kings Club BGC" src="<?php echo kc_img('section_img_53', 'front-page-img/kings-img20.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club BGC" src="<?php echo kc_img('section_img_53', 'front-page-img/kings-img20.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Kings Club Ortigas" src="<?php echo kc_img('section_img_54', 'front-page-img/kings_img06.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Ortigas" src="<?php echo kc_img('section_img_54', 'front-page-img/kings_img06.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Kings Club Alabang" src="<?php echo kc_img('section_img_55', 'front-page-img/kings-img53.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Alabang" src="<?php echo kc_img('section_img_55', 'front-page-img/kings-img53.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Kings Club Quezon City" src="<?php echo kc_img('section_img_56', 'front-page-img/kings-img47.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Quezon City" src="<?php echo kc_img('section_img_56', 'front-page-img/kings-img47.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 
 </div>
@@ -577,7 +577,7 @@ get_header();
 </ul>
 </div>
 <div class="split__media">
-<img alt="Get Social With Us - Kings Club Community App" src="<?php echo kc_img('section_img_58', 'front-page-img/kings-img44.webp'); ?>"/>
+<img alt="Get Social With Us - Kings Club Community App" src="<?php echo kc_img('section_img_58', 'front-page-img/kings-img44.webp'); ?>" loading="lazy"/>
 </div>
 </div>
 </div>
@@ -600,7 +600,7 @@ get_header();
 <!-- impact section -->
 <section class="section content-panel section--impact" style="position: relative; padding: var(--space-3xl) 0;">
 <!-- impact background image -->
-<img alt="Impact - Giving Back" src="<?php echo kc_img('section_img_68', 'front-page-img/kings-img20.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;"/>
+<img alt="Impact - Giving Back" src="<?php echo kc_img('section_img_68', 'front-page-img/kings-img20.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;" loading="lazy"/>
 <div class="container" style="position: relative; z-index: 1;">
 <div class="impact-card" style="background: var(--glass-bg-dark); backdrop-filter: var(--glass-blur); padding: clamp(2rem, 4vw, 4rem); border-radius: var(--radius-card); max-width: 650px;">
 <span class="text-overline" style="display: block; margin-bottom: var(--space-sm); color: var(--color-bg-ivory);"><?php echo get_field('section_txt_72'); ?></span>
@@ -640,7 +640,7 @@ get_header();
 <div class="journal-grid">
 <!-- journal card 1 -->
 <article class="card-glass">
-<img alt="Galentine's 2026" src="<?php echo kc_img('section_img_75', 'front-page-img/kings-img33.webp'); ?>" style="width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-card) var(--radius-card) 0 0;"/>
+<img alt="Galentine's 2026" src="<?php echo kc_img('section_img_75', 'front-page-img/kings-img33.webp'); ?>" style="width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-card) var(--radius-card) 0 0;" loading="lazy"/>
 <div class="journal-card__body">
 <div class="journal-card__meta bg-ivory" style="display:inline-block;  color:var(--color-primary); padding:0.25rem 0.75rem; border-radius:12px; font-size:0.75rem; font-weight:700; margin-bottom:0.75rem; box-shadow:0 4px 8px rgba(0,0,0,0.05); text-transform:uppercase;"><?php echo get_field('section_txt_87'); ?></div>
 <h3 class="journal-card__title"><?php echo get_field('section_txt_79'); ?></h3>
@@ -649,7 +649,7 @@ get_header();
 </article>
 <!-- journal card 2 -->
 <article class="card-glass">
-<img alt="Triple Anniversary Celebration" src="<?php echo kc_img('section_img_76', 'front-page-img/kings-img34.webp'); ?>" style="width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-card) var(--radius-card) 0 0;"/>
+<img alt="Triple Anniversary Celebration" src="<?php echo kc_img('section_img_76', 'front-page-img/kings-img34.webp'); ?>" style="width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-card) var(--radius-card) 0 0;" loading="lazy"/>
 <div class="journal-card__body">
 <div class="journal-card__meta bg-ivory" style="display:inline-block;  color:var(--color-primary); padding:0.25rem 0.75rem; border-radius:12px; font-size:0.75rem; font-weight:700; margin-bottom:0.75rem; box-shadow:0 4px 8px rgba(0,0,0,0.05); text-transform:uppercase;"><?php echo get_field('section_txt_88'); ?></div>
 <h3 class="journal-card__title"><?php echo get_field('section_txt_80'); ?></h3>
@@ -658,7 +658,7 @@ get_header();
 </article>
 <!-- journal card 3 -->
 <article class="card-glass">
-<img alt="Manille Céramique Pottery Studio" src="<?php echo kc_img('section_img_77', 'front-page-img/kings-img35.webp'); ?>" style="width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-card) var(--radius-card) 0 0;"/>
+<img alt="Manille Céramique Pottery Studio" src="<?php echo kc_img('section_img_77', 'front-page-img/kings-img35.webp'); ?>" style="width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-card) var(--radius-card) 0 0;" loading="lazy"/>
 <div class="journal-card__body">
 <div class="journal-card__meta bg-ivory" style="display:inline-block;  color:var(--color-primary); padding:0.25rem 0.75rem; border-radius:12px; font-size:0.75rem; font-weight:700; margin-bottom:0.75rem; box-shadow:0 4px 8px rgba(0,0,0,0.05); text-transform:uppercase;"><?php echo get_field('section_txt_89'); ?></div>
 <h3 class="journal-card__title"><?php echo get_field('section_txt_81'); ?></h3>

@@ -130,8 +130,8 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 <div class="col-12 split split--reverse">
 <div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
 <img class="spaces__slide is-active" alt="Kings City Meeting Room 1" src="<?php echo kc_img('image_18', 'page-spaces-img/kings-img93.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Meeting Room 2" src="<?php echo kc_img('image_18_2', 'kings_img06-2-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Meeting Room 3" src="<?php echo kc_img('image_18_3', 'kings-img53-1-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Kings City Meeting Room 2" src="<?php echo kc_img('image_18_2', 'page-spaces-img/kings_img06.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Kings City Meeting Room 3" src="<?php echo kc_img('image_18_3', 'page-spaces-img/kings-img53.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 <div class="split__content text-center">
 <span class="text-overline"><?php echo get_field('overline_17'); ?></span>
@@ -182,7 +182,7 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 <div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
 <img class="spaces__slide is-active" alt="Kings City Events Place 1" src="<?php echo kc_img('image_24', 'page-spaces-img/kings-img13.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
 <img class="spaces__slide" alt="Kings City Events Place 2" src="<?php echo kc_img('image_24_2', 'front-page-img/kings-img48.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Events Place 3" src="<?php echo kc_img('image_24_3', 'kings-img53-1-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Kings City Events Place 3" src="<?php echo kc_img('image_24_3', 'page-spaces-img/kings-img53.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 <div class="split__content text-center">
 <span class="text-overline"><?php echo get_field('overline_23'); ?></span>
@@ -233,7 +233,7 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 <div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
 <img class="spaces__slide is-active" alt="Kings City Private Office 1" src="<?php echo kc_img('image_30', 'page-spaces-img/kings-img36.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
 <img class="spaces__slide" alt="Kings City Private Office 2" src="<?php echo kc_img('image_30_2', 'page-spaces-img/kings-img28.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Private Office 3" src="<?php echo kc_img('image_30_3', 'kings-img16-1-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Kings City Private Office 3" src="<?php echo kc_img('image_30_3', 'page-spaces-img/kings-img16.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 <div class="split__content text-center">
 <span class="text-overline"><?php echo get_field('overline_29'); ?></span>
@@ -335,7 +335,7 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 <div class="col-12 split split--reverse">
 <div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
 <img class="spaces__slide is-active" alt="Test Kitchen 1" src="<?php echo kc_img('tk_img1', 'page-spaces-img/kings-img88.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Test Kitchen 2" src="<?php echo kc_img('tk_img2', 'kings-img74-3-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Test Kitchen 2" src="<?php echo kc_img('tk_img2', 'front-page-img/kings-img74.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 <img class="spaces__slide" alt="Test Kitchen 3" src="<?php echo kc_img('tk_img3', 'front-page-img/kings-img72.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 <div class="split__content text-center">
@@ -386,7 +386,7 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 <div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
 <img class="spaces__slide is-active" alt="Manille Ceramics 1" src="<?php echo kc_img('mc_img1', 'page-spaces-img/kings-img86.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
 <img class="spaces__slide" alt="Manille Ceramics 2" src="<?php echo kc_img('mc_img2', 'page-spaces-img/kings-img85.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Manille Ceramics 3" src="<?php echo kc_img('mc_img3', 'kings-img84-1-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img class="spaces__slide" alt="Manille Ceramics 3" src="<?php echo kc_img('mc_img3', 'page-spaces-img/kings-img84.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 <div class="split__content text-center">
 <span class="text-overline"><?php echo get_field('mc_overline'); ?></span>
@@ -534,35 +534,36 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 <div class="gallery-carousel" id="gallery-carousel">
 <!-- original set -->
 <div class="gallery-card">
-<img alt="Premium Hot Desking" src="<?php echo kc_img('image_45', 'kings-img53-1-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Makati" src="<?php echo kc_img('section_img_46', 'front-page-img/kings-img53.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Executive Meeting Rooms" src="<?php echo kc_img('image_46', 'kings-img16-1-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club BGC" src="<?php echo kc_img('section_img_47', 'front-page-img/kings-img16.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Event Space" src="<?php echo kc_img('image_47', 'kings-img17-1-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Ortigas" src="<?php echo kc_img('section_img_48', 'front-page-img/kings-img17.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Private Suites" src="<?php echo kc_img('image_48', 'kings_img06-1-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Alabang" src="<?php echo kc_img('section_img_49', 'front-page-img/kings_img06.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Community Kitchen" src="<?php echo kc_img('image_49', 'kings-img40-1-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Quezon City" src="<?php echo kc_img('section_img_50', 'front-page-img/kings-img40.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
+
 <!-- duplicated set for infinite loop -->
 <div class="gallery-card">
-<img alt="Premium Hot Desking" src="<?php echo kc_img('image_50', 'page-spaces-img/kings-img36.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Makati" src="<?php echo kc_img('section_img_52', 'front-page-img/kings-img37.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Executive Meeting Rooms" src="<?php echo kc_img('image_51', 'kings-img37-1-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club BGC" src="<?php echo kc_img('section_img_53', 'front-page-img/kings-img20.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Event Space" src="<?php echo kc_img('image_52', 'kings-img20-1-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Ortigas" src="<?php echo kc_img('section_img_54', 'front-page-img/kings_img06.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Private Suites" src="<?php echo kc_img('image_53', 'kings_img06-1-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Alabang" src="<?php echo kc_img('section_img_55', 'front-page-img/kings-img53.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Community Kitchen" src="<?php echo kc_img('image_54', 'page-spaces-img/kings-img18.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Quezon City" src="<?php echo kc_img('section_img_56', 'front-page-img/kings-img47.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 </div>
 <button aria-label="Next image" class="gallery-nav gallery-nav--next" onclick="scrollGallery(1)">

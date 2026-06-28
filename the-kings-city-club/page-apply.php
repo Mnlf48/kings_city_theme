@@ -190,8 +190,8 @@ get_header();
 <!-- media on right -->
 <div class="split__media hero__slider" id="hero-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
 <img alt="Kings City Access" class="hero__slide is-active" src="<?php echo kc_img('image_4', 'page-apply-img/kings-img29.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img alt="Kings City Membership 1" class="hero__slide" src="<?php echo kc_img('image_5', 'kings_img07-3-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img alt="Kings City Membership 2" class="hero__slide" src="<?php echo kc_img('image_6', 'kings-img30-1-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img alt="Kings City Membership 1" class="hero__slide" src="<?php echo kc_img('image_5', 'page-apply-img/kings_img07.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img alt="Kings City Membership 2" class="hero__slide" src="<?php echo kc_img('image_6', 'page-apply-img/kings-img30.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 </div>
 </div>

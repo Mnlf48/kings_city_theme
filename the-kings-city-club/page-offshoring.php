@@ -128,7 +128,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 </svg>
 </div>
 <div class="off-process-card__img">
-<img alt="Onboarding Consultation" src="<?php echo kc_img('image_21', 'kings-img26-1-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Onboarding Consultation" src="<?php echo kc_img('image_21', 'page-offshoring-img/kings-img26.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
 <h3><?php echo get_field('h3_11'); ?></h3>
 <p><?php echo get_field('p_16'); ?></p>
@@ -706,35 +706,36 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <div class="gallery-carousel" id="gallery-carousel">
 <!-- original set -->
 <div class="gallery-card">
-<img alt="Dedicated Office Teams" src="<?php echo kc_img('image_52', 'kings-img53-2-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Makati" src="<?php echo kc_img('section_img_46', 'front-page-img/kings-img53.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Modern Workstations" src="<?php echo kc_img('image_53', 'kings-img16-2-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club BGC" src="<?php echo kc_img('section_img_47', 'front-page-img/kings-img16.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Training Facilities" src="<?php echo kc_img('image_54', 'kings-img17-2-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Ortigas" src="<?php echo kc_img('section_img_48', 'front-page-img/kings-img17.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Collaborative Spaces" src="<?php echo kc_img('image_55', 'kings_img06-2-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Alabang" src="<?php echo kc_img('section_img_49', 'front-page-img/kings_img06.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Break &amp; Recreation Areas" src="<?php echo kc_img('image_56', 'kings-img40-2-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Quezon City" src="<?php echo kc_img('section_img_50', 'front-page-img/kings-img40.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
+
 <!-- duplicated set for infinite loop -->
 <div class="gallery-card">
-<img alt="Dedicated Office Teams" src="<?php echo kc_img('image_57', 'page-offshoring-img/kings-img38.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Makati" src="<?php echo kc_img('section_img_52', 'front-page-img/kings-img37.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Modern Workstations" src="<?php echo kc_img('image_58', 'kings-img37-2-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club BGC" src="<?php echo kc_img('section_img_53', 'front-page-img/kings-img20.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Training Facilities" src="<?php echo kc_img('image_59', 'kings-img20-2-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Ortigas" src="<?php echo kc_img('section_img_54', 'front-page-img/kings_img06.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Collaborative Spaces" src="<?php echo kc_img('image_60', 'kings_img06-2-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Alabang" src="<?php echo kc_img('section_img_55', 'front-page-img/kings-img53.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 <div class="gallery-card">
-<img alt="Break &amp; Recreation Areas" src="<?php echo kc_img('image_61', 'kings-img53-2-scaled.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
+<img alt="Kings Club Quezon City" src="<?php echo kc_img('section_img_56', 'front-page-img/kings-img47.webp'); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy"/>
 </div>
 </div>
 <button aria-label="Next image" class="gallery-nav gallery-nav--next" onclick="scrollGallery(1)">

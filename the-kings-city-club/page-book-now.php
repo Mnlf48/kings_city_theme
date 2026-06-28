@@ -322,7 +322,7 @@ get_header();
 <div class="split__media hero__slider" id="hero-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
 <img alt="Kings City Book Now 1" class="hero__slide is-active" src="<?php echo kc_img('image_4', 'page-book-now-img/kings_img09.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
 <img alt="Kings City Book Now 2" class="hero__slide" src="<?php echo kc_img('image_5', 'page-book-now-img/kings_img010.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img alt="Kings City Book Now 3" class="hero__slide" src="<?php echo kc_img('image_6', 'kings_img011-1-scaled.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<img alt="Kings City Book Now 3" class="hero__slide" src="<?php echo kc_img('image_6', 'page-book-now-img/kings_img011.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 </div>
 </div>
@@ -341,7 +341,7 @@ get_header();
 <!-- left: content information -->
 <div class="book-content" id="booking-info">
 <div class="book-content__media">
-<img alt="Workspace" id="content-image" src="<?php echo kc_img('image_14', 'kings-img12-1-scaled.webp'); ?>"/>
+<img alt="Workspace" id="content-image" src="<?php echo kc_img('image_14', 'page-book-now-img/kings-img12.webp'); ?>"/>
 </div>
 <span class="text-overline" id="content-overline"><?php echo get_field('overline_13'); ?></span>
 <h2 class="book-content__title" id="content-title"><?php echo get_field('h2_8'); ?></h2>
@@ -488,7 +488,7 @@ get_header();
     // Tab Data Mapping
         const bookingData = {
       "Co-Working": {
-        image: "<?php echo kc_img('image_coworking', 'kings-img12-1-scaled.webp'); ?>",
+        image: "<?php echo kc_img('image_coworking', 'page-book-now-img/kings-img12.webp'); ?>",
         overline: "Co-Working",
         title: "Shared Workspaces",
         text: "<p>Work alongside other professionals in our beautifully designed open-plan coworking areas. Perfect for freelancers, remote workers, and small teams looking for a vibrant and inspiring environment.</p><p>Enjoy access to premium amenities, high-speed internet, and unlimited premium coffee to keep you productive throughout the day.</p>",
@@ -502,7 +502,7 @@ get_header();
         ]
       },
       "Meeting Rooms": {
-        image: "<?php echo kc_img('image_meeting', 'kings-img28-1-scaled.webp'); ?>",
+        image: "<?php echo kc_img('image_meeting', 'page-book-now-img/kings-img28.webp'); ?>",
         overline: "Meeting Rooms",
         title: "Professional Meeting Spaces",
         text: "<p>Host your next client presentation, team brainstorming session, or board meeting in our fully equipped meeting rooms. Designed for productivity and privacy.</p><p>Our meeting rooms feature state-of-the-art audiovisual equipment, high-speed Wi-Fi, and comfortable seating to ensure your meetings run smoothly.</p>",
@@ -516,7 +516,7 @@ get_header();
         ]
       },
       "Events Place": {
-        image: "<?php echo kc_img('image_events', 'kings-img13-1-scaled.webp'); ?>",
+        image: "<?php echo kc_img('image_events', 'page-book-now-img/kings-img13.webp'); ?>",
         overline: "Events Place",
         title: "Versatile Event Spaces",
         text: "<p>Whether you're hosting a corporate seminar, a product launch, or a networking mixer, our versatile event spaces provide the perfect backdrop for a memorable occasion.</p><p>Our dedicated events team will work with you to customize the layout and arrange catering, ensuring every detail is taken care of.</p>",
@@ -529,7 +529,7 @@ get_header();
         ]
       },
       "Office Leasing": {
-        image: "<?php echo kc_img('image_office', 'kings-img36-2.webp'); ?>",
+        image: "<?php echo kc_img('image_office', 'page-book-now-img/kings-img36.webp'); ?>",
         overline: "Private Offices",
         title: "Dedicated Office Leasing",
         text: "<p>Establish your business presence with a dedicated private office. Fully furnished and move-in ready, our private offices offer the privacy you need with the benefits of a shared community.</p><p>Enjoy 24/7 access, customized branding options, and complimentary meeting room credits every month.</p>",
@@ -542,7 +542,7 @@ get_header();
         ]
       },
       "Virtual Office": {
-        image: "<?php echo kc_img('image_virtual', 'kings-img18-1-scaled.webp'); ?>",
+        image: "<?php echo kc_img('image_virtual', 'page-book-now-img/kings-img18.webp'); ?>",
         overline: "Virtual Office",
         title: "Professional Business Address",
         text: "<p>Elevate your brand image with a prestigious business address at The Kings City Club. Our virtual office packages give you a professional presence without the overhead of a physical space.</p><p>Benefit from mail handling services, a dedicated local phone number, and access to our meeting rooms and coworking spaces when you need them.</p>",

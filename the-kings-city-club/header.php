@@ -27,7 +27,7 @@
   $mega_link3        = get_field('header_mega_link3_label', $header_id) ?: 'Impact';
   $mega_link4        = get_field('header_mega_link4_label', $header_id) ?: 'News';
   $mega_logo         = get_field('header_mega_menu_logo', $header_id);
-  $mega_logo_url     = kc_img('header_mega_menu_logo', 'the_kings_city_club_terracotta_01.png', $header_id);
+  $mega_logo_url     = kc_img('header_mega_menu_logo', 'page-header-img/kings-img70.png', $header_id);
 ?>
 <!-- Announcement Bar -->
 <div class="announcement-bar" id="top-announcement" aria-hidden="false">

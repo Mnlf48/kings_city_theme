@@ -5986,6 +5986,7 @@ body.modal-open {
   height: 60px;
   opacity: 0.6;
   transition: all 0.3s ease;
+  will-change: transform;
 }
 
 /* Unified Animations */

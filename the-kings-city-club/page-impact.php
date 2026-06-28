@@ -475,7 +475,7 @@ get_header();
 <div class="brand-logos-3x3">
 <div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_38', 'page-impact-img/kings-img69.png'); ?>"/></div>
 <div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_39', 'page-impact-img/Metro.png'); ?>"/></div>
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_40', 'Sterlingpaper-logo.png'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_40', 'page-impact-img/Sterlingpaper-logo.png'); ?>"/></div>
 <div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_41', 'page-impact-img/maxicare.png'); ?>"/></div>
 <div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_42', 'page-impact-img/SanitaryCare.png'); ?>"/></div>
 <div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_43', 'page-impact-img/concentrix.png'); ?>"/></div>
