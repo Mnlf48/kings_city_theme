@@ -208,7 +208,31 @@ get_header();
           <!-- 5. Star -->
           <div class="container grid-12" style="position: relative; z-index: 2;">
     <!-- Subsection 1: Team Builder Pricing -->
-    <div class="col-10" style="grid-column: 2 / span 10;">
+    <style>
+      @media (min-width: 992px) {
+        .pricing-card-wrapper {
+          grid-column: 2 / span 10;
+        }
+      }
+      @media (max-width: 991px) {
+        .pricing-card-wrapper {
+          grid-column: 1 / -1; 
+        }
+      }
+      @media (max-width: 767px) {
+        .pricing-card-wrapper {
+          min-width: 0;
+        }
+        .pricing-card-wrapper .card-glass--strong {
+          padding: 1.5rem !important;
+          overflow: hidden;
+        }
+        .pricing-card-wrapper .tb-header {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+    <div class="col-10 pricing-card-wrapper">
       <form id="quote-form" method="POST" action="#pricing-section" novalidate>
         <input type="hidden" name="quote_submit" value="1">
         <input type="text" name="website_url_trap" style="display:none !important;" tabindex="-1" autocomplete="off">

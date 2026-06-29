@@ -34,7 +34,7 @@ $book_now_url  = ! empty( $book_now_page ) ? esc_url( get_permalink( $book_now_p
 <!-- text on left -->
 <div class="split__content animate-fadeInUp hero__content--index">
 <span class="text-overline hero__overline"><?php echo get_field('overline_3'); ?></span>
-<h1 class="hero__title hero__title--inner" style="width: 100%;">
+<h1 class="hero__title hero__title--inner" style="width: 100%; text-transform: uppercase;">
 <?php 
 $h1_val = get_field('h1_1');
 if (!$h1_val) $h1_val = 'The Kings City Space';

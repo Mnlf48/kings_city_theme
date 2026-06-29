@@ -228,57 +228,7 @@ get_header();
       transform: scale(1.1);
     }
 
-    /* FULL-BLEED SUSTAINABILITY SECTION (No Container) */
-    .section_about-impact-conscious {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      min-height: 700px;
-      width: 100%;
-      padding: 0; /* No vertical padding to allow full-bleed feel */
-      overflow: hidden;
-    }
-    .impact-conscious__visual {
-      background-color: var(--color-bg-white);
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: var(--space-3xl);
-    }
-    .impact-conscious__content {
-      padding: var(--space-3xl);
-      max-width: 600px;
-    }
-    @media (max-width: 991px) {
-      .section_about-impact-conscious {
-        grid-template-columns: 1fr;
-      }
-      .impact-conscious__visual {
-        order: 1;
-        min-height: 300px;
-        padding: var(--space-xl);
-      }
-      .impact-conscious__content {
-        order: 2;
-        padding: var(--space-xl);
-        text-align: center;
-        margin: 0 auto;
-      }
-    }
-    @media (max-width: 767px) {
-      .impact-conscious__visual {
-        min-height: auto;
-        padding: var(--space-md) var(--space-md) 0 var(--space-md);
-      }
-      .impact-conscious__visual img {
-        width: 100%;
-        max-width: 350px !important;
-      }
-      .impact-conscious__content {
-        padding: var(--space-md) var(--space-md) var(--space-lg) var(--space-md);
-      }
-    }
+
 
     /* Base Section Style for Standard Cards */
     .impact-section {
@@ -425,19 +375,33 @@ get_header();
 
 </section>
 <!-- environmentally conscious section -->
+<style>
+  @media (max-width: 768px) {
+    .section_about-impact-conscious h2 {
+      font-size: 2rem !important;
+    }
+    .section_about-impact-conscious .split__content {
+      text-align: center;
+    }
+  }
+</style>
 <section class="section content-panel section_about-impact-conscious" style="position: relative; overflow: hidden;">
   <!-- Background Floating Icons -->
-  <!-- svg in the left -->
-<div class="impact-conscious__visual animate-fadeInLeft" style="position: relative; z-index: 2;">
-<img alt="Social Impact World Animation" src="<?php echo get_template_directory_uri(); ?>/assets/svg/impact-world.svg" style="width: 100%; max-width: 500px; height: auto;"/>
-</div>
-<!-- context in the right -->
-<div class="impact-conscious__content animate-fadeInRight" style="position: relative; z-index: 2;">
-<span class="text-overline"><?php echo get_field('overline_33'); ?></span>
-<h2 style="margin-top: 1rem; margin-bottom: var(--space-md); font-family: var(--font-heading);"><?php echo get_field('h2_30'); ?></h2>
-<p style="color: var(--color-text-muted); line-height: 1.8; margin-bottom: var(--space-md);"><?php echo get_field('p_31'); ?></p>
-<p style="color: var(--color-text-muted); line-height: 1.8;"><?php echo get_field('p_32'); ?></p>
-</div>
+  <div class="container grid-12">
+    <div class="col-12 split">
+      <!-- svg in the left -->
+      <div class="split__media animate-fadeInLeft" style="position: relative; z-index: 2; display: flex; align-items: center; justify-content: center;">
+        <img alt="Social Impact World Animation" src="<?php echo get_template_directory_uri(); ?>/assets/svg/impact-world.svg" style="width: 100%; max-width: 500px; height: auto;"/>
+      </div>
+      <!-- context in the right -->
+      <div class="split__content animate-fadeInRight" style="position: relative; z-index: 2;">
+        <span class="text-overline"><?php echo get_field('overline_33'); ?></span>
+        <h2 style="margin-top: 1rem; margin-bottom: var(--space-md); font-family: var(--font-heading);"><?php echo get_field('h2_30'); ?></h2>
+        <p style="color: var(--color-text-muted); line-height: 1.8; margin-bottom: var(--space-md);"><?php echo get_field('p_31'); ?></p>
+        <p style="color: var(--color-text-muted); line-height: 1.8;"><?php echo get_field('p_32'); ?></p>
+      </div>
+    </div>
+  </div>
 
 
           <!-- 1. Star -->
