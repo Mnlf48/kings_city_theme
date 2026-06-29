@@ -19,27 +19,20 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
   // Fetch ACF titles with fallbacks
   $h1_1 = get_field('h1_1') ? get_field('h1_1') : 'Build Your';
   $h1_2 = get_field('h1_2') ? get_field('h1_2') : 'Dedicated Team in The Philippines';
-
-  // Prevent orphans for H1 #1
-  $words1 = explode(' ', trim($h1_1));
-  if (count($words1) >= 3) {
-      $last_word = array_pop($words1);
-      $second_to_last = array_pop($words1);
-      $words1[] = $second_to_last . '&nbsp;' . $last_word;
-      $h1_1 = implode(' ', $words1);
-  }
-
-  // Prevent orphans for H1 #2
+  // Responsive grouping to prevent bleeding on mobile and lonely words on desktop
+  // Desktop: Groups "IN THE PHILIPPINES"
+  // Mobile: Groups "THE PHILIPPINES" allowing "IN" to wrap
   $words2 = explode(' ', trim($h1_2));
   if (count($words2) >= 3) {
-      $last_word = array_pop($words2);
-      $second_to_last = array_pop($words2);
-      $words2[] = $second_to_last . '&nbsp;' . $last_word;
+      $w3 = array_pop($words2);
+      $w2 = array_pop($words2);
+      $w1 = array_pop($words2);
+      $words2[] = '<span class="group-desktop">' . $w1 . '&nbsp;' . $w2 . '&nbsp;' . $w3 . '</span><span class="group-mobile">' . $w1 . ' ' . $w2 . '&nbsp;' . $w3 . '</span>';
       $h1_2 = implode(' ', $words2);
   }
 ?>
 <h1 class="hero__title hero__title--inner hero__welcome" style="margin-bottom: 0;"><?php echo $h1_1; ?></h1>
-<h1 class="hero__title hero__title--inner hero__title--offshoring" style="text-wrap: balance;"><?php echo $h1_2; ?></h1>
+<h1 class="hero__title hero__title--inner hero__title--offshoring"><?php echo $h1_2; ?></h1>
 <p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
 <div class="hero__actions hero__actions--index">
 <a class="btn" href="<?php echo $apply_url; ?>">

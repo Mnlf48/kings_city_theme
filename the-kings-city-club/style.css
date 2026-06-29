@@ -1134,14 +1134,7 @@ button[type="submit"]:active,
 .hero__title--inner {
   font-size: clamp(2rem, 4vw, 3rem);
   max-width: 100%;
-  text-wrap: balance;
-}
-
-/* Unique styling for the Offshoring Page Hero Title */
-.hero__title--offshoring {
-  white-space: normal !important;
-  line-height: 1.1;
-  max-width: none !important;
+  text-wrap: pretty;
 }
 
 /* Unique styling for the Offshoring Page Hero Title */
@@ -1149,6 +1142,16 @@ button[type="submit"]:active,
   white-space: normal !important;
   line-height: 1.15;
   max-width: none !important;
+  text-wrap: pretty; /* Prevents awkward blocky wrapping from balance */
+}
+
+/* Responsive grouping classes for hero titles */
+.group-desktop { display: inline; }
+.group-mobile { display: none; }
+
+@media (max-width: 767px) {
+  .group-desktop { display: none; }
+  .group-mobile { display: inline; }
 }
 
 .hero__subtitle {
@@ -1250,8 +1253,10 @@ button[type="submit"]:active,
     border-radius: 0;
   }
 
-  .hero__title {
-    font-size: clamp(2.25rem, 9vw, 3rem);
+  .hero__title,
+  .hero__title--inner,
+  .hero__welcome {
+    font-size: clamp(2.25rem, 9vw, 3rem) !important;
   }
 }
 
@@ -1268,8 +1273,10 @@ button[type="submit"]:active,
     margin-bottom: 0;
   }
 
-  .hero__title {
-    font-size: 1.75rem;
+  .hero__title,
+  .hero__title--inner,
+  .hero__welcome {
+    font-size: 2.0rem !important;
     margin-bottom: 0.5rem;
   }
 
