@@ -17,10 +17,12 @@ get_header();
 </div>
 <!-- media on right -->
 <div class="split__media hero__slider" id="hero-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
-<!-- news hero placeholder -->
-<div class="hero__slide is-active" style="display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 1.2rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; position: absolute; inset: 0; opacity: 1; transition: opacity 1s ease-in-out; background-color: var(--color-border-light);">
-              NO IMAGE
-            </div>
+<!-- slide 1 -->
+<img class="hero__slide is-active" alt="Kings City News" src="<?php echo kc_img('news_hero_img1', 'page-about-img/kings-img55.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
+<!-- slide 2 -->
+<img class="hero__slide" alt="Kings City News" src="<?php echo kc_img('news_hero_img2', 'page-news-img/kings-img99.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<!-- slide 3 -->
+<img class="hero__slide" alt="Kings City News" src="<?php echo kc_img('news_hero_img3', 'page-news-img/kings-img100.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
 </div>
 </div>
@@ -80,6 +82,12 @@ if ($news_query->have_posts()) :
           </div>
         
           <div class="container" style="position: relative; z-index: 2;">
+            <?php if ($index === 0) : ?>
+            <div style="margin-bottom: var(--space-xl); text-align: center;">
+              <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 5vw, 3rem); letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-primary); margin: 0;">ARTICLES</h2>
+              <div style="width: 60px; height: 3px; background: var(--color-accent-red); margin-top: 0.5rem; border-radius: 2px; margin-left: auto; margin-right: auto;"></div>
+            </div>
+            <?php endif; ?>
             <div class="journal-grid">
               <?php foreach ($group as $post) : setup_postdata($post); ?>
                 <article class="card-glass">
@@ -121,4 +129,22 @@ endif;
 ?>
 </main>
 
+<script>
+(function() {
+  const slider = document.getElementById('hero-slider');
+  if (!slider) return;
+  const slides = slider.querySelectorAll('.hero__slide');
+  if (slides.length < 2) return;
+  let current = 0;
+  setInterval(() => {
+    slides[current].style.opacity = '0';
+    slides[current].classList.remove('is-active');
+    current = (current + 1) % slides.length;
+    slides[current].style.opacity = '1';
+    slides[current].classList.add('is-active');
+  }, 4000);
+})();
+</script>
+
 <?php get_footer(); ?>
+
