@@ -5717,31 +5717,27 @@ body.modal-open {
 .bg-blush .perks-list li:nth-child(3n+2) .perk-bubble { background-color: #AC201A; }
 .bg-blush .perks-list li:nth-child(3n+3) .perk-bubble { background-color: #FBCB77; }
 
-/* Membership Perks Specific Context (2-color cycle) */
+/* Membership Perks Specific Context (2-color alternating cycle) */
 .bg-blush .perks-list--membership li:nth-child(2n+1) .perk-bubble { 
-  background-color: #FBCB77; 
-  color: var(--color-primary) !important; 
+  background-color: #BD451F; 
+  color: #FFF9EF !important; 
 }
 .bg-blush .perks-list--membership li:nth-child(2n+2) .perk-bubble { 
-  background-color: #BD451F; 
-  color: #FFF9EF !important; 
-}
-
-/* Social Perks Specific Context (3-color cycle) */
-.bg-blush .perks-list--social li:nth-child(3n+1) .perk-bubble { 
-  background-color: #FBCB77; 
-  color: var(--color-primary) !important; 
-}
-.bg-blush .perks-list--social li:nth-child(3n+2) .perk-bubble { 
-  background-color: #BD451F; 
-  color: #FFF9EF !important; 
-}
-.bg-blush .perks-list--social li:nth-child(3n+3) .perk-bubble { 
   background-color: #AC201A; 
   color: #FFF9EF !important; 
 }
 
-/* Brands/About Perks Specific Context (2-color cycle) */
+/* Social Perks Specific Context (2-color alternating cycle) */
+.bg-blush .perks-list--social li:nth-child(2n+1) .perk-bubble { 
+  background-color: #BD451F; 
+  color: #FFF9EF !important; 
+}
+.bg-blush .perks-list--social li:nth-child(2n+2) .perk-bubble { 
+  background-color: #AC201A; 
+  color: #FFF9EF !important; 
+}
+
+/* Brands/About Perks Specific Context (2-color alternating cycle) */
 .perks-list--brands-about li:nth-child(2n+1) .perk-bubble { 
   background-color: #FFBFBF !important; 
   color: var(--color-primary) !important; 
@@ -5756,16 +5752,12 @@ body.modal-open {
 .bg-terracotta .perks-list li:nth-child(3n+2) .perk-bubble { background-color: #FFBFBF; } /* Soft Blush */
 .bg-terracotta .perks-list li:nth-child(3n+3) .perk-bubble { background-color: #FBCB77; } /* Muted Gold */
 
-/* Offshoring Perks Specific Context (3-color cycle) */
-.bg-terracotta .perks-list--offshoring li:nth-child(3n+1) .perk-bubble { 
-  background-color: #FBCB77; 
-  color: var(--color-primary) !important; 
-}
-.bg-terracotta .perks-list--offshoring li:nth-child(3n+2) .perk-bubble { 
+/* Offshoring Perks Specific Context (2-color alternating cycle) */
+.bg-terracotta .perks-list--offshoring li:nth-child(2n+1) .perk-bubble { 
   background-color: #FFBFBF; 
   color: var(--color-primary) !important; 
 }
-.bg-terracotta .perks-list--offshoring li:nth-child(3n+3) .perk-bubble { 
+.bg-terracotta .perks-list--offshoring li:nth-child(2n+2) .perk-bubble { 
   background-color: #AC201A; 
   color: #FFF9EF !important; 
 }

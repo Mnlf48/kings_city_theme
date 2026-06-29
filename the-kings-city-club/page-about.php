@@ -412,7 +412,7 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('about_pass_overline'); ?></span>
 <h2 style="margin-bottom: var(--space-md);"><?php echo get_field('about_pass_heading'); ?></h2>
 <p style="margin-bottom: var(--space-lg);"><?php echo get_field('about_pass_subtext'); ?></p>
-<ul class="perks-list">
+<ul class="perks-list perks-list--brands-about">
 <li>
 <div class="perk-bubble">
 <svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22">
