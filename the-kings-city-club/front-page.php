@@ -638,33 +638,44 @@ get_header();
 </div>
 </div>
 <div class="journal-grid">
-<!-- journal card 1 -->
+<?php
+$news_args = array(
+    'post_type'      => 'kc_news',
+    'posts_per_page' => 3,
+    'post_status'    => 'publish',
+    'orderby'        => 'date',
+    'order'          => 'DESC',
+);
+$news_query = new WP_Query($news_args);
+if ($news_query->have_posts()) :
+    while ($news_query->have_posts()) : $news_query->the_post();
+        $image_id = get_field('news_card_image', get_the_ID());
+?>
+<!-- journal card dynamic -->
 <article class="card-glass">
-<img alt="Galentine's 2026" src="<?php echo kc_img('section_img_75', 'front-page-img/kings-img33.webp'); ?>" style="width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-card) var(--radius-card) 0 0;" loading="lazy"/>
+<?php if ($image_id) : ?>
+    <?php echo wp_get_attachment_image($image_id, 'large', false, array('style' => 'width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-card) var(--radius-card) 0 0;')); ?>
+<?php else : ?>
+    <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
+      No Image
+    </div>
+<?php endif; ?>
 <div class="journal-card__body">
-<div class="journal-card__meta bg-ivory" style="display:inline-block;  color:var(--color-primary); padding:0.25rem 0.75rem; border-radius:12px; font-size:0.75rem; font-weight:700; margin-bottom:0.75rem; box-shadow:0 4px 8px rgba(0,0,0,0.05); text-transform:uppercase;"><?php echo get_field('section_txt_87'); ?></div>
-<h3 class="journal-card__title"><?php echo get_field('section_txt_79'); ?></h3>
-<p class="journal-card__excerpt"><?php echo get_field('section_txt_82'); ?></p>
+<div class="journal-card__meta bg-ivory" style="display:inline-block;  color:var(--color-primary); padding:0.25rem 0.75rem; border-radius:12px; font-size:0.75rem; font-weight:700; margin-bottom:0.75rem; box-shadow:0 4px 8px rgba(0,0,0,0.05); text-transform:uppercase;">Kings City News</div>
+<h3 class="journal-card__title"><?php echo get_the_title(); ?></h3>
+<p class="journal-card__excerpt"><?php 
+$excerpt = get_field('news_card_excerpt', get_the_ID());
+echo $excerpt ? $excerpt : wp_trim_words(get_the_excerpt(), 20); 
+?></p>
 </div>
 </article>
-<!-- journal card 2 -->
-<article class="card-glass">
-<img alt="Triple Anniversary Celebration" src="<?php echo kc_img('section_img_76', 'front-page-img/kings-img34.webp'); ?>" style="width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-card) var(--radius-card) 0 0;" loading="lazy"/>
-<div class="journal-card__body">
-<div class="journal-card__meta bg-ivory" style="display:inline-block;  color:var(--color-primary); padding:0.25rem 0.75rem; border-radius:12px; font-size:0.75rem; font-weight:700; margin-bottom:0.75rem; box-shadow:0 4px 8px rgba(0,0,0,0.05); text-transform:uppercase;"><?php echo get_field('section_txt_88'); ?></div>
-<h3 class="journal-card__title"><?php echo get_field('section_txt_80'); ?></h3>
-<p class="journal-card__excerpt"><?php echo get_field('section_txt_83'); ?></p>
-</div>
-</article>
-<!-- journal card 3 -->
-<article class="card-glass">
-<img alt="Manille Céramique Pottery Studio" src="<?php echo kc_img('section_img_77', 'front-page-img/kings-img35.webp'); ?>" style="width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-card) var(--radius-card) 0 0;" loading="lazy"/>
-<div class="journal-card__body">
-<div class="journal-card__meta bg-ivory" style="display:inline-block;  color:var(--color-primary); padding:0.25rem 0.75rem; border-radius:12px; font-size:0.75rem; font-weight:700; margin-bottom:0.75rem; box-shadow:0 4px 8px rgba(0,0,0,0.05); text-transform:uppercase;"><?php echo get_field('section_txt_89'); ?></div>
-<h3 class="journal-card__title"><?php echo get_field('section_txt_81'); ?></h3>
-<p class="journal-card__excerpt"><?php echo get_field('section_txt_84'); ?></p>
-</div>
-</article>
+<?php 
+    endwhile;
+    wp_reset_postdata();
+else: 
+?>
+    <p style="text-align: center; color: var(--color-text-muted);">No recent news found.</p>
+<?php endif; ?>
 </div>
 <!-- mobile read news cta -->
 <div class="journal-cta-wrap journal-cta-wrap--mobile text-right" style="margin-top: var(--space-md);">
