@@ -74,21 +74,55 @@ $share_title = esc_attr(get_the_title());
           </figure>
         <?php endif; ?>
 
+
         <?php
-        // --- Article Text (WYSIWYG) ---
-        $article_raw = get_field('news_article_content');
-        if ($article_raw) :
-          // We will use CSS to make standalone images full-width, 
-          // so we don't break native WordPress galleries by rewriting the HTML.
-          $article_clean = $article_raw;
+        // --- Article Image (dedicated full-width centered image between text blocks) ---
+        $article_img = get_field('news_article_image');
+        if ($article_img) :
+        ?>
+          <figure class="single-article__big-image" style="margin: 1.5rem 0;">
+            <img src="<?php echo esc_url($article_img['sizes']['large']); ?>" alt="<?php echo esc_attr($article_img['alt']); ?>" loading="lazy" style="width:100%; height:auto; display:block; border-radius:var(--radius-card); object-fit:cover;">
+          </figure>
+        <?php endif; ?>
+
+        <?php
+        // --- Article Content Part 2 (optional text after the article image) ---
+        $article_raw_2 = get_field('news_article_content_2');
+        if ($article_raw_2) :
         ?>
           <div class="single-article__text-block">
-            <?php echo apply_filters('the_content', $article_clean); ?>
+            <?php echo apply_filters('the_content', $article_raw_2); ?>
+          </div>
+        <?php endif; ?>
+
+        <?php
+        // --- Inline Gallery (flexible column layout chosen by editor) ---
+        $inline_gallery = get_field('news_inline_gallery');
+        if (!empty($inline_gallery)) :
+            $cols = intval(get_field('news_inline_gallery_cols')) ?: 3;
+        ?>
+          <div class="single-article__inline-gallery" style="
+            display: grid;
+            grid-template-columns: repeat(<?php echo $cols; ?>, 1fr);
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+          ">
+            <?php foreach ($inline_gallery as $gal_img) : ?>
+              <figure style="margin: 0; overflow: hidden; border-radius: var(--radius-card);">
+                <img
+                  src="<?php echo esc_url($gal_img['sizes']['large'] ?? $gal_img['url']); ?>"
+                  alt="<?php echo esc_attr($gal_img['alt']); ?>"
+                  loading="lazy"
+                  style="width: 100%; height: 100%; object-fit: cover; display: block;"
+                />
+              </figure>
+            <?php endforeach; ?>
           </div>
         <?php endif; ?>
 
         <?php
         // --- Gallery Grid (6 individual image fields) ---
+        // Build the gallery HTML into a variable so we can place it before or after text.
         $gallery_images = array();
         for ($i = 1; $i <= 6; $i++) {
           $img = get_field('news_gallery_' . $i);
@@ -96,10 +130,11 @@ $share_title = esc_attr(get_the_title());
             $gallery_images[] = $img;
           }
         }
+        $gallery_position = get_field('news_gallery_position') ?: 'after_text';
 
+        ob_start();
         if (!empty($gallery_images)) :
           if (count($gallery_images) === 1) :
-            // Single image — render full-width like the cover image
             $gimg = $gallery_images[0];
         ?>
           <figure class="single-article__big-image">
@@ -114,6 +149,28 @@ $share_title = esc_attr(get_the_title());
             <?php endforeach; ?>
           </div>
         <?php endif; ?>
+        <?php endif; ?>
+        <?php $gallery_html = ob_get_clean(); ?>
+
+        <?php if ($gallery_position === 'before_text') : ?>
+          <?php echo $gallery_html; ?>
+        <?php endif; ?>
+
+        <?php
+        // --- Article Text (WYSIWYG) ---
+        $article_raw = get_field('news_article_content');
+        if ($article_raw) :
+          add_filter('gallery_style', '__return_empty_string');
+        ?>
+          <div class="single-article__text-block">
+            <?php echo apply_filters('the_content', $article_raw); ?>
+          </div>
+        <?php
+          remove_filter('gallery_style', '__return_empty_string');
+        endif; ?>
+
+        <?php if ($gallery_position === 'after_text' || $gallery_position === '') : ?>
+          <?php echo $gallery_html; ?>
         <?php endif; ?>
 
       </div>
@@ -253,6 +310,43 @@ $share_title = esc_attr(get_the_title());
       dropdown.setAttribute('aria-hidden', 'true');
     });
   }
+})();
+</script>
+
+<script>
+/* Force solo inline images in the article text block to be full-width and centered.
+   This overrides any WordPress-generated width attributes or alignment classes. */
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    var textBlock = document.querySelector('.single-article__text-block');
+    if (!textBlock) return;
+
+    textBlock.querySelectorAll('p').forEach(function(p) {
+      var images = p.querySelectorAll('img');
+      if (images.length === 0) return;
+
+      // Only act when the paragraph contains ONLY image(s) — no other text
+      var textContent = p.textContent.trim();
+      if (textContent !== '') return;
+
+      // Center the paragraph wrapper
+      p.style.textAlign = 'center';
+      p.style.margin = '1rem 0';
+
+      // Make each image full-width and centered
+      images.forEach(function(img) {
+        img.removeAttribute('width');
+        img.removeAttribute('height');
+        img.style.setProperty('width', '100%', 'important');
+        img.style.setProperty('max-width', '100%', 'important');
+        img.style.setProperty('height', 'auto', 'important');
+        img.style.setProperty('display', 'block', 'important');
+        img.style.setProperty('margin', '0 auto', 'important');
+        img.style.setProperty('float', 'none', 'important');
+        img.style.setProperty('border-radius', 'var(--radius-card)', 'important');
+      });
+    });
+  });
 })();
 </script>
 

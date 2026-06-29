@@ -6402,6 +6402,31 @@ body.hide-announcement .site-header {
   display: block !important;
 }
 
+/* Solo inline image: if the only thing inside a <p> is a single <img>, make it full-width and centered.
+   This safely excludes WordPress gallery images which live inside .gallery-item wrappers. */
+.single-article__text-block p > img:only-child,
+.single-article__text-block p > a:only-child > img:only-child {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  margin: 1rem auto !important;
+  border-radius: var(--radius-card) !important;
+  object-fit: cover !important;
+}
+
+/* Center the <p> wrapper when it only contains a solo image */
+.single-article__text-block p:has(> img:only-child),
+.single-article__text-block p:has(> a:only-child > img:only-child) {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin: 1rem 0 !important;
+  padding: 0 !important;
+}
+
+
 /* Big Image Block */
 .single-article__big-image {
   width: 100%;
