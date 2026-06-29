@@ -400,32 +400,32 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <tbody>
 <tr>
 <td data-label="Role">Accountant</td>
-<td data-label="Onshore (Annual)">?4,675,000</td>
-<td class="col-highlight" data-label="Philippines with Kings City">?1,375,000</td>
+<td data-label="Onshore (Annual)">4,675,000</td>
+<td class="col-highlight" data-label="Philippines with Kings City">1,375,000</td>
 <td class="col-highlight" data-label="You Save"><span class="save-badge">~70%</span></td>
 </tr>
 <tr>
 <td data-label="Role">Virtual Assistant</td>
-<td data-label="Onshore (Annual)">?3,575,000</td>
-<td class="col-highlight" data-label="Philippines with Kings City">?990,000</td>
+<td data-label="Onshore (Annual)">3,575,000</td>
+<td class="col-highlight" data-label="Philippines with Kings City">990,000</td>
 <td class="col-highlight" data-label="You Save"><span class="save-badge">~72%</span></td>
 </tr>
 <tr>
 <td data-label="Role">Web Developer</td>
-<td data-label="Onshore (Annual)">?5,775,000</td>
-<td class="col-highlight" data-label="Philippines with Kings City">?1,760,000</td>
+<td data-label="Onshore (Annual)">5,775,000</td>
+<td class="col-highlight" data-label="Philippines with Kings City">1,760,000</td>
 <td class="col-highlight" data-label="You Save"><span class="save-badge">~70%</span></td>
 </tr>
 <tr>
 <td data-label="Role">Customer Service Rep</td>
-<td data-label="Onshore (Annual)">?3,300,000</td>
-<td class="col-highlight" data-label="Philippines with Kings City">?880,000</td>
+<td data-label="Onshore (Annual)">3,300,000</td>
+<td class="col-highlight" data-label="Philippines with Kings City">880,000</td>
 <td class="col-highlight" data-label="You Save"><span class="save-badge">~73%</span></td>
 </tr>
 <tr>
 <td data-label="Role">Graphic Designer</td>
-<td data-label="Onshore (Annual)">?4,125,000</td>
-<td class="col-highlight" data-label="Philippines with Kings City">?1,210,000</td>
+<td data-label="Onshore (Annual)">4,125,000</td>
+<td class="col-highlight" data-label="Philippines with Kings City">1,210,000</td>
 <td class="col-highlight" data-label="You Save"><span class="save-badge">~71%</span></td>
 </tr>
 </tbody>

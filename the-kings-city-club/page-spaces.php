@@ -50,7 +50,7 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </h1>
 <p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
 <div class="hero__actions hero__actions--index">
-<a class="btn" href="<?php echo $apply_url; ?>">
+<a class="btn" href="<?php echo $book_now_url; ?>">
                 Become a Member
               </a>
 </div>
@@ -97,7 +97,7 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </div>
 <div class="spaces-ctas">
 <a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
-<a class="btn btn--outline" href="<?php echo $apply_url; ?>">Apply for Membership</a>
+
 </div>
 </div>
 </div>
@@ -148,7 +148,7 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </div>
 <div class="spaces-ctas">
 <a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
-<a class="btn btn--outline" href="<?php echo $apply_url; ?>">Apply for Membership</a>
+
 </div>
 </div>
 </div>
@@ -199,7 +199,7 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </div>
 <div class="spaces-ctas">
 <a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
-<a class="btn btn--outline" href="<?php echo $apply_url; ?>">Apply for Membership</a>
+
 </div>
 </div>
 </div>
@@ -250,7 +250,7 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </div>
 <div class="spaces-ctas">
 <a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
-<a class="btn btn--outline" href="<?php echo $apply_url; ?>">Apply for Membership</a>
+
 </div>
 </div>
 </div>
@@ -301,7 +301,7 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </div>
 <div class="spaces-ctas">
 <a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
-<a class="btn btn--outline" href="<?php echo $apply_url; ?>">Apply for Membership</a>
+
 </div>
 </div>
 </div>
@@ -350,7 +350,7 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </div>
 <div class="spaces-ctas">
 <a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
-<a class="btn btn--outline" href="<?php echo $apply_url; ?>">Apply for Membership</a>
+
 </div>
 </div>
 </div>
@@ -399,7 +399,7 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </div>
 <div class="spaces-ctas">
 <a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
-<a class="btn btn--outline" href="<?php echo $apply_url; ?>">Apply for Membership</a>
+
 </div>
 </div>
 </div>
