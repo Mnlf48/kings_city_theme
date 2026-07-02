@@ -228,6 +228,19 @@ get_header();
       transform: scale(1.1);
     }
 
+    /* Mobile: larger logos, tighter cell padding to keep 3×3 intact */
+    @media (max-width: 767px) {
+      .brand-logo-item-3x3 img {
+        max-height: 80px;
+      }
+      .brand-logo-item-3x3 {
+        padding: 0.5rem;
+      }
+      .brand-logos-3x3 {
+        gap: var(--space-md);
+      }
+    }
+
 
 
     /* Base Section Style for Standard Cards */

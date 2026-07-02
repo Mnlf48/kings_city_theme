@@ -582,8 +582,39 @@ if (stripos($h1_val, 'the kings city space') !== false) {
         function scrollGallery(direction) {
           if (!gallery) return;
           const scrollAmount = getScrollAmount();
-          gallery.style.scrollBehavior = 'smooth';
-          gallery.scrollBy({ left: scrollAmount * direction });
+          const halfWidth = gallery.scrollWidth / 2;
+
+          if (direction > 0) {
+            // Scrolling forward — loop back if at/near end of duplicated set
+            if (gallery.scrollLeft + gallery.clientWidth >= gallery.scrollWidth - 4) {
+              gallery.style.scrollBehavior = 'auto';
+              gallery.scrollLeft = 0;
+              void gallery.offsetWidth;
+              gallery.style.scrollBehavior = 'smooth';
+              gallery.scrollBy({ left: scrollAmount });
+            } else if (gallery.scrollLeft >= halfWidth) {
+              gallery.style.scrollBehavior = 'auto';
+              gallery.scrollLeft -= halfWidth;
+              void gallery.offsetWidth;
+              gallery.style.scrollBehavior = 'smooth';
+              gallery.scrollBy({ left: scrollAmount });
+            } else {
+              gallery.style.scrollBehavior = 'smooth';
+              gallery.scrollBy({ left: scrollAmount });
+            }
+          } else {
+            // Scrolling backward — loop to end if at/near start
+            if (gallery.scrollLeft <= 4) {
+              gallery.style.scrollBehavior = 'auto';
+              gallery.scrollLeft = halfWidth - scrollAmount;
+              void gallery.offsetWidth;
+              gallery.style.scrollBehavior = 'smooth';
+              gallery.scrollBy({ left: -scrollAmount });
+            } else {
+              gallery.style.scrollBehavior = 'smooth';
+              gallery.scrollBy({ left: scrollAmount * direction });
+            }
+          }
           resetAutoScroll();
         }
 
@@ -626,59 +657,7 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </section>
 </main>
 <script>
-        // Gallery Auto-Scroll & Manual Controls with Seamless Loop
-        const gallery = document.getElementById('gallery-carousel');
-        let autoScrollInterval;
-
-        function getScrollAmount() {
-          const card = gallery.querySelector('.gallery-card');
-          return card ? card.clientWidth + parseInt(getComputedStyle(gallery).gap || 0) : 320;
-        }
-
-        function scrollGallery(direction) {
-          if (!gallery) return;
-          const scrollAmount = getScrollAmount();
-          gallery.style.scrollBehavior = 'smooth';
-          gallery.scrollBy({ left: scrollAmount * direction });
-          resetAutoScroll();
-        }
-
-        function startAutoScroll() {
-          if (!gallery) return;
-          autoScrollInterval = setInterval(() => {
-            const scrollAmount = getScrollAmount();
-            
-            // If scrolled halfway through the duplicated content, instantly reset to start
-            if (gallery.scrollLeft >= gallery.scrollWidth / 2) {
-              gallery.style.scrollBehavior = 'auto'; // Instant jump
-              gallery.scrollLeft = 0;
-              
-              // Force reflow then smooth scroll to next item
-              void gallery.offsetWidth; 
-              gallery.style.scrollBehavior = 'smooth';
-              gallery.scrollBy({ left: scrollAmount });
-            } else {
-              gallery.style.scrollBehavior = 'smooth';
-              gallery.scrollBy({ left: scrollAmount });
-            }
-          }, 3500);
-        }
-
-        function resetAutoScroll() {
-          clearInterval(autoScrollInterval);
-          startAutoScroll();
-        }
-
-        if (gallery) {
-          gallery.addEventListener('mouseenter', () => clearInterval(autoScrollInterval));
-          gallery.addEventListener('mouseleave', startAutoScroll);
-          
-          gallery.addEventListener('touchstart', () => clearInterval(autoScrollInterval));
-          gallery.addEventListener('touchend', startAutoScroll);
-
-          startAutoScroll();
-        }
-      </script>
+</script>
 <script>
     (function() {
       const slider = document.getElementById('hero-slider');

@@ -451,20 +451,6 @@ get_header();
 </button>
 
 
-
-          <!-- 1. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-bg-ivory);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 2. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-          <!-- 3. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 25%; right: 40%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 4. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: var(--color-bg-ivory);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-          <!-- 5. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 15%; left: 12%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 6. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="top: 45%; left: 25%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-
 </section>
 <!-- trust bar -->
 <!-- what defines us -->
@@ -716,8 +702,40 @@ else:
         function scrollGallery(direction) {
           if (!gallery) return;
           const scrollAmount = getScrollAmount();
-          gallery.style.scrollBehavior = 'smooth';
-          gallery.scrollBy({ left: scrollAmount * direction });
+          const halfWidth = gallery.scrollWidth / 2;
+
+          if (direction > 0) {
+            // Scrolling forward — loop back if at/near end of duplicated set
+            if (gallery.scrollLeft + gallery.clientWidth >= gallery.scrollWidth - 4) {
+              gallery.style.scrollBehavior = 'auto';
+              gallery.scrollLeft = 0;
+              void gallery.offsetWidth;
+              gallery.style.scrollBehavior = 'smooth';
+              gallery.scrollBy({ left: scrollAmount });
+            } else if (gallery.scrollLeft >= halfWidth) {
+              // Seamlessly reset to mirrored position in first set then step forward
+              gallery.style.scrollBehavior = 'auto';
+              gallery.scrollLeft -= halfWidth;
+              void gallery.offsetWidth;
+              gallery.style.scrollBehavior = 'smooth';
+              gallery.scrollBy({ left: scrollAmount });
+            } else {
+              gallery.style.scrollBehavior = 'smooth';
+              gallery.scrollBy({ left: scrollAmount });
+            }
+          } else {
+            // Scrolling backward — loop to end if at/near start
+            if (gallery.scrollLeft <= 4) {
+              gallery.style.scrollBehavior = 'auto';
+              gallery.scrollLeft = halfWidth - scrollAmount;
+              void gallery.offsetWidth;
+              gallery.style.scrollBehavior = 'smooth';
+              gallery.scrollBy({ left: -scrollAmount });
+            } else {
+              gallery.style.scrollBehavior = 'smooth';
+              gallery.scrollBy({ left: scrollAmount * direction });
+            }
+          }
           resetAutoScroll();
         }
 

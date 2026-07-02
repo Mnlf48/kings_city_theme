@@ -1206,7 +1206,11 @@ button[type="submit"]:active,
 
 @media (max-width: 1023px) {
   .hero {
-    padding-top: calc(var(--space-md) + 80px);
+    min-height: auto !important;
+    /* Tablet: content-driven height — no more full-viewport fill */
+    /* 40px announcement + ~60px header + 16px breathing room = 116px */
+    padding-top: 116px;
+    padding-bottom: var(--space-xl);
   }
 
   .hero .split {
@@ -1223,9 +1227,29 @@ button[type="submit"]:active,
   }
 }
 
+/* Tablet-only (768–1023px): inset container so the hero image card has
+   visible side margins — matching the reference layout */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .hero .split__media {
+    border-radius: var(--radius-card);
+  }
+
+  /* Give the image a consistent inset look on tablet */
+  .hero__slider {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-card);
+  }
+}
+
 @media (max-width: 767px) {
   .hero {
-    padding-top: 80px;
+    /* 40px announcement + ~60px header = 100px; no extra gap needed on mobile */
+    padding-top: 100px;
     padding-bottom: var(--space-xl);
     min-height: auto;
     overflow: visible;
@@ -6582,5 +6606,81 @@ body.hide-announcement .site-header {
   display: block;
   padding: 3rem 1rem;
   opacity: 0.7;
+}
+
+/* ============================================================
+   PRICING SECTION — Quote form submit button mobile fix
+   Prevents "REQUEST DETAILED QUOTE" from bleeding out of the
+   card on narrow mobile viewports (white-space: nowrap override)
+   ============================================================ */
+@media (max-width: 767px) {
+  #pricing-section .tb-summary button[type="submit"].btn {
+    white-space: normal !important;
+    word-break: break-word;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    font-size: 0.875rem !important;
+    line-height: 1.4 !important;
+    height: auto !important;
+    min-height: 48px;
+  }
+}
+
+/* ============================================================
+   CORE VALUES SECTION — Tablet centering + Mobile scroll fix
+   Scoped to .core-values-section so no other grid is affected
+   ============================================================ */
+
+/* Tablet (768–1023px): 2 centered columns */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .core-values-section .universal-glass-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Mobile (≤767px): horizontal snap-scroll carousel */
+@media (max-width: 767px) {
+  .core-values-section .core-values-container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .core-values-section .core-values-container > .text-center {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  /* Override universal-glass-grid to become a scroll track */
+  .core-values-section .universal-glass-grid {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;           /* Firefox */
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    padding-bottom: var(--space-md);
+    gap: var(--space-md) !important;
+    /* Reset grid centering */
+    grid-template-columns: unset !important;
+    max-width: none !important;
+    margin: 0 !important;
+  }
+
+  .core-values-section .universal-glass-grid::-webkit-scrollbar {
+    display: none;                   /* Chrome/Safari */
+  }
+
+  /* Each card: 85% wide so the next card peeks */
+  .core-values-section .universal-glass-grid > .card-glass {
+    flex: 0 0 85% !important;
+    scroll-snap-align: start;
+    height: auto !important;
+    min-width: 0;
+  }
 }
 
