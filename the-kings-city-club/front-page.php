@@ -56,7 +56,7 @@ get_header();
 </div>
 <div class="spaces-grid stagger-children">
 <!-- space card 1 -->
-<article class="space-card card-glass animate-fadeInUp">
+<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo esc_url( home_url( '/spaces/' ) ); ?>'" style="cursor: pointer;">
 <div class="space-card__img-wrap">
 <img alt="Coworking Space" class="space-card__img" src="<?php echo kc_img('section_img_8', 'front-page-img/kings-img45.webp'); ?>" loading="lazy"/>
 </div>
@@ -80,7 +80,7 @@ get_header();
 </div>
 </article>
 <!-- space card 2 -->
-<article class="space-card card-glass animate-fadeInUp" style="animation-delay: 0.1s;">
+<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo esc_url( home_url( '/spaces/' ) ); ?>'" style="cursor: pointer; animation-delay: 0.1s;">
 <div class="space-card__img-wrap">
 <img alt="Private Office Space" class="space-card__img" src="<?php echo kc_img('section_img_9', 'front-page-img/kings-img48.webp'); ?>" loading="lazy"/>
 </div>
@@ -104,7 +104,7 @@ get_header();
 </div>
 </article>
 <!-- space card 3 -->
-<article class="space-card card-glass animate-fadeInUp" style="animation-delay: 0.2s;">
+<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo esc_url( home_url( '/spaces/' ) ); ?>'" style="cursor: pointer; animation-delay: 0.2s;">
 <div class="space-card__img-wrap">
 <img alt="Enterprise" class="space-card__img" src="<?php echo kc_img('section_img_10', 'front-page-img/kings-img26.webp'); ?>" loading="lazy"/>
 </div>
@@ -128,7 +128,7 @@ get_header();
 </div>
 </article>
 <!-- space card 4 -->
-<article class="space-card card-glass animate-fadeInUp" style="animation-delay: 0.3s;">
+<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo esc_url( home_url( '/spaces/' ) ); ?>'" style="cursor: pointer; animation-delay: 0.3s;">
 <div class="space-card__img-wrap">
 <img alt="On-Demand" class="space-card__img" src="<?php echo kc_img('section_img_11', 'front-page-img/kings-img32.webp'); ?>" loading="lazy"/>
 </div>
@@ -152,7 +152,7 @@ get_header();
 </div>
 </article>
 <!-- space card 5 -->
-<article class="space-card card-glass animate-fadeInUp" style="animation-delay: 0.4s;">
+<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo esc_url( home_url( '/spaces/' ) ); ?>'" style="cursor: pointer; animation-delay: 0.4s;">
 <div class="space-card__img-wrap">
 <img alt="Virtual Office" class="space-card__img" src="<?php echo kc_img('section_img_100', 'front-page-img/kings-img74.webp'); ?>" loading="lazy"/>
 </div>
@@ -176,7 +176,7 @@ get_header();
 </div>
 </article>
 <!-- space card 6 -->
-<article class="space-card card-glass animate-fadeInUp" style="animation-delay: 0.5s;">
+<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo esc_url( home_url( '/spaces/' ) ); ?>'" style="cursor: pointer; animation-delay: 0.5s;">
 <div class="space-card__img-wrap">
 <img alt="Meeting Rooms" class="space-card__img" src="<?php echo kc_img('section_img_104', 'front-page-img/kings-img73.webp'); ?>" loading="lazy"/>
 </div>
@@ -638,7 +638,7 @@ if ($news_query->have_posts()) :
         $image_id = get_field('news_card_image', get_the_ID());
 ?>
 <!-- journal card dynamic -->
-<article class="card-glass">
+<article class="card-glass" onclick="window.location.href='<?php echo esc_url( get_permalink() ); ?>'">
 <?php if ($image_id) : ?>
     <?php echo wp_get_attachment_image($image_id, 'large', false, array('style' => 'width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-card) var(--radius-card) 0 0;')); ?>
 <?php else : ?>

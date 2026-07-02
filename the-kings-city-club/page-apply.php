@@ -243,16 +243,16 @@ get_header();
         
         <div class="card-glass card-glass--strong" style="background: var(--glass-bg-dark); padding: var(--space-xl); height: 100%;">
           <?php if (isset($_COOKIE['kc_quote_submitted'])): ?>
-              <div style="text-align:center; padding: 4rem 2rem;">
+              <div style="text-align:center; padding: 4rem 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
                   <i class="fa-solid fa-clock" style="font-size: 4rem; color: var(--color-bg-ivory); margin-bottom: 1.5rem;"></i>
                   <h2 style="margin-bottom:1rem; color: var(--color-bg-ivory);">Quote Request Under Review</h2>
-                  <p style="color:var(--color-bg-ivory); font-size: 1.125rem;">You recently requested a quote. Our team is currently reviewing your requirements and will be in touch shortly.</p>
+                  <p style="color:var(--color-bg-ivory); font-size: 1.125rem; margin: 0 auto; max-width: 600px;">You recently requested a quote. Our team is currently reviewing your requirements and will be in touch shortly.</p>
               </div>
           <?php elseif ($form_submitted): ?>
-              <div style="text-align:center; padding: 4rem 2rem;">
+              <div style="text-align:center; padding: 4rem 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
                   <i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #10b981; margin-bottom: 1.5rem;"></i>
                   <h2 style="margin-bottom:1rem; color: var(--color-bg-ivory);">Quote Request Received!</h2>
-                  <p style="color:var(--color-bg-ivory); font-size: 1.125rem;">Thank you for your interest. Our team will review your requirements and get back to you shortly.</p>
+                  <p style="color:var(--color-bg-ivory); font-size: 1.125rem; margin: 0 auto; max-width: 600px;">Thank you for your interest. Our team will review your requirements and get back to you shortly.</p>
               </div>
           <?php else: ?>
           
@@ -324,15 +324,15 @@ get_header();
             </div>
             <div class="tb-summary-row">
               <span>Est. Monthly Base:</span>
-              <strong id="tb-total-base">Php 0</strong>
+              <strong id="tb-total-base">PHP 0</strong>
             </div>
             <div class="tb-summary-savings" id="tb-savings" style="display:none;">
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Saving <strong id="tb-save-amount">~ Php 0</strong> vs. local hire</span>
+              <span>Saving <strong id="tb-save-amount">~ PHP 0</strong> vs. local hire</span>
             </div>
             <div class="tb-summary-total">
               <span style="font-size:1.1rem;font-weight:700;">Estimated Total</span>
-              <span style="font-size:1.5rem;font-weight:700; color: var(--color-primary);" id="tb-final-total">Php 0</span>
+              <span style="font-size:1.5rem;font-weight:700; color: var(--color-primary);" id="tb-final-total">PHP 0</span>
             </div>
 
             <!-- NEW LEAD CAPTURE FIELDS -->
@@ -477,11 +477,6 @@ get_header();
         let converted = Math.round(numPhp * rate);
         
         let prefix = currentCurr + " ";
-        if (currentCurr === "AUD") prefix = "A$ ";
-        if (currentCurr === "USD") prefix = "$ ";
-        if (currentCurr === "PHP") prefix = "Php ";
-        if (currentCurr === "GBP") prefix = "£ ";
-        if (currentCurr === "EUR") prefix = "€ ";
 
         return prefix + converted.toLocaleString('en-US');
       }

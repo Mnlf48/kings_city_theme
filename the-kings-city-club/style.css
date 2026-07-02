@@ -3318,6 +3318,7 @@ button[type="submit"]:active,
 }
 
 .spaces-services__item {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -3335,6 +3336,41 @@ button[type="submit"]:active,
 .spaces-services__item:hover {
   transform: translateY(-5px);
   box-shadow: var(--glass-shadow-lg);
+}
+
+/* Specific hover border color overrides for the ::after overlay */
+#spaces-services .cycle-card-bg > .spaces-services__item:nth-child(odd):hover::after,
+#offshoring-services .cycle-card-bg > .spaces-services__item:nth-child(odd):hover::after,
+#offshoring-contact .cycle-card-bg > .contact-envelope-card:nth-child(odd):hover::after {
+  border-color: #BD451F !important;
+}
+
+#spaces-services .cycle-card-bg > .spaces-services__item:nth-child(even):hover::after,
+#offshoring-services .cycle-card-bg > .spaces-services__item:nth-child(even):hover::after,
+#offshoring-contact .cycle-card-bg > .contact-envelope-card:nth-child(even):hover::after {
+  border-color: #AC201A !important;
+}
+
+/* Specific hover border color overrides for the offshoring process section */
+#offshoring-process .cycle-card-bg > .off-process-card:nth-child(odd):hover::after {
+  border-color: #BD451F !important;
+}
+
+#offshoring-process .cycle-card-bg > .off-process-card:nth-child(even):hover::after {
+  border-color: #AC201A !important;
+}
+
+/* Specific hover border color overrides for the offshoring roles section */
+#offshoring-roles .cycle-card-bg > .off-role-item:nth-child(3n+1):hover::after {
+  border-color: #AC201A !important;
+}
+
+#offshoring-roles .cycle-card-bg > .off-role-item:nth-child(3n+2):hover::after {
+  border-color: #FBCB77 !important;
+}
+
+#offshoring-roles .cycle-card-bg > .off-role-item:nth-child(3n):hover::after {
+  border-color: #BD451F !important;
 }
 
 .spaces-services__item-icon {
@@ -4012,9 +4048,15 @@ button[type="submit"]:active,
 
 .brand-list__item:hover .brand-list__icon,
 .brand-list__item.is-active .brand-list__icon {
-  background: var(--color-accent);
-  color: var(--color-text-light);
-  border-color: var(--color-accent);
+  background: var(--color-accent-gold);
+  color: var(--color-primary);
+  border-color: var(--color-accent-gold);
+}
+
+#group-companies .brand-detail .btn:hover {
+  background: var(--color-accent-gold) !important;
+  border-color: var(--color-accent-gold) !important;
+  color: var(--color-primary) !important;
 }
 
 .brand-list__item.is-active .brand-list__title {
@@ -4777,26 +4819,19 @@ body.modal-open {
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
 }
 
-/* Card 1 & 5: Terracotta */
-.spaces-grid .space-card:nth-child(1):hover::after,
-.spaces-grid .space-card:nth-child(5):hover::after {
-  border-color: #BD451F;
-}
-
-/* Card 2 & 6: Muted Gold */
-.spaces-grid .space-card:nth-child(2):hover::after,
-.spaces-grid .space-card:nth-child(6):hover::after {
-  border-color: var(--color-accent-gold);
-}
-
-/* Card 3: Deep Red */
-.spaces-grid .space-card:nth-child(3):hover::after {
+/* Card 1, 4: Terracotta */
+.spaces-grid .space-card:nth-child(3n+1):hover::after {
   border-color: var(--color-primary);
 }
 
-/* Card 4: Ivory (Replaced Pink so it pops against the pink background) */
-.spaces-grid .space-card:nth-child(4):hover::after {
-  border-color: var(--color-bg-ivory);
+/* Card 2, 5: Muted Gold */
+.spaces-grid .space-card:nth-child(3n+2):hover::after {
+  border-color: var(--color-accent-gold);
+}
+
+/* Card 3, 6: Deep Red */
+.spaces-grid .space-card:nth-child(3n):hover::after {
+  border-color: var(--color-accent-red);
 }
 
 /* ==============================================================
@@ -4821,6 +4856,7 @@ body.modal-open {
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 /* Pseudo-element to draw the border OVER the image */
@@ -4900,13 +4936,13 @@ body.modal-open {
 .section--gallery .gallery-card:nth-child(5n+5) { border-color: var(--color-bg-ivory) !important; } /* Ivory */
 
 .gallery-theme-terracotta .gallery-nav {
-  background-color: var(--color-secondary) !important;
+  background-color: #AC201A !important;
   color: var(--color-bg-ivory) !important;
 }
 
 .gallery-theme-terracotta .gallery-nav:hover {
-  background-color: var(--color-bg-ivory) !important;
-  color: var(--color-secondary) !important;
+  background-color: #FBCB77 !important;
+  color: var(--color-primary) !important;
 }
 
 /* ==============================================================
@@ -4920,13 +4956,13 @@ body.modal-open {
 
 
 .gallery-theme-pink .gallery-nav {
-  background-color: var(--color-bg-ivory) !important;
-  color: #BD451F !important;
+  background-color: #AC201A !important;
+  color: var(--color-bg-ivory) !important;
 }
 
 .gallery-theme-pink .gallery-nav:hover {
-  background-color: #BD451F !important;
-  color: var(--color-bg-ivory) !important;
+  background-color: #FBCB77 !important;
+  color: var(--color-primary) !important;
 }
 
 .section--gallery .gallery-card img {
