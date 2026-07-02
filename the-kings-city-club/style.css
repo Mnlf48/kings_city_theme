@@ -1053,7 +1053,7 @@ button[type="submit"]:active,
 }
 
 .nav-drawer__link:hover {
-  color: #FBCB77;
+  color: var(--color-accent-red);
   padding-left: 0.5rem;
 }
 

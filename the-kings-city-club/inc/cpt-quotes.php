@@ -204,3 +204,94 @@ function kc_save_quote_lead_meta($post_id) {
     }
 }
 add_action('save_post_kg_quote_lead', 'kc_save_quote_lead_meta');
+
+// --- AJAX Form Submission for Quotes ---
+function kc_ajax_submit_quote() {
+    // Check nonce
+    if (!isset($_POST['quote_nonce']) || !wp_verify_nonce($_POST['quote_nonce'], 'quote_submission')) {
+        wp_send_json_error(array('message' => 'Security check failed. Please try again.'));
+    }
+    
+    // Check honeypot
+    if (!empty($_POST['website_url_trap'])) {
+        wp_send_json_error(array('message' => 'Spam detected.'));
+    }
+
+    $fname = sanitize_text_field($_POST['first_name']);
+    $mname = sanitize_text_field($_POST['middle_name']);
+    $lname = sanitize_text_field($_POST['last_name']);
+    $email = sanitize_email($_POST['email']);
+    $phone = sanitize_text_field($_POST['phone']);
+    $address = sanitize_textarea_field($_POST['address']);
+    $team_json = stripslashes($_POST['team_json']);
+    
+    $team_data = json_decode($team_json, true);
+    
+    $to = 'kingscity@kingsgroup.com.ph';
+    $subject = 'New Quote Request from ' . $fname . ' ' . $lname;
+    
+    $message = "You have received a new quote request.\n\n";
+    $message .= "Name: $fname $mname $lname\n";
+    $message .= "Email: $email\n";
+    $message .= "Phone: $phone\n";
+    $message .= "Address:\n$address\n\n";
+    
+    $message .= "--- TEAM BUILDER SELECTION ---\n";
+    if (!empty($team_data) && is_array($team_data)) {
+        $message .= "Currency: " . esc_html($_POST['currency_used']) . "\n";
+        $message .= "Total Estimated Monthly Base: " . esc_html($_POST['total_est']) . "\n\n";
+        foreach ($team_data as $role) {
+            $message .= "- " . $role['title'] . " (" . $role['level'] . ")\n";
+            $message .= "  Headcount: " . $role['headcount'] . "\n";
+            $message .= "  Est. Monthly: " . $role['monthly'] . "\n\n";
+        }
+    } else {
+        $message .= "No team roles selected.\n";
+    }
+    
+    // Check for recent submissions from the same email
+    $recent_leads = get_posts(array(
+        'post_type'      => 'kg_quote_lead',
+        'meta_key'       => 'email',
+        'meta_value'     => $email,
+        'date_query'     => array(
+            array(
+                'after' => '7 days ago'
+            )
+        ),
+        'posts_per_page' => 1
+    ));
+
+    if (!empty($recent_leads)) {
+        wp_send_json_error(array('message' => 'You have recently submitted a quote request from this email. Please allow up to 7 days before submitting another, or contact us directly.'));
+    }
+    
+    $post_id = wp_insert_post(array(
+        'post_title'   => $fname . ' ' . $lname . ' - ' . esc_html($_POST['total_est']),
+        'post_type'    => 'kg_quote_lead',
+        'post_status'  => 'publish'
+    ));
+
+    if (!is_wp_error($post_id)) {
+        update_post_meta($post_id, 'first_name', $fname);
+        update_post_meta($post_id, 'middle_name', $mname);
+        update_post_meta($post_id, 'last_name', $lname);
+        update_post_meta($post_id, 'email', $email);
+        update_post_meta($post_id, 'phone', $phone);
+        update_post_meta($post_id, 'address', $address);
+        update_post_meta($post_id, 'team_json', $team_json);
+        update_post_meta($post_id, 'currency_used', sanitize_text_field($_POST['currency_used']));
+        update_post_meta($post_id, 'total_est', sanitize_text_field($_POST['total_est']));
+        update_post_meta($post_id, 'lead_status', 'Pending');
+        
+        // Also send notification email
+        $headers = array('Reply-To: ' . $email);
+        wp_mail($to, $subject, $message, $headers);
+        
+        wp_send_json_success(array('message' => 'Quote Request Received! Our team will review your requirements and get back to you shortly.'));
+    } else {
+        wp_send_json_error(array('message' => 'An error occurred while saving your request. Please try again.'));
+    }
+}
+add_action('wp_ajax_submit_quote', 'kc_ajax_submit_quote');
+add_action('wp_ajax_nopriv_submit_quote', 'kc_ajax_submit_quote');

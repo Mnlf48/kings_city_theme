@@ -1,93 +1,6 @@
 <?php
 /* Template Name: Apply Now */
 
-$form_submitted = false;
-$error_message = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quote_submit'])) {
-    if (!isset($_POST['quote_nonce']) || !wp_verify_nonce($_POST['quote_nonce'], 'quote_submission')) {
-        $error_message = 'Security check failed. Please try again.';
-    } elseif (!empty($_POST['website_url_trap'])) {
-        $error_message = 'Spam detected.';
-    } else {
-        $fname = sanitize_text_field($_POST['first_name']);
-        $mname = sanitize_text_field($_POST['middle_name']);
-        $lname = sanitize_text_field($_POST['last_name']);
-        $email = sanitize_email($_POST['email']);
-        $phone = sanitize_text_field($_POST['phone']);
-        $address = sanitize_textarea_field($_POST['address']);
-        $team_json = stripslashes($_POST['team_json']);
-        
-        $team_data = json_decode($team_json, true);
-        
-        $to = 'kingscity@kingsgroup.com.ph';
-        $subject = 'New Quote Request from ' . $fname . ' ' . $lname;
-        
-        $message = "You have received a new quote request.\n\n";
-        $message .= "Name: $fname $mname $lname\n";
-        $message .= "Email: $email\n";
-        $message .= "Phone: $phone\n";
-        $message .= "Address:\n$address\n\n";
-        
-        $message .= "--- TEAM BUILDER SELECTION ---\n";
-        if (!empty($team_data) && is_array($team_data)) {
-            $message .= "Currency: " . esc_html($_POST['currency_used']) . "\n";
-            $message .= "Total Estimated Monthly Base: " . esc_html($_POST['total_est']) . "\n\n";
-            foreach ($team_data as $role) {
-                $message .= "- " . $role['title'] . " (" . $role['level'] . ")\n";
-                $message .= "  Headcount: " . $role['headcount'] . "\n";
-                $message .= "  Est. Monthly: " . $role['monthly'] . "\n\n";
-            }
-        } else {
-            $message .= "No team roles selected.\n";
-        }
-        
-        // Check for recent submissions from the same email
-        $recent_leads = get_posts(array(
-            'post_type'      => 'kg_quote_lead',
-            'meta_key'       => 'email',
-            'meta_value'     => $email,
-            'date_query'     => array(
-                array(
-                    'after' => '7 days ago'
-                )
-            ),
-            'posts_per_page' => 1
-        ));
-
-        if (!empty($recent_leads)) {
-            $error_message = 'We have already received a recent quote request from this email. Please allow up to 7 days before submitting another, or contact us directly.';
-        } else {
-            $post_id = wp_insert_post(array(
-                'post_title'   => $fname . ' ' . $lname . ' - ' . esc_html($_POST['total_est']),
-                'post_type'    => 'kg_quote_lead',
-                'post_status'  => 'publish'
-            ));
-
-        if (!is_wp_error($post_id)) {
-            update_post_meta($post_id, 'first_name', $fname);
-            update_post_meta($post_id, 'middle_name', $mname);
-            update_post_meta($post_id, 'last_name', $lname);
-            update_post_meta($post_id, 'email', $email);
-            update_post_meta($post_id, 'phone', $phone);
-            update_post_meta($post_id, 'address', $address);
-            update_post_meta($post_id, 'team_json', $team_json);
-            update_post_meta($post_id, 'currency_used', sanitize_text_field($_POST['currency_used']));
-            update_post_meta($post_id, 'total_est', sanitize_text_field($_POST['total_est']));
-            update_post_meta($post_id, 'lead_status', 'Pending');
-            
-            // Also send notification email
-            $headers = array('Reply-To: ' . $email);
-            wp_mail($to, $subject, $message, $headers);
-            // Set 7-day cookie
-            setcookie('kc_quote_submitted', '1', time() + (7 * 24 * 60 * 60), "/");
-            
-            $form_submitted = true;
-        }
-        }
-    }
-}
-
 get_header();
 ?>
 
@@ -242,23 +155,7 @@ get_header();
         <input type="hidden" id="total_est" name="total_est" value="">
         
         <div class="card-glass card-glass--strong" style="background: var(--glass-bg-dark); padding: var(--space-xl); height: 100%;">
-          <?php if (isset($_COOKIE['kc_quote_submitted'])): ?>
-              <div style="text-align:center; padding: 4rem 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
-                  <i class="fa-solid fa-clock" style="font-size: 4rem; color: var(--color-bg-ivory); margin-bottom: 1.5rem;"></i>
-                  <h2 style="margin-bottom:1rem; color: var(--color-bg-ivory);">Quote Request Under Review</h2>
-                  <p style="color:var(--color-bg-ivory); font-size: 1.125rem; margin: 0 auto; max-width: 600px;">You recently requested a quote. Our team is currently reviewing your requirements and will be in touch shortly.</p>
-              </div>
-          <?php elseif ($form_submitted): ?>
-              <div style="text-align:center; padding: 4rem 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
-                  <i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #10b981; margin-bottom: 1.5rem;"></i>
-                  <h2 style="margin-bottom:1rem; color: var(--color-bg-ivory);">Quote Request Received!</h2>
-                  <p style="color:var(--color-bg-ivory); font-size: 1.125rem; margin: 0 auto; max-width: 600px;">Thank you for your interest. Our team will review your requirements and get back to you shortly.</p>
-              </div>
-          <?php else: ?>
           
-          <?php if (!empty($error_message)): ?>
-              <div style="background:#fee2e2;color:#b91c1c;padding:1rem;margin-bottom:1.5rem;border-radius:8px;"><?php echo esc_html($error_message); ?></div>
-          <?php endif; ?>
         <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: var(--space-lg);">
           <div>
             <span class="text-overline" style="color: var(--color-bg-ivory);"><?php echo get_field('pricing_tb_overline') ?: 'Team Builder Pricing'; ?></span>
@@ -370,7 +267,7 @@ get_header();
             
           </div>
         </div>
-        <?php endif; ?>
+        
       </div>
       </form>
     </div>
@@ -737,6 +634,74 @@ get_header();
       </div>
     </div>
   </div>
+
+
+<!-- Custom Popup Modal -->
+<div id="kc-quote-popup" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
+    <div style="background:var(--color-bg-ivory); padding:2rem; border-radius:var(--radius-lg); max-width:500px; width:90%; text-align:center; box-shadow:var(--shadow-lg);">
+        <i id="kc-quote-popup-icon" class="fa-solid fa-circle-exclamation" style="font-size:3rem; margin-bottom:1rem;"></i>
+        <h3 id="kc-quote-popup-title" style="margin-bottom:1rem; color:var(--color-primary);">Notice</h3>
+        <p id="kc-quote-popup-message" style="margin-bottom:1.5rem; font-size:1.1rem; line-height:1.5;">Message goes here</p>
+        <button type="button" onclick="document.getElementById('kc-quote-popup').style.display='none';" class="btn btn--primary" style="background-color:var(--color-accent-red); color:#fff; border:none; padding:10px 30px; border-radius:var(--radius-pill); cursor:pointer; font-weight:bold; font-size:1.1rem;">Close</button>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const quoteForm = document.getElementById('quote-form');
+    if(quoteForm) {
+        quoteForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if(!quoteForm.reportValidity()) return;
+            
+            const submitBtn = quoteForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = 'Submitting...';
+            submitBtn.disabled = true;
+
+            const formData = new FormData(quoteForm);
+            formData.append('action', 'submit_quote');
+
+            fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(res => {
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+                
+                const popup = document.getElementById('kc-quote-popup');
+                const title = document.getElementById('kc-quote-popup-title');
+                const message = document.getElementById('kc-quote-popup-message');
+                const icon = document.getElementById('kc-quote-popup-icon');
+                
+                if(res.success) {
+                    title.innerText = 'Quote Request Received!';
+                    title.style.color = '#10b981';
+                    icon.className = 'fa-solid fa-check-circle';
+                    icon.style.color = '#10b981';
+                    message.innerText = res.data.message || 'Our team will review your requirements.';
+                    // We don't reset the form so they keep their builder settings!
+                } else {
+                    title.innerText = 'Notice';
+                    title.style.color = 'var(--color-primary)';
+                    icon.className = 'fa-solid fa-circle-exclamation';
+                    icon.style.color = 'var(--color-accent-red)';
+                    message.innerText = res.data.message || 'An error occurred.';
+                }
+                popup.style.display = 'flex';
+            })
+            .catch(err => {
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+                alert('An error occurred. Please try again.');
+            });
+        });
+    }
+});
+</script>
 
 <?php get_footer(); ?>
 
