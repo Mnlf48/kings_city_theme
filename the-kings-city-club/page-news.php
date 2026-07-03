@@ -90,7 +90,7 @@ if ($news_query->have_posts()) :
             <?php endif; ?>
             <div class="journal-grid">
               <?php foreach ($group as $post) : setup_postdata($post); ?>
-                <article class="card-glass">
+                <article class="card-glass" onclick="window.location.href='<?php echo get_permalink($post->ID); ?>'" style="cursor: pointer;">
                   <?php $image_id = get_field('news_card_image', $post->ID); if ($image_id) : ?>
                     <div style="width: 100%; aspect-ratio: 16/9; border-radius: var(--radius-card) var(--radius-card) 0 0; overflow:hidden;">
                         <?php echo wp_get_attachment_image($image_id, 'large', false, array('style' => 'width:100%; height:100%; object-fit:cover;')); ?>

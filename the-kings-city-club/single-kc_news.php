@@ -216,7 +216,7 @@ $share_title = esc_attr(get_the_title());
       ?>
         <div class="journal-grid single-article-recent__grid">
           <?php while ($recent_query->have_posts()) : $recent_query->the_post(); ?>
-            <article class="card-glass">
+            <article class="card-glass" onclick="window.location.href='<?php the_permalink(); ?>'" style="cursor: pointer;">
               <?php $image_id = get_field('news_card_image'); if ($image_id) : ?>
                 <div style="width: 100%; aspect-ratio: 16/9; border-radius: var(--radius-card) var(--radius-card) 0 0; overflow:hidden;">
                   <?php echo wp_get_attachment_image($image_id, 'large', false, array('style' => 'width:100%; height:100%; object-fit:cover;')); ?>
