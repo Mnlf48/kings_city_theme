@@ -1418,6 +1418,14 @@ button[type="submit"]:active,
   object-fit: contain;
 }
 
+@media (max-width: 1024px) {
+  .logo-banner__grid {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    justify-content: center;
+  }
+}
+
 @media (max-width: 767px) {
   .logo-banner {
     padding: var(--space-xl) 0;
@@ -4291,7 +4299,7 @@ button[type="submit"]:active,
 }
 
 /* offshoring contact section */
-@media (min-width: 768px) {
+@media (min-width: 1025px) {
   #offshoring-contact .contact-cards-wrapper {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -4321,7 +4329,7 @@ button[type="submit"]:active,
 }
 
 /* Mobile specific scrolling cards */
-@media (max-width: 767px) {
+@media (max-width: 1024px) {
   .contact-cards-wrapper {
     display: flex !important;
     flex-wrap: nowrap;
@@ -4330,18 +4338,19 @@ button[type="submit"]:active,
     gap: var(--space-md) !important;
     padding-bottom: var(--space-md);
     -webkit-overflow-scrolling: touch;
+    align-items: stretch !important;
   }
 
   .contact-cards-wrapper>.card-glass {
-    flex: 0 0 85%;
-    scroll-snap-align: center;
+    flex: 0 0 320px; /* Fixed width so it looks good on both mobile and tablet without stretching too wide */
+    scroll-snap-align: start;
     padding: var(--space-lg) !important;
   }
 
-  .contact-cards-wrapper>div:last-child {
-    /* Acknowledgement block */
-    flex: 0 0 100%;
-    padding: 0 var(--space-md);
+  @media (max-width: 480px) {
+    .contact-cards-wrapper>.card-glass {
+      flex: 0 0 85%; /* Use percentage on smaller phones */
+    }
   }
 }
 

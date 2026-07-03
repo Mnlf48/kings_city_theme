@@ -153,6 +153,10 @@ get_header();
       .section--impact-bg .impact-card {
         margin: 0 auto;
       }
+      .cda-card-large {
+        aspect-ratio: 4 / 3 !important;
+        max-width: 100% !important;
+      }
     }
 
 
