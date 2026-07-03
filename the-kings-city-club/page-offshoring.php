@@ -36,7 +36,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
 <div class="hero__actions hero__actions--index">
 <a class="btn" href="<?php echo $apply_url; ?>">
-                Request a Consultation
+                Request a Quotation
               </a>
 </div>
 </div>
@@ -400,32 +400,32 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <tbody>
 <tr>
 <td data-label="Role">Accountant</td>
-<td data-label="Onshore (Annual)">AUD $85,000</td>
-<td class="col-highlight" data-label="Philippines with Kings City">AUD $25,000</td>
+<td data-label="Onshore (Annual)">AUD 85,000</td>
+<td class="col-highlight" data-label="Philippines with Kings City">AUD 25,000</td>
 <td class="col-highlight" data-label="You Save"><span class="save-badge">~70%</span></td>
 </tr>
 <tr>
 <td data-label="Role">Virtual Assistant</td>
-<td data-label="Onshore (Annual)">AUD $65,000</td>
-<td class="col-highlight" data-label="Philippines with Kings City">AUD $18,000</td>
+<td data-label="Onshore (Annual)">AUD 65,000</td>
+<td class="col-highlight" data-label="Philippines with Kings City">AUD 18,000</td>
 <td class="col-highlight" data-label="You Save"><span class="save-badge">~72%</span></td>
 </tr>
 <tr>
 <td data-label="Role">Web Developer</td>
-<td data-label="Onshore (Annual)">AUD $105,000</td>
-<td class="col-highlight" data-label="Philippines with Kings City">AUD $32,000</td>
+<td data-label="Onshore (Annual)">AUD 105,000</td>
+<td class="col-highlight" data-label="Philippines with Kings City">AUD 32,000</td>
 <td class="col-highlight" data-label="You Save"><span class="save-badge">~70%</span></td>
 </tr>
 <tr>
 <td data-label="Role">Customer Service Rep</td>
-<td data-label="Onshore (Annual)">AUD $60,000</td>
-<td class="col-highlight" data-label="Philippines with Kings City">AUD $16,000</td>
+<td data-label="Onshore (Annual)">AUD 60,000</td>
+<td class="col-highlight" data-label="Philippines with Kings City">AUD 16,000</td>
 <td class="col-highlight" data-label="You Save"><span class="save-badge">~73%</span></td>
 </tr>
 <tr>
 <td data-label="Role">Graphic Designer</td>
-<td data-label="Onshore (Annual)">AUD $75,000</td>
-<td class="col-highlight" data-label="Philippines with Kings City">AUD $22,000</td>
+<td data-label="Onshore (Annual)">AUD 75,000</td>
+<td class="col-highlight" data-label="Philippines with Kings City">AUD 22,000</td>
 <td class="col-highlight" data-label="You Save"><span class="save-badge">~71%</span></td>
 </tr>
 </tbody>

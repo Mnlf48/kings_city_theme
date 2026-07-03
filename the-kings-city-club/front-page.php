@@ -600,6 +600,13 @@ get_header();
 </div>
 </section>
 <!-- journal preview -->
+<?php
+$news_pages = get_pages(array(
+    'meta_key' => '_wp_page_template',
+    'meta_value' => 'page-news.php'
+));
+$news_url = !empty($news_pages) ? get_permalink($news_pages[0]->ID) : home_url('/news/');
+?>
 <section class="section content-panel section--journal" style="position: relative; overflow: hidden;">
 <!-- Background floating confetti -->
 <style>
@@ -617,7 +624,7 @@ get_header();
 <h2 style="color: #BD451F; margin-bottom: 0;"><?php echo get_field('section_txt_78'); ?></h2>
 </div>
 <div class="journal-cta-wrap journal-cta-wrap--desktop" style="align-self: flex-end; margin-bottom: 5px;">
-<a class="btn" href="<?php echo esc_url( home_url( '/news/' ) ); ?>">Read News <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="margin-left: 8px;" viewbox="0 0 24 24" width="16">
+<a class="btn" href="<?php echo esc_url( $news_url ); ?>">Read News <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="margin-left: 8px;" viewbox="0 0 24 24" width="16">
 <line x1="5" x2="19" y1="12" y2="12"></line>
 <polyline points="12 5 19 12 12 19"></polyline>
 </svg></a>
@@ -665,7 +672,7 @@ else:
 </div>
 <!-- mobile read news cta -->
 <div class="journal-cta-wrap journal-cta-wrap--mobile text-right" style="margin-top: var(--space-md);">
-<a class="btn" href="<?php echo esc_url( home_url( '/news/' ) ); ?>">Read News <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="margin-left: 8px;" viewbox="0 0 24 24" width="16">
+<a class="btn" href="<?php echo esc_url( $news_url ); ?>">Read News <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="margin-left: 8px;" viewbox="0 0 24 24" width="16">
 <line x1="5" x2="19" y1="12" y2="12"></line>
 <polyline points="12 5 19 12 12 19"></polyline>
 </svg></a>
