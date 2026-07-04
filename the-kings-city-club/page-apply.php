@@ -579,8 +579,9 @@ get_header();
       const quoteForm = document.getElementById('quote-form');
       if (quoteForm) {
         quoteForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          if(!quoteForm.reportValidity()) return;
           if (selectedTeam.length === 0) {
-            e.preventDefault();
             alert("Please add at least one role to your team before requesting a quote.");
             return;
           }
@@ -600,6 +601,54 @@ get_header();
           document.getElementById('team_json').value = JSON.stringify(teamListForSubmit);
           document.getElementById('currency_used').value = currentCurr;
           document.getElementById('total_est').value = document.getElementById('tb-final-total').innerText;
+
+          const submitBtn = quoteForm.querySelector('button[type="submit"]');
+          const originalText = submitBtn.innerText;
+          submitBtn.innerText = 'Submitting...';
+          submitBtn.disabled = true;
+
+          const formData = new FormData(quoteForm);
+          formData.append('action', 'submit_quote');
+
+          fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+              method: 'POST',
+              body: formData
+          })
+          .then(res => res.json())
+          .then(res => {
+              submitBtn.innerText = originalText;
+              submitBtn.disabled = false;
+              
+              const popup = document.getElementById('kc-quote-popup');
+              const title = document.getElementById('kc-quote-popup-title');
+              const message = document.getElementById('kc-quote-popup-message');
+              const icon = document.getElementById('kc-quote-popup-icon');
+              
+              if(res.success) {
+                  title.innerText = 'Quote Request Received!';
+                  title.style.color = '#10b981';
+                  icon.className = 'fa-solid fa-check-circle';
+                  icon.style.color = '#10b981';
+                  message.innerText = res.data.message || 'Our team will review your requirements.';
+                  
+                  // Reset the form and clear the builder state
+                  quoteForm.reset();
+                  selectedTeam = []; // Clear the array
+                  renderTeam();      // Re-render empty state
+              } else {
+                  title.innerText = 'Notice';
+                  title.style.color = 'var(--color-primary)';
+                  icon.className = 'fa-solid fa-circle-exclamation';
+                  icon.style.color = 'var(--color-accent-red)';
+                  message.innerText = res.data.message || 'An error occurred.';
+              }
+              popup.style.display = 'flex';
+          })
+          .catch(err => {
+              submitBtn.innerText = originalText;
+              submitBtn.disabled = false;
+              alert('An error occurred. Please try again.');
+          });
         });
       }
     });
@@ -646,68 +695,7 @@ get_header();
     </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const quoteForm = document.getElementById('quote-form');
-    if(quoteForm) {
-        quoteForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            if(!quoteForm.reportValidity()) return;
-            
-            const submitBtn = quoteForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerText;
-            submitBtn.innerText = 'Submitting...';
-            submitBtn.disabled = true;
 
-            const formData = new FormData(quoteForm);
-            formData.append('action', 'submit_quote');
-
-            fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(res => {
-                submitBtn.innerText = originalText;
-                submitBtn.disabled = false;
-                
-                const popup = document.getElementById('kc-quote-popup');
-                const title = document.getElementById('kc-quote-popup-title');
-                const message = document.getElementById('kc-quote-popup-message');
-                const icon = document.getElementById('kc-quote-popup-icon');
-                
-                if(res.success) {
-                    title.innerText = 'Quote Request Received!';
-                    title.style.color = '#10b981';
-                    icon.className = 'fa-solid fa-check-circle';
-                    icon.style.color = '#10b981';
-                    message.innerText = res.data.message || 'Our team will review your requirements.';
-                    
-                    // Reset the form and clear the builder state as requested
-                    quoteForm.reset();
-                    if (typeof selectedTeam !== 'undefined') {
-                        selectedTeam.length = 0; // Clear the array
-                        if (typeof renderTeam === 'function') renderTeam(); // Re-render the empty list and reset totals
-                    }
-                } else {
-                    title.innerText = 'Notice';
-                    title.style.color = 'var(--color-primary)';
-                    icon.className = 'fa-solid fa-circle-exclamation';
-                    icon.style.color = 'var(--color-accent-red)';
-                    message.innerText = res.data.message || 'An error occurred.';
-                }
-                popup.style.display = 'flex';
-            })
-            .catch(err => {
-                submitBtn.innerText = originalText;
-                submitBtn.disabled = false;
-                alert('An error occurred. Please try again.');
-            });
-        });
-    }
-});
-</script>
 
 <?php get_footer(); ?>
 

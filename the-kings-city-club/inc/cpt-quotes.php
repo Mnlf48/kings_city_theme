@@ -176,8 +176,27 @@ function kc_process_quote_status_change($post_id, $new_status, $old_status) {
     
     if ($new_status === 'Contacted' && !empty($email)) {
         $subject = "Your Kings City Quote Request - Let's Talk!";
-        $message = "Hi $fname,\n\nThank you for requesting a team builder quote with Kings City. We've reviewed your requirements and would love to set up a quick discovery call to discuss the details.\n\nPlease let us know what time works best for you, or book a time on our calendar: [Insert Calendar Link]\n\nBest regards,\nKings City Team";
-        wp_mail($email, $subject, $message);
+        
+        // Prepare data for the template
+        $first_name = $fname;
+        $team_json_string = get_post_meta($post_id, 'team_json', true);
+        $team_data = json_decode($team_json_string, true);
+        $total_est = get_post_meta($post_id, 'total_est', true);
+        
+        // Generate HTML from template
+        ob_start();
+        $template_path = get_template_directory() . '/emails/email-quote-contacted.php';
+        if (file_exists($template_path)) {
+            include($template_path);
+        } else {
+            echo "<p>Hi $fname,</p><p>Thank you for requesting a team builder quote with Kings City. We've reviewed your requirements and would love to set up a quick discovery call.</p>";
+        }
+        $message = ob_get_clean();
+        
+        // Set headers for HTML email
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+        
+        wp_mail($email, $subject, $message, $headers);
     }
     
     if ($new_status === 'Rejected' && !empty($email)) {
