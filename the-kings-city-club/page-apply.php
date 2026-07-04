@@ -631,16 +631,14 @@ get_header();
                   icon.style.color = '#10b981';
                   message.innerText = res.data.message || 'Our team will review your requirements.';
                   
-                  // Reset the form and clear the builder state
-                  quoteForm.reset();
-                  selectedTeam = []; // Clear the array
-                  renderTeam();      // Re-render empty state
+                  popup.dataset.success = 'true';
               } else {
                   title.innerText = 'Notice';
                   title.style.color = 'var(--color-primary)';
                   icon.className = 'fa-solid fa-circle-exclamation';
                   icon.style.color = 'var(--color-accent-red)';
                   message.innerText = res.data.message || 'An error occurred.';
+                  popup.dataset.success = 'false';
               }
               popup.style.display = 'flex';
           })
@@ -650,6 +648,29 @@ get_header();
               alert('An error occurred. Please try again.');
           });
         });
+      }
+
+      // Quote Popup Close Button Logic
+      const quotePopupCloseBtn = document.getElementById('kc-quote-popup-close-btn');
+      if (quotePopupCloseBtn) {
+          quotePopupCloseBtn.addEventListener('click', function() {
+              const popup = document.getElementById('kc-quote-popup');
+              popup.style.display = 'none';
+              
+              if (popup.dataset.success === 'true') {
+                  const quoteForm = document.getElementById('quote-form');
+                  if (quoteForm) quoteForm.reset();
+                  selectedTeam = [];
+                  renderTeam();
+                  
+                  const pricingSection = document.getElementById('pricing-section');
+                  if (pricingSection) {
+                      pricingSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                  
+                  popup.dataset.success = 'false';
+              }
+          });
       }
     });
 
@@ -691,7 +712,7 @@ get_header();
         <i id="kc-quote-popup-icon" class="fa-solid fa-circle-exclamation" style="font-size:3rem; margin-bottom:1rem;"></i>
         <h3 id="kc-quote-popup-title" style="margin-bottom:1rem; color:var(--color-primary);">Notice</h3>
         <p id="kc-quote-popup-message" style="margin-bottom:1.5rem; font-size:1.1rem; line-height:1.5;">Message goes here</p>
-        <button type="button" onclick="document.getElementById('kc-quote-popup').style.display='none';" class="btn btn--primary" style="background-color:var(--color-accent-red); color:#fff; border:none; padding:10px 30px; border-radius:var(--radius-pill); cursor:pointer; font-weight:bold; font-size:1.1rem;">Close</button>
+        <button type="button" id="kc-quote-popup-close-btn" class="btn btn--primary" style="background-color:var(--color-accent-red); color:#fff; border:none; padding:10px 30px; border-radius:var(--radius-pill); cursor:pointer; font-weight:bold; font-size:1.1rem;">Close</button>
     </div>
 </div>
 

@@ -91,19 +91,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_submit'])) {
             }
             
             $booking_submitted = true;
-            
-            // Send Client Auto-Responder Email (client still gets their confirmation)
-            $headers = array('Content-Type: text/html; charset=UTF-8');
-            $client_subject = "Booking Request Received: $space_type";
-            $client_body = "<h2>We've received your booking request!</h2>
-                            <p>Hi $first_name,</p>
-                            <p>Thank you for choosing Kings City. Your booking request for <strong>$space_type ($duration)</strong> on <strong>$start_date</strong> at <strong>$arrival_time</strong> has been received by our team.</p>
-                            <p><strong>Important Notice:</strong><br/>
-                            Your booking is reserved for your selected start date and time. If you do not arrive within <strong>24 hours</strong> of your start date, your reservation will be automatically cancelled. If your reservation expires, you are always welcome to book again through our website or directly at the Kings City reception desk!</p>
-                            <p>Please proceed to the Kings City reception desk upon arrival to finalize your payment of Php $price and claim your space.</p>
-                            <p>We look forward to seeing you!<br/>- The Kings City Team</p>";
-                            
-            wp_mail($email, $client_subject, $client_body, $headers);
         }
     }
 }
@@ -382,20 +369,14 @@ get_header();
 <p><?php echo get_field('p_12'); ?></p>
 </div>
 <div class="book-form-body">
+
 <!-- price est -->
 <div class="price-est">
 <span class="price-est__label"><?php echo get_field('bk_label_est_price') ?: 'Estimated Price'; ?></span>
 <span class="price-est__value" id="price-display">Php 500</span>
 </div>
-<?php if ($booking_submitted): ?>
-<div class="success-message" style="text-align: center; padding: 3rem 1rem;">
-    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 1rem;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-    <h2 style="color: var(--color-primary); margin-bottom: 1rem;">Booking Requested Successfully!</h2>
-    <p style="color: var(--color-text-muted); font-size: 1.1rem; margin-bottom: 1.5rem;">Your booking has been received! We will be in touch to confirm payment details.</p>
-</div>
-<?php else: ?>
 <?php if (!empty($error_message)): ?>
-    <div style="background: #fee2e2; color: #b91c1c; padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+    <div class="booking-error-alert" style="background: #fee2e2; color: #b91c1c; padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
         <?php echo esc_html($error_message); ?>
     </div>
 <?php endif; ?>
@@ -477,7 +458,7 @@ get_header();
 </div>
 <button class="btn btn-book" name="book_submit" type="submit"><?php echo get_field('bk_btn_submit') ?: 'Confirm Booking'; ?></button>
 </form>
-<?php endif; ?>
+
 </div>
 </div>
 </div>
@@ -660,5 +641,99 @@ get_header();
     })();
   </script>
 
+<!-- Booking Success Modal -->
+<div class="tb-modal" id="booking-success-modal" aria-hidden="true">
+  <div class="tb-modal-content" style="max-width: 450px; text-align: center;">
+    <div class="tb-modal-header" style="justify-content: flex-end; padding-bottom: 0;">
+      <button type="button" class="tb-modal-close" id="booking-modal-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="tb-modal-body" style="padding: 10px 30px 40px 30px;">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 1.5rem; display: inline-block;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        <h2 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 24px;">Booking Requested Successfully!</h2>
+        <p style="color: var(--color-text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: 2rem;">Your booking has been received! We will be in touch to confirm payment details shortly.</p>
+        <button type="button" id="booking-modal-finish" style="background-color: var(--color-accent-red); color: white; border: none; padding: 12px 30px; font-weight: bold; font-family: var(--font-heading); border-radius: var(--radius-sm); cursor: pointer; text-transform: uppercase;">Finish</button>
+    </div>
+  </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const modal = document.getElementById('booking-success-modal');
+        const btnCloseModal = document.getElementById('booking-modal-close');
+        const btnFinish = document.getElementById('booking-modal-finish');
+        const form = document.getElementById('booking-form');
+
+        function openModal() {
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeModal() {
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('modal-open');
+            
+            if (modal.dataset.success === 'true') {
+                if (form) form.reset();
+                const resetSpaceSelect = document.getElementById('space-type-select');
+                if (resetSpaceSelect) {
+                    resetSpaceSelect.selectedIndex = 0; // Explicitly force first option
+                    resetSpaceSelect.dispatchEvent(new Event('change'));
+                }
+                
+                // Scroll back to the top of the section to emulate a fresh page
+                const contentTitle = document.getElementById('content-title');
+                if (contentTitle) {
+                    contentTitle.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                
+                modal.dataset.success = 'false';
+            }
+        }
+
+        if (btnCloseModal) btnCloseModal.addEventListener('click', closeModal);
+        if (btnFinish) btnFinish.addEventListener('click', closeModal);
+        modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevent page reload!
+                
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = 'Processing...';
+                submitBtn.disabled = true;
+
+                const formData = new FormData(form);
+                formData.append('book_submit', '1');
+
+                fetch(window.location.href, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const errorDiv = doc.querySelector('.booking-error-alert');
+                    
+                    if (errorDiv) {
+                        alert(errorDiv.innerText.trim());
+                    } else {
+                        // Success!
+                        modal.dataset.success = 'true';
+                        openModal();
+                    }
+                })
+                .catch(err => {
+                    alert('There was a network error. Please try again.');
+                })
+                .finally(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                });
+            });
+        }
+    });
+</script>
 
 <?php get_footer(); ?>

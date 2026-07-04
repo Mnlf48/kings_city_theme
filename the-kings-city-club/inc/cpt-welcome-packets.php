@@ -3,18 +3,18 @@ if (!defined('ABSPATH')) exit;
 
 function kc_register_cpt_welcome_packet() {
     $labels = array(
-        'name'               => 'Welcome Packets',
-        'singular_name'      => 'Welcome Packet',
-        'menu_name'          => 'Welcome Packets',
-        'name_admin_bar'     => 'Welcome Packet',
-        'add_new'            => 'Add New Packet',
-        'add_new_item'       => 'Add New Welcome Packet',
-        'new_item'           => 'New Welcome Packet',
-        'edit_item'          => 'Edit Welcome Packet',
-        'view_item'          => 'View Welcome Packet',
-        'all_items'          => 'All Packets',
-        'search_items'       => 'Search Welcome Packets',
-        'not_found'          => 'No welcome packets found.',
+        'name'               => 'Newsletters',
+        'singular_name'      => 'Newsletter',
+        'menu_name'          => 'Newsletters',
+        'name_admin_bar'     => 'Newsletter',
+        'add_new'            => 'Add New Newsletter',
+        'add_new_item'       => 'Add New Newsletter',
+        'new_item'           => 'New Newsletter',
+        'edit_item'          => 'Edit Newsletter',
+        'view_item'          => 'View Newsletter',
+        'all_items'          => 'All Newsletters',
+        'search_items'       => 'Search Newsletters',
+        'not_found'          => 'No newsletters found.',
     );
 
     $args = array(
@@ -24,20 +24,20 @@ function kc_register_cpt_welcome_packet() {
         'show_in_menu'       => true,
         'menu_position'      => 30,
         'menu_icon'          => 'dashicons-email-alt',
-        'supports'           => array('title'), // Title is the Packet Name
+        'supports'           => array('title'), // Title is the Newsletter Name
     );
 
     register_post_type('kc_welcome_packet', $args);
 }
 add_action('init', 'kc_register_cpt_welcome_packet');
 
-// ACF Setup for Welcome Packets
+// ACF Setup for Newsletters
 if( function_exists('acf_add_local_field_group') ):
 
-    // 1. URL Field for the Welcome Packet CPT
+    // 1. URL and Active Toggle Fields for the Newsletter CPT
     acf_add_local_field_group(array(
         'key' => 'group_welcome_packet_details',
-        'title' => 'Packet Details',
+        'title' => 'Newsletter Details',
         'fields' => array(
             array(
                 'key' => 'field_welcome_packet_url',
@@ -46,6 +46,18 @@ if( function_exists('acf_add_local_field_group') ):
                 'type' => 'url',
                 'instructions' => 'Paste the link to the Canva presentation or document here.',
                 'required' => 1,
+            ),
+            array(
+                'key' => 'field_welcome_packet_active',
+                'label' => 'Newsletter Status',
+                'name' => 'kc_is_active',
+                'type' => 'select',
+                'instructions' => 'Set to Active if you want this newsletter to be automatically emailed to newly confirmed bookings.',
+                'choices' => array(
+                    '1' => 'Active',
+                    '0' => 'Inactive',
+                ),
+                'default_value' => '0',
             ),
         ),
         'location' => array(
@@ -65,54 +77,80 @@ if( function_exists('acf_add_local_field_group') ):
         'active' => true,
     ));
 
-    // 2. Options Page for Automation Settings
-    if( function_exists('acf_add_options_page') ) {
-        acf_add_options_page(array(
-            'page_title'    => 'Automation Settings',
-            'menu_title'    => 'Automations',
-            'menu_slug'     => 'kc-automation-settings',
-            'capability'    => 'edit_posts',
-            'redirect'      => false,
-            'icon_url'      => 'dashicons-admin-generic',
-            'position'      => 31,
-        ));
-    }
-
-    // 3. Post Object Field on Options Page to select Active Packet
-    acf_add_local_field_group(array(
-        'key' => 'group_automation_settings',
-        'title' => 'Email Automation',
-        'fields' => array(
-            array(
-                'key' => 'field_automation_message',
-                'label' => '',
-                'name' => '',
-                'type' => 'message',
-                'message' => '<strong>Smart Welcome Packet System</strong><br>Select the current Welcome Packet below. When a booking changes to "Contacted", the system will automatically email this packet to the client, but <em>only if they haven\'t received it before</em>.',
-            ),
-            array(
-                'key' => 'field_active_welcome_packet',
-                'label' => 'Active Welcome Packet',
-                'name' => 'kc_active_welcome_packet',
-                'type' => 'post_object',
-                'instructions' => 'Select which Welcome Packet should be sent to newly contacted clients.',
-                'post_type' => array(
-                    0 => 'kc_welcome_packet',
-                ),
-                'return_format' => 'id',
-                'ui' => 1,
-                'allow_null' => 1,
-            ),
-        ),
-        'location' => array(
-            array(
-                array(
-                    'param' => 'options_page',
-                    'operator' => '==',
-                    'value' => 'kc-automation-settings',
-                ),
-            ),
-        ),
-    ));
-
 endif;
+
+// Add Custom Columns to Newsletters Admin View
+add_filter('manage_kc_welcome_packet_posts_columns', 'kc_set_newsletter_columns');
+function kc_set_newsletter_columns($columns) {
+    $columns['kc_active_status'] = 'Status';
+    return $columns;
+}
+
+add_action('manage_kc_welcome_packet_posts_custom_column', 'kc_custom_newsletter_column', 10, 2);
+function kc_custom_newsletter_column($column, $post_id) {
+    if ($column == 'kc_active_status') {
+        $is_active = get_post_meta($post_id, 'kc_is_active', true);
+        
+        $bg = '#e5e7eb'; $color = '#4b5563'; // Inactive
+        if ($is_active == '1') { $bg = '#BD451F'; $color = '#ffffff'; } // Active
+        
+        echo "<select class='kc-inline-newsletter-status' data-post-id='{$post_id}' style='background-color: {$bg}; color: {$color}; border: 1px solid {$color}; font-weight: 600; font-size:12px; padding:2px 24px 2px 8px; height:auto; min-height:26px; border-radius:4px;'>";
+        
+        $options = ['1' => 'Active', '0' => 'Inactive'];
+        foreach ($options as $val => $label) {
+            echo "<option value='{$val}' style='background-color:#fff; color:#000;' " . selected($is_active, $val, false) . ">{$label}</option>";
+        }
+        echo "</select>";
+    }
+}
+
+// Inline AJAX Status Update for Newsletters
+add_action('admin_footer', 'kc_newsletter_inline_status_script');
+function kc_newsletter_inline_status_script() {
+    $screen = get_current_screen();
+    if (!$screen || $screen->post_type !== 'kc_welcome_packet') return;
+    ?>
+    <script>
+    jQuery(document).ready(function($) {
+        $('.kc-inline-newsletter-status').on('change', function() {
+            var select = $(this);
+            var post_id = select.data('post-id');
+            var new_status = select.val();
+            
+            if (new_status == '1') {
+                select.css({'background-color': '#BD451F', 'color': '#ffffff', 'border-color': '#ffffff'});
+            } else {
+                select.css({'background-color': '#e5e7eb', 'color': '#4b5563', 'border-color': '#4b5563'});
+            }
+            
+            $.post(ajaxurl, {
+                action: 'kc_update_newsletter_status',
+                post_id: post_id,
+                status: new_status,
+                nonce: '<?php echo wp_create_nonce("kc_newsletter_nonce"); ?>'
+            }, function(response) {
+                if(!response.success) {
+                    alert('Error updating newsletter status.');
+                }
+            });
+        });
+    });
+    </script>
+    <?php
+}
+
+add_action('wp_ajax_kc_update_newsletter_status', 'kc_update_newsletter_status');
+function kc_update_newsletter_status() {
+    check_ajax_referer('kc_newsletter_nonce', 'nonce');
+    if (!current_user_can('edit_posts')) wp_send_json_error();
+    
+    $post_id = intval($_POST['post_id']);
+    $status = sanitize_text_field($_POST['status']);
+    
+    if (in_array($status, ['0', '1'])) {
+        update_post_meta($post_id, 'kc_is_active', $status);
+        wp_send_json_success();
+    }
+    wp_send_json_error();
+}
+
