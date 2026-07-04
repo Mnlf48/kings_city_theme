@@ -683,7 +683,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     icon.className = 'fa-solid fa-check-circle';
                     icon.style.color = '#10b981';
                     message.innerText = res.data.message || 'Our team will review your requirements.';
-                    // We don't reset the form so they keep their builder settings!
+                    
+                    // Reset the form and clear the builder state as requested
+                    quoteForm.reset();
+                    if (typeof selectedTeam !== 'undefined') {
+                        selectedTeam.length = 0; // Clear the array
+                        if (typeof renderTeam === 'function') renderTeam(); // Re-render the empty list and reset totals
+                    }
                 } else {
                     title.innerText = 'Notice';
                     title.style.color = 'var(--color-primary)';
