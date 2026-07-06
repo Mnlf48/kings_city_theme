@@ -197,22 +197,22 @@ function kc_send_quote_email($tab_key, $to_email, $post_id) {
     if ($tab_key === 'quote_contacted') {
         $def_subject = 'Proposal Request Acknowledgment - Kings City';
         $def_heading = 'Proposal Request Acknowledgment';
-        $def_body = 'Thank you for considering Kings City. We have successfully received your service configuration request.';
-        $def_banner = 'A dedicated representative will contact you within one business day.';
+        $def_body = 'Thank you for considering Kings City as your trusted workforce solutions partner. We have successfully received your service configuration request, and our business development team is currently analyzing your specific role requirements to formulate a comprehensive and competitive proposal tailored to your needs. We are committed to providing you with top-tier talent and look forward to the possibility of collaborating with you.';
+        $def_banner = 'A dedicated representative will contact you within one business day to present a detailed pricing breakdown, discuss your specific needs, and answer any preliminary questions you may have.';
         $def_btn_text = 'Visit Kings City';
         $def_btn_url = '{site_url}';
     } elseif ($tab_key === 'quote_confirmed') {
         $def_subject = 'Welcome to Kings City - Partnership Confirmed';
         $def_heading = 'Partnership Confirmed';
-        $def_body = 'We are delighted to officially welcome you as a valued partner of Kings City. Your service proposal has been marked as confirmed.';
-        $def_banner = 'We look forward to delivering exceptional workforce solutions.';
+        $def_body = 'We are absolutely delighted to officially welcome you as a valued partner of Kings City. Your service proposal and team configuration have been marked as confirmed, and we are already initiating the next steps in our onboarding and talent acquisition process. Our team is dedicated to ensuring a seamless transition and delivering exceptional workforce solutions that drive your business forward. You will be introduced to your dedicated account manager shortly.';
+        $def_banner = 'We look forward to a successful and long-lasting partnership. Your account manager will be in touch with you shortly to begin the onboarding process.';
         $def_btn_text = 'Visit Kings City';
         $def_btn_url = '{site_url}';
     } elseif ($tab_key === 'quote_rejected') {
         $def_subject = 'Update on your Kings City Quote Request';
         $def_heading = 'Proposal Update';
-        $def_body = 'Thank you for reaching out to Kings City. After reviewing your request, we unfortunately cannot fulfill your specific role requirements at this time.';
-        $def_banner = 'We appreciate your interest and wish you the best in your search.';
+        $def_body = "Thank you for reaching out to Kings City and giving us the opportunity to review your workforce needs. After carefully analyzing your service configuration request, we unfortunately cannot fulfill your specific role requirements at this time, as they fall outside our current operational capacities or talent pool specialties.\n\nWe deeply appreciate your interest in partnering with us, and we will keep your company profile on hand should our service offerings expand to cover your specific needs in the future.";
+        $def_banner = 'We wish you the very best in your search for a suitable workforce solutions partner.';
         $def_btn_text = 'Visit Kings City';
         $def_btn_url = '{site_url}';
     }

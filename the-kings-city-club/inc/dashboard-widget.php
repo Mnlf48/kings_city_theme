@@ -54,14 +54,26 @@ function kc_render_bookings_dashboard_widget() {
     $total_pipeline = array_sum($counts);
 
     // Today's Slots Used
+    // A slot is used today if either:
+    // 1. The booking's start date is exactly today (for daily/hourly spaces)
+    // 2. The booking has an active membership and today is within the active period
     $todays_bookings = new WP_Query(array(
         'post_type' => 'kc_booking',
         'posts_per_page' => -1,
         'fields' => 'ids',
         'meta_query' => array(
-            'relation' => 'AND',
-            array('key' => 'kc_start_date', 'value' => $today),
-            array('key' => 'kc_status', 'value' => array('Pending', 'Contacted', 'Completed'), 'compare' => 'IN')
+            'relation' => 'OR',
+            array(
+                'relation' => 'AND',
+                array('key' => 'kc_start_date', 'value' => $today),
+                array('key' => 'kc_status', 'value' => array('Pending', 'Contacted', 'Completed'), 'compare' => 'IN')
+            ),
+            array(
+                'relation' => 'AND',
+                array('key' => 'kc_membership_status', 'value' => 'Active'),
+                array('key' => 'kc_start_date', 'value' => $today, 'compare' => '<='),
+                array('key' => 'kc_membership_expiry', 'value' => $today, 'compare' => '>=')
+            )
         )
     ));
 

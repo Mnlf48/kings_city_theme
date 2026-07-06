@@ -103,30 +103,20 @@
             </table>
             <?php endif; ?>
 
-            <?php if (!empty($email_banner)): ?>
+            <?php if (!empty($email_banner) && ($template_type !== 'booking_confirmed' || $send_packet)): ?>
             <!-- Dynamic Highlight Box -->
             <div style="margin-top: 30px; background-color: #FFBFBF; border: 1px solid rgba(189,69,31,0.2); padding: 25px; text-align: center;">
+                <?php if ($template_type === 'booking_confirmed'): ?>
+                <h3 style="margin-top:0; color: #BD451F; font-size: 18px;">Your Kings City Newsletter</h3>
+                <?php endif; ?>
                 <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #2B2B2B;">
                     <?php echo esc_html($email_banner); ?>
                 </p>
-                <?php if (!empty($email_btn_text) && !empty($email_btn_url)): ?>
+                <?php if (!empty($email_btn_text) && !empty($email_btn_url) && $email_btn_url !== '{packet_url}'): ?>
                 <a href="<?php echo esc_url($email_btn_url); ?>" style="display: inline-block; margin-top: 20px; padding: 14px 28px; background-color: #AC201A; color: #FFF9EF; text-decoration: none; font-weight: bold; font-size: 15px;">
                     <?php echo esc_html($email_btn_text); ?>
                 </a>
                 <?php endif; ?>
-            </div>
-            <?php endif; ?>
-
-            <?php if ($send_packet && !empty($packet_url)): ?>
-            <!-- Highlight Box for Newsletter -->
-            <div style="margin-top: 30px; background-color: #FFBFBF; border: 1px solid rgba(189,69,31,0.2); padding: 25px; text-align: center;">
-                <h3 style="margin-top:0; color: #BD451F; font-size: 18px;">Your Kings City Newsletter</h3>
-                <p style="margin-bottom: 20px; font-size: 15px; line-height: 1.6; color: #2B2B2B;">
-                    We've prepared some important information and updates for your upcoming visit. Please review this before you arrive.
-                </p>
-                <a href="<?php echo esc_url($packet_url); ?>" style="display: inline-block; padding: 14px 28px; background-color: #AC201A; color: #FFF9EF; text-decoration: none; font-weight: bold; font-size: 15px;">
-                    View Newsletter
-                </a>
             </div>
             <?php endif; ?>
 

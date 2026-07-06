@@ -391,30 +391,10 @@ function kc_send_booking_email($post_id, $template_type) {
         $subject_template = 'Your Kings City Booking is Confirmed!';
         $heading_template = 'Booking Confirmation';
         $body_template = "Dear {fname},\n\nYour booking for the <strong>{space}</strong> has been successfully confirmed. We are thrilled to host you and your team. Please arrive on your chosen date and complete your payment at our front desk.\n\nIf you need to make any changes to your reservation, please reply directly to this correspondence. We look forward to seeing you soon!";
+        $banner_template = "We've prepared some important information and updates for your upcoming visit. Please review this before you arrive.";
+        $btn_text = 'View Newsletter';
+        $btn_url_template = '{packet_url}';
     }
-
-    $tokens = array(
-        '{fname}' => $fname,
-        '{lname}' => $lname,
-        '{space}' => $space,
-        '{date}' => $date,
-        '{duration}' => $duration,
-        '{price}' => $price,
-        '{arrival}' => $arrival,
-        '{participants}' => $participants,
-        '{special}' => $special,
-        '{admin_note}' => $admin_note,
-        '{site_url}' => site_url()
-    );
-
-    $subject = strtr($subject_template, $tokens);
-    $email_heading = strtr($heading_template, $tokens);
-    $email_body = wpautop(strtr($body_template, $tokens));
-    $email_banner = strtr($banner_template, $tokens);
-    $email_btn_text = $btn_text;
-    $email_btn_url = strtr($btn_url_template, $tokens);
-
-    $hide_table = ($template_type !== 'booking_confirmed');
 
     $send_packet = false;
     $packet_url = '';
@@ -464,6 +444,32 @@ function kc_send_booking_email($post_id, $template_type) {
         }
     }
 
+    $tokens = array(
+        '{fname}' => $fname,
+        '{lname}' => $lname,
+        '{space}' => $space,
+        '{date}' => $date,
+        '{duration}' => $duration,
+        '{price}' => $price,
+        '{arrival}' => $arrival,
+        '{participants}' => $participants,
+        '{special}' => $special,
+        '{admin_note}' => $admin_note,
+        '{packet_url}' => $packet_url,
+        '{site_url}' => site_url()
+    );
+
+    $subject = strtr($subject_template, $tokens);
+    $email_heading = strtr($heading_template, $tokens);
+    $email_body = wpautop(strtr($body_template, $tokens));
+    $email_banner = strtr($banner_template, $tokens);
+    $email_btn_text = $btn_text;
+    $email_btn_url = strtr($btn_url_template, $tokens);
+
+    $hide_table = ($template_type !== 'booking_confirmed');
+
+    // The logic to send packet is moved up.
+
     ob_start();
     include get_template_directory() . '/emails/email-booking-confirmed.php';
     $message = ob_get_clean();
@@ -497,12 +503,15 @@ function kc_process_booking_status_change($post_id, $new_status, $old_status) {
 
     // 2. Membership Expiration Logic
     if ($new_status === 'Completed') {
-        if (stripos($duration, 'Month') !== false) {
-            $expiry = date('Y-m-d', strtotime('+1 month'));
+        $start_timestamp = strtotime($date);
+        if (!$start_timestamp) $start_timestamp = time(); // Fallback if no date is set
+
+        if (stripos($duration, 'Month') !== false || $space === 'Office Leasing') {
+            $expiry = date('Y-m-d', strtotime('+1 month', $start_timestamp));
             update_post_meta($post_id, 'kc_membership_status', 'Active');
             update_post_meta($post_id, 'kc_membership_expiry', $expiry);
         } elseif (stripos($duration, 'Year') !== false || stripos($duration, 'Annual') !== false) {
-            $expiry = date('Y-m-d', strtotime('+1 year'));
+            $expiry = date('Y-m-d', strtotime('+1 year', $start_timestamp));
             update_post_meta($post_id, 'kc_membership_status', 'Active');
             update_post_meta($post_id, 'kc_membership_expiry', $expiry);
         } else {

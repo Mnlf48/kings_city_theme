@@ -41,7 +41,7 @@
             <?php 
                 if (!empty($email_body)) {
                     // Wrap the WYSIWYG output in a div with the email's base font styling
-                    echo '<div style="font-size: 16px; line-height: 1.6; color: #2B2B2B; margin-bottom: 30px;">' . wp_kses_post($email_body) . '</div>';
+                    echo '<div style="font-size: 16px; line-height: 1.6; color: #2B2B2B; margin-bottom: 30px;">' . wp_kses_post(wpautop($email_body)) . '</div>';
                 } else {
             ?>
             <p style="font-size: 16px; line-height: 1.6; color: #2B2B2B;">Dear <?php echo esc_html($first_name); ?>,</p>

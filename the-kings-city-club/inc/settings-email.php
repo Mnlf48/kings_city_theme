@@ -76,9 +76,9 @@ function kc_email_templates_page() {
         $def_subject = 'Your Kings City Booking is Confirmed!';
         $def_heading = 'Booking Confirmation';
         $def_body = "Dear {fname},\n\nYour booking for the <strong>{space}</strong> has been successfully confirmed. We are thrilled to host you and your team. Please arrive on your chosen date and complete your payment at our front desk.\n\nIf you need to make any changes to your reservation, please reply directly to this correspondence. We look forward to seeing you soon!";
-        $def_banner = ''; // Unused for booking_confirmed as it has newsletter box
-        $def_btn_text = '';
-        $def_btn_url = '';
+        $def_banner = 'We\'ve prepared some important information and updates for your upcoming visit. Please review this before you arrive.';
+        $def_btn_text = 'View Newsletter';
+        $def_btn_url = '{packet_url}';
     } elseif ($active_tab === 'booking_rejected') {
         $def_subject = 'Update regarding your Kings City Booking';
         $def_heading = 'Booking Update';
@@ -166,11 +166,15 @@ function kc_email_templates_page() {
                                     );
                                     wp_editor($body, 'email_body_editor', $settings); 
                                     ?>
-                                    <?php if (strpos($active_tab, 'quote') !== false): ?>
-                                        <p class="description" style="margin-top: 10px;">Supported tokens: <code>{client_name}</code>, <code>{client_email}</code>, <code>{site_url}</code></p>
-                                    <?php else: ?>
-                                        <p class="description" style="margin-top: 10px;">Supported tokens: <code>{fname}</code>, <code>{space}</code>, <code>{date}</code>, <code>{duration}</code>, <code>{price}</code>, <code>{arrival}</code>, <code>{participants}</code>, <code>{admin_note}</code> (for rejections)</p>
-                                    <?php endif; ?>
+                                    <?php 
+                                    if ($active_tab === 'booking_rejected') {
+                                        echo '<br><span style="font-size: 12px;">Supported tokens: <code>{fname}</code>, <code>{space}</code>, <code>{date}</code>, <code>{duration}</code>, <code>{price}</code>, <code>{arrival}</code>, <code>{participants}</code>, <code>{admin_note}</code></span>';
+                                    } elseif ($active_tab === 'booking_confirmed') {
+                                        echo '<br><span style="font-size: 12px;">Supported tokens: <code>{fname}</code>, <code>{space}</code>, <code>{date}</code>, <code>{duration}</code>, <code>{price}</code>, <code>{arrival}</code>, <code>{participants}</code></span>';
+                                    } else {
+                                        echo '<br><span style="font-size: 12px;">Supported tokens: <code>{client_name}</code>, <code>{client_email}</code>, <code>{site_url}</code></span>';
+                                    }
+                                    ?>
                                 </td>
                             </tr>
                             <tr>
@@ -191,7 +195,13 @@ function kc_email_templates_page() {
                                 <th scope="row"><label for="email_btn_url">Button Link (URL)</label></th>
                                 <td>
                                     <input type="text" name="email_btn_url" id="email_btn_url" value="<?php echo esc_attr($btn_url); ?>" class="regular-text" style="width: 100%;">
-                                    <p class="description">Supports link URLs or dynamic tokens like <code>{site_url}</code>.</p>
+                                    <?php 
+                                    if ($active_tab === 'booking_confirmed') {
+                                        echo '<br><span style="font-size: 12px;">Supports link URLs or dynamic tokens like <code>{site_url}</code> or <code>{packet_url}</code> (for the newsletter box).</span>';
+                                    } else {
+                                        echo '<br><span style="font-size: 12px;">Supports link URLs or dynamic tokens like <code>{site_url}</code>.</span>';
+                                    }
+                                    ?>
                                 </td>
                             </tr>
                         </tbody>
