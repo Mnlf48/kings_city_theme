@@ -18,14 +18,20 @@ function kc_email_templates_menu() {
 function kc_email_templates_page() {
     if (!current_user_can('manage_options')) return;
 
-    $tabs = array(
-        'quote_admin_new' => 'Service Proposal Request Notification (Admin)',
+    $quote_tabs = array(
         'quote_contacted' => 'Proposal Request Acknowledgment (Client)',
         'quote_confirmed' => 'Quote Lead Converted/Confirmed Email (Client)',
         'quote_rejected'  => 'Quote Lead Rejected Email (Client)'
     );
 
-    $active_tab = isset($_GET['tab']) && array_key_exists($_GET['tab'], $tabs) ? $_GET['tab'] : 'quote_admin_new';
+    $booking_tabs = array(
+        'booking_confirmed' => 'Booking Confirmed Email (Client)',
+        'booking_rejected'  => 'Booking Rejected Email (Client)'
+    );
+
+    $tabs = array_merge($quote_tabs, $booking_tabs);
+
+    $active_tab = isset($_GET['tab']) && array_key_exists($_GET['tab'], $tabs) ? $_GET['tab'] : 'quote_contacted';
 
     // Save Data
     if (isset($_POST['kc_email_templates_nonce']) && wp_verify_nonce($_POST['kc_email_templates_nonce'], 'kc_save_email_templates')) {
@@ -45,14 +51,7 @@ function kc_email_templates_page() {
     // Default fallbacks based on tab
     $def_subject = ''; $def_heading = ''; $def_body = ''; $def_banner = ''; $def_btn_text = ''; $def_btn_url = '';
     
-    if ($active_tab === 'quote_admin_new') {
-        $def_subject = 'New Quote Request from {client_name}';
-        $def_heading = 'Service Proposal Request Notification';
-        $def_body = "A prospective client has just submitted a formal request for a service proposal via the website. Please review their team configuration requirements and prepare to initiate contact within our standard SLA of one business day.\n\n<strong>Client Name:</strong> {client_name}\n<strong>Work Email:</strong> {client_email}\n\nYou can review their complete submission details, including requested roles and estimated monthly base, by clicking the button below.";
-        $def_banner = 'Promptly initiating correspondence is key to securing this partnership. Please review the lead details in the CRM.';
-        $def_btn_text = 'View Quote Leads';
-        $def_btn_url = '{site_url}/wp-admin/edit.php?post_type=kg_quote_lead';
-    } elseif ($active_tab === 'quote_contacted') {
+    if ($active_tab === 'quote_contacted') {
         $def_subject = 'Proposal Request Acknowledgment - Kings City';
         $def_heading = 'Proposal Request Acknowledgment';
         $def_body = 'Thank you for considering Kings City as your trusted workforce solutions partner. We have successfully received your service configuration request, and our business development team is currently analyzing your specific role requirements to formulate a comprehensive and competitive proposal tailored to your needs. We are committed to providing you with top-tier talent and look forward to the possibility of collaborating with you.';
@@ -73,6 +72,20 @@ function kc_email_templates_page() {
         $def_banner = 'We wish you the very best in your search for a suitable workforce solutions partner.';
         $def_btn_text = 'Visit Kings City';
         $def_btn_url = '{site_url}';
+    } elseif ($active_tab === 'booking_confirmed') {
+        $def_subject = 'Your Kings City Booking is Confirmed!';
+        $def_heading = 'Booking Confirmation';
+        $def_body = "Dear {fname},\n\nYour booking for the <strong>{space}</strong> has been successfully confirmed. We are thrilled to host you and your team. Please arrive on your chosen date and complete your payment at our front desk.\n\nIf you need to make any changes to your reservation, please reply directly to this correspondence. We look forward to seeing you soon!";
+        $def_banner = ''; // Unused for booking_confirmed as it has newsletter box
+        $def_btn_text = '';
+        $def_btn_url = '';
+    } elseif ($active_tab === 'booking_rejected') {
+        $def_subject = 'Update regarding your Kings City Booking';
+        $def_heading = 'Booking Update';
+        $def_body = "Hi {fname},\n\nUnfortunately, we are unable to accommodate your booking request for the {space} on {date}.\n\n<strong>Reason:</strong>\n{admin_note}\n\nIf you have any questions, please reply to this email.\n\nThank you,\nThe Kings City Team";
+        $def_banner = 'We apologize for the inconvenience and hope to host you in the future.';
+        $def_btn_text = '';
+        $def_btn_url = '';
     }
 
     $subject = get_option($prefix . 'subject', $def_subject);
@@ -108,7 +121,14 @@ function kc_email_templates_page() {
             <!-- Sidebar -->
             <div class="kc-email-sidebar">
                 <h3 class="kc-email-sidebar-heading">Quote Emails</h3>
-                <?php foreach ($tabs as $tab_key => $tab_name): ?>
+                <?php foreach ($quote_tabs as $tab_key => $tab_name): ?>
+                    <a href="?page=kc-email-templates&tab=<?php echo esc_attr($tab_key); ?>" class="kc-email-nav-item <?php echo $active_tab === $tab_key ? 'active' : ''; ?>">
+                        <?php echo esc_html($tab_name); ?>
+                    </a>
+                <?php endforeach; ?>
+
+                <h3 class="kc-email-sidebar-heading" style="margin-top: 15px;">Booking Emails</h3>
+                <?php foreach ($booking_tabs as $tab_key => $tab_name): ?>
                     <a href="?page=kc-email-templates&tab=<?php echo esc_attr($tab_key); ?>" class="kc-email-nav-item <?php echo $active_tab === $tab_key ? 'active' : ''; ?>">
                         <?php echo esc_html($tab_name); ?>
                     </a>
@@ -146,7 +166,11 @@ function kc_email_templates_page() {
                                     );
                                     wp_editor($body, 'email_body_editor', $settings); 
                                     ?>
-                                    <p class="description" style="margin-top: 10px;">Supported tokens: <code>{client_name}</code>, <code>{client_email}</code>, <code>{site_url}</code></p>
+                                    <?php if (strpos($active_tab, 'quote') !== false): ?>
+                                        <p class="description" style="margin-top: 10px;">Supported tokens: <code>{client_name}</code>, <code>{client_email}</code>, <code>{site_url}</code></p>
+                                    <?php else: ?>
+                                        <p class="description" style="margin-top: 10px;">Supported tokens: <code>{fname}</code>, <code>{space}</code>, <code>{date}</code>, <code>{duration}</code>, <code>{price}</code>, <code>{arrival}</code>, <code>{participants}</code>, <code>{admin_note}</code> (for rejections)</p>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                             <tr>

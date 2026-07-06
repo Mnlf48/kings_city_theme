@@ -194,14 +194,7 @@ function kc_send_quote_email($tab_key, $to_email, $post_id) {
     // Default fallbacks based on tab
     $def_subject = ''; $def_heading = ''; $def_body = ''; $def_banner = ''; $def_btn_text = ''; $def_btn_url = '';
     
-    if ($tab_key === 'quote_admin_new') {
-        $def_subject = 'New Quote Request from {client_name}';
-        $def_heading = 'Service Proposal Request Notification';
-        $def_body = "A prospective client has submitted a formal request for a service proposal.\n\nClient Name: {client_name}\nWork Email: {client_email}";
-        $def_banner = 'To initiate correspondence, please reply directly to this email.';
-        $def_btn_text = 'View Quote Leads';
-        $def_btn_url = '{site_url}/wp-admin/edit.php?post_type=kg_quote_lead';
-    } elseif ($tab_key === 'quote_contacted') {
+    if ($tab_key === 'quote_contacted') {
         $def_subject = 'Proposal Request Acknowledgment - Kings City';
         $def_heading = 'Proposal Request Acknowledgment';
         $def_body = 'Thank you for considering Kings City. We have successfully received your service configuration request.';
@@ -257,10 +250,6 @@ function kc_send_quote_email($tab_key, $to_email, $post_id) {
     $message = ob_get_clean();
 
     $headers = array('Content-Type: text/html; charset=UTF-8');
-    if ($tab_key === 'quote_admin_new') {
-        $headers[] = 'Reply-To: ' . $client_email;
-    }
-
     wp_mail($to_email, $subject, $message, $headers);
 }
 
@@ -358,9 +347,7 @@ function kc_ajax_submit_quote() {
         update_post_meta($post_id, 'total_est', sanitize_text_field($_POST['total_est']));
         update_post_meta($post_id, 'lead_status', 'Pending');
         
-        // Also send notification email
-        $to = 'kingscity@kingsgroup.com.ph';
-        kc_send_quote_email('quote_admin_new', $to, $post_id);
+        // Email notification disabled per user request
         
         wp_send_json_success(array('message' => 'Quote Request Received! Our team will review your requirements and get back to you shortly.'));
     } else {

@@ -363,6 +363,115 @@ function kc_render_notes_meta_box($post) {
 
 // --- Save Logic & Automations ---
 
+// --- Helper Function for Booking Emails ---
+function kc_send_booking_email($post_id, $template_type) {
+    $fname = get_post_meta($post_id, 'kc_first_name', true);
+    $lname = get_post_meta($post_id, 'kc_last_name', true);
+    $email = get_post_meta($post_id, 'kc_email', true);
+    $space = get_post_meta($post_id, 'kc_space_type', true);
+    $duration = get_post_meta($post_id, 'kc_duration', true);
+    $price = get_post_meta($post_id, 'kc_price', true);
+    $date = get_post_meta($post_id, 'kc_start_date', true);
+    $arrival = get_post_meta($post_id, 'kc_arrival_time', true);
+    $participants = get_post_meta($post_id, 'kc_participants', true);
+    $special = get_post_meta($post_id, 'kc_special', true);
+    $admin_note = get_post_meta($post_id, 'kc_admin_note', true);
+    
+    if (empty($email)) return;
+
+    $prefix = 'kc_' . $template_type . '_';
+    $subject_template = get_option($prefix . 'subject', '');
+    $heading_template = get_option($prefix . 'heading', '');
+    $body_template    = get_option($prefix . 'body', '');
+    $banner_template  = get_option($prefix . 'banner', '');
+    $btn_text         = get_option($prefix . 'btn_text', '');
+    $btn_url_template = get_option($prefix . 'btn_url', '');
+
+    if (empty($subject_template) && $template_type === 'booking_confirmed') {
+        $subject_template = 'Your Kings City Booking is Confirmed!';
+        $heading_template = 'Booking Confirmation';
+        $body_template = "Dear {fname},\n\nYour booking for the <strong>{space}</strong> has been successfully confirmed. We are thrilled to host you and your team. Please arrive on your chosen date and complete your payment at our front desk.\n\nIf you need to make any changes to your reservation, please reply directly to this correspondence. We look forward to seeing you soon!";
+    }
+
+    $tokens = array(
+        '{fname}' => $fname,
+        '{lname}' => $lname,
+        '{space}' => $space,
+        '{date}' => $date,
+        '{duration}' => $duration,
+        '{price}' => $price,
+        '{arrival}' => $arrival,
+        '{participants}' => $participants,
+        '{special}' => $special,
+        '{admin_note}' => $admin_note,
+        '{site_url}' => site_url()
+    );
+
+    $subject = strtr($subject_template, $tokens);
+    $email_heading = strtr($heading_template, $tokens);
+    $email_body = wpautop(strtr($body_template, $tokens));
+    $email_banner = strtr($banner_template, $tokens);
+    $email_btn_text = $btn_text;
+    $email_btn_url = strtr($btn_url_template, $tokens);
+
+    $hide_table = ($template_type !== 'booking_confirmed');
+
+    $send_packet = false;
+    $packet_url = '';
+    
+    if ($template_type === 'booking_confirmed') {
+        $active_newsletters = get_posts(array(
+            'post_type'      => 'kc_welcome_packet',
+            'posts_per_page' => 1,
+            'meta_query'     => array(
+                array(
+                    'key'     => 'kc_is_active',
+                    'value'   => '1',
+                    'compare' => '=='
+                )
+            ),
+            'fields'         => 'ids',
+        ));
+        $active_packet_id = !empty($active_newsletters) ? $active_newsletters[0] : false;
+
+        if ($active_packet_id) {
+            $past_bookings = get_posts(array(
+                'post_type'      => 'kc_booking',
+                'posts_per_page' => -1,
+                'meta_key'       => 'kc_email',
+                'meta_value'     => get_post_meta($post_id, 'kc_email', true),
+                'fields'         => 'ids',
+            ));
+
+            $has_received = false;
+            foreach ($past_bookings as $pb_id) {
+                $pb_received = get_post_meta($pb_id, 'kc_received_packet_ids', true);
+                if (is_array($pb_received) && in_array($active_packet_id, $pb_received)) {
+                    $has_received = true;
+                    break;
+                }
+            }
+
+            if (!$has_received) {
+                $send_packet = true;
+                $packet_url = function_exists('get_field') ? get_field('kc_packet_url', $active_packet_id) : get_post_meta($active_packet_id, 'kc_packet_url', true);
+                
+                $received_packets = get_post_meta($post_id, 'kc_received_packet_ids', true);
+                if (!is_array($received_packets)) $received_packets = array();
+                $received_packets[] = $active_packet_id;
+                update_post_meta($post_id, 'kc_received_packet_ids', $received_packets);
+            }
+        }
+    }
+
+    ob_start();
+    include get_template_directory() . '/emails/email-booking-confirmed.php';
+    $message = ob_get_clean();
+
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+    wp_mail($email, $subject, $message, $headers);
+}
+
 function kc_process_booking_status_change($post_id, $new_status, $old_status) {
     if ($old_status === $new_status) return;
 
@@ -381,70 +490,9 @@ function kc_process_booking_status_change($post_id, $new_status, $old_status) {
 
     // 1. Email Logic
     if ($new_status === 'Contacted') {
-        $subject = "Your Kings City Booking is Confirmed!";
-        
-        // --- SMART NEWSLETTER LOGIC ---
-        // Find the most recently active Newsletter (kc_welcome_packet)
-        $active_newsletters = get_posts(array(
-            'post_type'      => 'kc_welcome_packet',
-            'posts_per_page' => 1,
-            'meta_query'     => array(
-                array(
-                    'key'     => 'kc_is_active',
-                    'value'   => '1',
-                    'compare' => '=='
-                )
-            ),
-            'fields'         => 'ids',
-        ));
-        $active_packet_id = !empty($active_newsletters) ? $active_newsletters[0] : false;
-        
-        $send_packet = false;
-        $packet_url = '';
-
-        if ($active_packet_id) {
-            // Check ALL past bookings for this email to see if they've received this specific packet ID
-            $past_bookings = get_posts(array(
-                'post_type'      => 'kc_booking',
-                'posts_per_page' => -1,
-                'meta_key'       => 'kc_email',
-                'meta_value'     => $email,
-                'fields'         => 'ids',
-            ));
-
-            $has_received = false;
-            foreach ($past_bookings as $pb_id) {
-                $pb_received = get_post_meta($pb_id, 'kc_received_packet_ids', true);
-                if (is_array($pb_received) && in_array($active_packet_id, $pb_received)) {
-                    $has_received = true;
-                    break;
-                }
-            }
-
-            if (!$has_received) {
-                $send_packet = true;
-                $packet_url = function_exists('get_field') ? get_field('kc_packet_url', $active_packet_id) : get_post_meta($active_packet_id, 'kc_packet_url', true);
-                
-                // Log that they are receiving it on THIS current booking
-                $received_packets = get_post_meta($post_id, 'kc_received_packet_ids', true);
-                if (!is_array($received_packets)) $received_packets = array();
-                $received_packets[] = $active_packet_id;
-                update_post_meta($post_id, 'kc_received_packet_ids', $received_packets);
-            }
-        }
-
-        // Generate HTML from template
-        ob_start();
-        include get_template_directory() . '/emails/email-booking-confirmed.php';
-        $message = ob_get_clean();
-
-        $headers = array('Content-Type: text/html; charset=UTF-8');
-        wp_mail($email, $subject, $message, $headers);
-        
+        kc_send_booking_email($post_id, 'booking_confirmed');
     } elseif ($new_status === 'Rejected') {
-        $subject = "Update regarding your Kings City Booking";
-        $message = "Hi $fname,\n\nUnfortunately, we are unable to accommodate your booking request for the $space on $date.\n\nReason:\n$note\n\nIf you have any questions, please reply to this email.\n\nThank you,\nThe Kings City Team";
-        wp_mail($email, $subject, $message);
+        kc_send_booking_email($post_id, 'booking_rejected');
     }
 
     // 2. Membership Expiration Logic

@@ -408,7 +408,7 @@ get_header();
     <div class="col-12 split">
       <!-- svg in the left -->
       <div class="split__media animate-fadeInLeft" style="position: relative; z-index: 2; display: flex; align-items: center; justify-content: center;">
-        <img alt="Social Impact World Animation" src="<?php echo get_template_directory_uri(); ?>/assets/svg/impact-world.svg" style="width: 100%; max-width: 500px; height: auto;"/>
+        <img alt="Social Impact World Animation" src="<?php echo get_template_directory_uri(); ?>/assets/svg/earth.svg" style="width: 100%; max-width: 500px; max-height: 100%; height: auto; object-fit: contain;"/>
       </div>
       <!-- context in the right -->
       <div class="split__content animate-fadeInRight" style="position: relative; z-index: 2;">

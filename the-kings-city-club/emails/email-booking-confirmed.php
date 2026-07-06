@@ -13,6 +13,12 @@
  * - $special (string)
  * - $send_packet (bool)
  * - $packet_url (string)
+ * - $email_heading (string)
+ * - $email_body (string)
+ * - $email_banner (string)
+ * - $email_btn_text (string)
+ * - $email_btn_url (string)
+ * - $hide_table (bool)
  */
 
 ?>
@@ -44,11 +50,19 @@
     <!-- Main Content -->
     <tr>
         <td style="padding: 40px 30px; background-color: #ffffff;">
-            <h2 style="margin-top: 0; color: #BD451F; font-size: 24px;">Booking Confirmation</h2>
+            <h2 style="margin-top: 0; color: #BD451F; font-size: 24px;"><?php echo esc_html(!empty($email_heading) ? $email_heading : 'Booking Confirmation'); ?></h2>
+            <?php 
+                if (!empty($email_body)) {
+                    echo '<div style="font-size: 16px; line-height: 1.6; color: #2B2B2B; margin-bottom: 30px;">' . wp_kses_post($email_body) . '</div>';
+                } else {
+            ?>
             <p style="font-size: 16px; line-height: 1.6; color: #2B2B2B;">Dear <?php echo esc_html($fname); ?>,</p>
             <p style="font-size: 16px; line-height: 1.6; color: #2B2B2B; margin-bottom: 30px;">
                 Your booking for the <strong><?php echo esc_html($space); ?></strong> has been successfully confirmed. We are thrilled to host you and your team. Please arrive on your chosen date and complete your payment at our front desk.
             </p>
+            <?php } ?>
+
+            <?php if (empty($hide_table)): ?>
 
             <h3 style="color: #BD451F; font-size: 18px; margin-bottom: 15px;">Your Booking Details</h3>
 
@@ -87,6 +101,21 @@
                     </tr>
                 </tfoot>
             </table>
+            <?php endif; ?>
+
+            <?php if (!empty($email_banner)): ?>
+            <!-- Dynamic Highlight Box -->
+            <div style="margin-top: 30px; background-color: #FFBFBF; border: 1px solid rgba(189,69,31,0.2); padding: 25px; text-align: center;">
+                <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #2B2B2B;">
+                    <?php echo esc_html($email_banner); ?>
+                </p>
+                <?php if (!empty($email_btn_text) && !empty($email_btn_url)): ?>
+                <a href="<?php echo esc_url($email_btn_url); ?>" style="display: inline-block; margin-top: 20px; padding: 14px 28px; background-color: #AC201A; color: #FFF9EF; text-decoration: none; font-weight: bold; font-size: 15px;">
+                    <?php echo esc_html($email_btn_text); ?>
+                </a>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
 
             <?php if ($send_packet && !empty($packet_url)): ?>
             <!-- Highlight Box for Newsletter -->
@@ -101,9 +130,11 @@
             </div>
             <?php endif; ?>
 
+            <?php if (empty($email_body)): ?>
             <p style="margin-top: 30px; font-size: 15px; line-height: 1.6; color: #2B2B2B;">
                 If you need to make any changes to your reservation, please reply directly to this correspondence. We look forward to seeing you soon!
             </p>
+            <?php endif; ?>
 
             <!-- Sign Off -->
             <div style="margin-top: 40px; text-align: right;">
