@@ -168,6 +168,7 @@ require_once get_template_directory() . '/inc/cpt-news.php';
 
 // Quote Requests CRM
 require_once get_template_directory() . '/inc/cpt-quotes.php';
+require_once get_template_directory() . '/inc/settings-email.php';
 
 // Welcome Packets (Newsletters)
 require_once get_template_directory() . '/inc/cpt-welcome-packets.php';

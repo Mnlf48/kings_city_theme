@@ -165,44 +165,104 @@ function kc_quote_lead_status_html($post) {
     echo '<p class="description">Changing to Contacted or Rejected will trigger an automated email to the client.</p>';
 }
 
+// Helper to send quote emails
+function kc_send_quote_email($tab_key, $to_email, $post_id) {
+    if (empty($to_email)) return;
+
+    $fname = get_post_meta($post_id, 'first_name', true);
+    $lname = get_post_meta($post_id, 'last_name', true);
+    $client_name = trim("$fname $lname");
+    $client_email = get_post_meta($post_id, 'email', true);
+
+    $prefix = 'kc_' . $tab_key . '_';
+    
+    // Default fallbacks based on tab
+    $def_subject = ''; $def_heading = ''; $def_body = ''; $def_banner = ''; $def_btn_text = ''; $def_btn_url = '';
+    
+    if ($tab_key === 'quote_admin_new') {
+        $def_subject = 'New Quote Request from {client_name}';
+        $def_heading = 'Service Proposal Request Notification';
+        $def_body = "A prospective client has submitted a formal request for a service proposal.\n\nClient Name: {client_name}\nWork Email: {client_email}";
+        $def_banner = 'To initiate correspondence, please reply directly to this email.';
+        $def_btn_text = 'View Quote Leads';
+        $def_btn_url = '{site_url}/wp-admin/edit.php?post_type=kg_quote_lead';
+    } elseif ($tab_key === 'quote_contacted') {
+        $def_subject = 'Proposal Request Acknowledgment - Kings City';
+        $def_heading = 'Proposal Request Acknowledgment';
+        $def_body = 'Thank you for considering Kings City. We have successfully received your service configuration request.';
+        $def_banner = 'A dedicated representative will contact you within one business day.';
+        $def_btn_text = 'Visit Kings City';
+        $def_btn_url = '{site_url}';
+    } elseif ($tab_key === 'quote_confirmed') {
+        $def_subject = 'Welcome to Kings City - Partnership Confirmed';
+        $def_heading = 'Partnership Confirmed';
+        $def_body = 'We are delighted to officially welcome you as a valued partner of Kings City. Your service proposal has been marked as confirmed.';
+        $def_banner = 'We look forward to delivering exceptional workforce solutions.';
+        $def_btn_text = 'Visit Kings City';
+        $def_btn_url = '{site_url}';
+    } elseif ($tab_key === 'quote_rejected') {
+        $def_subject = 'Update on your Kings City Quote Request';
+        $def_heading = 'Proposal Update';
+        $def_body = 'Thank you for reaching out to Kings City. After reviewing your request, we unfortunately cannot fulfill your specific role requirements at this time.';
+        $def_banner = 'We appreciate your interest and wish you the best in your search.';
+        $def_btn_text = 'Visit Kings City';
+        $def_btn_url = '{site_url}';
+    }
+
+    $raw_subject = get_option($prefix . 'subject', $def_subject);
+    $raw_heading = get_option($prefix . 'heading', $def_heading);
+    $raw_body = get_option($prefix . 'body', $def_body);
+    $raw_banner = get_option($prefix . 'banner', $def_banner);
+    $raw_btn_text = get_option($prefix . 'btn_text', $def_btn_text);
+    $raw_btn_url = get_option($prefix . 'btn_url', $def_btn_url);
+
+    $search = array('{client_name}', '{client_email}', '{site_url}', '{fname}');
+    $replace = array($client_name, $client_email, home_url(), $fname);
+
+    $subject = str_replace($search, $replace, $raw_subject);
+    $email_heading = str_replace($search, $replace, $raw_heading);
+    $email_body = str_replace($search, $replace, $raw_body);
+    $email_banner = str_replace($search, $replace, $raw_banner);
+    $email_btn_text = str_replace($search, $replace, $raw_btn_text);
+    $email_btn_url = str_replace($search, $replace, $raw_btn_url);
+
+    // Prepare data for the template
+    $first_name = $fname; // Fallback for template
+    $team_json_string = get_post_meta($post_id, 'team_json', true);
+    $team_data = json_decode($team_json_string, true);
+    $total_est = get_post_meta($post_id, 'total_est', true);
+
+    ob_start();
+    $template_path = get_template_directory() . '/emails/email-quote-master.php';
+    if (file_exists($template_path)) {
+        include($template_path);
+    } else {
+        echo "<p>" . nl2br(esc_html($email_body)) . "</p>";
+    }
+    $message = ob_get_clean();
+
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+    if ($tab_key === 'quote_admin_new') {
+        $headers[] = 'Reply-To: ' . $client_email;
+    }
+
+    wp_mail($to_email, $subject, $message, $headers);
+}
+
 function kc_process_quote_status_change($post_id, $new_status, $old_status) {
     if ($old_status === $new_status) return;
 
     update_post_meta($post_id, 'lead_status', $new_status);
     
     // Trigger Emails
-    $email = get_post_meta($post_id, 'email', true);
-    $fname = get_post_meta($post_id, 'first_name', true);
+    $client_email = get_post_meta($post_id, 'email', true);
     
-    if ($new_status === 'Contacted' && !empty($email)) {
-        $subject = "Your Kings City Quote Request - Let's Talk!";
-        
-        // Prepare data for the template
-        $first_name = $fname;
-        $team_json_string = get_post_meta($post_id, 'team_json', true);
-        $team_data = json_decode($team_json_string, true);
-        $total_est = get_post_meta($post_id, 'total_est', true);
-        
-        // Generate HTML from template
-        ob_start();
-        $template_path = get_template_directory() . '/emails/email-quote-contacted.php';
-        if (file_exists($template_path)) {
-            include($template_path);
-        } else {
-            echo "<p>Hi $fname,</p><p>Thank you for requesting a team builder quote with Kings City. We've reviewed your requirements and would love to set up a quick discovery call.</p>";
-        }
-        $message = ob_get_clean();
-        
-        // Set headers for HTML email
-        $headers = array('Content-Type: text/html; charset=UTF-8');
-        
-        wp_mail($email, $subject, $message, $headers);
-    }
-    
-    if ($new_status === 'Rejected' && !empty($email)) {
-        $subject = "Update on your Kings City Quote Request";
-        $message = "Hi $fname,\n\nThank you for reaching out to Kings City. After reviewing your team configuration request, we unfortunately cannot fulfill your specific role requirements at this time.\n\nWe appreciate your interest and wish you the best in your search.\n\nBest regards,\nKings City Team";
-        wp_mail($email, $subject, $message);
+    if ($new_status === 'Contacted') {
+        kc_send_quote_email('quote_contacted', $client_email, $post_id);
+    } elseif ($new_status === 'Closed') {
+        kc_send_quote_email('quote_confirmed', $client_email, $post_id);
+    } elseif ($new_status === 'Rejected') {
+        kc_send_quote_email('quote_rejected', $client_email, $post_id);
     }
 }
 
@@ -246,27 +306,7 @@ function kc_ajax_submit_quote() {
     
     $team_data = json_decode($team_json, true);
     
-    $to = 'kingscity@kingsgroup.com.ph';
-    $subject = 'New Quote Request from ' . $fname . ' ' . $lname;
-    
-    $message = "You have received a new quote request.\n\n";
-    $message .= "Name: $fname $mname $lname\n";
-    $message .= "Email: $email\n";
-    $message .= "Phone: $phone\n";
-    $message .= "Address:\n$address\n\n";
-    
-    $message .= "--- TEAM BUILDER SELECTION ---\n";
-    if (!empty($team_data) && is_array($team_data)) {
-        $message .= "Currency: " . esc_html($_POST['currency_used']) . "\n";
-        $message .= "Total Estimated Monthly Base: " . esc_html($_POST['total_est']) . "\n\n";
-        foreach ($team_data as $role) {
-            $message .= "- " . $role['title'] . " (" . $role['level'] . ")\n";
-            $message .= "  Headcount: " . $role['headcount'] . "\n";
-            $message .= "  Est. Monthly: " . $role['monthly'] . "\n\n";
-        }
-    } else {
-        $message .= "No team roles selected.\n";
-    }
+    $team_data = json_decode($team_json, true);
     
     // Check for recent submissions from the same email
     $recent_leads = get_posts(array(
@@ -304,8 +344,8 @@ function kc_ajax_submit_quote() {
         update_post_meta($post_id, 'lead_status', 'Pending');
         
         // Also send notification email
-        $headers = array('Reply-To: ' . $email);
-        wp_mail($to, $subject, $message, $headers);
+        $to = 'kingscity@kingsgroup.com.ph';
+        kc_send_quote_email('quote_admin_new', $to, $post_id);
         
         wp_send_json_success(array('message' => 'Quote Request Received! Our team will review your requirements and get back to you shortly.'));
     } else {

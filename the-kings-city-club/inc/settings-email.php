@@ -1,0 +1,176 @@
+<?php
+if (!defined('ABSPATH')) exit;
+
+// Admin Menu Hook
+add_action('admin_menu', 'kc_email_templates_menu');
+function kc_email_templates_menu() {
+    add_menu_page(
+        'Email Templates',
+        'Email Templates',
+        'manage_options',
+        'kc-email-templates',
+        'kc_email_templates_page',
+        'dashicons-email-alt',
+        30
+    );
+}
+
+function kc_email_templates_page() {
+    if (!current_user_can('manage_options')) return;
+
+    $tabs = array(
+        'quote_admin_new' => 'Service Proposal Request Notification (Admin)',
+        'quote_contacted' => 'Proposal Request Acknowledgment (Client)',
+        'quote_confirmed' => 'Quote Lead Converted/Confirmed Email (Client)',
+        'quote_rejected'  => 'Quote Lead Rejected Email (Client)'
+    );
+
+    $active_tab = isset($_GET['tab']) && array_key_exists($_GET['tab'], $tabs) ? $_GET['tab'] : 'quote_admin_new';
+
+    // Save Data
+    if (isset($_POST['kc_email_templates_nonce']) && wp_verify_nonce($_POST['kc_email_templates_nonce'], 'kc_save_email_templates')) {
+        $prefix = 'kc_' . $active_tab . '_';
+        update_option($prefix . 'subject', sanitize_text_field($_POST['email_subject']));
+        update_option($prefix . 'heading', sanitize_text_field($_POST['email_heading']));
+        update_option($prefix . 'body', wp_kses_post($_POST['email_body']));
+        update_option($prefix . 'banner', sanitize_text_field($_POST['email_banner']));
+        update_option($prefix . 'btn_text', sanitize_text_field($_POST['email_btn_text']));
+        update_option($prefix . 'btn_url', esc_url_raw($_POST['email_btn_url']));
+
+        echo '<div class="notice notice-success is-dismissible"><p>Email template settings saved successfully!</p></div>';
+    }
+
+    $prefix = 'kc_' . $active_tab . '_';
+    
+    // Default fallbacks based on tab
+    $def_subject = ''; $def_heading = ''; $def_body = ''; $def_banner = ''; $def_btn_text = ''; $def_btn_url = '';
+    
+    if ($active_tab === 'quote_admin_new') {
+        $def_subject = 'New Quote Request from {client_name}';
+        $def_heading = 'Service Proposal Request Notification';
+        $def_body = "A prospective client has just submitted a formal request for a service proposal via the website. Please review their team configuration requirements and prepare to initiate contact within our standard SLA of one business day.\n\n<strong>Client Name:</strong> {client_name}\n<strong>Work Email:</strong> {client_email}\n\nYou can review their complete submission details, including requested roles and estimated monthly base, by clicking the button below.";
+        $def_banner = 'Promptly initiating correspondence is key to securing this partnership. Please review the lead details in the CRM.';
+        $def_btn_text = 'View Quote Leads';
+        $def_btn_url = '{site_url}/wp-admin/edit.php?post_type=kg_quote_lead';
+    } elseif ($active_tab === 'quote_contacted') {
+        $def_subject = 'Proposal Request Acknowledgment - Kings City';
+        $def_heading = 'Proposal Request Acknowledgment';
+        $def_body = 'Thank you for considering Kings City as your trusted workforce solutions partner. We have successfully received your service configuration request, and our business development team is currently analyzing your specific role requirements to formulate a comprehensive and competitive proposal tailored to your needs. We are committed to providing you with top-tier talent and look forward to the possibility of collaborating with you.';
+        $def_banner = 'A dedicated representative will contact you within one business day to present a detailed pricing breakdown, discuss your specific needs, and answer any preliminary questions you may have.';
+        $def_btn_text = 'Visit Kings City';
+        $def_btn_url = '{site_url}';
+    } elseif ($active_tab === 'quote_confirmed') {
+        $def_subject = 'Welcome to Kings City - Partnership Confirmed';
+        $def_heading = 'Partnership Confirmed';
+        $def_body = 'We are absolutely delighted to officially welcome you as a valued partner of Kings City. Your service proposal and team configuration have been marked as confirmed, and we are already initiating the next steps in our onboarding and talent acquisition process. Our team is dedicated to ensuring a seamless transition and delivering exceptional workforce solutions that drive your business forward. You will be introduced to your dedicated account manager shortly.';
+        $def_banner = 'We look forward to a successful and long-lasting partnership. Your account manager will be in touch with you shortly to begin the onboarding process.';
+        $def_btn_text = 'Visit Kings City';
+        $def_btn_url = '{site_url}';
+    } elseif ($active_tab === 'quote_rejected') {
+        $def_subject = 'Update on your Kings City Quote Request';
+        $def_heading = 'Proposal Update';
+        $def_body = "Thank you for reaching out to Kings City and giving us the opportunity to review your workforce needs. After carefully analyzing your service configuration request, we unfortunately cannot fulfill your specific role requirements at this time, as they fall outside our current operational capacities or talent pool specialties.\n\nWe deeply appreciate your interest in partnering with us, and we will keep your company profile on hand should our service offerings expand to cover your specific needs in the future.";
+        $def_banner = 'We wish you the very best in your search for a suitable workforce solutions partner.';
+        $def_btn_text = 'Visit Kings City';
+        $def_btn_url = '{site_url}';
+    }
+
+    $subject = get_option($prefix . 'subject', $def_subject);
+    $heading = get_option($prefix . 'heading', $def_heading);
+    $body = get_option($prefix . 'body', $def_body);
+    $banner = get_option($prefix . 'banner', $def_banner);
+    $btn_text = get_option($prefix . 'btn_text', $def_btn_text);
+    $btn_url = get_option($prefix . 'btn_url', $def_btn_url);
+
+    // CSS for Sidebar Layout
+    ?>
+    <style>
+        .kc-email-settings-wrapper { display: flex; margin-top: 20px; gap: 20px; }
+        .kc-email-sidebar { width: 280px; flex-shrink: 0; background: #fff; border: 1px solid #ccd0d4; padding: 15px 0; }
+        .kc-email-sidebar-heading { font-weight: bold; text-transform: uppercase; font-size: 11px; color: #646970; padding: 10px 15px; border-bottom: 1px solid #eee; margin-top: 0; margin-bottom: 5px; }
+        .kc-email-nav-item { display: block; padding: 10px 15px; text-decoration: none; color: #3c434a; font-size: 13px; line-height: 1.4; border-left: 4px solid transparent; }
+        .kc-email-nav-item:hover { background: #f6f7f7; color: #2271b1; }
+        .kc-email-nav-item.active { background: #f0f6fc; border-left-color: #2271b1; color: #2271b1; font-weight: 600; }
+        .kc-email-content { flex-grow: 1; background: #fff; border: 1px solid #ccd0d4; padding: 20px 30px; }
+    </style>
+    
+    <div class="wrap">
+        <h1 class="wp-heading-inline">Email Templates Configuration</h1>
+        <hr class="wp-header-end">
+        <p style="color: #646970; font-style: italic;">Customize the automated emails sent by the recruitment and sales systems. Use the left menu to navigate through templates.</p>
+
+        <div class="kc-email-settings-wrapper">
+            <!-- Sidebar -->
+            <div class="kc-email-sidebar">
+                <h3 class="kc-email-sidebar-heading">Quote Emails</h3>
+                <?php foreach ($tabs as $tab_key => $tab_name): ?>
+                    <a href="?page=kc-email-templates&tab=<?php echo esc_attr($tab_key); ?>" class="kc-email-nav-item <?php echo $active_tab === $tab_key ? 'active' : ''; ?>">
+                        <?php echo esc_html($tab_name); ?>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+
+            <!-- Content Area -->
+            <div class="kc-email-content">
+                <h2>Edit Template: <?php echo esc_html($tabs[$active_tab]); ?></h2>
+                <form method="POST" action="">
+                    <?php wp_nonce_field('kc_save_email_templates', 'kc_email_templates_nonce'); ?>
+                    
+                    <table class="form-table">
+                        <tbody>
+                            <tr>
+                                <th scope="row"><label for="email_subject">Email Subject</label></th>
+                                <td><input type="text" name="email_subject" id="email_subject" value="<?php echo esc_attr($subject); ?>" class="regular-text" style="width: 100%;"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="email_heading">Email Heading</label></th>
+                                <td>
+                                    <input type="text" name="email_heading" id="email_heading" value="<?php echo esc_attr($heading); ?>" class="regular-text" style="width: 100%;">
+                                    <p class="description">Main heading text printed in the colored card header at the top of the email.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="email_body">Email Body (HTML/Copy)</label></th>
+                                <td>
+                                    <?php 
+                                    $settings = array(
+                                        'media_buttons' => false,
+                                        'textarea_name' => 'email_body',
+                                        'textarea_rows' => 10,
+                                        'teeny'         => false
+                                    );
+                                    wp_editor($body, 'email_body_editor', $settings); 
+                                    ?>
+                                    <p class="description" style="margin-top: 10px;">Supported tokens: <code>{client_name}</code>, <code>{client_email}</code>, <code>{site_url}</code></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="email_banner">Banner Highlight Text</label></th>
+                                <td>
+                                    <input type="text" name="email_banner" id="email_banner" value="<?php echo esc_attr($banner); ?>" class="regular-text" style="width: 100%;">
+                                    <p class="description">Optional highlight text shown in a prominent visual card inside the email.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="email_btn_text">Button Text</label></th>
+                                <td>
+                                    <input type="text" name="email_btn_text" id="email_btn_text" value="<?php echo esc_attr($btn_text); ?>" class="regular-text" style="width: 50%;">
+                                    <p class="description">Optional call-to-action button label.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="email_btn_url">Button Link (URL)</label></th>
+                                <td>
+                                    <input type="text" name="email_btn_url" id="email_btn_url" value="<?php echo esc_attr($btn_url); ?>" class="regular-text" style="width: 100%;">
+                                    <p class="description">Supports link URLs or dynamic tokens like <code>{site_url}</code>.</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Save Template Settings"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <?php
+}

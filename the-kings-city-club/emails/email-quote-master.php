@@ -37,11 +37,18 @@
     <!-- Main Content -->
     <tr>
         <td style="padding: 40px 30px; background-color: #ffffff;">
-            <h2 style="margin-top: 0; color: #BD451F; font-size: 24px;">Proposal Request Acknowledgment</h2>
+            <h2 style="margin-top: 0; color: #BD451F; font-size: 24px;"><?php echo esc_html(!empty($email_heading) ? $email_heading : 'Proposal Request Acknowledgment'); ?></h2>
+            <?php 
+                if (!empty($email_body)) {
+                    // Wrap the WYSIWYG output in a div with the email's base font styling
+                    echo '<div style="font-size: 16px; line-height: 1.6; color: #2B2B2B; margin-bottom: 30px;">' . wp_kses_post($email_body) . '</div>';
+                } else {
+            ?>
             <p style="font-size: 16px; line-height: 1.6; color: #2B2B2B;">Dear <?php echo esc_html($first_name); ?>,</p>
             <p style="font-size: 16px; line-height: 1.6; color: #2B2B2B; margin-bottom: 30px;">
                 Thank you for considering Kings City as your workforce solutions partner. We have successfully received your service configuration request. Our business development team is currently analyzing your requirements to formulate a comprehensive proposal.
             </p>
+            <?php } ?>
 
             <h3 style="color: #BD451F; font-size: 18px; margin-bottom: 15px;">Your Team Configuration Summary</h3>
 
@@ -88,7 +95,7 @@
             <!-- Highlight Box -->
             <div style="margin-top: 30px; background-color: #FFBFBF; border: 1px solid rgba(189,69,31,0.2); padding: 20px;">
                 <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #2B2B2B; font-weight: bold;">
-                    A dedicated representative will contact you within one business day to present a detailed pricing breakdown and discuss your specific needs.
+                    <?php echo esc_html(!empty($email_banner) ? $email_banner : 'A dedicated representative will contact you within one business day to present a detailed pricing breakdown and discuss your specific needs.'); ?>
                 </p>
             </div>
 
@@ -98,8 +105,8 @@
 
             <!-- CTA Button (Deep Red Action Color) -->
             <div style="margin-top: 35px; text-align: left;">
-                <a href="<?php echo esc_url(home_url()); ?>" style="display: inline-block; background-color: #AC201A; color: #FFF9EF; font-weight: bold; text-decoration: none; padding: 16px 40px; font-size: 16px;">
-                    Visit Kings City
+                <a href="<?php echo esc_url(!empty($email_btn_url) ? $email_btn_url : home_url()); ?>" style="display: inline-block; background-color: #AC201A; color: #FFF9EF; font-weight: bold; text-decoration: none; padding: 16px 40px; font-size: 16px;">
+                    <?php echo esc_html(!empty($email_btn_text) ? $email_btn_text : 'Visit Kings City'); ?>
                 </a>
             </div>
 
