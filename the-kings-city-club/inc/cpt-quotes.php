@@ -123,30 +123,43 @@ function kc_quote_lead_details_html($post) {
     $team_json = get_post_meta($post->ID, 'team_json', true);
     $team_data = json_decode($team_json, true);
 
-    echo '<table class="form-table">';
-    echo '<tr><th>Client Name</th><td>' . esc_html(trim("$fname $mname $lname")) . '</td></tr>';
-    echo '<tr><th>Email</th><td><a href="mailto:' . esc_attr($email) . '">' . esc_html($email) . '</a></td></tr>';
+    echo '<style>
+        .kc-quote-details-wrapper { background: #FFF9EF; padding: 20px; border-radius: 8px; border: 1px solid rgba(189,69,31,0.2); font-family: "Outfit", Arial, sans-serif; }
+        .kc-quote-details-wrapper table.form-table th { color: #AC201A; font-weight: 600; text-align: left; padding: 10px 10px 10px 0; }
+        .kc-quote-details-wrapper table.form-table td { color: #2B2B2B; padding: 10px; }
+        .kc-quote-details-wrapper h3 { margin-top: 2rem; border-bottom: 2px solid rgba(189,69,31,0.1); padding-bottom: 0.5rem; color: #BD451F; font-weight: 800; font-size: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .kc-quote-team-table { width: 100%; border: 1px solid rgba(189,69,31,0.2); border-collapse: collapse; margin-top: 15px; }
+        .kc-quote-team-table th { background-color: #BD451F; color: #FFF9EF; padding: 12px 15px; text-align: left; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .kc-quote-team-table td { background-color: #ffffff; border-bottom: 1px solid rgba(189,69,31,0.1); padding: 12px 15px; color: #2B2B2B; }
+        .kc-quote-team-table tr:nth-child(even) td { background-color: #FFF9EF; }
+    </style>';
+
+    echo '<div class="kc-quote-details-wrapper">';
+    echo '<table class="form-table" style="margin-top: 0;">';
+    echo '<tr><th style="width: 200px;">Client Name</th><td>' . esc_html(trim("$fname $mname $lname")) . '</td></tr>';
+    echo '<tr><th>Email</th><td><a href="mailto:' . esc_attr($email) . '" style="color: #AC201A; text-decoration: none;">' . esc_html($email) . '</a></td></tr>';
     echo '<tr><th>Phone</th><td>' . esc_html($phone) . '</td></tr>';
     echo '<tr><th>Address</th><td>' . nl2br(esc_html($address)) . '</td></tr>';
-    echo '<tr><th>Est. Monthly Total</th><td><strong>' . esc_html($total_est) . '</strong></td></tr>';
+    echo '<tr><th>Est. Monthly Total</th><td><strong style="color: #BD451F; font-size: 16px;">' . esc_html($total_est) . '</strong></td></tr>';
     echo '</table>';
 
-    echo '<h3 style="margin-top:2rem; border-bottom: 1px solid #ccc; padding-bottom: 0.5rem;">TEAM CONFIGURATION</h3>';
+    echo '<h3>Team Configuration</h3>';
     if (!empty($team_data) && is_array($team_data)) {
-        echo '<table class="wp-list-table widefat fixed striped">';
-        echo '<thead><tr><th>Role</th><th>Level / Qty</th><th>Subtotal</th></tr></thead>';
+        echo '<table class="kc-quote-team-table">';
+        echo '<thead><tr><th>Role</th><th>Level / Qty</th><th style="text-align:right;">Subtotal</th></tr></thead>';
         echo '<tbody>';
         foreach ($team_data as $role) {
             echo '<tr>';
-            echo '<td>' . esc_html($role['title']) . '</td>';
+            echo '<td><strong>' . esc_html($role['title']) . '</strong></td>';
             echo '<td>' . esc_html($role['level']) . ' &times; ' . esc_html($role['headcount']) . '</td>';
-            echo '<td>' . esc_html($role['monthly']) . '</td>';
+            echo '<td style="text-align:right; font-weight: bold; color: #BD451F;">' . esc_html($role['monthly']) . '</td>';
             echo '</tr>';
         }
         echo '</tbody></table>';
     } else {
-        echo '<p>No team roles specified.</p>';
+        echo '<p style="color: #646970; font-style: italic;">No team roles specified.</p>';
     }
+    echo '</div>';
 }
 
 function kc_quote_lead_status_html($post) {
@@ -157,12 +170,14 @@ function kc_quote_lead_status_html($post) {
     
     wp_nonce_field('kc_save_quote_lead', 'kc_quote_lead_nonce');
     
-    echo '<select name="lead_status" style="width:100%;">';
+    echo '<div style="background: #FFF9EF; padding: 15px; border-radius: 8px; border: 1px solid rgba(189,69,31,0.2); font-family: \'Outfit\', Arial, sans-serif;">';
+    echo '<select name="lead_status" style="width:100%; border-color: rgba(189,69,31,0.3); color: #AC201A; font-weight: bold; padding: 5px;">';
     foreach ($options as $opt) {
         echo '<option value="' . esc_attr($opt) . '" ' . selected($status, $opt, false) . '>' . esc_html($opt) . '</option>';
     }
     echo '</select>';
-    echo '<p class="description">Changing to Contacted or Rejected will trigger an automated email to the client.</p>';
+    echo '<p class="description" style="color: #646970; font-style: italic; margin-top: 10px;">Changing to Contacted, Closed, or Rejected will trigger an automated email to the client based on your Email Templates.</p>';
+    echo '</div>';
 }
 
 // Helper to send quote emails

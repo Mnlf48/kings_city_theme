@@ -82,16 +82,21 @@ function kc_email_templates_page() {
     $btn_text = get_option($prefix . 'btn_text', $def_btn_text);
     $btn_url = get_option($prefix . 'btn_url', $def_btn_url);
 
-    // CSS for Sidebar Layout
+    // CSS for Sidebar Layout and Branding
     ?>
     <style>
-        .kc-email-settings-wrapper { display: flex; margin-top: 20px; gap: 20px; }
-        .kc-email-sidebar { width: 280px; flex-shrink: 0; background: #fff; border: 1px solid #ccd0d4; padding: 15px 0; }
-        .kc-email-sidebar-heading { font-weight: bold; text-transform: uppercase; font-size: 11px; color: #646970; padding: 10px 15px; border-bottom: 1px solid #eee; margin-top: 0; margin-bottom: 5px; }
-        .kc-email-nav-item { display: block; padding: 10px 15px; text-decoration: none; color: #3c434a; font-size: 13px; line-height: 1.4; border-left: 4px solid transparent; }
-        .kc-email-nav-item:hover { background: #f6f7f7; color: #2271b1; }
-        .kc-email-nav-item.active { background: #f0f6fc; border-left-color: #2271b1; color: #2271b1; font-weight: 600; }
-        .kc-email-content { flex-grow: 1; background: #fff; border: 1px solid #ccd0d4; padding: 20px 30px; }
+        .kc-email-settings-wrapper { display: flex; margin-top: 20px; gap: 20px; font-family: 'Outfit', Arial, sans-serif; }
+        .kc-email-sidebar { width: 280px; flex-shrink: 0; background: #FFF9EF; border: 1px solid rgba(189,69,31,0.2); padding: 15px 0; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .kc-email-sidebar-heading { font-weight: 800; text-transform: uppercase; font-size: 12px; color: #BD451F; padding: 10px 15px; border-bottom: 1px solid rgba(189,69,31,0.1); margin-top: 0; margin-bottom: 5px; letter-spacing: 0.5px; }
+        .kc-email-nav-item { display: block; padding: 12px 15px; text-decoration: none; color: #2B2B2B; font-size: 13px; line-height: 1.4; border-left: 4px solid transparent; transition: all 0.2s; }
+        .kc-email-nav-item:hover { background: #FFBFBF; color: #AC201A; }
+        .kc-email-nav-item.active { background: #FFBFBF; border-left-color: #BD451F; color: #AC201A; font-weight: 600; }
+        .kc-email-content { flex-grow: 1; background: #FFF9EF; border: 1px solid rgba(189,69,31,0.2); padding: 30px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .kc-email-content h2 { color: #BD451F; font-weight: 800; border-bottom: 2px solid rgba(189,69,31,0.1); padding-bottom: 15px; margin-top: 0; font-size: 20px; }
+        .kc-email-content .form-table th { color: #AC201A; font-weight: 600; font-size: 14px; }
+        .kc-email-content p.description { color: #646970; font-style: italic; }
+        .kc-email-content .button-primary { background: #AC201A; border-color: #8c1713; color: #FFF9EF; text-shadow: none; box-shadow: none; font-weight: bold; padding: 4px 20px; font-size: 14px; transition: background 0.2s; }
+        .kc-email-content .button-primary:hover { background: #BD451F; border-color: #AC201A; color: #FFF9EF; }
     </style>
     
     <div class="wrap">

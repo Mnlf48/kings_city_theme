@@ -112,42 +112,47 @@ function kc_render_bookings_dashboard_widget() {
     // --- 2. Styles ---
     ?>
     <style>
-        .kc-dash-wrapper { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; }
+        .kc-dash-wrapper { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         
         .kc-dash-headcount-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .kc-dash-box { padding: 15px; border-radius: 4px; color: white; display: flex; flex-direction: column; justify-content: center; }
-        .kc-dash-box .label { font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8; margin-bottom: 5px; }
+        .kc-dash-box .label { font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9; margin-bottom: 5px; }
         .kc-dash-box .number { font-size: 32px; font-weight: 800; line-height: 1; }
         
-        .kc-dash-box.blue { background-color: #17406B; }
-        .kc-dash-box.green { background-color: #0E7754; }
-        .kc-dash-box.yellow { background-color: #D97706; }
-        .kc-dash-box.white { background-color: #fff; color: #17406B; border: 1px solid #e2e8f0; }
-        .kc-dash-box.white .label { color: #64748b; }
+        .kc-dash-box.blue { background-color: #BD451F; color: #FFF9EF; } /* Terracotta */
+        .kc-dash-box.green { background-color: #AC201A; color: #FFF9EF; } /* Deep Red */
+        .kc-dash-box.yellow { background-color: #FBCB77; color: #2B2B2B; } /* Yellow */
+        .kc-dash-box.white { background-color: #FFF9EF; color: #BD451F; border: 1px solid rgba(189,69,31,0.2); } /* Ivory */
+        .kc-dash-box.white .label { color: #BD451F; opacity: 0.8; }
 
-        .kc-dash-section-title { font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; margin-top: 20px; margin-bottom: 10px; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; }
+        .kc-dash-section-title { font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #AC201A; margin-top: 20px; margin-bottom: 10px; border-bottom: 1px solid rgba(189,69,31,0.2); padding-bottom: 5px; }
 
         .kc-dash-progress-row { display: flex; align-items: center; margin-bottom: 8px; font-size: 11px; }
-        .kc-dash-progress-label { width: 140px; color: #1e293b; font-weight: 500; }
-        .kc-dash-progress-bar-container { flex-grow: 1; background-color: #e2e8f0; height: 6px; border-radius: 3px; margin: 0 10px; overflow: hidden; }
-        .kc-dash-progress-bar { height: 100%; background-color: #17406B; border-radius: 3px; }
-        .kc-dash-progress-value { width: 30px; text-align: right; color: #64748b; font-weight: bold; }
+        .kc-dash-progress-label { width: 140px; color: #2B2B2B; font-weight: 500; }
+        .kc-dash-progress-bar-container { flex-grow: 1; background-color: #FFF9EF; height: 6px; border-radius: 3px; margin: 0 10px; overflow: hidden; border: 1px solid rgba(189,69,31,0.1); }
+        .kc-dash-progress-bar { height: 100%; background-color: #BD451F; border-radius: 3px; }
+        .kc-dash-progress-value { width: 30px; text-align: right; color: #BD451F; font-weight: bold; }
 
         .kc-dash-pipeline-bar { height: 8px; border-radius: 4px; margin: 0 10px; flex-grow: 1; }
-        .kc-dash-pipeline-row .kc-dash-progress-bar-container { background-color: #f1f5f9; height: 8px; }
+        .kc-dash-pipeline-row .kc-dash-progress-bar-container { background-color: #FFF9EF; height: 8px; border: 1px solid rgba(189,69,31,0.1); }
         
-        .kc-dash-pipeline-pending { background-color: #f59e0b; }
-        .kc-dash-pipeline-contacted { background-color: #3b82f6; }
-        .kc-dash-pipeline-completed { background-color: #10b981; }
-        .kc-dash-pipeline-rejected { background-color: #ef4444; }
+        .kc-dash-pipeline-pending { background-color: #FBCB77; }
+        .kc-dash-pipeline-contacted { background-color: #BD451F; }
+        .kc-dash-pipeline-completed { background-color: #AC201A; }
+        .kc-dash-pipeline-rejected { background-color: #2B2B2B; }
 
         .kc-dash-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 10px; }
-        .kc-dash-table th, .kc-dash-table td { padding: 8px 4px; border-bottom: 1px solid #f1f5f9; text-align: left; }
-        .kc-dash-table th { color: #64748b; font-weight: 600; text-transform: uppercase; font-size: 10px; }
+        .kc-dash-table th, .kc-dash-table td { padding: 8px 4px; border-bottom: 1px solid rgba(189,69,31,0.1); text-align: left; }
+        .kc-dash-table th { color: #AC201A; font-weight: 600; text-transform: uppercase; font-size: 10px; }
         .kc-dash-table tr:last-child td { border-bottom: none; }
+        .kc-dash-table a { color: #BD451F; font-weight: bold; text-decoration: none; }
+        .kc-dash-table a:hover { color: #AC201A; }
         
         .kc-dash-actions { display: flex; justify-content: space-between; gap: 10px; margin-top: 15px; }
-        .kc-dash-actions a { flex: 1; text-align: center; }
+        .kc-dash-actions a { flex: 1; text-align: center; font-weight: bold; border-radius: 4px; }
+        .kc-dash-actions .button-primary { background-color: #AC201A !important; border-color: #8c1713 !important; color: #FFF9EF !important; }
+        .kc-dash-actions .button-secondary { background-color: #FFF9EF !important; border-color: #BD451F !important; color: #BD451F !important; }
+        .kc-dash-actions .button-secondary:hover { background-color: #FFBFBF !important; color: #AC201A !important; }
     </style>
 
     <!-- 3. HTML Structure -->
@@ -204,11 +209,11 @@ function kc_render_bookings_dashboard_widget() {
             $stage_percent = ($total_pipeline > 0) ? ($stage_count / $total_pipeline) * 100 : 0;
         ?>
         <div class="kc-dash-progress-row kc-dash-pipeline-row">
-            <div class="kc-dash-progress-label" style="width:100px; color:<?php 
-                if($stage=='Pending') echo '#d97706';
-                elseif($stage=='Contacted') echo '#2563eb';
-                elseif($stage=='Completed') echo '#059669';
-                elseif($stage=='Rejected') echo '#dc2626';
+            <div class="kc-dash-progress-label" style="width:100px; font-weight: bold; color:<?php 
+                if($stage=='Pending') echo '#D97706';
+                elseif($stage=='Contacted') echo '#BD451F';
+                elseif($stage=='Completed') echo '#AC201A';
+                elseif($stage=='Rejected') echo '#2B2B2B';
             ?>;"><?php echo esc_html($stage); ?></div>
             <div class="kc-dash-progress-bar-container">
                 <div class="kc-dash-progress-bar <?php echo esc_attr($css_class); ?>" style="width: <?php echo esc_attr($stage_percent); ?>%;"></div>
