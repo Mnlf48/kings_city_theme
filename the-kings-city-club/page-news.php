@@ -29,7 +29,7 @@ get_header();
 </section>
 <?php
 $news_args = array(
-    'post_type'      => 'kc_news',
+    'post_type'      => 'post',
     'posts_per_page' => -1, // Fetch all for now
     'post_status'    => 'publish',
     'orderby'        => 'date',
@@ -90,13 +90,13 @@ if ($news_query->have_posts()) :
             <?php endif; ?>
             <div class="journal-grid">
               <?php foreach ($group as $post) : setup_postdata($post); ?>
-                <article class="card-glass" onclick="window.location.href='<?php echo get_permalink($post->ID); ?>'" style="cursor: pointer;">
-                  <?php $image_id = get_field('news_card_image', $post->ID); if ($image_id) : ?>
-                    <div style="width: 100%; aspect-ratio: 16/9; border-radius: var(--radius-card) var(--radius-card) 0 0; overflow:hidden;">
+                <article class="card-glass" onclick="window.location.href='<?php echo get_permalink($post->ID); ?>'" style="cursor: pointer; border-radius: 0;">
+                  <?php $image_id = get_post_thumbnail_id($post->ID); if ($image_id) : ?>
+                    <div style="width: 100%; aspect-ratio: 16/9; border-radius: 0; overflow:hidden;">
                         <?php echo wp_get_attachment_image($image_id, 'large', false, array('style' => 'width:100%; height:100%; object-fit:cover;')); ?>
                     </div>
                   <?php else : ?>
-                    <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
+                    <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: 0;">
                       No Image
                     </div>
                   <?php endif; ?>
@@ -106,8 +106,8 @@ if ($news_query->have_posts()) :
                     <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;"><?php echo get_the_title($post->ID); ?></h3>
                     <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
                         <?php 
-                        $excerpt = get_field('news_card_excerpt', $post->ID);
-                        if(empty($excerpt)) { $excerpt = wp_trim_words(get_field('news_article_content', $post->ID), 20); }
+                        $excerpt = get_the_excerpt($post->ID);
+                        if(empty($excerpt)) { $excerpt = wp_trim_words(get_post_field('post_content', $post->ID), 20); }
                         echo esc_html($excerpt); 
                         ?>
                     </p>

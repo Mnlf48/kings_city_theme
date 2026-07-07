@@ -63,116 +63,9 @@ $share_title = esc_attr(get_the_title());
 
       <!-- Content -->
       <div class="single-article-content">
-
-        <?php
-        // --- Cover Image ---
-        $cover = get_field('news_cover_image');
-        if ($cover) :
-        ?>
-          <figure class="single-article__big-image">
-            <img src="<?php echo esc_url($cover['sizes']['large']); ?>" alt="<?php echo esc_attr($cover['alt']); ?>" loading="lazy">
-          </figure>
-        <?php endif; ?>
-
-
-        <?php
-        // --- Article Image (dedicated full-width centered image between text blocks) ---
-        $article_img = get_field('news_article_image');
-        if ($article_img) :
-        ?>
-          <figure class="single-article__big-image" style="margin: 1.5rem 0;">
-            <img src="<?php echo esc_url($article_img['sizes']['large']); ?>" alt="<?php echo esc_attr($article_img['alt']); ?>" loading="lazy" style="width:100%; height:auto; display:block; border-radius:var(--radius-card); object-fit:cover;">
-          </figure>
-        <?php endif; ?>
-
-        <?php
-        // --- Article Content Part 2 (optional text after the article image) ---
-        $article_raw_2 = get_field('news_article_content_2');
-        if ($article_raw_2) :
-        ?>
           <div class="single-article__text-block">
-            <?php echo apply_filters('the_content', $article_raw_2); ?>
+            <?php the_content(); ?>
           </div>
-        <?php endif; ?>
-
-        <?php
-        // --- Inline Gallery (flexible column layout chosen by editor) ---
-        $inline_gallery = get_field('news_inline_gallery');
-        if (!empty($inline_gallery)) :
-            $cols = intval(get_field('news_inline_gallery_cols')) ?: 3;
-        ?>
-          <div class="single-article__inline-gallery" style="
-            display: grid;
-            grid-template-columns: repeat(<?php echo $cols; ?>, 1fr);
-            gap: 0.75rem;
-            margin: 1.5rem 0;
-          ">
-            <?php foreach ($inline_gallery as $gal_img) : ?>
-              <figure style="margin: 0; overflow: hidden; border-radius: var(--radius-card);">
-                <img
-                  src="<?php echo esc_url($gal_img['sizes']['large'] ?? $gal_img['url']); ?>"
-                  alt="<?php echo esc_attr($gal_img['alt']); ?>"
-                  loading="lazy"
-                  style="width: 100%; height: 100%; object-fit: cover; display: block;"
-                />
-              </figure>
-            <?php endforeach; ?>
-          </div>
-        <?php endif; ?>
-
-        <?php
-        // --- Gallery Grid (6 individual image fields) ---
-        // Build the gallery HTML into a variable so we can place it before or after text.
-        $gallery_images = array();
-        for ($i = 1; $i <= 6; $i++) {
-          $img = get_field('news_gallery_' . $i);
-          if ($img) {
-            $gallery_images[] = $img;
-          }
-        }
-        $gallery_position = get_field('news_gallery_position') ?: 'after_text';
-
-        ob_start();
-        if (!empty($gallery_images)) :
-          if (count($gallery_images) === 1) :
-            $gimg = $gallery_images[0];
-        ?>
-          <figure class="single-article__big-image">
-            <img src="<?php echo esc_url($gimg['sizes']['large'] ?? $gimg['url']); ?>" alt="<?php echo esc_attr($gimg['alt']); ?>" loading="lazy">
-          </figure>
-        <?php else : ?>
-          <div class="single-article__gallery-grid">
-            <?php foreach ($gallery_images as $gimg) : ?>
-              <figure class="single-article__gallery-item">
-                <img src="<?php echo esc_url($gimg['sizes']['medium_large'] ?? $gimg['sizes']['large'] ?? $gimg['url']); ?>" alt="<?php echo esc_attr($gimg['alt']); ?>" loading="lazy">
-              </figure>
-            <?php endforeach; ?>
-          </div>
-        <?php endif; ?>
-        <?php endif; ?>
-        <?php $gallery_html = ob_get_clean(); ?>
-
-        <?php if ($gallery_position === 'before_text') : ?>
-          <?php echo $gallery_html; ?>
-        <?php endif; ?>
-
-        <?php
-        // --- Article Text (WYSIWYG) ---
-        $article_raw = get_field('news_article_content');
-        if ($article_raw) :
-          add_filter('gallery_style', '__return_empty_string');
-        ?>
-          <div class="single-article__text-block">
-            <?php echo apply_filters('the_content', $article_raw); ?>
-          </div>
-        <?php
-          remove_filter('gallery_style', '__return_empty_string');
-        endif; ?>
-
-        <?php if ($gallery_position === 'after_text' || $gallery_position === '') : ?>
-          <?php echo $gallery_html; ?>
-        <?php endif; ?>
-
       </div>
 
       <!-- Article Footer: Social Icons -->
@@ -203,7 +96,7 @@ $share_title = esc_attr(get_the_title());
 
       <?php
       $recent_args = array(
-        'post_type'      => 'kc_news',
+        'post_type'      => 'post',
         'posts_per_page' => 3,
         'post_status'    => 'publish',
         'orderby'        => 'date',
@@ -216,13 +109,13 @@ $share_title = esc_attr(get_the_title());
       ?>
         <div class="journal-grid single-article-recent__grid">
           <?php while ($recent_query->have_posts()) : $recent_query->the_post(); ?>
-            <article class="card-glass" onclick="window.location.href='<?php the_permalink(); ?>'" style="cursor: pointer;">
-              <?php $image_id = get_field('news_card_image'); if ($image_id) : ?>
-                <div style="width: 100%; aspect-ratio: 16/9; border-radius: var(--radius-card) var(--radius-card) 0 0; overflow:hidden;">
+            <article class="card-glass" onclick="window.location.href='<?php the_permalink(); ?>'" style="cursor: pointer; border-radius: 0;">
+              <?php $image_id = get_post_thumbnail_id(); if ($image_id) : ?>
+                <div style="width: 100%; aspect-ratio: 16/9; border-radius: 0; overflow:hidden;">
                   <?php echo wp_get_attachment_image($image_id, 'large', false, array('style' => 'width:100%; height:100%; object-fit:cover;')); ?>
                 </div>
               <?php else : ?>
-                <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
+                <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: 0;">
                   No Image
                 </div>
               <?php endif; ?>
@@ -232,8 +125,8 @@ $share_title = esc_attr(get_the_title());
                 <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;"><?php the_title(); ?></h3>
                 <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
                   <?php
-                  $excerpt = get_field('news_card_excerpt');
-                  if (empty($excerpt)) { $excerpt = wp_trim_words(get_field('news_article_content'), 20); }
+                  $excerpt = get_the_excerpt();
+                  if (empty($excerpt)) { $excerpt = wp_trim_words(get_the_content(), 20); }
                   echo esc_html($excerpt);
                   ?>
                 </p>
@@ -310,43 +203,6 @@ $share_title = esc_attr(get_the_title());
       dropdown.setAttribute('aria-hidden', 'true');
     });
   }
-})();
-</script>
-
-<script>
-/* Force solo inline images in the article text block to be full-width and centered.
-   This overrides any WordPress-generated width attributes or alignment classes. */
-(function() {
-  document.addEventListener('DOMContentLoaded', function() {
-    var textBlock = document.querySelector('.single-article__text-block');
-    if (!textBlock) return;
-
-    textBlock.querySelectorAll('p').forEach(function(p) {
-      var images = p.querySelectorAll('img');
-      if (images.length === 0) return;
-
-      // Only act when the paragraph contains ONLY image(s) — no other text
-      var textContent = p.textContent.trim();
-      if (textContent !== '') return;
-
-      // Center the paragraph wrapper
-      p.style.textAlign = 'center';
-      p.style.margin = '1rem 0';
-
-      // Make each image full-width and centered
-      images.forEach(function(img) {
-        img.removeAttribute('width');
-        img.removeAttribute('height');
-        img.style.setProperty('width', '100%', 'important');
-        img.style.setProperty('max-width', '100%', 'important');
-        img.style.setProperty('height', 'auto', 'important');
-        img.style.setProperty('display', 'block', 'important');
-        img.style.setProperty('margin', '0 auto', 'important');
-        img.style.setProperty('float', 'none', 'important');
-        img.style.setProperty('border-radius', 'var(--radius-card)', 'important');
-      });
-    });
-  });
 })();
 </script>
 

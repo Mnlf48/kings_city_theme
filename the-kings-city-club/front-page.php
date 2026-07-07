@@ -633,7 +633,7 @@ $news_url = !empty($news_pages) ? get_permalink($news_pages[0]->ID) : home_url('
 <div class="journal-grid">
 <?php
 $news_args = array(
-    'post_type'      => 'kc_news',
+    'post_type'      => 'post',
     'posts_per_page' => 3,
     'post_status'    => 'publish',
     'orderby'        => 'date',
@@ -642,14 +642,14 @@ $news_args = array(
 $news_query = new WP_Query($news_args);
 if ($news_query->have_posts()) :
     while ($news_query->have_posts()) : $news_query->the_post();
-        $image_id = get_field('news_card_image', get_the_ID());
+        $image_id = get_post_thumbnail_id(get_the_ID());
 ?>
 <!-- journal card dynamic -->
-<article class="card-glass" onclick="window.location.href='<?php echo esc_url( get_permalink() ); ?>'">
+<article class="card-glass" onclick="window.location.href='<?php echo esc_url( get_permalink() ); ?>'" style="border-radius: 0;">
 <?php if ($image_id) : ?>
-    <?php echo wp_get_attachment_image($image_id, 'large', false, array('style' => 'width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-card) var(--radius-card) 0 0;')); ?>
+    <?php echo wp_get_attachment_image($image_id, 'large', false, array('style' => 'width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 0;')); ?>
 <?php else : ?>
-    <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: var(--radius-card) var(--radius-card) 0 0;">
+    <div style="width: 100%; aspect-ratio: 16/9; background-color: var(--color-border-light); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; border-radius: 0;">
       No Image
     </div>
 <?php endif; ?>
@@ -657,8 +657,8 @@ if ($news_query->have_posts()) :
 <div class="journal-card__meta bg-ivory" style="display:inline-block;  color:var(--color-primary); padding:0.25rem 0.75rem; border-radius:12px; font-size:0.75rem; font-weight:700; margin-bottom:0.75rem; box-shadow:0 4px 8px rgba(0,0,0,0.05); text-transform:uppercase;">Kings City News</div>
 <h3 class="journal-card__title"><?php echo get_the_title(); ?></h3>
 <p class="journal-card__excerpt"><?php 
-$excerpt = get_field('news_card_excerpt', get_the_ID());
-echo $excerpt ? $excerpt : wp_trim_words(get_the_excerpt(), 20); 
+$excerpt = get_the_excerpt();
+echo $excerpt ? $excerpt : wp_trim_words(get_the_content(), 20); 
 ?></p>
 </div>
 </article>

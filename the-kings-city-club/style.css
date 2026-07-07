@@ -6728,4 +6728,7 @@ body.hide-announcement .site-header {
     min-width: 0;
   }
 }
-
+
+/* Gutenberg Block Overrides */
+.wp-block-image img, .wp-block-gallery img, .wp-block-cover, .wp-block-cover-image { border-radius: 0 !important; }
+
