@@ -54,8 +54,112 @@ function kings_city_scripts() {
 	// Scripts
 	wp_enqueue_script( 'kings-city-navigation', get_template_directory_uri() . '/assets/js/navigation.js', array(), KINGS_CITY_VERSION, true );
 	wp_enqueue_script( 'kings-city-main', get_template_directory_uri() . '/assets/js/main.js', array(), KINGS_CITY_VERSION, true );
+
+	// Messenger float button styles
+	$messenger_css = '
+.kc-messenger-wrap {
+	position: fixed;
+	bottom: 24px;
+	right: 24px;
+	z-index: 9999;
+	display: inline-block;
+}
+.kc-messenger-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	background-color: #A03A1A;
+	box-shadow: 0 4px 16px rgba(160, 58, 26, 0.45);
+	transition: transform 0.3s ease-out, box-shadow 0.2s ease-out;
+	text-decoration: none;
+}
+.kc-messenger-btn:hover,
+.kc-messenger-btn:focus {
+	background-color: #FBCB77;
+	transform: translateY(-4px);
+	box-shadow: 0 8px 24px rgba(251, 203, 119, 0.55);
+	outline: none;
+}
+.kc-messenger-btn svg {
+	width: 28px;
+	height: 28px;
+	fill: #FFF9EF;
+	display: block;
+}
+.kc-messenger-close {
+	position: absolute;
+	top: -5px;
+	right: -5px;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	background: #AC201A;
+	border: 2px solid #FFF9EF;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	transition: background 0.2s ease-out;
+}
+.kc-messenger-close svg {
+	width: 8px;
+	height: 8px;
+	display: block;
+	fill: none;
+	stroke: #FFF9EF;
+	stroke-width: 2.5;
+	stroke-linecap: round;
+}
+.kc-messenger-close:hover,
+.kc-messenger-close:focus {
+	background: #FBCB77;
+	outline: none;
+}
+@media (prefers-reduced-motion: reduce) {
+	.kc-messenger-btn,
+	.kc-messenger-close {
+		transition: none;
+	}
+	.kc-messenger-btn:hover,
+	.kc-messenger-btn:focus {
+		transform: none;
+	}
+}';
+	wp_add_inline_style( 'kings-city-style', $messenger_css );
 }
 add_action( 'wp_enqueue_scripts', 'kings_city_scripts' );
+
+function kings_city_messenger_button() {
+	?>
+	<div class="kc-messenger-wrap" id="kc-messenger-wrap">
+		<a
+			href="https://m.me/KingsCityPH"
+			class="kc-messenger-btn"
+			target="_blank"
+			rel="noopener noreferrer"
+			aria-label="Chat with us on Messenger"
+		>
+			<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+				<path d="M12 0C5.373 0 0 4.975 0 11.111c0 3.497 1.744 6.615 4.472 8.652V24l4.08-2.241c1.09.301 2.245.463 3.448.463 6.627 0 12-4.975 12-11.111S18.627 0 12 0zm1.191 14.963-3.055-3.26-5.963 3.26 6.556-6.963 3.129 3.26 5.889-3.26-6.556 6.963z"/>
+			</svg>
+		</a>
+		<button
+			class="kc-messenger-close"
+			aria-label="Dismiss chat button"
+			onclick="document.getElementById('kc-messenger-wrap').style.display='none'"
+		>
+			<svg viewBox="0 0 8 8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+				<line x1="1" y1="1" x2="7" y2="7"/><line x1="7" y1="1" x2="1" y2="7"/>
+			</svg>
+		</button>
+	</div>
+	<?php
+}
+add_action( 'wp_footer', 'kings_city_messenger_button' );
 
 // Include ACF Fields
 require_once get_template_directory() . '/inc/acf-fields.php';
