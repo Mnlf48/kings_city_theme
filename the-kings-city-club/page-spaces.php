@@ -10,13 +10,9 @@ $book_now_url  = ! empty( $book_now_page ) ? esc_url( get_permalink( $book_now_p
 ?>
 
 <style>
-    /* Enforce exactly the same size for all 5 service types on desktop (Full Viewport Height) */
+    /* Enforce exactly the same size for all space sections on desktop (Full Viewport Height) */
     @media (min-width: 1024px) {
-      #coworking,
-      #meeting,
-      #events,
-      #office,
-      #virtual {
+      .section--spaces {
         min-height: 100vh;
         min-height: 100dvh;
         display: flex;
@@ -67,43 +63,68 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </div>
 </div>
 </section>
-<!-- co working section -->
-<section class="section content-panel section--spaces" id="coworking" style="position: relative; overflow: hidden;">
-
-          <!-- 1. Star -->
-          <!-- 2. Heart -->
-          <!-- 3. Star -->
-          <!-- 4. Heart -->
-          <!-- 5. Star -->
+<?php
+$spaces_query = new WP_Query([
+    'post_type'      => 'kc_space',
+    'posts_per_page' => -1,
+    'post_status'    => 'publish',
+    'meta_query'     => [['key' => 'kc_space_is_active', 'value' => '1']],
+    'orderby'        => 'menu_order',
+    'order'          => 'ASC',
+]);
+$space_index = 0;
+if ($spaces_query->have_posts()) :
+    while ($spaces_query->have_posts()) : $spaces_query->the_post();
+        $sp_id          = get_the_ID();
+        $sp_booking_key = get_field('kc_space_booking_key', $sp_id);
+        $sp_overline    = get_field('kc_space_overline', $sp_id);
+        $sp_heading     = get_field('kc_space_heading', $sp_id);
+        $sp_desc1       = get_field('kc_space_description_1', $sp_id);
+        $sp_desc2       = get_field('kc_space_description_2', $sp_id);
+        $sp_img1        = get_field('kc_space_img_1', $sp_id);
+        $sp_img2        = get_field('kc_space_img_2', $sp_id);
+        $sp_img3        = get_field('kc_space_img_3', $sp_id);
+        $sp_pricing_note  = get_field('kc_space_pricing_note', $sp_id);
+        $sp_pricing_table = get_field('kc_space_pricing_table', $sp_id);
+        $sp_section_id  = sanitize_title($sp_booking_key);
+        $split_class    = ($space_index % 2 === 0) ? 'split' : 'split split--reverse';
+        $pricing_rows   = $sp_pricing_table ? array_filter(array_map('trim', explode("\n", $sp_pricing_table))) : [];
+?>
+<section class="section content-panel section--spaces" id="<?php echo esc_attr($sp_section_id); ?>" style="position: relative; overflow: hidden;">
           <div class="container grid-12" style="position: relative; z-index: 2;">
-<div class="col-12 split">
+<div class="col-12 <?php echo esc_attr($split_class); ?>">
 <div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
-<img class="spaces__slide is-active" alt="Kings City Co-Working Space 1" src="<?php echo kc_img('image_12', 'page-spaces-img/kings-img95.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Co-Working Space 2" src="<?php echo kc_img('image_12_2', 'page-offshoring-img/kings-img26.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Co-Working Space 3" src="<?php echo kc_img('image_12_3', 'page-offshoring-img/kings-img27.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<?php if ($sp_img1) : ?>
+<img class="spaces__slide is-active" alt="<?php echo esc_attr($sp_heading); ?> 1" src="<?php echo esc_url($sp_img1); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
+<?php endif; ?>
+<?php if ($sp_img2) : ?>
+<img class="spaces__slide" alt="<?php echo esc_attr($sp_heading); ?> 2" src="<?php echo esc_url($sp_img2); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<?php endif; ?>
+<?php if ($sp_img3) : ?>
+<img class="spaces__slide" alt="<?php echo esc_attr($sp_heading); ?> 3" src="<?php echo esc_url($sp_img3); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
+<?php endif; ?>
 </div>
 <div class="split__content text-center">
-<span class="text-overline"><?php echo get_field('overline_11'); ?></span>
-<h2><?php echo get_field('h2_8'); ?></h2>
-<p style="color: var(--color-text-muted); margin-left: auto; margin-right: auto;"><?php echo get_field('p_9'); ?></p>
-<p style="color: var(--color-text-muted); margin-left: auto; margin-right: auto;"><?php echo get_field('p_10'); ?></p>
-<!-- pricing table -->
+<?php if ($sp_overline) : ?><span class="text-overline"><?php echo esc_html($sp_overline); ?></span><?php endif; ?>
+<h2><?php echo esc_html($sp_heading); ?></h2>
+<?php if ($sp_desc1) : ?><p style="color: var(--color-text-muted); margin-left: auto; margin-right: auto;"><?php echo esc_html($sp_desc1); ?></p><?php endif; ?>
+<?php if ($sp_desc2) : ?><p style="color: var(--color-text-muted); margin-left: auto; margin-right: auto;"><?php echo esc_html($sp_desc2); ?></p><?php endif; ?>
+<?php if ($pricing_rows) : ?>
 <div class="spaces-price-table">
-<div class="spaces-price-table__head">Pricing</div>
-<div class="spaces-price-table__row"><span>Day Pass</span><span>Php 500</span></div>
-<div class="spaces-price-table__row"><span>Weekly Pass</span><span>Php 2,500</span></div>
-<div class="spaces-price-table__row"><span>Monthly Pass</span><span>Php 6,000</span></div>
-<div class="spaces-price-table__row"><span>Annual Pass</span><span>Php 60,000</span></div>
+<?php if ($sp_pricing_note) : ?><div class="spaces-price-table__head"><?php echo esc_html($sp_pricing_note); ?></div><?php endif; ?>
+<?php foreach ($pricing_rows as $row) :
+    $parts = explode('|', $row, 2);
+    if (count($parts) === 2) : ?>
+<div class="spaces-price-table__row"><span><?php echo esc_html(trim($parts[0])); ?></span><span><?php echo esc_html(trim($parts[1])); ?></span></div>
+<?php endif; endforeach; ?>
 </div>
+<?php endif; ?>
 <div class="spaces-ctas">
 <a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
-
 </div>
 </div>
 </div>
 </div>
-
-
           <!-- 1. Star -->
           <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
           <!-- 2. Heart -->
@@ -116,310 +137,13 @@ if (stripos($h1_val, 'the kings city space') !== false) {
           <div class="floating-bg-icon anim-float-fast" style="top: 15%; left: 12%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
           <!-- 6. Heart -->
           <div class="floating-bg-icon anim-pulse" style="top: 45%; left: 25%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-
 </section>
-<!-- meeting rooms section -->
-<section class="section content-panel section--spaces" id="meeting" style="position: relative; overflow: hidden;">
-
-          <!-- 1. Star -->
-          <!-- 2. Heart -->
-          <!-- 3. Star -->
-          <!-- 4. Heart -->
-          <!-- 5. Star -->
-          <div class="container grid-12" style="position: relative; z-index: 2;">
-<div class="col-12 split split--reverse">
-<div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
-<img class="spaces__slide is-active" alt="Kings City Meeting Room 1" src="<?php echo kc_img('image_18', 'page-spaces-img/kings-img93.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Meeting Room 2" src="<?php echo kc_img('image_18_2', 'page-spaces-img/kings_img06.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Meeting Room 3" src="<?php echo kc_img('image_18_3', 'page-spaces-img/kings-img53.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-</div>
-<div class="split__content text-center">
-<span class="text-overline"><?php echo get_field('overline_17'); ?></span>
-<h2><?php echo get_field('h2_14'); ?></h2>
-<p style="color: var(--color-text-muted); margin-left: auto; margin-right: auto;"><?php echo get_field('p_15'); ?></p>
-<p style="color: var(--color-text-muted); margin-left: auto; margin-right: auto;"><?php echo get_field('p_16'); ?></p>
-<div class="spaces-price-table">
-<div class="spaces-price-table__head">Small Meeting Room (up to 6 pax)</div>
-<div class="spaces-price-table__row"><span>Per Hour</span><span>Php 500</span></div>
-<div class="spaces-price-table__row"><span>Full Day</span><span>Php 4,000</span></div>
-<div class="spaces-price-table__head" style="margin-top: 0.5rem;">Conference Room (up to 12 pax)</div>
-<div class="spaces-price-table__row"><span>Per Hour</span><span>Php 1,000</span></div>
-<div class="spaces-price-table__row"><span>Full Day</span><span>Php 8,000</span></div>
-</div>
-<div class="spaces-ctas">
-<a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
-
-</div>
-</div>
-</div>
-</div>
-
-
-          <!-- 1. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 2. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-          <!-- 3. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 25%; right: 40%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 4. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-          <!-- 5. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 15%; left: 12%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 6. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="top: 45%; left: 25%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-
-</section>
-<!-- events place section -->
-<section class="section content-panel section--spaces" id="events" style="position: relative; overflow: hidden;">
-
-          <!-- 1. Star -->
-          <!-- 2. Heart -->
-          <!-- 3. Star -->
-          <!-- 4. Heart -->
-          <!-- 5. Star -->
-          <div class="container grid-12" style="position: relative; z-index: 2;">
-<div class="col-12 split">
-<div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
-<img class="spaces__slide is-active" alt="Kings City Events Place 1" src="<?php echo kc_img('image_24', 'page-spaces-img/kings-img13.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Events Place 2" src="<?php echo kc_img('image_24_2', 'front-page-img/kings-img48.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Events Place 3" src="<?php echo kc_img('image_24_3', 'page-spaces-img/kings-img53.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-</div>
-<div class="split__content text-center">
-<span class="text-overline"><?php echo get_field('overline_23'); ?></span>
-<h2><?php echo get_field('h2_20'); ?></h2>
-<p style="color: var(--color-text-muted); margin-left: auto; margin-right: auto;"><?php echo get_field('p_21'); ?></p>
-<p style="color: var(--color-text-muted); margin-left: auto; margin-right: auto;"><?php echo get_field('p_22'); ?></p>
-<!-- pricing table -->
-<!-- rates are subject to change -->
-<div class="spaces-price-table">
-<div class="spaces-price-table__head">Pricing</div>
-<div class="spaces-price-table__row"><span>Per Hour</span><span>Php 5,000</span></div>
-<div class="spaces-price-table__row"><span>4 Hours</span><span>Php 18,000</span></div>
-<div class="spaces-price-table__row"><span>Full Day</span><span>Php 40,000</span></div>
-</div>
-<div class="spaces-ctas">
-<a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
-
-</div>
-</div>
-</div>
-</div>
-
-
-          <!-- 1. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 2. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-          <!-- 3. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 25%; right: 40%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 4. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-          <!-- 5. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 15%; left: 12%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 6. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="top: 45%; left: 25%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-
-</section>
-<!-- office leasing section -->
-<section class="section content-panel section--spaces" id="office" style="position: relative; overflow: hidden;">
-
-          <!-- 1. Star -->
-          <!-- 2. Heart -->
-          <!-- 3. Star -->
-          <!-- 4. Heart -->
-          <!-- 5. Star -->
-          <div class="container grid-12" style="position: relative; z-index: 2;">
-<div class="col-12 split split--reverse">
-<div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
-<img class="spaces__slide is-active" alt="Kings City Private Office 1" src="<?php echo kc_img('image_30', 'page-spaces-img/kings-img36.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Private Office 2" src="<?php echo kc_img('image_30_2', 'page-spaces-img/kings-img28.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Private Office 3" src="<?php echo kc_img('image_30_3', 'page-spaces-img/kings-img16.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-</div>
-<div class="split__content text-center">
-<span class="text-overline"><?php echo get_field('overline_29'); ?></span>
-<h2><?php echo get_field('h2_26'); ?></h2>
-<p style="color: var(--color-text-muted); margin-left: auto; margin-right: auto;"><?php echo get_field('p_27'); ?></p>
-<p style="color: var(--color-text-muted); margin-left: auto; margin-right: auto;"><?php echo get_field('p_28'); ?></p>
-<!-- pricing table -->
-<!-- rates are subject to change -->
-<div class="spaces-price-table">
-<div class="spaces-price-table__head">Monthly Pricing</div>
-<div class="spaces-price-table__row"><span>6-Seat Office</span><span>Php 48,000 / mo</span></div>
-<div class="spaces-price-table__row"><span>9-Seat Office</span><span>Php 55,000 / mo</span></div>
-<div class="spaces-price-table__row"><span>14-Seat Office</span><span>Php 112,000 / mo</span></div>
-</div>
-<div class="spaces-ctas">
-<a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
-
-</div>
-</div>
-</div>
-</div>
-
-
-          <!-- 1. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 2. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-          <!-- 3. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 25%; right: 40%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 4. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-          <!-- 5. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 15%; left: 12%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 6. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="top: 45%; left: 25%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-
-</section>
-<!-- virtual office section -->
-<section class="section content-panel section--spaces" id="virtual" style="position: relative; overflow: hidden;">
-
-          <!-- 1. Star -->
-          <!-- 2. Heart -->
-          <!-- 3. Star -->
-          <!-- 4. Heart -->
-          <!-- 5. Star -->
-          <div class="container grid-12" style="position: relative; z-index: 2;">
-<div class="col-12 split">
-<div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
-<img class="spaces__slide is-active" alt="Kings City Virtual Office Service 1" src="<?php echo kc_img('image_36', 'page-spaces-img/kings-img18.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Virtual Office Service 2" src="<?php echo kc_img('image_36_2', 'front-page-img/kings-img79.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Kings City Virtual Office Service 3" src="<?php echo kc_img('image_36_3', 'front-page-img/kings-img83.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-</div>
-<div class="split__content text-center">
-<span class="text-overline"><?php echo get_field('overline_35'); ?></span>
-<h2><?php echo get_field('h2_32'); ?></h2>
-<p style="color: var(--color-text-muted); margin-left: auto; margin-right: auto;"><?php echo get_field('p_33'); ?></p>
-<p style="color: var(--color-text-muted); margin-left: auto; margin-right: auto;"><?php echo get_field('p_34'); ?></p>
-<div class="spaces-price-table">
-<div class="spaces-price-table__head">Standard Plan</div>
-<div class="spaces-price-table__row"><span>Monthly</span><span>Php 3,000</span></div>
-<div class="spaces-price-table__row"><span>Annually</span><span>Php 30,000</span></div>
-<div class="spaces-price-table__head" style="margin-top: 0.5rem;">Pro Plan</div>
-<div class="spaces-price-table__row"><span>Monthly</span><span>Php 5,000</span></div>
-<div class="spaces-price-table__row"><span>Annually</span><span>Php 50,000</span></div>
-</div>
-<div class="spaces-ctas">
-<a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
-
-</div>
-</div>
-</div>
-</div>
-
-
-          <!-- 1. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 2. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-          <!-- 3. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 25%; right: 40%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 4. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-          <!-- 5. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 15%; left: 12%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 6. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="top: 45%; left: 25%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-
-</section>
-<!-- test kitchen section -->
-<section class="section content-panel section--spaces" id="test-kitchen" style="position: relative; overflow: hidden;">
-
-
-          <!-- 1. Star -->
-          <!-- 2. Heart -->
-          <!-- 3. Star -->
-          <!-- 4. Heart -->
-          <!-- 5. Star -->
-          <div class="container grid-12" style="position: relative; z-index: 2;">
-<div class="col-12 split split--reverse">
-<div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
-<img class="spaces__slide is-active" alt="Test Kitchen 1" src="<?php echo kc_img('tk_img1', 'page-spaces-img/kings-img88.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Test Kitchen 2" src="<?php echo kc_img('tk_img2', 'front-page-img/kings-img74.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Test Kitchen 3" src="<?php echo kc_img('tk_img3', 'front-page-img/kings-img72.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-</div>
-<div class="split__content text-center">
-<span class="text-overline"><?php echo get_field('tk_overline'); ?></span>
-<h2><?php echo get_field('tk_h2'); ?></h2>
-<p style="color: var(--color-text-muted); margin-left: auto; margin-right: auto;"><?php echo get_field('tk_p1'); ?></p>
-<div class="spaces-price-table">
-<div class="spaces-price-table__head">Test Kitchen Exclusive</div>
-<div class="spaces-price-table__row"><span>Per Hour</span><span>Php 5,000</span></div>
-<div class="spaces-price-table__head" style="margin-top: 0.5rem;">With Baker and Chef</div>
-<div class="spaces-price-table__row"><span>Per Hour</span><span>Php 5,000</span></div>
-</div>
-<div class="spaces-ctas">
-<a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
-
-</div>
-</div>
-</div>
-</div>
-
-
-          <!-- 1. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 2. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-          <!-- 3. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 25%; right: 40%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 4. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-          <!-- 5. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 15%; left: 12%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 6. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="top: 45%; left: 25%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-
-</section>
-
-<!-- manille ceramics section -->
-<section class="section content-panel section--spaces" id="manille-ceramics" style="position: relative; overflow: hidden;">
-
-
-          <!-- 1. Star -->
-          <!-- 2. Heart -->
-          <!-- 3. Star -->
-          <!-- 4. Heart -->
-          <!-- 5. Star -->
-          <div class="container grid-12" style="position: relative; z-index: 2;">
-<div class="col-12 split">
-<div class="split__media spaces-img-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
-<img class="spaces__slide is-active" alt="Manille Ceramics 1" src="<?php echo kc_img('mc_img1', 'page-spaces-img/kings-img86.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Manille Ceramics 2" src="<?php echo kc_img('mc_img2', 'page-spaces-img/kings-img85.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-<img class="spaces__slide" alt="Manille Ceramics 3" src="<?php echo kc_img('mc_img3', 'page-spaces-img/kings-img84.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
-</div>
-<div class="split__content text-center">
-<span class="text-overline"><?php echo get_field('mc_overline'); ?></span>
-<h2><?php echo get_field('mc_h2'); ?></h2>
-<p style="color: var(--color-text-muted); margin-left: auto; margin-right: auto;"><?php echo get_field('mc_p1'); ?></p>
-<div class="spaces-price-table">
-<div class="spaces-price-table__head">Studio Manille Access</div>
-<div class="spaces-price-table__row"><span>Backdrop Only</span><span>Php 1,000 / hr</span></div>
-<div class="spaces-price-table__row"><span>Exclusive Use</span><span>Php 5,000 / hr</span></div>
-</div>
-<div class="spaces-ctas">
-<a class="btn" href="<?php echo $book_now_url; ?>">Book Now</a>
-
-</div>
-</div>
-</div>
-</div>
-
-
-          <!-- 1. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 2. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-          <!-- 3. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 25%; right: 40%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 4. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-          <!-- 5. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 15%; left: 12%; color: var(--color-accent-red);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>
-          <!-- 6. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="top: 45%; left: 25%; color: var(--color-secondary);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-
-</section>
+<?php
+        $space_index++;
+    endwhile;
+    wp_reset_postdata();
+endif;
+?>
 
 <!-- service section -->
 <section class="section content-panel" id="spaces-services" style="position: relative; overflow: hidden;">

@@ -270,6 +270,9 @@ require_once get_template_directory() . '/inc/currency-manager.php';
 // News & Insights CPT
 require_once get_template_directory() . '/inc/cpt-news.php';
 
+// Spaces CPT
+require_once get_template_directory() . '/inc/cpt-spaces.php';
+
 // Quote Requests CRM
 require_once get_template_directory() . '/inc/cpt-quotes.php';
 require_once get_template_directory() . '/inc/settings-email.php';
@@ -277,11 +280,36 @@ require_once get_template_directory() . '/inc/settings-email.php';
 // Welcome Packets (Newsletters)
 require_once get_template_directory() . '/inc/cpt-welcome-packets.php';
 
+// Booking AJAX — booked dates for calendar
+require_once get_template_directory() . '/inc/ajax-booked-dates.php';
+
 // Bookings CRM & Dashboard
 require_once get_template_directory() . '/inc/settings-capacity.php';
 require_once get_template_directory() . '/inc/kpi-dashboard.php';
 require_once get_template_directory() . '/inc/cpt-bookings.php';
 require_once get_template_directory() . '/inc/dashboard-widget.php';
+
+// Daily cron: auto-expire memberships whose expiry date has passed
+if ( ! wp_next_scheduled( 'kc_expire_memberships_daily' ) ) {
+    wp_schedule_event( time(), 'daily', 'kc_expire_memberships_daily' );
+}
+add_action( 'kc_expire_memberships_daily', 'kc_run_membership_expiry' );
+function kc_run_membership_expiry() {
+    $today   = date( 'Y-m-d' );
+    $expired = get_posts( array(
+        'post_type'      => 'kc_booking',
+        'posts_per_page' => -1,
+        'fields'         => 'ids',
+        'meta_query'     => array(
+            'relation' => 'AND',
+            array( 'key' => 'kc_membership_status', 'value' => 'Active' ),
+            array( 'key' => 'kc_membership_expiry', 'value' => $today, 'compare' => '<' ),
+        ),
+    ) );
+    foreach ( $expired as $post_id ) {
+        update_post_meta( $post_id, 'kc_membership_status', 'Expired' );
+    }
+}
 
 
 // --- AJAX Inline Status Updater ---

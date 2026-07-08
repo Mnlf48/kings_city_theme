@@ -4411,143 +4411,19 @@ acf_add_local_field_group(array(
         ),
 
         array(
-            'key' => 'field_tab_group_book_now_2',
-            'label' => 'Section 2',
-            'name' => '',
-            'type' => 'tab',
-            'placement' => 'top',
-            'endpoint' => 0,
-        ),
-
-        array(
-            'key' => 'field_group_book_now_image_14',
-            'label' => 'Image #14',
-            'name' => 'image_14',
-            'type' => 'image',
-            'return_format' => 'array',
-            'preview_size' => 'medium',
-            'library' => 'all',
-        ),
-
-        array(
-            'key' => 'field_group_book_now_overline_13',
-            'label' => 'Overline #13',
-            'name' => 'overline_13',
-            'type' => 'text',
-        ),
-
-        array(
-            'key' => 'field_group_book_now_h2_8',
-            'label' => 'Heading 2 #8',
-            'name' => 'h2_8',
-            'type' => 'text',
-        ),
-
-        array(
-            'key' => 'field_group_book_now_p_10',
-            'label' => 'Paragraph #10',
-            'name' => 'p_10',
-            'type' => 'textarea',
-        ),
-
-        array(
-            'key' => 'field_group_book_now_p_11',
-            'label' => 'Paragraph #11',
-            'name' => 'p_11',
-            'type' => 'textarea',
-        ),
-
-        array(
-            'key' => 'field_group_book_now_h3_9',
-            'label' => 'Heading 3 #9',
-            'name' => 'h3_9',
-            'type' => 'text',
-        ),
-
-        array(
-            'key' => 'field_group_book_now_p_12',
-            'label' => 'Paragraph #12',
-            'name' => 'p_12',
-            'type' => 'textarea',
-        ),
-
-        array(
-            'key' => 'field_group_book_now_image_coworking',
-            'label' => 'Co-Working Image',
-            'name' => 'image_coworking',
-            'type' => 'image',
-            'return_format' => 'array',
-            'preview_size' => 'medium',
-            'library' => 'all',
-        ),
-
-        array(
-            'key' => 'field_group_book_now_image_meeting',
-            'label' => 'Meeting Rooms Image',
-            'name' => 'image_meeting',
-            'type' => 'image',
-            'return_format' => 'array',
-            'preview_size' => 'medium',
-            'library' => 'all',
-        ),
-
-        array(
-            'key' => 'field_group_book_now_image_events',
-            'label' => 'Events Place Image',
-            'name' => 'image_events',
-            'type' => 'image',
-            'return_format' => 'array',
-            'preview_size' => 'medium',
-            'library' => 'all',
-        ),
-
-        array(
-            'key' => 'field_group_book_now_image_office',
-            'label' => 'Office Leasing Image',
-            'name' => 'image_office',
-            'type' => 'image',
-            'return_format' => 'array',
-            'preview_size' => 'medium',
-            'library' => 'all',
-        ),
-
-        array(
-            'key' => 'field_group_book_now_image_virtual',
-            'label' => 'Virtual Office Image',
-            'name' => 'image_virtual',
-            'type' => 'image',
-            'return_format' => 'array',
-            'preview_size' => 'medium',
-            'library' => 'all',
-        ),
-
-        array(
-            'key' => 'field_group_book_now_image_bakehouse',
-            'label' => 'Bakehouse Image',
-            'name' => 'image_bakehouse',
-            'type' => 'image',
-            'return_format' => 'array',
-            'preview_size' => 'medium',
-            'library' => 'all',
-        ),
-
-        array(
-            'key' => 'field_group_book_now_image_manille',
-            'label' => 'Manille Ceramic Image',
-            'name' => 'image_manille',
-            'type' => 'image',
-            'return_format' => 'array',
-            'preview_size' => 'medium',
-            'library' => 'all',
-        ),
-
-        array(
             'key' => 'field_tab_group_book_now_3',
             'label' => 'Booking Form',
             'name' => '',
             'type' => 'tab',
             'placement' => 'top',
             'endpoint' => 0,
+        ),
+        array(
+            'key' => 'field_group_book_now_p_12',
+            'label' => 'Form Card Subtitle',
+            'name' => 'p_12',
+            'type' => 'text',
+            'instructions' => 'Small subtitle shown under the space name in the booking card header. e.g. "Select your dates and duration below"',
         ),
         array(
             'key' => 'field_group_book_now_bk_label_est_price',
@@ -4586,6 +4462,12 @@ acf_add_local_field_group(array(
             'type' => 'text',
         ),
         array(
+            'key' => 'field_group_book_now_bk_label_participants',
+            'label' => 'Number of Participants Label',
+            'name' => 'bk_label_participants',
+            'type' => 'text',
+        ),
+        array(
             'key' => 'field_group_book_now_bk_label_duration',
             'label' => 'Duration Label',
             'name' => 'bk_label_duration',
@@ -4595,6 +4477,12 @@ acf_add_local_field_group(array(
             'key' => 'field_group_book_now_bk_label_start_date',
             'label' => 'Start Date Label',
             'name' => 'bk_label_start_date',
+            'type' => 'text',
+        ),
+        array(
+            'key' => 'field_group_book_now_bk_label_arrival_time',
+            'label' => 'Arrival Time Label',
+            'name' => 'bk_label_arrival_time',
             'type' => 'text',
         ),
         array(

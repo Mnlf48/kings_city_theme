@@ -23,22 +23,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_submit'])) {
         $participants = sanitize_text_field($_POST['book_participants']);
         $special = sanitize_textarea_field($_POST['book_special']);
         
-        // Check Capacity
-        $opt_map = array(
-            'Co-Working' => 'kc_capacity_co_working',
-            'Meeting Rooms' => 'kc_capacity_meeting_rooms',
-            'Events Place' => 'kc_capacity_events_place',
-            'Office Leasing' => 'kc_capacity_office_leasing',
-            'Virtual Office' => 'kc_capacity_virtual_office',
-            'Bakehouse' => 'kc_capacity_bakehouse',
-            'Manille Ceramic (Limited)' => 'kc_capacity_manille_ceramic',
-        );
-        $opt_key = isset($opt_map[$space_type]) ? $opt_map[$space_type] : '';
-        
+        // Check Capacity — limits are stored on each kc_space post via kc_space_capacity
+        $opt_map = [];
+        $spaces_for_map = get_posts(['post_type' => 'kc_space', 'posts_per_page' => -1, 'post_status' => 'publish']);
+        foreach ($spaces_for_map as $sp) {
+            $sp_bk_key = get_field('kc_space_booking_key', $sp->ID);
+            $sp_cap    = (int) get_field('kc_space_capacity', $sp->ID);
+            if ($sp_bk_key) {
+                $opt_map[$sp_bk_key] = $sp_cap; // 0 = unlimited
+            }
+        }
+
         $is_full = false;
-        if ($opt_key && $start_date) {
-            $limit = get_option($opt_key, 50); // Fallback to 50
-            
+        if (isset($opt_map[$space_type]) && $start_date && $opt_map[$space_type] > 0) {
+            $limit = $opt_map[$space_type];
+
             $existing_query = new WP_Query(array(
                 'post_type' => 'kc_booking',
                 'posts_per_page' => -1,
@@ -365,8 +364,8 @@ get_header();
 <div class="book-sidebar">
 <div class="book-form-card">
 <div class="book-form-header">
-<h3 id="form-title"><?php echo get_field('h3_9'); ?></h3>
-<p><?php echo get_field('p_12'); ?></p>
+<h3 id="form-title"></h3>
+<p><?php echo esc_html(get_field('p_12') ?: 'Select your dates and duration below'); ?></p>
 </div>
 <div class="book-form-body">
 
@@ -388,13 +387,22 @@ get_header();
 <div class="form-group">
 <label class="form-label"><?php echo get_field('bk_label_space_type') ?: 'Space Type'; ?></label>
 <select class="form-control" name="book_space_type" id="space-type-select">
-<option value="Co-Working">Co-Working</option>
-<option value="Meeting Rooms">Meeting Rooms</option>
-<option value="Events Place">Events Place</option>
-<option value="Office Leasing">Office Leasing</option>
-<option value="Virtual Office">Virtual Office</option>
-<option value="Bakehouse">Bakehouse</option>
-<option value="Manille Ceramic (Limited)">Manille Ceramic (Limited)</option>
+<?php
+$bk_active_spaces = get_posts([
+    'post_type'      => 'kc_space',
+    'posts_per_page' => -1,
+    'post_status'    => 'publish',
+    'meta_query'     => [['key' => 'kc_space_is_active', 'value' => '1']],
+    'orderby'        => 'menu_order',
+    'order'          => 'ASC',
+]);
+foreach ($bk_active_spaces as $bk_sp) {
+    $bk_key   = get_field('kc_space_booking_key', $bk_sp->ID);
+    $bk_label = get_field('kc_space_heading', $bk_sp->ID) ?: $bk_sp->post_title;
+    if (!$bk_key) continue;
+    echo '<option value="' . esc_attr($bk_key) . '">' . esc_html($bk_label) . '</option>' . "\n";
+}
+?>
 </select>
 </div>
 <div class="form-row">
@@ -417,7 +425,7 @@ get_header();
 </div>
 <div class="form-row">
 <div class="form-group">
-<label class="form-label">Number of Participants</label>
+<label class="form-label"><?php echo esc_html(get_field('bk_label_participants') ?: 'Number of Participants'); ?></label>
 <input class="form-control" name="book_participants" placeholder="e.g. 1" required="" type="number" min="1"/>
 </div>
 <div class="form-group">
@@ -434,10 +442,10 @@ get_header();
 <div class="form-row">
 <div class="form-group">
 <label class="form-label"><?php echo get_field('bk_label_start_date') ?: 'Start Date'; ?></label>
-<input class="form-control" name="book_start_date" required="" type="date"/>
+<input class="form-control" name="book_start_date" id="date-input" required="" type="date"/>
 </div>
 <div class="form-group">
-<label class="form-label">Arrival Time</label>
+<label class="form-label"><?php echo esc_html(get_field('bk_label_arrival_time') ?: 'Arrival Time'); ?></label>
 <select class="form-control" name="book_arrival_time" required>
 <option value="08:00 AM">08:00 AM</option>
 <option value="09:00 AM">09:00 AM</option>
@@ -481,130 +489,191 @@ get_header();
 
 </section>
 </main>
+<!-- Flatpickr — custom date picker with per-date enable/disable support -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<style>
+.flatpickr-calendar { border-radius: 0 !important; font-family: inherit; box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
+.flatpickr-months .flatpickr-month, .flatpickr-weekdays, span.flatpickr-weekday { background: #BD451F; color: #fff; fill: #fff; }
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-current-month input.cur-year { color: #fff; }
+.flatpickr-prev-month svg, .flatpickr-next-month svg { fill: #fff; }
+.flatpickr-prev-month:hover svg, .flatpickr-next-month:hover svg { fill: #FBCB77; }
+.flatpickr-day.selected, .flatpickr-day.selected:hover { background: #AC201A; border-color: #AC201A; color: #fff; }
+.flatpickr-day:hover:not(.flatpickr-disabled):not(.selected) { background: rgba(189,69,31,0.12); border-color: transparent; }
+.flatpickr-day.flatpickr-disabled { color: #ccc !important; background: #f9f9f9 !important; text-decoration: line-through; cursor: not-allowed; }
+</style>
 <script>
-    // Tab Data Mapping
-        const bookingData = {
-      "Co-Working": {
-        image: "<?php echo kc_img('image_coworking', 'page-book-now-img/kings-img12.webp'); ?>",
-        overline: "Co-Working",
-        title: "Shared Workspaces",
-        text: "<p>Work alongside other professionals in our beautifully designed open-plan coworking areas. Perfect for freelancers, remote workers, and small teams looking for a vibrant and inspiring environment.</p><p>Enjoy access to premium amenities, high-speed internet, and unlimited premium coffee to keep you productive throughout the day.</p>",
-        features: ["High-speed Wi-Fi", "Unlimited Coffee", "Lounge Access"],
-        formTitle: "Book Co-Working",
-        options: [
-          { label: "Day Pass &mdash; Php 500", value: "Day Pass", price: 500 },
-          { label: "Weekly Pass &mdash; Php 2,500", value: "Weekly Pass", price: 2500 },
-          { label: "Monthly Pass &mdash; Php 6,000", value: "Monthly Pass", price: 6000 },
-          { label: "Annual Pass &mdash; Php 60,000", value: "Annual Pass", price: 60000 }
-        ]
-      },
-      "Meeting Rooms": {
-        image: "<?php echo kc_img('image_meeting', 'page-book-now-img/kings-img28.webp'); ?>",
-        overline: "Meeting Rooms",
-        title: "Professional Meeting Spaces",
-        text: "<p>Host your next client presentation, team brainstorming session, or board meeting in our fully equipped meeting rooms. Designed for productivity and privacy.</p><p>Our meeting rooms feature state-of-the-art audiovisual equipment, high-speed Wi-Fi, and comfortable seating to ensure your meetings run smoothly.</p>",
-        features: ["AV Equipment", "High-speed Wi-Fi", "Whiteboards"],
-        formTitle: "Book Meeting Room",
-        options: [
-          { label: "Small Meeting Room (up to 6 pax) - Per Hour &mdash; Php 500", value: "Small Meeting Room - Per Hour", price: 500 },
-          { label: "Small Meeting Room (up to 6 pax) - Full Day &mdash; Php 4,000", value: "Small Meeting Room - Full Day", price: 4000 },
-          { label: "Conference Room (up to 12 pax) - Per Hour &mdash; Php 1,000", value: "Conference Room - Per Hour", price: 1000 },
-          { label: "Conference Room (up to 12 pax) - Full Day &mdash; Php 8,000", value: "Conference Room - Full Day", price: 8000 }
-        ]
-      },
-      "Events Place": {
-        image: "<?php echo kc_img('image_events', 'page-book-now-img/kings-img13.webp'); ?>",
-        overline: "Events Place",
-        title: "Versatile Event Spaces",
-        text: "<p>Whether you're hosting a corporate seminar, a product launch, or a networking mixer, our versatile event spaces provide the perfect backdrop for a memorable occasion.</p><p>Our dedicated events team will work with you to customize the layout and arrange catering, ensuring every detail is taken care of.</p>",
-        features: ["Customizable Layout", "Dedicated Events Team", "Catering Options"],
-        formTitle: "Book Events Place",
-        options: [
-          { label: "Per Hour &mdash; Php 5,000", value: "Per Hour", price: 5000 },
-          { label: "4 Hours &mdash; Php 18,000", value: "4 Hours", price: 18000 },
-          { label: "Full Day &mdash; Php 40,000", value: "Full Day", price: 40000 }
-        ]
-      },
-      "Office Leasing": {
-        image: "<?php echo kc_img('image_office', 'page-book-now-img/kings-img36.webp'); ?>",
-        overline: "Private Offices",
-        title: "Dedicated Office Leasing",
-        text: "<p>Establish your business presence with a dedicated private office. Fully furnished and move-in ready, our private offices offer the privacy you need with the benefits of a shared community.</p><p>Enjoy 24/7 access, customized branding options, and complimentary meeting room credits every month.</p>",
-        features: ["24/7 Access", "Fully Furnished", "Meeting Room Credits"],
-        formTitle: "Book Office Leasing",
-        options: [
-          { label: "6-Seat Office - Monthly &mdash; Php 48,000", value: "6-Seat Office", price: 48000 },
-          { label: "9-Seat Office - Monthly &mdash; Php 55,000", value: "9-Seat Office", price: 55000 },
-          { label: "14-Seat Office - Monthly &mdash; Php 112,000", value: "14-Seat Office", price: 112000 }
-        ]
-      },
-      "Virtual Office": {
-        image: "<?php echo kc_img('image_virtual', 'page-book-now-img/kings-img18.webp'); ?>",
-        overline: "Virtual Office",
-        title: "Professional Business Address",
-        text: "<p>Elevate your brand image with a prestigious business address at The Kings City Club. Our virtual office packages give you a professional presence without the overhead of a physical space.</p><p>Benefit from mail handling services, a dedicated local phone number, and access to our meeting rooms and coworking spaces when you need them.</p>",
-        features: ["Prestigious Address", "Mail Handling", "Lounge Access"],
-        formTitle: "Book Virtual Office",
-        options: [
-          { label: "Standard Plan - Monthly &mdash; Php 3,000", value: "Standard Plan - Monthly", price: 3000 },
-          { label: "Standard Plan - Annually &mdash; Php 30,000", value: "Standard Plan - Annually", price: 30000 },
-          { label: "Pro Plan - Monthly &mdash; Php 5,000", value: "Pro Plan - Monthly", price: 5000 },
-          { label: "Pro Plan - Annually &mdash; Php 50,000", value: "Pro Plan - Annually", price: 50000 }
-        ]
-      },
-      "Bakehouse": {
-        image: "<?php echo kc_img('image_bakehouse', 'page-spaces-img/kings-img88.webp'); ?>",
-        overline: "Test Kitchen",
-        title: "Social Manila Bakehouse",
-        text: "<p>Welcome to The Social Manila Bakehouse, a fully equipped commercial-grade test kitchen designed to bring your culinary visions to life. Whether you are hosting an intimate baking class, testing a new menu, or organizing a food tasting, our space provides everything you need in a professional yet welcoming environment.</p><p>Beyond its functional layout, the Bakehouse is highly photogenic, making it the ideal setting for food photography, content creation, and culinary demonstrations. You have the option to rent the space exclusively or include the expertise of our resident Baker and Chef.</p>",
-        features: ["Ideal for Content Creation", "Baking & Cooking Classes", "Kitchen Access"],
-        formTitle: "Book Bakehouse",
-        options: [
-          { label: "Test Kitchen Exclusive - Per Hour &mdash; Php 5,000", value: "Test Kitchen Exclusive - Per Hour", price: 5000 },
-          { label: "With Baker and Chef - Per Hour &mdash; Php 5,000", value: "With Baker and Chef - Per Hour", price: 5000 }
-        ]
-      },
-      "Manille Ceramic (Limited)": {
-        image: "<?php echo kc_img('image_manille', 'page-spaces-img/kings-img85.webp'); ?>",
-        overline: "Studio Manille",
-        title: "Manille Céramique",
-        text: "<p>Step into Manille Céramique, a dynamic and beautifully designed studio space perfect for your creative endeavors. Engineered for flexibility, the studio features movable props and modular furniture that can easily adapt to your specific production needs, workshops, or private sessions.</p><p>Designed with content creation in mind, it provides the perfect lighting and backdrops for photo shoots, video production, or artistic gatherings. Choose to rent just the stunning backdrop or secure the entire studio for exclusive use.</p>",
-        features: ["Ideal for Content Creation", "Flexible layout", "Movable props & furniture"],
-        formTitle: "Book Manille Ceramic",
-        options: [
-          { label: "Backdrop Only - Per Hour &mdash; Php 1,000", value: "Backdrop Only - Per Hour", price: 1000 },
-          { label: "Exclusive Use - Per Hour &mdash; Php 5,000", value: "Exclusive Use - Per Hour", price: 5000 }
-        ]
-      }
+    // Tab Data Mapping — built dynamically from kc_space CPT
+    const kcAjax = {
+        url:   '<?php echo esc_js(admin_url('admin-ajax.php')); ?>',
+        nonce: '<?php echo esc_js(wp_create_nonce('kc_booked_dates_nonce')); ?>',
     };
 
+    const bookingData = <?php
+    $bk_data_spaces = get_posts([
+        'post_type'      => 'kc_space',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+        'meta_query'     => [['key' => 'kc_space_is_active', 'value' => '1']],
+        'orderby'        => 'menu_order',
+        'order'          => 'ASC',
+    ]);
+    $bk_js_map = [];
+    foreach ($bk_data_spaces as $bk_sp) {
+        $bk_key        = get_field('kc_space_booking_key', $bk_sp->ID);
+        if (!$bk_key) continue;
+        $bk_heading    = get_field('kc_space_heading', $bk_sp->ID) ?: $bk_sp->post_title;
+        $bk_overline   = get_field('kc_space_form_overline', $bk_sp->ID) ?: $bk_key;
+        $bk_desc1      = get_field('kc_space_description_1', $bk_sp->ID) ?: '';
+        $bk_desc2      = get_field('kc_space_description_2', $bk_sp->ID) ?: '';
+        $bk_form_title = get_field('kc_space_form_title', $bk_sp->ID) ?: 'Book ' . $bk_heading;
+        $bk_img_key    = get_field('kc_space_book_image_key', $bk_sp->ID);
+        if ($bk_img_key) {
+            $bk_img = get_field($bk_img_key, $bk_sp->ID) ?: get_field('kc_space_img_1', $bk_sp->ID);
+        } else {
+            $bk_img = get_field('kc_space_img_1', $bk_sp->ID);
+        }
+        $bk_img = $bk_img ?: '';
+        // Features: one per line
+        $bk_features_raw = get_field('kc_space_features', $bk_sp->ID) ?: '';
+        $bk_features = $bk_features_raw
+            ? array_values(array_filter(array_map('trim', explode("\n", $bk_features_raw))))
+            : [];
+        // Pricing options: Label|Value|Price per line
+        $bk_opts_raw = get_field('kc_space_pricing_options', $bk_sp->ID) ?: '';
+        $bk_options  = [];
+        if ($bk_opts_raw) {
+            foreach (array_filter(array_map('trim', explode("\n", $bk_opts_raw))) as $opt_line) {
+                $opt_parts = explode('|', $opt_line, 3);
+                if (count($opt_parts) === 3) {
+                    $bk_options[] = [
+                        'label' => trim($opt_parts[0]),
+                        'value' => trim($opt_parts[1]),
+                        'price' => (int) trim($opt_parts[2]),
+                    ];
+                }
+            }
+        }
+        // Build text HTML from description paragraphs
+        $bk_text_html = '';
+        if ($bk_desc1) $bk_text_html .= '<p>' . esc_html($bk_desc1) . '</p>';
+        if ($bk_desc2) $bk_text_html .= '<p>' . esc_html($bk_desc2) . '</p>';
+        $bk_js_map[$bk_key] = [
+            'image'     => $bk_img,
+            'overline'  => $bk_overline,
+            'title'     => $bk_heading,
+            'text'      => $bk_text_html,
+            'features'  => $bk_features,
+            'formTitle' => $bk_form_title,
+            'options'   => $bk_options,
+        ];
+    }
+    echo wp_json_encode($bk_js_map, JSON_HEX_TAG | JSON_HEX_AMP);
+    ?>;
+
     const spaceTypeSelect = document.getElementById('space-type-select');
-    const durationSelect = document.getElementById('duration-select');
-    const priceDisplay = document.getElementById('price-display');
-    const contentImage = document.getElementById('content-image');
-    const hiddenPrice = document.getElementById('hidden-price');
+    const durationSelect  = document.getElementById('duration-select');
+    const priceDisplay    = document.getElementById('price-display');
+    const contentImage    = document.getElementById('content-image');
+    const hiddenPrice     = document.getElementById('hidden-price');
+    const dateInput       = document.getElementById('date-input');
+
+    // Track fetched constraints per space key so we don't re-fetch on the same page load
+    const disabledDatesCache = {};
+
+    // Always destroy + recreate Flatpickr so internal state is fully reset each time
+    let fpInstance = null;
+
+    const fpBase = {
+        dateFormat:    'Y-m-d',
+        minDate:       'today',
+        disableMobile: true,
+    };
+
+    function reinitFlatpickr(extraConfig) {
+        if (!dateInput) return;
+        if (fpInstance) {
+            fpInstance.destroy();
+            fpInstance = null;
+        }
+        fpInstance = flatpickr(dateInput, Object.assign({}, fpBase, extraConfig || {}));
+    }
+
+    function initFlatpickr() {
+        reinitFlatpickr({});
+    }
+
+    function applyDateConstraints(data) {
+        if (!dateInput) return;
+
+        if (data.mode === 'whitelist') {
+            const allowed = data.allowed || [];
+            if (allowed.length === 0) {
+                // Availability enabled but no windows set — block everything
+                reinitFlatpickr({ disable: [() => true] });
+            } else {
+                // Only the exact allowed dates are selectable
+                reinitFlatpickr({ enable: allowed });
+            }
+        } else {
+            // Blacklist mode — all dates open except capacity-full ones
+            const disabled = data.disabled || [];
+            reinitFlatpickr(disabled.length ? { disable: disabled } : {});
+        }
+    }
+
+    function fetchBookedDates(spaceKey) {
+        if (!dateInput) return;
+
+        // Block everything while AJAX is in flight so there's no stale state
+        reinitFlatpickr({ disable: [() => true] });
+
+        // Serve from cache if already fetched for this key this page load
+        if (disabledDatesCache[spaceKey] !== undefined) {
+            applyDateConstraints(disabledDatesCache[spaceKey]);
+            return;
+        }
+
+        const fd = new FormData();
+        fd.append('action',    'kc_get_booked_dates');
+        fd.append('nonce',     kcAjax.nonce);
+        fd.append('space_key', spaceKey);
+
+        fetch(kcAjax.url, { method: 'POST', body: fd })
+            .then(r => r.json())
+            .then(res => {
+                const result = res.success ? res.data : { mode: 'blacklist', disabled: [] };
+                disabledDatesCache[spaceKey] = result;
+                applyDateConstraints(result);
+            })
+            .catch(() => applyDateConstraints({ mode: 'blacklist', disabled: [] }));
+    }
 
     if (spaceTypeSelect) {
       spaceTypeSelect.addEventListener('change', () => {
         const key = spaceTypeSelect.value;
-        const data = bookingData[key] || bookingData['Co-Working']; // fallback if missing
+        const data = bookingData[key] || bookingData[Object.keys(bookingData)[0]];
 
-        // Update content
-        if (contentImage) contentImage.src = data.image;
+        // Update content panel
+        if (contentImage && data.image) contentImage.src = data.image;
         if (document.getElementById('content-overline')) document.getElementById('content-overline').innerText = data.overline;
-        if (document.getElementById('content-title')) document.getElementById('content-title').innerText = data.title;
-        if (document.getElementById('content-text')) document.getElementById('content-text').innerHTML = data.text;
-        if (document.getElementById('form-title')) document.getElementById('form-title').innerText = data.formTitle;
+        if (document.getElementById('content-title'))   document.getElementById('content-title').innerText   = data.title;
+        if (document.getElementById('content-text'))    document.getElementById('content-text').innerHTML    = data.text;
+        if (document.getElementById('form-title'))      document.getElementById('form-title').innerText      = data.formTitle;
 
         // Update features
         const featureContainer = document.getElementById('content-features');
         if (featureContainer) featureContainer.innerHTML = data.features.map(f => `<span class="feature-tag">${f}</span>`).join('');
 
-        // Update duration select options
+        // Update duration options
         if (durationSelect) {
             durationSelect.innerHTML = data.options.map(o => `<option value="${o.value}" data-price="${o.price}">${o.label}</option>`).join('');
             updatePrice();
         }
+
+        // Fetch and apply disabled dates for this space
+        fetchBookedDates(key);
       });
     }
 
@@ -621,8 +690,15 @@ get_header();
       if (hiddenPrice) hiddenPrice.value = priceVal;
     }
 
-    // Initialize first price
-    updatePrice();
+    // Initialize Flatpickr on the date input, then fire first space load
+    initFlatpickr();
+
+    // Initialize from first active space — fires the same handler as user-driven changes
+    if (spaceTypeSelect) {
+        spaceTypeSelect.dispatchEvent(new Event('change'));
+    } else {
+        updatePrice();
+    }
 
     // hero slider logic
     (function() {

@@ -15,15 +15,21 @@ function kc_render_bookings_dashboard_widget() {
 
     // --- 1. Queries ---
 
-    // Total Active Members
+    // Total Active Members — must be Active status AND expiry date not yet passed
     $members_query = new WP_Query(array(
         'post_type' => 'kc_booking',
         'fields' => 'ids',
         'posts_per_page' => -1,
         'meta_query' => array(
+            'relation' => 'AND',
             array(
-                'key' => 'kc_membership_status',
+                'key'   => 'kc_membership_status',
                 'value' => 'Active'
+            ),
+            array(
+                'key'     => 'kc_membership_expiry',
+                'value'   => $today,
+                'compare' => '>='
             )
         )
     ));
@@ -77,15 +83,27 @@ function kc_render_bookings_dashboard_widget() {
         )
     ));
 
-    $slots_used = array(
-        'Co-Working' => 0,
-        'Meeting Rooms' => 0,
-        'Events Place' => 0,
-        'Office Leasing' => 0,
-        'Virtual Office' => 0,
-        'Bakehouse' => 0,
-        'Manille Ceramic (Limited)' => 0,
-    );
+    // Build slots_used, capacities, and display labels dynamically from kc_space CPT
+    $all_spaces_posts = get_posts([
+        'post_type'      => 'kc_space',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+        'orderby'        => 'menu_order',
+        'order'          => 'ASC',
+    ]);
+
+    $slots_used   = [];
+    $capacities   = [];
+    $space_labels = [];
+
+    foreach ($all_spaces_posts as $sp) {
+        $bk_key = get_field('kc_space_booking_key', $sp->ID);
+        $active  = get_field('kc_space_is_active', $sp->ID);
+        if (!$bk_key || !$active) continue;
+        $slots_used[$bk_key]   = 0;
+        $capacities[$bk_key]   = (int) get_field('kc_space_capacity', $sp->ID); // 0 = unlimited
+        $space_labels[$bk_key] = get_field('kc_space_heading', $sp->ID) ?: $sp->post_title;
+    }
 
     foreach ($todays_bookings->posts as $post_id) {
         $space = get_post_meta($post_id, 'kc_space_type', true);
@@ -94,20 +112,14 @@ function kc_render_bookings_dashboard_widget() {
         }
     }
 
-    // Capacities
-    $capacities = array(
-        'Co-Working' => get_option('kc_capacity_co_working', 50),
-        'Meeting Rooms' => get_option('kc_capacity_meeting_rooms', 5),
-        'Events Place' => get_option('kc_capacity_events_place', 2),
-        'Office Leasing' => get_option('kc_capacity_office_leasing', 10),
-        'Virtual Office' => get_option('kc_capacity_virtual_office', 100),
-        'Bakehouse' => get_option('kc_capacity_bakehouse', 20),
-        'Manille Ceramic (Limited)' => get_option('kc_capacity_manille_ceramic', 10),
-    );
-
-    $total_capacity = array_sum($capacities);
     $total_used_today = array_sum($slots_used);
-    $total_available_today = max(0, $total_capacity - $total_used_today);
+    // Open slots = sum of (cap - used) for capped spaces only; unlimited spaces don't subtract
+    $total_available_today = 0;
+    foreach ($capacities as $bk_key => $max_cap) {
+        if ($max_cap > 0) {
+            $total_available_today += max(0, $max_cap - $slots_used[$bk_key]);
+        }
+    }
 
     // Recent Bookings (5)
     $recent_bookings = new WP_Query(array(
@@ -193,17 +205,18 @@ function kc_render_bookings_dashboard_widget() {
 
         <div class="kc-dash-section-title">ACTIVE SLOTS USED TODAY (<?php echo esc_html($total_used_today); ?> TOTAL)</div>
         
-        <?php foreach ($capacities as $space_name => $max_cap): 
-            $used = $slots_used[$space_name];
-            $percent = ($max_cap > 0) ? ($used / $max_cap) * 100 : 0;
-            if ($percent > 100) $percent = 100;
+        <?php foreach ($capacities as $bk_key => $max_cap):
+            $used    = $slots_used[$bk_key];
+            $unlimited = ($max_cap === 0);
+            $percent   = (!$unlimited && $max_cap > 0) ? min(100, ($used / $max_cap) * 100) : 0;
+            $cap_label = $unlimited ? '∞' : esc_html($max_cap);
         ?>
         <div class="kc-dash-progress-row">
-            <div class="kc-dash-progress-label"><?php echo esc_html($space_name); ?></div>
+            <div class="kc-dash-progress-label"><?php echo esc_html($space_labels[$bk_key] ?? $bk_key); ?></div>
             <div class="kc-dash-progress-bar-container">
                 <div class="kc-dash-progress-bar" style="width: <?php echo esc_attr($percent); ?>%;"></div>
             </div>
-            <div class="kc-dash-progress-value"><?php echo esc_html($used); ?></div>
+            <div class="kc-dash-progress-value"><?php echo esc_html($used); ?><?php if ($unlimited): ?><span style="color:#aaa; font-size:10px;">/∞</span><?php endif; ?></div>
         </div>
         <?php endforeach; ?>
 

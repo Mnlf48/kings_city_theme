@@ -339,7 +339,14 @@ function kc_render_status_meta_box($post) {
 function kc_render_membership_meta_box($post) {
     $mem_status = get_post_meta($post->ID, 'kc_membership_status', true);
     $mem_expiry = get_post_meta($post->ID, 'kc_membership_expiry', true);
-    
+    $today      = date('Y-m-d');
+
+    // Auto-correct status if expiry has already passed
+    if ($mem_status === 'Active' && $mem_expiry && $mem_expiry < $today) {
+        update_post_meta($post->ID, 'kc_membership_status', 'Expired');
+        $mem_status = 'Expired';
+    }
+
     if ($mem_status === 'Active') {
         echo '<div class="kc-membership-badge kc-badge-active">👑 Active Member</div>';
         echo '<div style="font-size:13px; color:#475569; margin-top:5px;">Valid until: <strong>' . esc_html($mem_expiry) . '</strong></div>';
