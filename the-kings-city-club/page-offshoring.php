@@ -14,11 +14,11 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <div class="col-12 split split--media-right">
 <!-- text content on left -->
 <div class="split__content animate-fadeInUp hero__content--index">
-<span class="text-overline hero__overline"><?php echo get_field('overline_3'); ?></span>
+<span class="text-overline hero__overline"><?php echo esc_html(get_field('overline_3')); ?></span>
 <?php
   // Fetch ACF titles with fallbacks
-  $h1_1 = get_field('h1_1') ? get_field('h1_1') : 'Build Your';
-  $h1_2 = get_field('h1_2') ? get_field('h1_2') : 'Dedicated Team in The Philippines';
+  $h1_1 = get_field('h1_1') ?: 'Build Your';
+  $h1_2 = get_field('h1_2') ?: 'Dedicated Team in The Philippines';
   // Responsive grouping to prevent bleeding on mobile and lonely words on desktop
   // Desktop: Groups "IN THE PHILIPPINES"
   // Mobile: Groups "THE PHILIPPINES" allowing "IN" to wrap
@@ -31,12 +31,12 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
       $h1_2 = implode(' ', $words2);
   }
 ?>
-<h1 class="hero__title hero__title--inner hero__welcome" style="margin-bottom: 0;"><?php echo $h1_1; ?></h1>
+<h1 class="hero__title hero__title--inner hero__welcome" style="margin-bottom: 0;"><?php echo esc_html($h1_1); ?></h1>
 <h1 class="hero__title hero__title--inner hero__title--offshoring"><?php echo $h1_2; ?></h1>
-<p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
+<p class="hero__subtitle"><?php echo esc_html(get_field('p_2')); ?></p>
 <div class="hero__actions hero__actions--index">
 <a class="btn" href="<?php echo $apply_url; ?>">
-                Request a Quotation
+                <?php echo esc_html(get_field('proposed_offshoring_hero_btn_text') ?: 'Request a Quotation'); ?>
               </a>
 </div>
 </div>
@@ -65,9 +65,9 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 
 <div class="container" style="position: relative; z-index: 2;">
 <div class="text-center" style="margin-bottom: var(--space-2xl);">
-<span class="text-overline"><?php echo get_field('overline_18'); ?></span>
-<h2><?php echo get_field('h2_8'); ?></h2>
-<p class="text-lead mx-auto" style="margin-top: var(--space-sm); max-width: 600px;"><?php echo get_field('p_13'); ?></p>
+<span class="text-overline"><?php echo esc_html(get_field('overline_18')); ?></span>
+<h2><?php echo esc_html(get_field('h2_8')); ?></h2>
+<p class="text-lead mx-auto" style="margin-top: var(--space-sm); max-width: 600px;"><?php echo esc_html(get_field('p_13')); ?></p>
 </div>
 <div class="off-process-steps cycle-card-bg">
 <!-- process card 1 -->
@@ -84,8 +84,8 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <div class="off-process-card__img">
 <img alt="Discovery &amp; Scoping Meeting" src="<?php echo kc_img('image_19', 'page-offshoring-img/kings-img24.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
-<h3><?php echo get_field('h3_9'); ?></h3>
-<p><?php echo get_field('p_14'); ?></p>
+<h3><?php echo esc_html(get_field('h3_9')); ?></h3>
+<p><?php echo esc_html(get_field('p_14')); ?></p>
 <div class="off-process-card__breakdown">
 <strong>You do:</strong> Share your goals and role requirements<br/>
 <strong>Kings City does:</strong> Prepares detailed job profiles and a scoped hiring plan
@@ -104,8 +104,8 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <div class="off-process-card__img">
 <img alt="Talent Working in Office" src="<?php echo kc_img('image_20', 'page-offshoring-img/kings-img25.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
-<h3><?php echo get_field('h3_10'); ?></h3>
-<p><?php echo get_field('p_15'); ?></p>
+<h3><?php echo esc_html(get_field('h3_10')); ?></h3>
+<p><?php echo esc_html(get_field('p_15')); ?></p>
 <div class="off-process-card__breakdown">
 <strong>You do:</strong> Review candidates and select who joins your team<br/>
 <strong>Kings City does:</strong> Sourcing, screening, interviewing, and presenting the best fit
@@ -123,8 +123,8 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <div class="off-process-card__img">
 <img alt="Onboarding Consultation" src="<?php echo kc_img('image_21', 'page-offshoring-img/kings-img26.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
-<h3><?php echo get_field('h3_11'); ?></h3>
-<p><?php echo get_field('p_16'); ?></p>
+<h3><?php echo esc_html(get_field('h3_11')); ?></h3>
+<p><?php echo esc_html(get_field('p_16')); ?></p>
 <div class="off-process-card__breakdown">
 <strong>You do:</strong> Define KPIs, workflows, and communication preferences<br/>
 <strong>Kings City does:</strong> Workspace setup, IT infrastructure, HR onboarding, and compliance
@@ -143,8 +143,8 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <div class="off-process-card__img">
 <img alt="Team Member Productive in Office" src="<?php echo kc_img('image_22', 'page-offshoring-img/kings-img27.webp'); ?>" style="width:100%; height:100%; object-fit:cover;"/>
 </div>
-<h3><?php echo get_field('h3_12'); ?></h3>
-<p><?php echo get_field('p_17'); ?></p>
+<h3><?php echo esc_html(get_field('h3_12')); ?></h3>
+<p><?php echo esc_html(get_field('p_17')); ?></p>
 <div class="off-process-card__breakdown">
 <strong>You do:</strong> Direct your team's output, quality, and productivity<br/>
 <strong>Kings City does:</strong> Payroll, benefits, compliance, facilities, and HR management
@@ -180,43 +180,43 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <!-- Background Confetti -->
 <div class="container" style="position: relative; z-index: 2;">
 <div class="text-center" style="margin-bottom: var(--space-2xl);">
-<span class="text-overline"><?php echo get_field('overline_models') ?: 'Our Service Models'; ?></span>
-<h2><?php echo get_field('h2_models') ?: 'Two Ways to Build Your Team'; ?></h2>
-<p class="text-lead mx-auto" style="margin-top: var(--space-sm); max-width: 650px;"><?php echo get_field('p_intro_models') ?: 'Whether you want a fully managed offshore division or targeted staff placement, we have a model that fits.'; ?></p>
+<span class="text-overline"><?php echo esc_html(get_field('overline_models') ?: 'Our Service Models'); ?></span>
+<h2><?php echo esc_html(get_field('h2_models') ?: 'Two Ways to Build Your Team'); ?></h2>
+<p class="text-lead mx-auto" style="margin-top: var(--space-sm); max-width: 650px;"><?php echo esc_html(get_field('p_intro_models') ?: 'Whether you want a fully managed offshore division or targeted staff placement, we have a model that fits.'); ?></p>
 </div>
 <div class="off-models-container">
 <!-- model 1 card -->
 <div class="off-models-card off-models-card--pink card-glass">
 <span class="text-overline" style="color: var(--color-primary);">Model 1</span>
-<h3><?php echo get_field('h3_model1'); ?></h3>
-<p class="off-models-card__desc"><?php echo get_field('p_model1'); ?></p>
+<h3><?php echo esc_html(get_field('h3_model1')); ?></h3>
+<p class="off-models-card__desc"><?php echo esc_html(get_field('p_model1')); ?></p>
 <ul class="off-models-card__list">
 <li><span class="badge badge--pink"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Your team works exclusively for you full-time</li>
 <li><span class="badge badge--pink"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Fully managed facilities IT and disaster recovery</li>
 <li><span class="badge badge--pink"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Employee engagement and performance frameworks</li>
 <li><span class="badge badge--pink"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Best for businesses scaling a dedicated offshore division</li>
 </ul>
-<a class="btn btn--red off-models-btn" href="<?php echo get_field('model1_btn_url') ? esc_url(get_field('model1_btn_url')) : $apply_url; ?>"><?php echo get_field('model1_btn_text') ?: 'Get Started'; ?></a>
+<a class="btn btn--red off-models-btn" href="<?php echo get_field('model1_btn_url') ? esc_url(get_field('model1_btn_url')) : $apply_url; ?>"><?php echo esc_html(get_field('model1_btn_text') ?: 'Get Started'); ?></a>
 </div>
 <!-- model 2 card -->
 <div class="off-models-card off-models-card--terracotta card-glass">
 <span class="text-overline" style="color: var(--color-bg-ivory);">Model 2</span>
-<h3><?php echo get_field('h3_model2'); ?></h3>
-<p class="off-models-card__desc"><?php echo get_field('p_model2'); ?></p>
+<h3><?php echo esc_html(get_field('h3_model2')); ?></h3>
+<p class="off-models-card__desc"><?php echo esc_html(get_field('p_model2')); ?></p>
 <ul class="off-models-card__list">
 <li><span class="badge badge--terracotta"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Fixed fee per employee per month with no hidden costs</li>
 <li><span class="badge badge--terracotta"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>First invoice only after your team starts working</li>
 <li><span class="badge badge--terracotta"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Communicate your way via Zoom Skype email or on-site</li>
 <li><span class="badge badge--terracotta"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Best for targeted hires and growing teams quickly</li>
 </ul>
-<a class="btn btn--glass-white off-models-btn" href="<?php echo get_field('model2_btn_url') ? esc_url(get_field('model2_btn_url')) : $apply_url; ?>"><?php echo get_field('model2_btn_text') ?: 'Request a Quote'; ?></a>
+<a class="btn btn--glass-white off-models-btn" href="<?php echo get_field('model2_btn_url') ? esc_url(get_field('model2_btn_url')) : $apply_url; ?>"><?php echo esc_html(get_field('model2_btn_text') ?: 'Request a Quote'); ?></a>
 </div>
 </div>
 <!-- transparent billing callout -->
 <div class="card-glass" style="background: var(--color-bg-ivory); margin-top: var(--space-xl); padding: var(--space-lg) var(--space-xl); text-align: center; display: block; max-width: 680px; margin-left: auto; margin-right: auto;">
 <div>
-<h4 style="margin: 0 0 0.5rem;"><?php echo get_field('billing_title') ?: 'Transparent Billing — No Surprises'; ?></h4>
-<p style="font-size: 0.9rem; color: var(--color-text-muted); margin: 0;"><?php echo get_field('p_billing'); ?></p>
+<h4 style="margin: 0 0 0.5rem;"><?php echo esc_html(get_field('billing_title') ?: 'Transparent Billing — No Surprises'); ?></h4>
+<p style="font-size: 0.9rem; color: var(--color-text-muted); margin: 0;"><?php echo esc_html(get_field('p_billing')); ?></p>
 </div>
 </div>
 </div>
@@ -248,9 +248,9 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <!-- Background Confetti for Roles -->
 <div class="container" style="position: relative; z-index: 2;">
 <div class="text-center" style="margin-bottom: var(--space-2xl);">
-<span class="text-overline"><?php echo get_field('overline_38'); ?></span>
-<h2><?php echo get_field('h2_24'); ?></h2>
-<p style="color: var(--color-text-muted); margin: var(--space-sm) auto 0; max-width: 560px;"><?php echo get_field('p_25'); ?></p>
+<span class="text-overline"><?php echo esc_html(get_field('overline_38')); ?></span>
+<h2><?php echo esc_html(get_field('h2_24')); ?></h2>
+<p style="color: var(--color-text-muted); margin: var(--space-sm) auto 0; max-width: 560px;"><?php echo esc_html(get_field('p_25')); ?></p>
 </div>
 <div class="off-roles-desktop-grid">
 <div class="off-roles-mobile-row off-roles-mobile-row--1 cycle-card-bg">
@@ -260,7 +260,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><rect fill="var(--color-secondary)" fill-opacity="0.3" height="18" rx="2" ry="2" width="16" x="4" y="3"></rect><rect height="4" width="10" x="7" y="6" fill="var(--color-bg-ivory)"></rect><circle cx="9" cy="14" r="1" fill="var(--color-accent-gold)"></circle><circle cx="15" cy="14" r="1"></circle><circle cx="9" cy="18" r="1"></circle><circle cx="15" cy="18" r="1"></circle></svg>
 </div>
 <h4>Accountants</h4>
-<p><?php echo get_field('p_26'); ?></p>
+<p><?php echo esc_html(get_field('p_26')); ?></p>
 </div>
 <!-- 2. Bookkeepers (Book) -->
 <div class="off-role-item card-glass compact-mobile">
@@ -268,7 +268,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-bg-ivory)" d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path fill="var(--color-accent-gold)" fill-opacity="0.3" d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
 </div>
 <h4>Bookkeepers</h4>
-<p><?php echo get_field('p_27'); ?></p>
+<p><?php echo esc_html(get_field('p_27')); ?></p>
 </div>
 <!-- 3. Virtual Assistants (Calendar/Clock) -->
 <div class="off-role-item card-glass compact-mobile">
@@ -276,7 +276,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><rect fill="var(--color-secondary)" fill-opacity="0.4" height="18" rx="2" ry="2" width="18" x="3" y="4"></rect><line x1="16" x2="16" y1="2" y2="6"></line><line x1="8" x2="8" y1="2" y2="6"></line><line x1="3" x2="21" y1="10" y2="10" stroke="var(--color-primary)"></line><circle cx="12" cy="16" r="2" fill="var(--color-accent-gold)"></circle></svg>
 </div>
 <h4>Virtual Assistants</h4>
-<p><?php echo get_field('p_28'); ?></p>
+<p><?php echo esc_html(get_field('p_28')); ?></p>
 </div>
 <!-- 4. Graphic Designers (Palette) -->
 <div class="off-role-item card-glass compact-mobile">
@@ -284,7 +284,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-secondary)" fill-opacity="0.5" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.53-.21-1.04-.59-1.41-.37-.38-.59-.88-.59-1.41 0-1.1.9-2 2-2h1.67c2.65 0 4.83-2.18 4.83-4.83C21.83 6.31 17.43 2 12 2z"></path><circle cx="6.5" cy="10.5" r="1.5" fill="var(--color-accent-gold)"></circle><circle cx="10.5" cy="5.5" r="1.5" fill="var(--color-bg-ivory)"></circle><circle cx="16.5" cy="8.5" r="1.5" fill="var(--color-primary)"></circle></svg>
 </div>
 <h4>Graphic Designers</h4>
-<p><?php echo get_field('p_29'); ?></p>
+<p><?php echo esc_html(get_field('p_29')); ?></p>
 </div>
 <!-- 5. Web Developers (Code) -->
 <div class="off-role-item card-glass compact-mobile">
@@ -292,7 +292,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><rect x="2" y="4" width="20" height="16" rx="2" fill="var(--color-accent-gold)" fill-opacity="0.2"></rect><polyline points="8 10 5 13 8 16" stroke="var(--color-primary)"></polyline><polyline points="16 10 19 13 16 16" stroke="var(--color-primary)"></polyline><line x1="14" x2="10" y1="8" y2="18" stroke="var(--color-secondary)"></line></svg>
 </div>
 <h4>Web Developers</h4>
-<p><?php echo get_field('p_30'); ?></p>
+<p><?php echo esc_html(get_field('p_30')); ?></p>
 </div>
 <!-- 6. Customer Service (Headset) -->
 <div class="off-role-item card-glass compact-mobile">
@@ -300,7 +300,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-secondary)" fill-opacity="0.3" d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" fill="var(--color-accent-gold)"></path></svg>
 </div>
 <h4>Customer Service</h4>
-<p><?php echo get_field('p_31'); ?></p>
+<p><?php echo esc_html(get_field('p_31')); ?></p>
 </div>
 </div>
 <div class="off-roles-mobile-row off-roles-mobile-row--2 cycle-card-bg">
@@ -310,7 +310,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-bg-ivory)" d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" stroke="var(--color-accent-gold)"></path></svg>
 </div>
 <h4>Digital Marketers</h4>
-<p><?php echo get_field('p_32'); ?></p>
+<p><?php echo esc_html(get_field('p_32')); ?></p>
 </div>
 <!-- 8. Data Analysts (Bar Chart) -->
 <div class="off-role-item card-glass compact-mobile">
@@ -318,7 +318,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><line x1="18" x2="18" y1="20" y2="10" stroke="var(--color-secondary)" stroke-width="4"></line><line x1="12" x2="12" y1="20" y2="4" stroke="var(--color-accent-gold)" stroke-width="4"></line><line x1="6" x2="6" y1="20" y2="14" stroke="var(--color-primary)" stroke-width="4"></line></svg>
 </div>
 <h4>Data Analysts</h4>
-<p><?php echo get_field('p_33'); ?></p>
+<p><?php echo esc_html(get_field('p_33')); ?></p>
 </div>
 <!-- 9. HR Specialists (Heart/People) -->
 <div class="off-role-item card-glass compact-mobile">
@@ -326,7 +326,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-secondary)" fill-opacity="0.8" stroke="none" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path><circle cx="12" cy="11" r="3" fill="var(--color-bg-ivory)" stroke="var(--color-primary)"></circle></svg>
 </div>
 <h4>HR Specialists</h4>
-<p><?php echo get_field('p_34'); ?></p>
+<p><?php echo esc_html(get_field('p_34')); ?></p>
 </div>
 <!-- 10. IT Support (Wrench) -->
 <div class="off-role-item card-glass compact-mobile">
@@ -334,7 +334,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-bg-ivory)" d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path><circle cx="18" cy="6" r="1" fill="var(--color-accent-gold)" stroke="none"></circle></svg>
 </div>
 <h4>IT Support</h4>
-<p><?php echo get_field('p_35'); ?></p>
+<p><?php echo esc_html(get_field('p_35')); ?></p>
 </div>
 <!-- 11. Content Writers (Pen) -->
 <div class="off-role-item card-glass compact-mobile">
@@ -342,7 +342,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-secondary)" fill-opacity="0.4" d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586" stroke="var(--color-accent-gold)"></path><circle cx="11" cy="11" r="2" fill="var(--color-bg-ivory)"></circle></svg>
 </div>
 <h4>Content Writers</h4>
-<p><?php echo get_field('p_36'); ?></p>
+<p><?php echo esc_html(get_field('p_36')); ?></p>
 </div>
 <!-- 12. Project Managers (Clipboard) -->
 <div class="off-role-item card-glass compact-mobile">
@@ -350,7 +350,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-bg-ivory)" d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect fill="var(--color-accent-gold)" fill-opacity="0.6" height="4" rx="1" ry="1" width="8" x="8" y="2"></rect><path d="M9 14l2 2 4-4" stroke="var(--color-secondary)"></path></svg>
 </div>
 <h4>Project Managers</h4>
-<p><?php echo get_field('p_37'); ?></p>
+<p><?php echo esc_html(get_field('p_37')); ?></p>
 </div>
 </div>
 </div>
@@ -383,9 +383,9 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <!-- Background Coins/Sparkles for Comparison -->
 <div class="container" style="position: relative; z-index: 2;">
 <div class="text-center" style="margin-bottom: var(--space-2xl);">
-<span class="text-overline"><?php echo get_field('overline_43'); ?></span>
-<h2><?php echo get_field('h2_40'); ?></h2>
-<p class="text-lead mx-auto" style="margin-top: var(--space-sm); max-width: 700px;"><?php echo get_field('p_41'); ?></p>
+<span class="text-overline"><?php echo esc_html(get_field('overline_43')); ?></span>
+<h2><?php echo esc_html(get_field('h2_40')); ?></h2>
+<p class="text-lead mx-auto" style="margin-top: var(--space-sm); max-width: 700px;"><?php echo esc_html(get_field('p_41')); ?></p>
 </div>
 <div class="compare-table-wrapper card-glass">
 <table class="compare-table">
@@ -431,7 +431,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 </tbody>
 </table>
 <div class="compare-table-footer">
-<p><?php echo get_field('p_42'); ?></p>
+<p><?php echo esc_html(get_field('p_42')); ?></p>
 </div>
 </div>
 </div>
@@ -462,8 +462,8 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <section class="section content-panel" id="offshoring-services" style="position: relative; overflow: hidden;">
 <!-- Magical Floating Background Confetti -->
 <div class="container text-center" style="position: relative; z-index: 2;">
-<span class="text-overline" style="margin-bottom: var(--space-sm); display: block;"><?php echo get_field('overline_50'); ?></span>
-<h2 style="margin-bottom: var(--space-xl);"><?php echo get_field('h2_45'); ?></h2>
+<span class="text-overline" style="margin-bottom: var(--space-sm); display: block;"><?php echo esc_html(get_field('overline_50')); ?></span>
+<h2 style="margin-bottom: var(--space-xl);"><?php echo esc_html(get_field('h2_45')); ?></h2>
 <div class="spaces-services-grid cycle-card-bg">
 
 <!-- Talent Recruitment -->
@@ -477,7 +477,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 </div>
 <div>
 <h4 class="spaces-services__item-title">Talent Recruitment</h4>
-<p class="spaces-services__item-text"><?php echo get_field('p_46'); ?></p>
+<p class="spaces-services__item-text"><?php echo esc_html(get_field('p_46')); ?></p>
 </div>
 </div>
 
@@ -494,7 +494,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 </div>
 <div>
 <h4 class="spaces-services__item-title">Infrastructure &amp; IT</h4>
-<p class="spaces-services__item-text"><?php echo get_field('p_47'); ?></p>
+<p class="spaces-services__item-text"><?php echo esc_html(get_field('p_47')); ?></p>
 </div>
 </div>
 
@@ -512,7 +512,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 </div>
 <div>
 <h4 class="spaces-services__item-title">Managed Facilities</h4>
-<p class="spaces-services__item-text"><?php echo get_field('p_48'); ?></p>
+<p class="spaces-services__item-text"><?php echo esc_html(get_field('p_48')); ?></p>
 </div>
 </div>
 
@@ -527,7 +527,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 </div>
 <div>
 <h4 class="spaces-services__item-title">HR &amp; Compliance</h4>
-<p class="spaces-services__item-text"><?php echo get_field('p_49'); ?></p>
+<p class="spaces-services__item-text"><?php echo esc_html(get_field('p_49')); ?></p>
 </div>
 </div>
 
@@ -573,8 +573,8 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
       <!-- New Get In Touch Card -->
       <div class="card-glass contact-envelope-card" style="display: flex; flex-direction: column; justify-content: center; padding: var(--space-xl) var(--space-lg);">
         <div class="contact-envelope-content">
-          <h2 style="color: var(--color-primary); margin-bottom: var(--space-xs); text-transform: uppercase; line-height: 1.1; font-size: 1.8rem;"><?php echo get_field('off_contact_title') ?: 'GET IN TOUCH'; ?></h2>
-          <p style="color: var(--color-primary); font-size: 1rem; opacity: 0.8; margin-bottom: var(--space-md);"><?php echo get_field('off_contact_subtitle') ?: 'We\'d love to hear from you'; ?></p>
+          <h2 style="color: var(--color-primary); margin-bottom: var(--space-xs); text-transform: uppercase; line-height: 1.1; font-size: 1.8rem;"><?php echo esc_html(get_field('off_contact_title') ?: 'GET IN TOUCH'); ?></h2>
+          <p style="color: var(--color-primary); font-size: 1rem; opacity: 0.8; margin-bottom: var(--space-md);"><?php echo esc_html(get_field('off_contact_subtitle') ?: 'We\'d love to hear from you'); ?></p>
           
           <div style="display: flex; flex-direction: column; gap: 1rem;">
             <a href="<?php echo get_field('off_contact_ig') ?: '#'; ?>" style="color: var(--color-primary); display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 600; transition: transform 0.3s ease;">
@@ -689,7 +689,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <!-- Heading -->
 <div class="container" style="position: relative; z-index: 2;">
   <div style="text-align: center; margin-bottom: var(--space-xl);">
-    <h2 class="gallery-heading" style="margin-bottom: 0; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;"><?php $heading = get_field('section_txt_gallery_heading'); echo $heading ? $heading : 'Virtual Tour'; ?></h2>
+    <h2 class="gallery-heading" style="margin-bottom: 0; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;"><?php echo esc_html(get_field('section_txt_gallery_heading') ?: 'Virtual Tour'); ?></h2>
   </div>
 </div>
 

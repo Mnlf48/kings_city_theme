@@ -27,9 +27,11 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 </h1>
 <p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
 <div class="hero__actions hero__actions--index">
-<a class="btn" href="#our-story">
-                Read Our Story
-              </a>
+<?php
+$about_hero_btn_text = get_field('proposed_about_hero_btn_text') ?: 'Read Our Story';
+$about_hero_btn_url  = get_field('proposed_about_hero_btn_url')  ?: '#our-story';
+?>
+<a class="btn" href="<?php echo esc_url($about_hero_btn_url); ?>"><?php echo esc_html($about_hero_btn_text); ?></a>
 </div>
 </div>
 <!-- slider on right -->
@@ -274,7 +276,7 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <div class="snake-item">
 <div class="snake-dot"></div>
 <div class="snake-content">
-<span class="snake-year">1999</span>
+<span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_1') ?: '1999'); ?></span>
 <h3 class="snake-title"><?php echo get_field('h3_32'); ?></h3>
 <p class="snake-desc"><?php echo get_field('p_41'); ?></p>
 </div>
@@ -283,7 +285,7 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <div class="snake-item">
 <div class="snake-dot"></div>
 <div class="snake-content">
-<span class="snake-year">2005</span>
+<span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_2') ?: '2005'); ?></span>
 <h3 class="snake-title"><?php echo get_field('h3_33'); ?></h3>
 <p class="snake-desc"><?php echo get_field('p_42'); ?></p>
 </div>
@@ -292,7 +294,7 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <div class="snake-item">
 <div class="snake-dot"></div>
 <div class="snake-content">
-<span class="snake-year">2009</span>
+<span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_3') ?: '2009'); ?></span>
 <h3 class="snake-title"><?php echo get_field('h3_34'); ?></h3>
 <p class="snake-desc"><?php echo get_field('p_43'); ?></p>
 </div>
@@ -304,7 +306,7 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <div class="snake-item">
 <div class="snake-dot"></div>
 <div class="snake-content">
-<span class="snake-year">2011</span>
+<span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_4') ?: '2011'); ?></span>
 <h3 class="snake-title"><?php echo get_field('h3_35'); ?></h3>
 <p class="snake-desc"><?php echo get_field('p_44'); ?></p>
 </div>
@@ -313,7 +315,7 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <div class="snake-item">
 <div class="snake-dot"></div>
 <div class="snake-content">
-<span class="snake-year">2016</span>
+<span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_5') ?: '2016'); ?></span>
 <h3 class="snake-title"><?php echo get_field('h3_36'); ?></h3>
 <p class="snake-desc"><?php echo get_field('p_45'); ?></p>
 </div>
@@ -322,7 +324,7 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <div class="snake-item">
 <div class="snake-dot"></div>
 <div class="snake-content">
-<span class="snake-year">2017</span>
+<span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_6') ?: '2017'); ?></span>
 <h3 class="snake-title"><?php echo get_field('h3_37'); ?></h3>
 <p class="snake-desc"><?php echo get_field('p_46'); ?></p>
 </div>
@@ -334,7 +336,7 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <div class="snake-item">
 <div class="snake-dot"></div>
 <div class="snake-content">
-<span class="snake-year">2019</span>
+<span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_7') ?: '2019'); ?></span>
 <h3 class="snake-title"><?php echo get_field('h3_38'); ?></h3>
 <p class="snake-desc"><?php echo get_field('p_47'); ?></p>
 </div>
@@ -343,7 +345,7 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <div class="snake-item">
 <div class="snake-dot"></div>
 <div class="snake-content">
-<span class="snake-year">2020</span>
+<span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_8') ?: '2020'); ?></span>
 <h3 class="snake-title"><?php echo get_field('h3_39'); ?></h3>
 <p class="snake-desc"><?php echo get_field('p_48'); ?></p>
 </div>
@@ -352,7 +354,7 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <div class="snake-item">
 <div class="snake-dot"></div>
 <div class="snake-content">
-<span class="snake-year">2025</span>
+<span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_9') ?: '2025'); ?></span>
 <h3 class="snake-title"><?php echo get_field('h3_40'); ?></h3>
 <p class="snake-desc"><?php echo get_field('p_49'); ?></p>
 </div>
@@ -366,7 +368,7 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <div class="snake-item">
 <div class="snake-dot"></div>
 <div class="snake-content">
-<span class="snake-year">2026</span>
+<span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_10') ?: '2026'); ?></span>
 <h3 class="snake-title"><?php echo get_field('h3_41') ?: 'Social Manila Lifestyle'; ?></h3>
 <p class="snake-desc"><?php echo get_field('p_50'); ?></p>
 </div>

@@ -46,9 +46,11 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 </h1>
 <p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
 <div class="hero__actions hero__actions--index">
-<a class="btn" href="<?php echo $book_now_url; ?>">
-                Become a Member
-              </a>
+<?php
+$spaces_hero_btn_text = get_field('proposed_spaces_hero_btn_text') ?: 'Become a Member';
+$spaces_hero_btn_url  = get_field('proposed_spaces_hero_btn_url')  ?: $book_now_url;
+?>
+<a class="btn" href="<?php echo esc_url($spaces_hero_btn_url); ?>"><?php echo esc_html($spaces_hero_btn_text); ?></a>
 </div>
 </div>
 <!-- slider on right -->
@@ -166,7 +168,7 @@ endif;
 </svg>
 </div>
 <div>
-<h4 class="spaces-services__item-title">Premium Spaces</h4>
+<h4 class="spaces-services__item-title"><?php echo esc_html(get_field('proposed_spaces_service_1_heading') ?: 'Premium Spaces'); ?></h4>
 <p class="spaces-services__item-text"><?php echo get_field('p_39'); ?></p>
 </div>
 </div>
@@ -181,7 +183,7 @@ endif;
 </svg>
 </div>
 <div>
-<h4 class="spaces-services__item-title">Dedicated Team</h4>
+<h4 class="spaces-services__item-title"><?php echo esc_html(get_field('proposed_spaces_service_2_heading') ?: 'Dedicated Team'); ?></h4>
 <p class="spaces-services__item-text"><?php echo get_field('p_40'); ?></p>
 </div>
 </div>
@@ -194,7 +196,7 @@ endif;
 </svg>
 </div>
 <div>
-<h4 class="spaces-services__item-title">Social Manila Bakehouse</h4>
+<h4 class="spaces-services__item-title"><?php echo esc_html(get_field('proposed_spaces_service_3_heading') ?: 'Social Manila Bakehouse'); ?></h4>
 <p class="spaces-services__item-text"><?php echo get_field('p_41'); ?></p>
 </div>
 </div>
@@ -210,7 +212,7 @@ endif;
 </svg>
 </div>
 <div>
-<h4 class="spaces-services__item-title">Taza</h4>
+<h4 class="spaces-services__item-title"><?php echo esc_html(get_field('proposed_spaces_service_4_heading') ?: 'Taza'); ?></h4>
 <p class="spaces-services__item-text"><?php echo get_field('p_42'); ?></p>
 </div>
 </div>

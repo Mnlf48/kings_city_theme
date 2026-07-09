@@ -96,9 +96,9 @@ get_header();
 <div class="col-12 split split--media-right">
 <!-- text on left -->
 <div class="split__content animate-fadeInUp hero__content--index">
-<span class="text-overline hero__overline"><?php echo get_field('overline_3'); ?></span>
-<h1 class="hero__title hero__title--inner"><?php $h = get_field('h1_1'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></h1>
-<p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
+<span class="text-overline hero__overline"><?php echo esc_html(get_field('overline_3')); ?></span>
+<h1 class="hero__title hero__title--inner"><?php $h = esc_html(get_field('h1_1')); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></h1>
+<p class="hero__subtitle"><?php echo esc_html(get_field('p_2')); ?></p>
 </div>
 <!-- media on right -->
 <div class="split__media hero__slider" id="hero-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
@@ -158,8 +158,8 @@ get_header();
           
         <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: var(--space-lg);">
           <div>
-            <span class="text-overline" style="color: var(--color-bg-ivory);"><?php echo get_field('pricing_tb_overline') ?: 'Team Builder Pricing'; ?></span>
-            <h2 style="margin: 0; color: var(--color-bg-ivory);"><?php echo get_field('pricing_tb_heading') ?: 'Estimate Your Team'; ?></h2>
+            <span class="text-overline" style="color: var(--color-bg-ivory);"><?php echo esc_html(get_field('pricing_tb_overline') ?: 'Team Builder Pricing'); ?></span>
+            <h2 style="margin: 0; color: var(--color-bg-ivory);"><?php echo esc_html(get_field('pricing_tb_heading') ?: 'Estimate Your Team'); ?></h2>
           </div>
           <div class="currency-toggle" style="display: flex; background: var(--color-bg-ivory); border-radius: var(--radius-pill); padding: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid var(--color-border-light);">
             <?php 
@@ -188,7 +188,7 @@ get_header();
         <div class="tb-header" style="margin-top: var(--space-md);">
           <div style="display: flex; align-items: center; gap: 0.5rem;">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-bg-ivory)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-            <h3 style="margin:0; color: var(--color-bg-ivory);"><?php echo get_field('pricing_tb_subheading') ?: 'Your Team Selection'; ?></h3>
+            <h3 style="margin:0; color: var(--color-bg-ivory);"><?php echo esc_html(get_field('pricing_tb_subheading') ?: 'Your Team Selection'); ?></h3>
           </div>
           <button type="button" class="btn btn--small" id="btn-add-member" style="background: var(--color-secondary) !important; color: var(--color-primary) !important; border-color: var(--color-primary) !important;">+ Add Member</button>
         </div>
@@ -198,8 +198,8 @@ get_header();
             <div style="margin-bottom: 1rem; color: var(--color-primary); display: flex; justify-content: center; align-items: center;">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
             </div>
-            <h4 style="margin-bottom: 0.5rem; color: var(--color-primary);"><?php echo get_field('pricing_tb_body_title') ?: 'Build your offshore team with Kings City.'; ?></h4>
-            <p style="font-size: 0.875rem; color: var(--color-primary); margin-bottom: 1.5rem;"><?php echo get_field('pricing_tb_body_desc') ?: 'Select roles below and instantly see a transparent monthly estimate.'; ?></p>
+            <h4 style="margin-bottom: 0.5rem; color: var(--color-primary);"><?php echo esc_html(get_field('pricing_tb_body_title') ?: 'Build your offshore team with Kings City.'); ?></h4>
+            <p style="font-size: 0.875rem; color: var(--color-primary); margin-bottom: 1.5rem;"><?php echo esc_html(get_field('pricing_tb_body_desc') ?: 'Select roles below and instantly see a transparent monthly estimate.'); ?></p>
             <button type="button" class="btn btn--outline" id="btn-get-started" style="background: var(--color-secondary) !important; color: var(--color-primary) !important; border-color: var(--color-primary) !important;">Get Started</button>
           </div>
 
@@ -610,7 +610,7 @@ get_header();
           const formData = new FormData(quoteForm);
           formData.append('action', 'submit_quote');
 
-          fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+          fetch('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', {
               method: 'POST',
               body: formData
           })
@@ -696,7 +696,7 @@ get_header();
   <div class="tb-modal" id="tb-modal" aria-hidden="true">
     <div class="tb-modal-content">
       <div class="tb-modal-header">
-        <h3 style="margin:0;"><?php echo get_field('pricing_tb_modal_title') ?: 'Select a Role'; ?></h3>
+        <h3 style="margin:0;"><?php echo esc_html(get_field('pricing_tb_modal_title') ?: 'Select a Role'); ?></h3>
         <button type="button" class="tb-modal-close" id="tb-modal-close" aria-label="Close">&times;</button>
       </div>
       <div class="tb-modal-body" id="tb-modal-roles">

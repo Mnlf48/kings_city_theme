@@ -416,3 +416,41 @@ function kc_img($acf_field_name, $fallback_image_path, $post_id = false) {
     // Otherwise, fallback to the local theme image!
     return get_template_directory_uri() . '/assets/img/' . ltrim($fallback_image_path, '/');
 }
+
+// Strip legacy HTML markup from button label fields that were previously wysiwyg.
+// This runs on load so the admin shows plain text; once saved it stores clean values.
+add_filter('acf/load_value/name=hero_section_txt_7', 'kc_strip_btn_label_html', 10, 3);
+add_filter('acf/load_value/name=section_txt_36',     'kc_strip_btn_label_html', 10, 3);
+function kc_strip_btn_label_html($value, $post_id, $field) {
+    return $value ? trim(strip_tags($value)) : $value;
+}
+
+// ── Space card click tracker ──────────────────────────────────────────────────
+// Valid space keys map to wp_options counter keys.
+function kc_space_click_keys() {
+    return array(
+        'coworking'      => 'kc_clicks_coworking',
+        'private-office' => 'kc_clicks_private_office',
+        'enterprise'     => 'kc_clicks_enterprise',
+        'on-demand'      => 'kc_clicks_on_demand',
+        'virtual-office' => 'kc_clicks_virtual_office',
+        'meeting-rooms'  => 'kc_clicks_meeting_rooms',
+    );
+}
+
+// PHP redirect handler: ?kc_track=coworking → increments counter → redirects to spaces page.
+add_action('template_redirect', function () {
+    if ( ! isset($_GET['kc_track']) ) return;
+
+    $space    = sanitize_key($_GET['kc_track']);
+    $map      = kc_space_click_keys();
+
+    if ( isset($map[$space]) ) {
+        $current = (int) get_option($map[$space], 0);
+        update_option($map[$space], $current + 1, false);
+    }
+
+    $spaces_url = get_field('proposed_space_btn_url', get_queried_object_id()) ?: home_url('/spaces/');
+    wp_redirect(esc_url_raw($spaces_url), 302);
+    exit;
+});

@@ -11,9 +11,9 @@ get_header();
 <div class="col-12 split split--media-right">
 <!-- text content on left -->
 <div class="split__content animate-fadeInUp hero__content--index">
-<span class="text-overline hero__overline"><?php echo get_field('overline_3'); ?></span>
-<h1 class="hero__title hero__title--inner"><?php $h = get_field('h1_1'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></h1>
-<p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
+<span class="text-overline hero__overline"><?php echo esc_html(get_field('overline_3')); ?></span>
+<h1 class="hero__title hero__title--inner"><?php $h = esc_html(get_field('h1_1')); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></h1>
+<p class="hero__subtitle"><?php echo esc_html(get_field('p_2')); ?></p>
 </div>
 <!-- media on right -->
 <div class="split__media hero__slider" id="hero-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
@@ -90,7 +90,8 @@ if ($news_query->have_posts()) :
             <?php endif; ?>
             <div class="journal-grid">
               <?php foreach ($group as $post) : setup_postdata($post); ?>
-                <article class="card-glass" onclick="window.location.href='<?php echo get_permalink($post->ID); ?>'" style="cursor: pointer; border-radius: 0;">
+                <?php $post_url = esc_url(get_permalink($post->ID)); ?>
+                <article class="card-glass" onclick="window.location.href='<?php echo esc_js($post_url); ?>'" style="cursor: pointer; border-radius: 0;">
                   <?php $image_id = get_post_thumbnail_id($post->ID); if ($image_id) : ?>
                     <div style="width: 100%; aspect-ratio: 16/9; border-radius: 0; overflow:hidden;">
                         <?php echo wp_get_attachment_image($image_id, 'large', false, array('style' => 'width:100%; height:100%; object-fit:cover;')); ?>
@@ -100,20 +101,20 @@ if ($news_query->have_posts()) :
                       No Image
                     </div>
                   <?php endif; ?>
-                  
+
                   <div style="padding: var(--space-lg);">
                     <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent-red);">Kings City News</span>
-                    <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;"><?php echo get_the_title($post->ID); ?></h3>
+                    <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;"><?php echo esc_html(get_the_title($post->ID)); ?></h3>
                     <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
-                        <?php 
+                        <?php
                         $excerpt = get_the_excerpt($post->ID);
-                        if(empty($excerpt)) { $excerpt = wp_trim_words(get_post_field('post_content', $post->ID), 20); }
-                        echo esc_html($excerpt); 
+                        if (empty($excerpt)) { $excerpt = wp_trim_words(get_post_field('post_content', $post->ID), 20); }
+                        echo esc_html($excerpt);
                         ?>
                     </p>
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                      <span style="font-size: 0.75rem; color: var(--color-text-muted);"><?php echo get_the_date('F j, Y', $post->ID); ?></span>
-                      <a class="btn btn--small" href="<?php echo get_permalink($post->ID); ?>" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Read More</a>
+                      <span style="font-size: 0.75rem; color: var(--color-text-muted);"><?php echo esc_html(get_the_date('F j, Y', $post->ID)); ?></span>
+                      <a class="btn btn--small" href="<?php echo $post_url; ?>" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Read More</a>
                     </div>
                   </div>
                 </article>

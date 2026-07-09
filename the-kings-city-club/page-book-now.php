@@ -316,9 +316,9 @@ get_header();
 <div class="col-12 split split--media-right">
 <!-- text on left -->
 <div class="split__content animate-fadeInUp hero__content--index">
-<span class="text-overline hero__overline"><?php echo get_field('overline_3'); ?></span>
-<h1 class="hero__title hero__title--inner"><?php $h = get_field('h1_1'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></h1>
-<p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
+<span class="text-overline hero__overline"><?php echo esc_html(get_field('overline_3')); ?></span>
+<h1 class="hero__title hero__title--inner"><?php $h = esc_html(get_field('h1_1')); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></h1>
+<p class="hero__subtitle"><?php echo esc_html(get_field('p_2')); ?></p>
 </div>
 <!-- media on right -->
 <div class="split__media hero__slider" id="hero-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
@@ -345,12 +345,9 @@ get_header();
 <div class="book-content__media">
 <img alt="Workspace" id="content-image" src="<?php echo kc_img('image_14', 'page-book-now-img/kings-img12.webp'); ?>"/>
 </div>
-<span class="text-overline" id="content-overline"><?php echo get_field('overline_13'); ?></span>
-<h2 class="book-content__title" id="content-title"><?php echo get_field('h2_8'); ?></h2>
-<div class="book-content__text" id="content-text">
-<p><?php echo get_field('p_10'); ?></p>
-<p><?php echo get_field('p_11'); ?></p>
-</div>
+<span class="text-overline" id="content-overline"></span>
+<h2 class="book-content__title" id="content-title"></h2>
+<div class="book-content__text" id="content-text"></div>
 <div class="feature-tag-grid" id="content-features">
 <span class="feature-tag">High-Speed Wi-Fi</span>
 <span class="feature-tag">Dedicated Seats</span>
@@ -371,7 +368,7 @@ get_header();
 
 <!-- price est -->
 <div class="price-est">
-<span class="price-est__label"><?php echo get_field('bk_label_est_price') ?: 'Estimated Price'; ?></span>
+<span class="price-est__label"><?php echo esc_html(get_field('bk_label_est_price') ?: 'Estimated Price'); ?></span>
 <span class="price-est__value" id="price-display">Php 500</span>
 </div>
 <?php if (!empty($error_message)): ?>
@@ -385,7 +382,7 @@ get_header();
 <input type="hidden" name="book_price" id="hidden-price" value="">
 <!-- space type selection -->
 <div class="form-group">
-<label class="form-label"><?php echo get_field('bk_label_space_type') ?: 'Space Type'; ?></label>
+<label class="form-label"><?php echo esc_html(get_field('bk_label_space_type') ?: 'Space Type'); ?></label>
 <select class="form-control" name="book_space_type" id="space-type-select">
 <?php
 $bk_active_spaces = get_posts([
@@ -407,20 +404,20 @@ foreach ($bk_active_spaces as $bk_sp) {
 </div>
 <div class="form-row">
 <div class="form-group">
-<label class="form-label"><?php echo get_field('bk_label_first_name') ?: 'First Name'; ?></label>
+<label class="form-label"><?php echo esc_html(get_field('bk_label_first_name') ?: 'First Name'); ?></label>
 <input class="form-control" name="book_first_name" placeholder="First name" required="" type="text"/>
 </div>
 <div class="form-group">
-<label class="form-label"><?php echo get_field('bk_label_last_name') ?: 'Last Name'; ?></label>
+<label class="form-label"><?php echo esc_html(get_field('bk_label_last_name') ?: 'Last Name'); ?></label>
 <input class="form-control" name="book_last_name" placeholder="Last name" required="" type="text"/>
 </div>
 </div>
 <div class="form-group">
-<label class="form-label"><?php echo get_field('bk_label_email') ?: 'Email Address'; ?></label>
+<label class="form-label"><?php echo esc_html(get_field('bk_label_email') ?: 'Email Address'); ?></label>
 <input class="form-control" name="book_email" placeholder="you@company.com" required="" type="email"/>
 </div>
 <div class="form-group">
-<label class="form-label"><?php echo get_field('bk_label_phone') ?: 'Phone Number'; ?></label>
+<label class="form-label"><?php echo esc_html(get_field('bk_label_phone') ?: 'Phone Number'); ?></label>
 <input class="form-control" name="book_phone" placeholder="+63 XXX XXX XXXX" required="" type="tel"/>
 </div>
 <div class="form-row">
@@ -429,7 +426,7 @@ foreach ($bk_active_spaces as $bk_sp) {
 <input class="form-control" name="book_participants" placeholder="e.g. 1" required="" type="number" min="1"/>
 </div>
 <div class="form-group">
-<label class="form-label"><?php echo get_field('bk_label_duration') ?: 'Duration'; ?></label>
+<label class="form-label"><?php echo esc_html(get_field('bk_label_duration') ?: 'Duration'); ?></label>
 <select class="form-control" name="book_duration" id="duration-select">
 <!-- options dynamic based on selection -->
 <option value="Day Pass" data-price="500">Day Pass — Php 500</option>
@@ -441,7 +438,7 @@ foreach ($bk_active_spaces as $bk_sp) {
 </div>
 <div class="form-row">
 <div class="form-group">
-<label class="form-label"><?php echo get_field('bk_label_start_date') ?: 'Start Date'; ?></label>
+<label class="form-label"><?php echo esc_html(get_field('bk_label_start_date') ?: 'Start Date'); ?></label>
 <input class="form-control" name="book_start_date" id="date-input" required="" type="date"/>
 </div>
 <div class="form-group">
@@ -461,10 +458,10 @@ foreach ($bk_active_spaces as $bk_sp) {
 </div>
 </div>
 <div class="form-group">
-<label class="form-label"><?php echo get_field('bk_label_special') ?: 'Special Requests'; ?></label>
+<label class="form-label"><?php echo esc_html(get_field('bk_label_special') ?: 'Special Requests'); ?></label>
 <textarea class="form-control" name="book_special" placeholder="Any special requirements..."></textarea>
 </div>
-<button class="btn btn-book" name="book_submit" type="submit"><?php echo get_field('bk_btn_submit') ?: 'Confirm Booking'; ?></button>
+<button class="btn btn-book" name="book_submit" type="submit"><?php echo esc_html(get_field('bk_btn_submit') ?: 'Confirm Booking'); ?></button>
 </form>
 
 </div>

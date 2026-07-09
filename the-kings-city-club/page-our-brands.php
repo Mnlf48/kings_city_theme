@@ -10,13 +10,13 @@ get_header();
 <div class="col-12 split split--media-right">
 <!-- text content on left -->
 <div class="split__content animate-fadeInUp hero__content--index">
-<span class="text-overline hero__overline"><?php echo get_field('overline_3'); ?></span>
-<h1 class="hero__title hero__title--inner"><?php $h = get_field('h1_1'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></h1>
-<p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
+<span class="text-overline hero__overline"><?php echo esc_html(get_field('overline_3')); ?></span>
+<h1 class="hero__title hero__title--inner"><?php $h = esc_html(get_field('h1_1')); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></h1>
+<p class="hero__subtitle"><?php echo esc_html(get_field('p_2')); ?></p>
 <div class="hero__actions hero__actions--index">
 <a class="btn" href="#group-companies">
-                Discover Our Brands
-              </a>
+  <?php echo esc_html(get_field('proposed_our_brands_hero_btn_text') ?: 'Discover Our Brands'); ?>
+</a>
 </div>
 </div>
 <!-- slider on right -->
@@ -45,10 +45,10 @@ get_header();
 <div class="split__content">
 <span class="text-overline" style="margin-bottom: var(--space-sm); display: flex; align-items: center; gap: 8px;">
   <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color: var(--color-primary);"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-  <?php echo get_field('overline_10'); ?>
+  <?php echo esc_html(get_field('overline_10')); ?>
 </span>
-<h2 style="color: var(--color-primary); margin-bottom: var(--space-md);"><?php echo get_field('h2_8'); ?></h2>
-<p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: 0;"><?php echo get_field('p_9'); ?></p>
+<h2 style="color: var(--color-primary); margin-bottom: var(--space-md);"><?php echo esc_html(get_field('h2_8')); ?></h2>
+<p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: 0;"><?php echo esc_html(get_field('p_9')); ?></p>
 </div>
 </div>
 </div>
@@ -103,8 +103,8 @@ get_header();
           <div class="container" style="position: relative; z-index: 2;">
 <!-- Title -->
 <div style="margin-bottom: var(--space-md); text-align: center;">
-<span class="text-overline"><?php echo get_field('overline_30'); ?></span>
-<h2 style="color: var(--color-primary); margin-bottom: 0;"><?php echo get_field('h2_19'); ?></h2>
+<span class="text-overline"><?php echo esc_html(get_field('overline_30')); ?></span>
+<h2 style="color: var(--color-primary); margin-bottom: 0;"><?php echo esc_html(get_field('h2_19')); ?></h2>
 </div>
 <!-- Split Pane Wrapper (Centered horizontally and vertically) -->
 <div class="grid-12" style="align-items: start; max-width: 1200px; margin: 0 auto;">
@@ -153,24 +153,24 @@ get_header();
 <!-- Right Column: Details Pane -->
 <div class="col-5 brand-details-container" style="padding-left: var(--space-xl); padding-top: 1.25rem;">
 <div class="brand-detail is-active" id="brand-kingscity">
-<h3 style="color: var(--color-primary); margin-bottom: var(--space-md); text-transform: uppercase; letter-spacing: 0.05em;"><?php echo get_field('h3_20'); ?></h3>
-<p style="color: var(--color-text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: var(--space-lg);"><?php echo get_field('p_25'); ?></p>
-<a class="btn btn--outline" href="https://kingscity.com.ph/" rel="noopener noreferrer" style="padding: 0.75rem 2rem;" target="_blank">Learn More</a>
+<h3 style="color: var(--color-primary); margin-bottom: var(--space-md); text-transform: uppercase; letter-spacing: 0.05em;"><?php echo esc_html(get_field('h3_20')); ?></h3>
+<p style="color: var(--color-text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: var(--space-lg);"><?php echo esc_html(get_field('p_25')); ?></p>
+<a class="btn btn--outline" href="<?php echo esc_url(get_field('proposed_brand_1_url') ?: 'https://kingscity.com.ph/'); ?>" rel="noopener noreferrer" style="padding: 0.75rem 2rem;" target="_blank">Learn More</a>
 </div>
 <div class="brand-detail" id="brand-manpower">
-<h3 style="color: var(--color-primary); margin-bottom: var(--space-md); text-transform: uppercase; letter-spacing: 0.05em;"><?php echo get_field('h3_21'); ?></h3>
-<p style="color: var(--color-text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: var(--space-lg);"><?php echo get_field('p_26'); ?></p>
-<a class="btn btn--outline" href="https://thesocialmanilabakehouse.netlify.app/?fbclid=IwY2xjawSkwLNleHRuA2FlbQIxMABicmlkETFuNFQ3bVRsdWNiajB6Y1k3c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHpCuOm58btM6SnY6uiRMFd5rSAtijh2y8JmeUNSztnk8ORj1SnTTWF19Kpqb_aem_YWdncwPcYkDK9wXNA1vXPIgkYpsk&brid=YWdncwFn2eTqSVIMiL8j2OL336TH" rel="noopener noreferrer" style="padding: 0.75rem 2rem;" target="_blank">Learn More</a>
+<h3 style="color: var(--color-primary); margin-bottom: var(--space-md); text-transform: uppercase; letter-spacing: 0.05em;"><?php echo esc_html(get_field('h3_21')); ?></h3>
+<p style="color: var(--color-text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: var(--space-lg);"><?php echo esc_html(get_field('p_26')); ?></p>
+<a class="btn btn--outline" href="<?php echo esc_url(get_field('proposed_brand_2_url') ?: 'https://thesocialmanilabakehouse.com/'); ?>" rel="noopener noreferrer" style="padding: 0.75rem 2rem;" target="_blank">Learn More</a>
 </div>
 <div class="brand-detail" id="brand-bakehouse">
-<h3 style="color: var(--color-primary); margin-bottom: var(--space-md); text-transform: uppercase; letter-spacing: 0.05em;"><?php echo get_field('h3_22'); ?></h3>
-<p style="color: var(--color-text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: var(--space-lg);"><?php echo get_field('p_27'); ?></p>
-<a class="btn btn--outline" href="https://kings-group-ph.netlify.app/" rel="noopener noreferrer" style="padding: 0.75rem 2rem;" target="_blank">Learn More</a>
+<h3 style="color: var(--color-primary); margin-bottom: var(--space-md); text-transform: uppercase; letter-spacing: 0.05em;"><?php echo esc_html(get_field('h3_22')); ?></h3>
+<p style="color: var(--color-text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: var(--space-lg);"><?php echo esc_html(get_field('p_27')); ?></p>
+<a class="btn btn--outline" href="<?php echo esc_url(get_field('proposed_brand_3_url') ?: 'https://kings-group-ph.netlify.app/'); ?>" rel="noopener noreferrer" style="padding: 0.75rem 2rem;" target="_blank">Learn More</a>
 </div>
 <div class="brand-detail" id="brand-homeculinary">
-<h3 style="color: var(--color-primary); margin-bottom: var(--space-md); text-transform: uppercase; letter-spacing: 0.05em;"><?php echo get_field('h3_23'); ?></h3>
-<p style="color: var(--color-text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: var(--space-lg);"><?php echo get_field('p_28'); ?></p>
-<a class="btn btn--outline" href="https://homeculinaryschool.com/" rel="noopener noreferrer" style="padding: 0.75rem 2rem;" target="_blank">Learn More</a>
+<h3 style="color: var(--color-primary); margin-bottom: var(--space-md); text-transform: uppercase; letter-spacing: 0.05em;"><?php echo esc_html(get_field('h3_23')); ?></h3>
+<p style="color: var(--color-text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: var(--space-lg);"><?php echo esc_html(get_field('p_28')); ?></p>
+<a class="btn btn--outline" href="<?php echo esc_url(get_field('proposed_brand_4_url') ?: 'https://homeculinaryschool.com/'); ?>" rel="noopener noreferrer" style="padding: 0.75rem 2rem;" target="_blank">Learn More</a>
 </div>
 
 </div>
@@ -206,9 +206,9 @@ get_header();
           <div class="container grid-12" style="position: relative; z-index: 1;">
 <div class="col-12 split">
 <div class="split__content">
-<span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('overline_34'); ?></span>
-<h2 style="color: var(--color-primary); margin-bottom: var(--space-md);"><?php echo get_field('h2_32'); ?></h2>
-<p style="color: var(--color-text-muted); margin-bottom: var(--space-lg);"><?php echo get_field('p_33'); ?></p>
+<span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo esc_html(get_field('overline_34')); ?></span>
+<h2 style="color: var(--color-primary); margin-bottom: var(--space-md);"><?php echo esc_html(get_field('h2_32')); ?></h2>
+<p style="color: var(--color-text-muted); margin-bottom: var(--space-lg);"><?php echo esc_html(get_field('p_33')); ?></p>
 <ul class="perks-list" style="color: var(--color-text-muted);">
 <li>
 <div class="perk-bubble">
@@ -217,7 +217,7 @@ get_header();
 <polyline points="9 22 9 12 15 12 15 22"></polyline>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;">A dedicated home location 24/7 access</span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('perk_1') ?: 'A dedicated home location 24/7 access'); ?></span>
 </li>
 <li>
 <div class="perk-bubble">
@@ -227,7 +227,7 @@ get_header();
 <line x1="9" x2="9" y1="21" y2="9"></line>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;">Meeting, conference, training and workshop rooms</span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('perk_2') ?: 'Meeting, conference, training and workshop rooms'); ?></span>
 </li>
 <li>
 <div class="perk-bubble">
@@ -236,7 +236,7 @@ get_header();
 <rect height="14" rx="2" ry="2" width="15" x="1" y="5"></rect>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;">Event spaces, podcast studios, and photography studios</span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('perk_3') ?: 'Event spaces, podcast studios, and photography studios'); ?></span>
 </li>
 <li>
 <div class="perk-bubble">
@@ -245,7 +245,7 @@ get_header();
 <line x1="7" x2="7.01" y1="7" y2="7"></line>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;">Premium Gym access &amp; Kings Club wellness program</span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('perk_4') ?: 'Premium Gym access &amp; Kings Club wellness program'); ?></span>
 </li>
 <li>
 <div class="perk-bubble">
@@ -257,7 +257,7 @@ get_header();
 <line x1="14" x2="14" y1="1" y2="4"></line>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;">Exclusive discounts at our in-house coffee shops</span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('perk_5') ?: 'Exclusive discounts at our in-house coffee shops'); ?></span>
 </li>
 </ul>
 </div>
@@ -295,7 +295,7 @@ get_header();
           <!-- 5. Star -->
           <div class="container" style="position: relative; z-index: 2;">
   <div style="text-align: center; margin-bottom: var(--space-xl);">
-    <h2 class="gallery-heading" style="margin-bottom: 0; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;"><?php $heading = get_field('section_txt_gallery_heading'); echo $heading ? $heading : 'Virtual Tour'; ?></h2>
+    <h2 class="gallery-heading" style="margin-bottom: 0; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;"><?php echo esc_html(get_field('section_txt_gallery_heading') ?: 'Virtual Tour'); ?></h2>
   </div>
 </div>
 

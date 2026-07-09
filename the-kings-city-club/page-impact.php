@@ -260,9 +260,9 @@ get_header();
 <div class="col-12 split split--media-right">
 <!-- text content on left -->
 <div class="split__content animate-fadeInUp hero__content--index">
-<span class="text-overline hero__overline"><?php echo get_field('overline_3'); ?></span>
-<h1 class="hero__title hero__title--inner"><?php $h = get_field('h1_1'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></h1>
-<p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
+<span class="text-overline hero__overline"><?php echo esc_html(get_field('overline_3')); ?></span>
+<h1 class="hero__title hero__title--inner"><?php $h = esc_html(get_field('h1_1')); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></h1>
+<p class="hero__subtitle"><?php echo esc_html(get_field('p_2')); ?></p>
 </div>
 <!-- slider on right -->
 <div class="split__media hero__slider" id="hero-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
@@ -286,17 +286,17 @@ get_header();
 <circle cx="12" cy="12" r="10"></circle>
 <path d="M12 8l4 4-4 4M8 12h7"></path>
 </svg>
-<h5>Our Initiatives</h5>
+<h5><?php echo esc_html(get_field('proposed_impact_initiatives_heading') ?: 'Our Initiatives'); ?></h5>
 </div>
-<div class="icon-plus-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg><p><?php echo get_field('p_8'); ?></p></div>
-<div class="icon-plus-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg><p><?php echo get_field('p_9'); ?></p></div>
-<div class="icon-plus-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg><p><?php echo get_field('p_10'); ?></p></div>
-<div class="icon-plus-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><p><?php echo get_field('p_11'); ?></p></div>
-<div class="icon-plus-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" x2="12" y1="22.08" y2="12"></line></svg><p><?php echo get_field('p_12'); ?></p></div>
-<div class="icon-plus-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg><p><?php echo get_field('p_13'); ?></p></div>
-<div class="icon-plus-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" x2="6" y1="1" y2="4"></line><line x1="10" x2="10" y1="1" y2="4"></line><line x1="14" x2="14" y1="1" y2="4"></line></svg><p><?php echo get_field('p_14'); ?></p></div>
-<div class="icon-plus-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="18.5" cy="17.5" r="3.5"></circle><polyline points="15 6 10 6 10 17.5"></polyline><line x1="15" x2="18.5" y1="6" y2="14"></line><line x1="10" x2="15" y1="11" y2="11"></line></svg><p><?php echo get_field('p_15'); ?></p></div>
-<div class="icon-plus-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><p><?php echo get_field('p_16'); ?></p></div>
+<div class="icon-plus-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg><p><?php echo esc_html(get_field('p_8')); ?></p></div>
+<div class="icon-plus-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg><p><?php echo esc_html(get_field('p_9')); ?></p></div>
+<div class="icon-plus-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg><p><?php echo esc_html(get_field('p_10')); ?></p></div>
+<div class="icon-plus-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><p><?php echo esc_html(get_field('p_11')); ?></p></div>
+<div class="icon-plus-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" x2="12" y1="22.08" y2="12"></line></svg><p><?php echo esc_html(get_field('p_12')); ?></p></div>
+<div class="icon-plus-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg><p><?php echo esc_html(get_field('p_13')); ?></p></div>
+<div class="icon-plus-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" x2="6" y1="1" y2="4"></line><line x1="10" x2="10" y1="1" y2="4"></line><line x1="14" x2="14" y1="1" y2="4"></line></svg><p><?php echo esc_html(get_field('p_14')); ?></p></div>
+<div class="icon-plus-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="18.5" cy="17.5" r="3.5"></circle><polyline points="15 6 10 6 10 17.5"></polyline><line x1="15" x2="18.5" y1="6" y2="14"></line><line x1="10" x2="15" y1="11" y2="11"></line></svg><p><?php echo esc_html(get_field('p_15')); ?></p></div>
+<div class="icon-plus-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><p><?php echo esc_html(get_field('p_16')); ?></p></div>
 </div>
 </div>
 
@@ -329,12 +329,12 @@ get_header();
 </div>
 <div class="container">
 <div class="impact-card animate-fadeInLeft" style="background: var(--glass-bg-dark); box-shadow: var(--glass-shadow-lg); backdrop-filter: var(--glass-blur); border-radius: var(--radius-card);">
-<span class="text-overline" style="color: var(--color-bg-ivory);"><?php echo get_field('overline_21'); ?></span>
-<h2 style="margin-top: 1rem; color: var(--color-bg-ivory);"><?php echo get_field('h2_18'); ?></h2>
-<p style="color: var(--color-bg-ivory);"><?php echo get_field('p_19'); ?></p>
-<p style="color: var(--color-bg-ivory);"><?php echo get_field('p_20'); ?></p>
+<span class="text-overline" style="color: var(--color-bg-ivory);"><?php echo esc_html(get_field('overline_21')); ?></span>
+<h2 style="margin-top: 1rem; color: var(--color-bg-ivory);"><?php echo esc_html(get_field('h2_18')); ?></h2>
+<p style="color: var(--color-bg-ivory);"><?php echo esc_html(get_field('p_19')); ?></p>
+<p style="color: var(--color-bg-ivory);"><?php echo esc_html(get_field('p_20')); ?></p>
 <div style="display: flex; align-items: center; gap: var(--space-md); margin-top: var(--space-lg);">
-<span style="font-size: 0.9rem; font-weight: 600; color: var(--color-bg-ivory);">Verified Global Standards</span>
+<span style="font-size: 0.9rem; font-weight: 600; color: var(--color-bg-ivory);"><?php echo esc_html(get_field('proposed_impact_gptw_badge') ?: 'Verified Global Standards'); ?></span>
 </div>
 </div>
 </div>
@@ -345,10 +345,10 @@ get_header();
   <div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split">
 <div class="split__content animate-fadeInLeft">
-<span class="text-overline"><?php echo get_field('overline_27'); ?></span>
-<h2 style="margin-top: 1rem; margin-bottom: var(--space-md);"><?php echo get_field('h2_24'); ?></h2>
-<p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8;"><?php echo get_field('p_25'); ?></p>
-<p style="color: var(--color-text-muted); line-height: 1.8;"><?php echo get_field('p_26'); ?></p>
+<span class="text-overline"><?php echo esc_html(get_field('overline_27')); ?></span>
+<h2 style="margin-top: 1rem; margin-bottom: var(--space-md);"><?php echo esc_html(get_field('h2_24')); ?></h2>
+<p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8;"><?php echo esc_html(get_field('p_25')); ?></p>
+<p style="color: var(--color-text-muted); line-height: 1.8;"><?php echo esc_html(get_field('p_26')); ?></p>
 </div>
 <div class="split__media animate-fadeInRight">
 <div class="cda-card-large" style="overflow: hidden; position: relative;">
@@ -412,10 +412,10 @@ get_header();
       </div>
       <!-- context in the right -->
       <div class="split__content animate-fadeInRight" style="position: relative; z-index: 2;">
-        <span class="text-overline"><?php echo get_field('overline_33'); ?></span>
-        <h2 style="margin-top: 1rem; margin-bottom: var(--space-md); font-family: var(--font-heading);"><?php echo get_field('h2_30'); ?></h2>
-        <p style="color: var(--color-text-muted); line-height: 1.8; margin-bottom: var(--space-md);"><?php echo get_field('p_31'); ?></p>
-        <p style="color: var(--color-text-muted); line-height: 1.8;"><?php echo get_field('p_32'); ?></p>
+        <span class="text-overline"><?php echo esc_html(get_field('overline_33')); ?></span>
+        <h2 style="margin-top: 1rem; margin-bottom: var(--space-md); font-family: var(--font-heading);"><?php echo esc_html(get_field('h2_30')); ?></h2>
+        <p style="color: var(--color-text-muted); line-height: 1.8; margin-bottom: var(--space-md);"><?php echo esc_html(get_field('p_31')); ?></p>
+        <p style="color: var(--color-text-muted); line-height: 1.8;"><?php echo esc_html(get_field('p_32')); ?></p>
       </div>
     </div>
   </div>
@@ -448,9 +448,9 @@ get_header();
   <div class="container" style="position: relative; z-index: 2;">
 <div class="partners-section-2-col">
 <div class="animate-fadeInLeft">
-<span class="text-overline"><?php echo get_field('overline_37'); ?></span>
-<h2 style="font-family: var(--font-heading); color: var(--color-primary); margin-bottom: var(--space-md);"><?php echo get_field('h2_35'); ?></h2>
-<p style="color: var(--color-text-muted); line-height: 1.8; font-size: 1.05rem;"><?php echo get_field('p_36'); ?></p>
+<span class="text-overline"><?php echo esc_html(get_field('overline_37')); ?></span>
+<h2 style="font-family: var(--font-heading); color: var(--color-primary); margin-bottom: var(--space-md);"><?php echo esc_html(get_field('h2_35')); ?></h2>
+<p style="color: var(--color-text-muted); line-height: 1.8; font-size: 1.05rem;"><?php echo esc_html(get_field('p_36')); ?></p>
 </div>
 <div class="animate-fadeInRight">
 <div class="brand-logos-3x3">

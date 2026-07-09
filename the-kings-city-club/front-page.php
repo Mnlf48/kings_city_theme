@@ -25,18 +25,34 @@ get_header();
 <h1 class="hero__title hero__title--inner"><?php $h = get_field('hero_section_txt_4'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></h1>
 <p class="hero__subtitle"><?php $h = get_field('hero_section_txt_5'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></p>
 <div class="hero__actions hero__actions--index" style="display: block; margin-top: 40px; height: 54px; overflow: hidden;">
-<a class="btn" href="<?php echo esc_url( home_url( '/apply/' ) ); ?>">
-<?php 
-  // Strip ALL tags to prevent WP from injecting <p> inside the button
-  echo trim(strip_tags(get_field('hero_section_txt_7'))); 
+<?php
+$hero_btn_url = get_field('proposed_hero_btn_url') ?: home_url('/apply/');
 ?>
-</a>
+<a class="btn" href="<?php echo esc_url($hero_btn_url); ?>"><?php echo esc_html(get_field('hero_section_txt_7') ?: 'Become a Member'); ?></a>
 </div>
 </div>
 </div>
 </div>
 </section>
 <!-- spaces section -->
+<?php
+$space_btn_text = get_field('proposed_space_btn_text') ?: 'Learn More';
+$space_btn_url  = get_field('proposed_space_btn_url')  ?: home_url('/spaces/');
+
+$kc_clicks_coworking      = (int) get_option('kc_clicks_coworking', 0);
+$kc_clicks_private_office = (int) get_option('kc_clicks_private_office', 0);
+$kc_clicks_enterprise     = (int) get_option('kc_clicks_enterprise', 0);
+$kc_clicks_on_demand      = (int) get_option('kc_clicks_on_demand', 0);
+$kc_clicks_virtual_office = (int) get_option('kc_clicks_virtual_office', 0);
+$kc_clicks_meeting_rooms  = (int) get_option('kc_clicks_meeting_rooms', 0);
+
+$kc_track_coworking      = esc_url(add_query_arg('kc_track', 'coworking', home_url('/')));
+$kc_track_private_office = esc_url(add_query_arg('kc_track', 'private-office', home_url('/')));
+$kc_track_enterprise     = esc_url(add_query_arg('kc_track', 'enterprise', home_url('/')));
+$kc_track_on_demand      = esc_url(add_query_arg('kc_track', 'on-demand', home_url('/')));
+$kc_track_virtual_office = esc_url(add_query_arg('kc_track', 'virtual-office', home_url('/')));
+$kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', home_url('/')));
+?>
 <section class="section content-panel" style="position: relative; overflow: hidden;">
 <!-- Background floating confetti -->
 <style>
@@ -56,7 +72,7 @@ get_header();
 </div>
 <div class="spaces-grid stagger-children">
 <!-- space card 1 -->
-<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo esc_url( home_url( '/spaces/' ) ); ?>'" style="cursor: pointer;">
+<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo $kc_track_coworking; ?>'" style="cursor: pointer;">
 <div class="space-card__img-wrap">
 <img alt="Coworking Space" class="space-card__img" src="<?php echo kc_img('section_img_8', 'front-page-img/kings-img45.webp'); ?>" loading="lazy"/>
 </div>
@@ -65,7 +81,7 @@ get_header();
 <p class="space-card__desc"><?php echo get_field('section_txt_18'); ?></p>
 </div>
 <div class="space-card__footer">
-<a class="btn btn--small" href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>">Learn More</a>
+<a class="btn btn--small" href="<?php echo esc_url($space_btn_url); ?>"><?php echo esc_html($space_btn_text); ?></a>
 <div class="space-card__capacity" style="display:flex; align-items:center; gap:0.5rem; font-weight:600; color:var(--color-primary);">
 <div class="bg-ivory" style=" color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16">
@@ -75,12 +91,12 @@ get_header();
 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
 </svg>
 </div>
-<span><?php echo get_field('section_txt_23'); ?></span>
+<span><?php echo esc_html($kc_clicks_coworking); ?></span>
 </div>
 </div>
 </article>
 <!-- space card 2 -->
-<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo esc_url( home_url( '/spaces/' ) ); ?>'" style="cursor: pointer; animation-delay: 0.1s;">
+<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo $kc_track_private_office; ?>'" style="cursor: pointer; animation-delay: 0.1s;">
 <div class="space-card__img-wrap">
 <img alt="Private Office Space" class="space-card__img" src="<?php echo kc_img('section_img_9', 'front-page-img/kings-img48.webp'); ?>" loading="lazy"/>
 </div>
@@ -89,7 +105,7 @@ get_header();
 <p class="space-card__desc"><?php echo get_field('section_txt_19'); ?></p>
 </div>
 <div class="space-card__footer">
-<a class="btn btn--small" href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>">Learn More</a>
+<a class="btn btn--small" href="<?php echo esc_url($space_btn_url); ?>"><?php echo esc_html($space_btn_text); ?></a>
 <div class="space-card__capacity" style="display:flex; align-items:center; gap:0.5rem; font-weight:600; color:var(--color-primary);">
 <div class="bg-ivory" style=" color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16">
@@ -99,12 +115,12 @@ get_header();
 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
 </svg>
 </div>
-<span><?php echo get_field('section_txt_24'); ?></span>
+<span><?php echo esc_html($kc_clicks_private_office); ?></span>
 </div>
 </div>
 </article>
 <!-- space card 3 -->
-<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo esc_url( home_url( '/spaces/' ) ); ?>'" style="cursor: pointer; animation-delay: 0.2s;">
+<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo $kc_track_enterprise; ?>'" style="cursor: pointer; animation-delay: 0.2s;">
 <div class="space-card__img-wrap">
 <img alt="Enterprise" class="space-card__img" src="<?php echo kc_img('section_img_10', 'front-page-img/kings-img26.webp'); ?>" loading="lazy"/>
 </div>
@@ -113,7 +129,7 @@ get_header();
 <p class="space-card__desc"><?php echo get_field('section_txt_20'); ?></p>
 </div>
 <div class="space-card__footer">
-<a class="btn btn--small" href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>">Learn More</a>
+<a class="btn btn--small" href="<?php echo esc_url($space_btn_url); ?>"><?php echo esc_html($space_btn_text); ?></a>
 <div class="space-card__capacity" style="display:flex; align-items:center; gap:0.5rem; font-weight:600; color:var(--color-primary);">
 <div class="bg-ivory" style=" color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16">
@@ -123,12 +139,12 @@ get_header();
 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
 </svg>
 </div>
-<span><?php echo get_field('section_txt_25'); ?></span>
+<span><?php echo esc_html($kc_clicks_enterprise); ?></span>
 </div>
 </div>
 </article>
 <!-- space card 4 -->
-<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo esc_url( home_url( '/spaces/' ) ); ?>'" style="cursor: pointer; animation-delay: 0.3s;">
+<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo $kc_track_on_demand; ?>'" style="cursor: pointer; animation-delay: 0.3s;">
 <div class="space-card__img-wrap">
 <img alt="On-Demand" class="space-card__img" src="<?php echo kc_img('section_img_11', 'front-page-img/kings-img32.webp'); ?>" loading="lazy"/>
 </div>
@@ -137,7 +153,7 @@ get_header();
 <p class="space-card__desc"><?php echo get_field('section_txt_21'); ?></p>
 </div>
 <div class="space-card__footer">
-<a class="btn btn--small" href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>">Learn More</a>
+<a class="btn btn--small" href="<?php echo esc_url($space_btn_url); ?>"><?php echo esc_html($space_btn_text); ?></a>
 <div class="space-card__capacity" style="display:flex; align-items:center; gap:0.5rem; font-weight:600; color:var(--color-primary);">
 <div class="bg-ivory" style=" color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16">
@@ -147,12 +163,12 @@ get_header();
 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
 </svg>
 </div>
-<span><?php echo get_field('section_txt_26'); ?></span>
+<span><?php echo esc_html($kc_clicks_on_demand); ?></span>
 </div>
 </div>
 </article>
 <!-- space card 5 -->
-<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo esc_url( home_url( '/spaces/' ) ); ?>'" style="cursor: pointer; animation-delay: 0.4s;">
+<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo $kc_track_virtual_office; ?>'" style="cursor: pointer; animation-delay: 0.4s;">
 <div class="space-card__img-wrap">
 <img alt="Virtual Office" class="space-card__img" src="<?php echo kc_img('section_img_100', 'front-page-img/kings-img74.webp'); ?>" loading="lazy"/>
 </div>
@@ -161,7 +177,7 @@ get_header();
 <p class="space-card__desc"><?php echo get_field('section_txt_102'); ?></p>
 </div>
 <div class="space-card__footer">
-<a class="btn btn--small" href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>">Learn More</a>
+<a class="btn btn--small" href="<?php echo esc_url($space_btn_url); ?>"><?php echo esc_html($space_btn_text); ?></a>
 <div class="space-card__capacity" style="display:flex; align-items:center; gap:0.5rem; font-weight:600; color:var(--color-primary);">
 <div class="bg-ivory" style=" color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16">
@@ -171,12 +187,12 @@ get_header();
 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
 </svg>
 </div>
-<span><?php echo get_field('section_txt_103'); ?></span>
+<span><?php echo esc_html($kc_clicks_virtual_office); ?></span>
 </div>
 </div>
 </article>
 <!-- space card 6 -->
-<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo esc_url( home_url( '/spaces/' ) ); ?>'" style="cursor: pointer; animation-delay: 0.5s;">
+<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo $kc_track_meeting_rooms; ?>'" style="cursor: pointer; animation-delay: 0.5s;">
 <div class="space-card__img-wrap">
 <img alt="Meeting Rooms" class="space-card__img" src="<?php echo kc_img('section_img_104', 'front-page-img/kings-img73.webp'); ?>" loading="lazy"/>
 </div>
@@ -185,7 +201,7 @@ get_header();
 <p class="space-card__desc"><?php echo get_field('section_txt_106'); ?></p>
 </div>
 <div class="space-card__footer">
-<a class="btn btn--small" href="<?php echo esc_url( home_url( '/spaces/' ) ); ?>">Learn More</a>
+<a class="btn btn--small" href="<?php echo esc_url($space_btn_url); ?>"><?php echo esc_html($space_btn_text); ?></a>
 <div class="space-card__capacity" style="display:flex; align-items:center; gap:0.5rem; font-weight:600; color:var(--color-primary);">
 <div class="bg-ivory" style=" color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16">
@@ -195,7 +211,7 @@ get_header();
 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
 </svg>
 </div>
-<span><?php echo get_field('section_txt_107'); ?></span>
+<span><?php echo esc_html($kc_clicks_meeting_rooms); ?></span>
 </div>
 </div>
 </article>
@@ -234,6 +250,12 @@ get_header();
 <span class="text-overline" style="color: var(--color-bg-ivory); opacity: 0.8;"><?php echo get_field('section_txt_35'); ?></span>
 <h2 style="color: var(--color-bg-ivory); margin-bottom: var(--space-md);"><?php echo get_field('section_txt_33'); ?></h2>
 <p class="text-lead" style="color: var(--color-bg-ivory); opacity: 0.9;"><?php echo get_field('section_txt_34'); ?></p>
+<?php
+$off_perk_1  = get_field('proposed_offshoring_perk_1') ?: 'Local Dedicated Talent';
+$off_perk_2  = get_field('proposed_offshoring_perk_2') ?: 'Fully Maintained Facilities';
+$off_perk_3  = get_field('proposed_offshoring_perk_3') ?: 'Professional HR Framework';
+$off_btn_url = get_field('proposed_offshoring_btn_url') ?: home_url('/apply/');
+?>
 <ul class="perks-list perks-list--offshoring" style="margin-bottom: var(--space-lg); color: var(--color-bg-ivory);">
 <li>
 <div class="perk-bubble" style="box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
@@ -241,7 +263,7 @@ get_header();
 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 12 2"></polygon>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;">Local Dedicated Talent</span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html($off_perk_1); ?></span>
 </li>
 <li>
 <div class="perk-bubble" style="box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
@@ -259,7 +281,7 @@ get_header();
 <path d="M8 14h.01"></path>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;">Fully Maintained Facilities</span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html($off_perk_2); ?></span>
 </li>
 <li>
 <div class="perk-bubble" style="box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
@@ -270,13 +292,11 @@ get_header();
 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;">Professional HR Framework</span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html($off_perk_3); ?></span>
 </li>
 </ul>
 <div style="margin-top: var(--space-md);">
-<a class="btn" href="<?php echo esc_url( home_url( '/apply/' ) ); ?>">
-<?php echo trim(strip_tags(get_field('section_txt_36'))); ?>
-</a>
+<a class="btn" href="<?php echo esc_url($off_btn_url); ?>"><?php echo esc_html(get_field('section_txt_36') ?: 'Calculate Staffing Costs'); ?></a>
 </div>
 </div>
 <div class="split__media">
@@ -593,8 +613,12 @@ get_header();
 <h2 style="color: var(--color-bg-ivory); margin-bottom: var(--space-md);"><?php echo get_field('section_txt_69'); ?></h2>
 <p style="color: var(--color-bg-ivory); margin-bottom: var(--space-md); line-height: 1.7;"><?php echo get_field('section_txt_70'); ?></p>
 <p style="color: var(--color-bg-ivory); margin-bottom: var(--space-xl); line-height: 1.7;"><?php echo get_field('section_txt_71'); ?></p>
+<?php
+$impact_btn_text = get_field('proposed_impact_btn_text') ?: 'Learn More';
+$impact_btn_url  = get_field('proposed_impact_btn_url')  ?: home_url('/impact/');
+?>
 <div style="display: flex; align-items: center; gap: var(--space-lg); flex-wrap: wrap;">
-<a class="btn" href="<?php echo esc_url( home_url( '/impact/' ) ); ?>">Learn More</a>
+<a class="btn" href="<?php echo esc_url($impact_btn_url); ?>"><?php echo esc_html($impact_btn_text); ?></a>
 </div>
 </div>
 </div>
@@ -623,8 +647,9 @@ $news_url = !empty($news_pages) ? get_permalink($news_pages[0]->ID) : home_url('
 <span class="text-overline"><?php echo get_field('section_txt_85'); ?></span>
 <h2 style="color: #BD451F; margin-bottom: 0;"><?php echo get_field('section_txt_78'); ?></h2>
 </div>
+<?php $news_btn_text = get_field('proposed_news_btn_text') ?: 'Read News'; ?>
 <div class="journal-cta-wrap journal-cta-wrap--desktop" style="align-self: flex-end; margin-bottom: 5px;">
-<a class="btn" href="<?php echo esc_url( $news_url ); ?>">Read News <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="margin-left: 8px;" viewbox="0 0 24 24" width="16">
+<a class="btn" href="<?php echo esc_url( $news_url ); ?>"><?php echo esc_html($news_btn_text); ?> <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="margin-left: 8px;" viewbox="0 0 24 24" width="16">
 <line x1="5" x2="19" y1="12" y2="12"></line>
 <polyline points="12 5 19 12 12 19"></polyline>
 </svg></a>
@@ -672,7 +697,7 @@ else:
 </div>
 <!-- mobile read news cta -->
 <div class="journal-cta-wrap journal-cta-wrap--mobile text-right" style="margin-top: var(--space-md);">
-<a class="btn" href="<?php echo esc_url( $news_url ); ?>">Read News <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="margin-left: 8px;" viewbox="0 0 24 24" width="16">
+<a class="btn" href="<?php echo esc_url( $news_url ); ?>"><?php echo esc_html($news_btn_text); ?> <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="margin-left: 8px;" viewbox="0 0 24 24" width="16">
 <line x1="5" x2="19" y1="12" y2="12"></line>
 <polyline points="12 5 19 12 12 19"></polyline>
 </svg></a>
