@@ -88,7 +88,7 @@ acf_add_local_field_group(array(
             'key'           => 'field_proposed_hero_btn_url',
             'label'         => 'Button URL',
             'name'          => 'proposed_hero_btn_url',
-            'type'          => 'url',
+            'type'          => 'text',
             'default_value' => '',
             'wrapper'       => array('width' => '50'),
         ),
@@ -138,7 +138,7 @@ acf_add_local_field_group(array(
             'key'           => 'field_proposed_space_btn_url',
             'label'         => 'Card Button URL',
             'name'          => 'proposed_space_btn_url',
-            'type'          => 'url',
+            'type'          => 'text',
             'default_value' => '',
             'wrapper'       => array('width' => '50'),
         ),
@@ -372,7 +372,7 @@ acf_add_local_field_group(array(
             'key'           => 'field_proposed_offshoring_btn_url',
             'label'         => 'Button URL',
             'name'          => 'proposed_offshoring_btn_url',
-            'type'          => 'url',
+            'type'          => 'text',
             'default_value' => '',
             'wrapper'       => array('width' => '50'),
         ),
@@ -729,7 +729,7 @@ acf_add_local_field_group(array(
             'key'           => 'field_proposed_impact_btn_url',
             'label'         => 'Button URL',
             'name'          => 'proposed_impact_btn_url',
-            'type'          => 'url',
+            'type'          => 'text',
             'default_value' => '',
             'wrapper'       => array('width' => '50'),
         ),
@@ -830,7 +830,7 @@ acf_add_local_field_group(array(
             'key'           => 'field_group_about_proposed_hero_btn_url',
             'label'         => 'Hero — Button URL',
             'name'          => 'proposed_about_hero_btn_url',
-            'type'          => 'url',
+            'type'          => 'text',
             'default_value' => '#our-story',
             'wrapper'       => array('width' => '50'),
         ),
@@ -1508,7 +1508,7 @@ acf_add_local_field_group(array(
             'key'           => 'field_group_spaces_proposed_hero_btn_url',
             'label'         => 'Hero — Button URL',
             'name'          => 'proposed_spaces_hero_btn_url',
-            'type'          => 'url',
+            'type'          => 'text',
             'wrapper'       => array('width' => '50'),
         ),
         array(
@@ -2532,7 +2532,7 @@ acf_add_local_field_group(array(
             'key'     => 'field_group_offshoring_model1_btn_url',
             'label'   => 'Model 1 — Button URL',
             'name'    => 'model1_btn_url',
-            'type'    => 'url',
+            'type'    => 'text',
             'wrapper' => array('width' => '50'),
         ),
 
@@ -2565,7 +2565,7 @@ acf_add_local_field_group(array(
             'key'     => 'field_group_offshoring_model2_btn_url',
             'label'   => 'Model 2 — Button URL',
             'name'    => 'model2_btn_url',
-            'type'    => 'url',
+            'type'    => 'text',
             'wrapper' => array('width' => '50'),
         ),
 
@@ -4470,6 +4470,71 @@ acf_add_local_field_group(array(
 ));
 
 
+
+acf_add_local_field_group(array(
+    'key'   => 'group_404',
+    'title' => '404 Page',
+    'fields' => array(
+
+        // ── TAB: Content ────────────────────────────────────────────────────
+        array(
+            'key'       => 'field_tab_404_content',
+            'label'     => 'Content',
+            'name'      => '',
+            'type'      => 'tab',
+            'placement' => 'left',
+            'endpoint'  => 0,
+        ),
+        array(
+            'key'           => 'field_404_heading',
+            'label'         => 'Heading',
+            'name'          => 'err_heading',
+            'type'          => 'text',
+            'default_value' => 'Page Not Found',
+            'wrapper'       => array('width' => '50'),
+        ),
+        array(
+            'key'           => 'field_404_subheading',
+            'label'         => 'Subheading',
+            'name'          => 'err_subheading',
+            'type'          => 'text',
+            'default_value' => 'Oops — looks like this page took the day off.',
+            'wrapper'       => array('width' => '50'),
+        ),
+        array(
+            'key'           => 'field_404_body',
+            'label'         => 'Body Paragraph',
+            'name'          => 'err_body',
+            'type'          => 'textarea',
+            'rows'          => 2,
+            'default_value' => 'The page you are looking for doesn\'t exist or has been moved. Let\'s get you back on track.',
+        ),
+        array(
+            'key'           => 'field_404_btn_label',
+            'label'         => 'Button Label',
+            'name'          => 'err_btn_label',
+            'type'          => 'text',
+            'default_value' => 'Back to Homepage',
+            'wrapper'       => array('width' => '50'),
+        ),
+
+    ),
+    'location' => array(
+        array(
+            array(
+                'param'    => 'page_template',
+                'operator' => '==',
+                'value'    => 'page-404-settings.php',
+            ),
+        ),
+    ),
+    'menu_order'            => 0,
+    'position'              => 'normal',
+    'style'                 => 'seamless',
+    'label_placement'       => 'top',
+    'instruction_placement' => 'label',
+    'active'                => true,
+));
 
 endif;
 

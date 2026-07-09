@@ -177,7 +177,8 @@ function kings_city_auto_populate_pages() {
         'Impact' => 'page-impact.php',
         'News & Insights' => 'page-news.php',
         'Apply Now' => 'page-apply.php',
-        'Book a Tour' => 'page-book-now.php'
+        'Book a Tour'    => 'page-book-now.php',
+        '404 Settings'   => 'page-404-settings.php',
     );
 
     $home_page_id = 0;
@@ -217,6 +218,27 @@ function kings_city_auto_populate_pages() {
     }
 }
 add_action( 'after_switch_theme', 'kings_city_auto_populate_pages' );
+
+// Create any missing auto-populate pages without requiring a theme re-activation.
+add_action( 'admin_init', function () {
+    $pages = array(
+        '404 Settings' => 'page-404-settings.php',
+    );
+    foreach ( $pages as $title => $template ) {
+        if ( ! get_page_by_title( $title ) ) {
+            $id = wp_insert_post( array(
+                'post_type'    => 'page',
+                'post_title'   => $title,
+                'post_content' => '',
+                'post_status'  => 'publish',
+                'post_author'  => 1,
+            ) );
+            if ( $id && ! is_wp_error( $id ) ) {
+                update_post_meta( $id, '_wp_page_template', $template );
+            }
+        }
+    }
+});
 
 /* =========================================================================
    Register Custom Post Types & Taxonomies
@@ -407,6 +429,19 @@ function kc_inline_status_js() {
  * Helper function for ACF images with a local theme fallback.
  * Allows images to be cleared from the WP Media Library without breaking the site.
  */
+// Resolves an ACF URL field so it works on both localhost and production.
+// - Anchors (#section) and full URLs (https://) pass through unchanged.
+// - Relative paths (/page/) are prepended with home_url() so they resolve
+//   correctly regardless of whether WP is installed in a subdirectory.
+function kc_url($acf_field_name, $fallback = '', $post_id = false) {
+    $value = get_field($acf_field_name, $post_id) ?: $fallback;
+    if (!$value) return '';
+    if ($value[0] === '#' || preg_match('#^https?://#i', $value)) {
+        return esc_url($value);
+    }
+    return esc_url(home_url('/' . ltrim($value, '/')));
+}
+
 function kc_img($acf_field_name, $fallback_image_path, $post_id = false) {
     $img = get_field($acf_field_name, $post_id);
     // If image exists in ACF (Wordpress Admin), use it
@@ -450,7 +485,7 @@ add_action('template_redirect', function () {
         update_option($map[$space], $current + 1, false);
     }
 
-    $spaces_url = get_field('proposed_space_btn_url', get_queried_object_id()) ?: home_url('/spaces/');
-    wp_redirect(esc_url_raw($spaces_url), 302);
+    $spaces_url = kc_url('proposed_space_btn_url', '/spaces/', get_queried_object_id());
+    wp_redirect($spaces_url, 302);
     exit;
 });

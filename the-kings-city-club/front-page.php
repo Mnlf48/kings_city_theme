@@ -26,9 +26,9 @@ get_header();
 <p class="hero__subtitle"><?php $h = get_field('hero_section_txt_5'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></p>
 <div class="hero__actions hero__actions--index" style="display: block; margin-top: 40px; height: 54px; overflow: hidden;">
 <?php
-$hero_btn_url = get_field('proposed_hero_btn_url') ?: home_url('/apply/');
+$hero_btn_url = kc_url('proposed_hero_btn_url', '/apply/');
 ?>
-<a class="btn" href="<?php echo esc_url($hero_btn_url); ?>"><?php echo esc_html(get_field('hero_section_txt_7') ?: 'Become a Member'); ?></a>
+<a class="btn" href="<?php echo $hero_btn_url; ?>"><?php echo esc_html(get_field('hero_section_txt_7') ?: 'Become a Member'); ?></a>
 </div>
 </div>
 </div>
@@ -37,7 +37,7 @@ $hero_btn_url = get_field('proposed_hero_btn_url') ?: home_url('/apply/');
 <!-- spaces section -->
 <?php
 $space_btn_text = get_field('proposed_space_btn_text') ?: 'Learn More';
-$space_btn_url  = get_field('proposed_space_btn_url')  ?: home_url('/spaces/');
+$space_btn_url  = kc_url('proposed_space_btn_url', '/spaces/');
 
 $kc_clicks_coworking      = (int) get_option('kc_clicks_coworking', 0);
 $kc_clicks_private_office = (int) get_option('kc_clicks_private_office', 0);
@@ -81,7 +81,7 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <p class="space-card__desc"><?php echo get_field('section_txt_18'); ?></p>
 </div>
 <div class="space-card__footer">
-<a class="btn btn--small" href="<?php echo esc_url($space_btn_url); ?>"><?php echo esc_html($space_btn_text); ?></a>
+<a class="btn btn--small" href="<?php echo $space_btn_url; ?>"><?php echo esc_html($space_btn_text); ?></a>
 <div class="space-card__capacity" style="display:flex; align-items:center; gap:0.5rem; font-weight:600; color:var(--color-primary);">
 <div class="bg-ivory" style=" color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16">
@@ -105,7 +105,7 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <p class="space-card__desc"><?php echo get_field('section_txt_19'); ?></p>
 </div>
 <div class="space-card__footer">
-<a class="btn btn--small" href="<?php echo esc_url($space_btn_url); ?>"><?php echo esc_html($space_btn_text); ?></a>
+<a class="btn btn--small" href="<?php echo $space_btn_url; ?>"><?php echo esc_html($space_btn_text); ?></a>
 <div class="space-card__capacity" style="display:flex; align-items:center; gap:0.5rem; font-weight:600; color:var(--color-primary);">
 <div class="bg-ivory" style=" color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16">
@@ -129,7 +129,7 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <p class="space-card__desc"><?php echo get_field('section_txt_20'); ?></p>
 </div>
 <div class="space-card__footer">
-<a class="btn btn--small" href="<?php echo esc_url($space_btn_url); ?>"><?php echo esc_html($space_btn_text); ?></a>
+<a class="btn btn--small" href="<?php echo $space_btn_url; ?>"><?php echo esc_html($space_btn_text); ?></a>
 <div class="space-card__capacity" style="display:flex; align-items:center; gap:0.5rem; font-weight:600; color:var(--color-primary);">
 <div class="bg-ivory" style=" color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16">
@@ -153,7 +153,7 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <p class="space-card__desc"><?php echo get_field('section_txt_21'); ?></p>
 </div>
 <div class="space-card__footer">
-<a class="btn btn--small" href="<?php echo esc_url($space_btn_url); ?>"><?php echo esc_html($space_btn_text); ?></a>
+<a class="btn btn--small" href="<?php echo $space_btn_url; ?>"><?php echo esc_html($space_btn_text); ?></a>
 <div class="space-card__capacity" style="display:flex; align-items:center; gap:0.5rem; font-weight:600; color:var(--color-primary);">
 <div class="bg-ivory" style=" color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16">
@@ -177,7 +177,7 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <p class="space-card__desc"><?php echo get_field('section_txt_102'); ?></p>
 </div>
 <div class="space-card__footer">
-<a class="btn btn--small" href="<?php echo esc_url($space_btn_url); ?>"><?php echo esc_html($space_btn_text); ?></a>
+<a class="btn btn--small" href="<?php echo $space_btn_url; ?>"><?php echo esc_html($space_btn_text); ?></a>
 <div class="space-card__capacity" style="display:flex; align-items:center; gap:0.5rem; font-weight:600; color:var(--color-primary);">
 <div class="bg-ivory" style=" color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16">
@@ -201,7 +201,7 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <p class="space-card__desc"><?php echo get_field('section_txt_106'); ?></p>
 </div>
 <div class="space-card__footer">
-<a class="btn btn--small" href="<?php echo esc_url($space_btn_url); ?>"><?php echo esc_html($space_btn_text); ?></a>
+<a class="btn btn--small" href="<?php echo $space_btn_url; ?>"><?php echo esc_html($space_btn_text); ?></a>
 <div class="space-card__capacity" style="display:flex; align-items:center; gap:0.5rem; font-weight:600; color:var(--color-primary);">
 <div class="bg-ivory" style=" color: var(--color-accent-gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16">
@@ -254,7 +254,7 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 $off_perk_1  = get_field('proposed_offshoring_perk_1') ?: 'Local Dedicated Talent';
 $off_perk_2  = get_field('proposed_offshoring_perk_2') ?: 'Fully Maintained Facilities';
 $off_perk_3  = get_field('proposed_offshoring_perk_3') ?: 'Professional HR Framework';
-$off_btn_url = get_field('proposed_offshoring_btn_url') ?: home_url('/apply/');
+$off_btn_url = kc_url('proposed_offshoring_btn_url', '/apply/');
 ?>
 <ul class="perks-list perks-list--offshoring" style="margin-bottom: var(--space-lg); color: var(--color-bg-ivory);">
 <li>
@@ -296,7 +296,7 @@ $off_btn_url = get_field('proposed_offshoring_btn_url') ?: home_url('/apply/');
 </li>
 </ul>
 <div style="margin-top: var(--space-md);">
-<a class="btn" href="<?php echo esc_url($off_btn_url); ?>"><?php echo esc_html(get_field('section_txt_36') ?: 'Calculate Staffing Costs'); ?></a>
+<a class="btn" href="<?php echo $off_btn_url; ?>"><?php echo esc_html(get_field('section_txt_36') ?: 'Calculate Staffing Costs'); ?></a>
 </div>
 </div>
 <div class="split__media">
@@ -615,10 +615,10 @@ $off_btn_url = get_field('proposed_offshoring_btn_url') ?: home_url('/apply/');
 <p style="color: var(--color-bg-ivory); margin-bottom: var(--space-xl); line-height: 1.7;"><?php echo get_field('section_txt_71'); ?></p>
 <?php
 $impact_btn_text = get_field('proposed_impact_btn_text') ?: 'Learn More';
-$impact_btn_url  = get_field('proposed_impact_btn_url')  ?: home_url('/impact/');
+$impact_btn_url  = kc_url('proposed_impact_btn_url', '/impact/');
 ?>
 <div style="display: flex; align-items: center; gap: var(--space-lg); flex-wrap: wrap;">
-<a class="btn" href="<?php echo esc_url($impact_btn_url); ?>"><?php echo esc_html($impact_btn_text); ?></a>
+<a class="btn" href="<?php echo $impact_btn_url; ?>"><?php echo esc_html($impact_btn_text); ?></a>
 </div>
 </div>
 </div>

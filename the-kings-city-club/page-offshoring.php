@@ -196,7 +196,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <li><span class="badge badge--pink"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Employee engagement and performance frameworks</li>
 <li><span class="badge badge--pink"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Best for businesses scaling a dedicated offshore division</li>
 </ul>
-<a class="btn btn--red off-models-btn" href="<?php echo get_field('model1_btn_url') ? esc_url(get_field('model1_btn_url')) : $apply_url; ?>"><?php echo esc_html(get_field('model1_btn_text') ?: 'Get Started'); ?></a>
+<a class="btn btn--red off-models-btn" href="<?php echo kc_url('model1_btn_url', '/apply-now/'); ?>"><?php echo esc_html(get_field('model1_btn_text') ?: 'Get Started'); ?></a>
 </div>
 <!-- model 2 card -->
 <div class="off-models-card off-models-card--terracotta card-glass">
@@ -209,7 +209,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <li><span class="badge badge--terracotta"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Communicate your way via Zoom Skype email or on-site</li>
 <li><span class="badge badge--terracotta"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Best for targeted hires and growing teams quickly</li>
 </ul>
-<a class="btn btn--glass-white off-models-btn" href="<?php echo get_field('model2_btn_url') ? esc_url(get_field('model2_btn_url')) : $apply_url; ?>"><?php echo esc_html(get_field('model2_btn_text') ?: 'Request a Quote'); ?></a>
+<a class="btn btn--glass-white off-models-btn" href="<?php echo kc_url('model2_btn_url', '/apply-now/'); ?>"><?php echo esc_html(get_field('model2_btn_text') ?: 'Request a Quote'); ?></a>
 </div>
 </div>
 <!-- transparent billing callout -->
@@ -577,11 +577,11 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
           <p style="color: var(--color-primary); font-size: 1rem; opacity: 0.8; margin-bottom: var(--space-md);"><?php echo esc_html(get_field('off_contact_subtitle') ?: 'We\'d love to hear from you'); ?></p>
           
           <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <a href="<?php echo get_field('off_contact_ig') ?: '#'; ?>" style="color: var(--color-primary); display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 600; transition: transform 0.3s ease;">
+            <a href="<?php echo esc_url(get_field('off_contact_ig') ?: '#'); ?>" style="color: var(--color-primary); display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 600; transition: transform 0.3s ease;">
               <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><rect height="20" rx="5" ry="5" width="20" x="2" y="2" fill="rgba(255,255,255,0.5)" stroke="none"></rect><rect height="20" rx="5" ry="5" width="20" x="2" y="2"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
               Instagram
             </a>
-            <a href="<?php echo get_field('off_contact_fb') ?: '#'; ?>" style="color: var(--color-primary); display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 600; transition: transform 0.3s ease;">
+            <a href="<?php echo esc_url(get_field('off_contact_fb') ?: '#'); ?>" style="color: var(--color-primary); display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 600; transition: transform 0.3s ease;">
               <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><rect height="20" rx="5" ry="5" width="20" x="2" y="2" fill="rgba(255,255,255,0.5)" stroke="none"></rect><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
               Facebook
             </a>

@@ -29,9 +29,9 @@ if (stripos($h1_val, 'the kings city club') !== false) {
 <div class="hero__actions hero__actions--index">
 <?php
 $about_hero_btn_text = get_field('proposed_about_hero_btn_text') ?: 'Read Our Story';
-$about_hero_btn_url  = get_field('proposed_about_hero_btn_url')  ?: '#our-story';
+$about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 ?>
-<a class="btn" href="<?php echo esc_url($about_hero_btn_url); ?>"><?php echo esc_html($about_hero_btn_text); ?></a>
+<a class="btn" href="<?php echo $about_hero_btn_url; ?>"><?php echo esc_html($about_hero_btn_text); ?></a>
 </div>
 </div>
 <!-- slider on right -->
