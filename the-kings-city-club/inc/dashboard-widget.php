@@ -7,6 +7,10 @@ function kc_add_dashboard_widgets() {
         'Kings City Operations Dashboard',
         'kc_render_bookings_dashboard_widget'
     );
+
+    remove_meta_box('dashboard_primary',    'dashboard', 'side');  // WordPress Events and News
+    remove_meta_box('dashboard_quick_press', 'dashboard', 'side'); // Quick Draft
+    remove_meta_box('dashboard_right_now',  'dashboard', 'normal'); // At a Glance
 }
 add_action('wp_dashboard_setup', 'kc_add_dashboard_widgets');
 

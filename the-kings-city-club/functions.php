@@ -302,6 +302,9 @@ require_once get_template_directory() . '/inc/settings-email.php';
 // Welcome Packets (Newsletters)
 require_once get_template_directory() . '/inc/cpt-welcome-packets.php';
 
+// Mailing List (Stay in the Loop)
+require_once get_template_directory() . '/inc/mailing-list.php';
+
 // Booking AJAX — booked dates for calendar
 require_once get_template_directory() . '/inc/ajax-booked-dates.php';
 

@@ -4390,6 +4390,48 @@ acf_add_local_field_group(array(
             'wrapper' => array('width' => '50'),
         ),
 
+        // ── TAB: Stay in the Loop ───────────────────────────────────────────
+        array(
+            'key'       => 'field_tab_footer_loop',
+            'label'     => 'Stay in the Loop',
+            'name'      => '',
+            'type'      => 'tab',
+            'placement' => 'left',
+            'endpoint'  => 0,
+        ),
+        array(
+            'key'     => 'field_footer_loop_title',
+            'label'   => 'Section Title',
+            'name'    => 'footer_loop_title',
+            'type'    => 'text',
+            'default_value' => 'Stay in the Loop',
+            'wrapper' => array('width' => '50'),
+        ),
+        array(
+            'key'     => 'field_footer_loop_btn',
+            'label'   => 'Button Label',
+            'name'    => 'footer_loop_btn',
+            'type'    => 'text',
+            'default_value' => 'Keep Me Posted',
+            'wrapper' => array('width' => '50'),
+        ),
+        array(
+            'key'   => 'field_footer_loop_desc',
+            'label' => 'Description Text',
+            'name'  => 'footer_loop_desc',
+            'type'  => 'textarea',
+            'rows'  => 2,
+            'default_value' => 'Get the latest updates, exclusive news, and special invites straight to your inbox.',
+        ),
+        array(
+            'key'     => 'field_footer_loop_placeholder',
+            'label'   => 'Input Placeholder',
+            'name'    => 'footer_loop_placeholder',
+            'type'    => 'text',
+            'default_value' => 'Enter your email',
+            'wrapper' => array('width' => '50'),
+        ),
+
         // ── TAB: Bottom Bar ─────────────────────────────────────────────────
         array(
             'key'       => 'field_tab_footer_bottom',

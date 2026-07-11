@@ -29,19 +29,23 @@ function kc_email_templates_page() {
         'booking_rejected'  => 'Booking Rejected Email (Client)'
     );
 
-    $tabs = array_merge($quote_tabs, $booking_tabs);
+    $mailing_list_tabs = array(
+        'newsletter_broadcast' => 'Newsletter Broadcast (Mailing List)',
+    );
+
+    $tabs = array_merge($quote_tabs, $booking_tabs, $mailing_list_tabs);
 
     $active_tab = isset($_GET['tab']) && array_key_exists($_GET['tab'], $tabs) ? $_GET['tab'] : 'quote_contacted';
 
     // Save Data
     if (isset($_POST['kc_email_templates_nonce']) && wp_verify_nonce($_POST['kc_email_templates_nonce'], 'kc_save_email_templates')) {
         $prefix = 'kc_' . $active_tab . '_';
-        update_option($prefix . 'subject', sanitize_text_field($_POST['email_subject']));
-        update_option($prefix . 'heading', sanitize_text_field($_POST['email_heading']));
-        update_option($prefix . 'body', wp_kses_post($_POST['email_body']));
-        update_option($prefix . 'banner', sanitize_text_field($_POST['email_banner']));
-        update_option($prefix . 'btn_text', sanitize_text_field($_POST['email_btn_text']));
-        update_option($prefix . 'btn_url', esc_url_raw($_POST['email_btn_url']));
+        update_option($prefix . 'subject',  sanitize_text_field(wp_unslash($_POST['email_subject'])));
+        update_option($prefix . 'heading',  sanitize_text_field(wp_unslash($_POST['email_heading'])));
+        update_option($prefix . 'body',     wp_kses_post(wp_unslash($_POST['email_body'])));
+        update_option($prefix . 'banner',   sanitize_text_field(wp_unslash($_POST['email_banner'])));
+        update_option($prefix . 'btn_text', sanitize_text_field(wp_unslash($_POST['email_btn_text'])));
+        update_option($prefix . 'btn_url',  sanitize_text_field(wp_unslash($_POST['email_btn_url'])));
 
         echo '<div class="notice notice-success is-dismissible"><p>Email template settings saved successfully!</p></div>';
     }
@@ -86,6 +90,13 @@ function kc_email_templates_page() {
         $def_banner = 'We apologize for the inconvenience and hope to host you in the future.';
         $def_btn_text = '';
         $def_btn_url = '';
+    } elseif ($active_tab === 'newsletter_broadcast') {
+        $def_subject = 'News & Updates from The Kings City Club';
+        $def_heading = 'Stay in the Loop';
+        $def_body = "Hi there,\n\nWe have some exciting news and updates to share with you from The Kings City Club. Thank you for being part of our community — we're glad to keep you in the loop!";
+        $def_banner = '';
+        $def_btn_text = 'Visit Kings City';
+        $def_btn_url = '{site_url}';
     }
 
     $subject = get_option($prefix . 'subject', $def_subject);
@@ -133,6 +144,13 @@ function kc_email_templates_page() {
                         <?php echo esc_html($tab_name); ?>
                     </a>
                 <?php endforeach; ?>
+
+                <h3 class="kc-email-sidebar-heading" style="margin-top: 15px;">Mailing List</h3>
+                <?php foreach ($mailing_list_tabs as $tab_key => $tab_name): ?>
+                    <a href="?page=kc-email-templates&tab=<?php echo esc_attr($tab_key); ?>" class="kc-email-nav-item <?php echo $active_tab === $tab_key ? 'active' : ''; ?>">
+                        <?php echo esc_html($tab_name); ?>
+                    </a>
+                <?php endforeach; ?>
             </div>
 
             <!-- Content Area -->
@@ -171,6 +189,8 @@ function kc_email_templates_page() {
                                         echo '<br><span style="font-size: 12px;">Supported tokens: <code>{fname}</code>, <code>{space}</code>, <code>{date}</code>, <code>{duration}</code>, <code>{price}</code>, <code>{arrival}</code>, <code>{participants}</code>, <code>{admin_note}</code></span>';
                                     } elseif ($active_tab === 'booking_confirmed') {
                                         echo '<br><span style="font-size: 12px;">Supported tokens: <code>{fname}</code>, <code>{space}</code>, <code>{date}</code>, <code>{duration}</code>, <code>{price}</code>, <code>{arrival}</code>, <code>{participants}</code></span>';
+                                    } elseif ($active_tab === 'newsletter_broadcast') {
+                                        echo '<br><span style="font-size: 12px;">Supported tokens: <code>{site_url}</code> &nbsp;|&nbsp; <strong>Note:</strong> This template is used when sending a broadcast from the Mailing List page.</span>';
                                     } else {
                                         echo '<br><span style="font-size: 12px;">Supported tokens: <code>{client_name}</code>, <code>{client_email}</code>, <code>{site_url}</code></span>';
                                     }

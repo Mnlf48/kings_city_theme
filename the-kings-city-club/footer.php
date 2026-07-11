@@ -24,6 +24,11 @@
   $f_phone           = get_field('footer_phone', $footer_id) ?: '+63 ---- ---- ---';
   $f_email           = get_field('footer_email', $footer_id) ?: 'kingscity@kingsgroup.com.ph';
 
+  $f_loop_title       = get_field('footer_loop_title', $footer_id)       ?: 'Stay in the Loop';
+  $f_loop_desc        = get_field('footer_loop_desc', $footer_id)        ?: 'Get the latest updates, exclusive news, and special invites straight to your inbox.';
+  $f_loop_placeholder = get_field('footer_loop_placeholder', $footer_id) ?: 'Enter your email';
+  $f_loop_btn         = get_field('footer_loop_btn', $footer_id)         ?: 'Keep Me Posted';
+
   $f_copyright       = get_field('footer_copyright', $footer_id) ?: '2026 Home Culinary & Technical School. All rights reserved. | Powered by ITMonsters';
   $f_privacy_label   = get_field('footer_privacy_label', $footer_id) ?: 'Privacy Policy';
   $f_terms_label     = get_field('footer_terms_label', $footer_id) ?: 'Terms of Use';
@@ -76,6 +81,16 @@
           <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $f_phone)); ?>"><?php echo esc_html($f_phone); ?></a>
           <a href="mailto:<?php echo esc_attr($f_email); ?>"><?php echo esc_html($f_email); ?></a>
         </nav>
+
+        <div class="footer-loop">
+          <h4 class="footer-col__title footer-loop__title"><?php echo esc_html($f_loop_title); ?></h4>
+          <p class="footer-loop__desc"><?php echo esc_html($f_loop_desc); ?></p>
+          <form class="footer-loop__form" id="kc-loop-form" novalidate>
+            <input type="email" class="footer-loop__input" id="kc-loop-email" placeholder="<?php echo esc_attr($f_loop_placeholder); ?>" required aria-label="Email address" />
+            <button type="submit" class="footer-loop__btn"><?php echo esc_html($f_loop_btn); ?></button>
+          </form>
+          <p class="footer-loop__msg" id="kc-loop-msg" aria-live="polite"></p>
+        </div>
       </div>
 
     </div>
@@ -91,6 +106,57 @@
     </div>
   </div>
 </footer>
+
+<script>
+(function() {
+  var form  = document.getElementById('kc-loop-form');
+  var msg   = document.getElementById('kc-loop-msg');
+  if (!form) return;
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var email = document.getElementById('kc-loop-email').value.trim();
+    msg.textContent = '';
+    msg.className = 'footer-loop__msg';
+
+    if (!email) {
+      msg.textContent = 'Please enter your email address.';
+      msg.classList.add('footer-loop__msg--error');
+      return;
+    }
+
+    var btn = form.querySelector('.footer-loop__btn');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    var data = new FormData();
+    data.append('action', 'kc_mailing_list_subscribe');
+    data.append('email', email);
+    data.append('nonce', '<?php echo esc_js(wp_create_nonce("kc_mailing_list_nonce")); ?>');
+
+    fetch('<?php echo esc_url(admin_url("admin-ajax.php")); ?>', { method: 'POST', body: data })
+      .then(function(r) { return r.json(); })
+      .then(function(r) {
+        if (r.success) {
+          msg.textContent = r.data.message;
+          msg.classList.add('footer-loop__msg--success');
+          form.reset();
+        } else {
+          msg.textContent = r.data.message;
+          msg.classList.add('footer-loop__msg--error');
+        }
+        btn.disabled = false;
+        btn.textContent = 'Keep Me Posted';
+      })
+      .catch(function() {
+        msg.textContent = 'Something went wrong. Please try again.';
+        msg.classList.add('footer-loop__msg--error');
+        btn.disabled = false;
+        btn.textContent = 'Keep Me Posted';
+      });
+  });
+})();
+</script>
 
 <?php wp_footer(); ?>
 </body>
