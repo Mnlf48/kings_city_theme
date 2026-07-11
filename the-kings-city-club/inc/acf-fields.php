@@ -3932,6 +3932,16 @@ acf_add_local_field_group(array(
             'wrapper'       => array('width' => '33'),
         ),
 
+        array(
+            'key'         => 'field_group_book_now_bk_hero_video_url',
+            'label'       => 'Hero — Vimeo URL (overrides slider)',
+            'name'        => 'bk_hero_video_url',
+            'type'        => 'url',
+            'instructions'=> 'Paste a Vimeo URL e.g. https://vimeo.com/123456789. When filled, the video replaces the image slider.',
+            'placeholder' => 'https://vimeo.com/123456789',
+            'wrapper'     => array('width' => '100'),
+        ),
+
         // ── Tab 2: Booking Form Labels ──────────────────────────────────
         array(
             'key'       => 'field_tab_group_book_now_3',

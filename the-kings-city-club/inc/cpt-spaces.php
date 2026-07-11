@@ -430,9 +430,41 @@ add_filter('manage_edit-kc_space_sortable_columns', 'kc_space_sortable_columns')
 function kc_space_orderby_menu_order($query) {
     if (!is_admin() || !$query->is_main_query()) return;
     if ($query->get('post_type') !== 'kc_space') return;
-    if ($query->get('orderby') === 'menu_order') {
+    // Default the list to menu_order ASC when no explicit sort is chosen
+    if (!$query->get('orderby')) {
         $query->set('orderby', 'menu_order');
+        $query->set('order', 'ASC');
+    } elseif ($query->get('orderby') === 'menu_order') {
         $query->set('order', $query->get('order') ?: 'ASC');
     }
 }
 add_action('pre_get_posts', 'kc_space_orderby_menu_order');
+
+// ─── E. Auto-assign menu_order on first publish ───────────────────────────────
+// WordPress defaults all new posts to menu_order = 0, which floats them to the
+// top of the spaces list. This hook fires once — when a space transitions from
+// any status to 'publish' for the first time — and sets its order to max + 1.
+
+function kc_space_auto_order_on_publish( $new_status, $old_status, $post ) {
+    if ( $post->post_type !== 'kc_space' ) return;
+    if ( $new_status !== 'publish' ) return;
+    if ( $old_status === 'publish' ) return; // already published → skip re-saves
+    if ( (int) $post->menu_order !== 0 ) return; // user already set a custom order
+
+    $highest = get_posts([
+        'post_type'      => 'kc_space',
+        'posts_per_page' => 1,
+        'post_status'    => 'publish',
+        'orderby'        => 'menu_order',
+        'order'          => 'DESC',
+        'exclude'        => [ $post->ID ],
+        'fields'         => 'ids',
+    ]);
+
+    $max_order = $highest ? (int) get_post( $highest[0] )->menu_order : 0;
+
+    remove_action( 'transition_post_status', 'kc_space_auto_order_on_publish', 10 );
+    wp_update_post([ 'ID' => $post->ID, 'menu_order' => $max_order + 1 ]);
+    add_action( 'transition_post_status', 'kc_space_auto_order_on_publish', 10, 3 );
+}
+add_action( 'transition_post_status', 'kc_space_auto_order_on_publish', 10, 3 );

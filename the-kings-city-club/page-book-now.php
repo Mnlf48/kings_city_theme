@@ -321,11 +321,103 @@ get_header();
 <p class="hero__subtitle"><?php echo esc_html(get_field('p_2')); ?></p>
 </div>
 <!-- media on right -->
+<?php
+$bk_video_url = get_field('bk_hero_video_url');
+$bk_vimeo_id  = '';
+if ( $bk_video_url ) {
+    // Extract numeric ID from e.g. https://vimeo.com/123456789 or https://vimeo.com/channels/foo/123456789
+    if ( preg_match( '/vimeo\.com\/(?:.*\/)?(\d+)/', $bk_video_url, $bk_vm ) ) {
+        $bk_vimeo_id = $bk_vm[1];
+    }
+}
+?>
+<?php if ( $bk_vimeo_id ) :
+    $bk_thumb = kc_img( 'image_4', 'page-news-img/kings-img98.webp' );
+    $bk_title = esc_attr( get_field('h1_1') ?: 'Book a Tour' );
+?>
+<!-- Video facade: thumbnail + play button → portrait modal on click -->
+<div class="split__media kc-vid-thumb"
+     id="kc-vid-thumb"
+     role="button"
+     tabindex="0"
+     aria-label="Play video"
+     style="position:relative;aspect-ratio:4/3;overflow:hidden;border-radius:var(--radius-card);cursor:pointer;">
+    <img src="<?php echo esc_url( $bk_thumb ); ?>"
+         alt="<?php echo $bk_title; ?>"
+         style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s ease;" />
+    <div class="kc-vid-overlay" style="position:absolute;inset:0;background:rgba(0,0,0,.3);transition:background .3s;"></div>
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+        <div class="kc-play-circle" style="width:72px;height:72px;background:rgba(255,249,239,.95);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 28px rgba(0,0,0,.28);transition:transform .25s,box-shadow .25s;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="#BD451F" style="margin-left:4px;">
+                <polygon points="5,3 19,12 5,21"/>
+            </svg>
+        </div>
+    </div>
+</div>
+<style>
+    #kc-vid-thumb:hover .kc-vid-overlay { background: rgba(0,0,0,.45) !important; }
+    #kc-vid-thumb:hover .kc-play-circle { transform: scale(1.1); box-shadow: 0 10px 36px rgba(0,0,0,.38) !important; }
+    #kc-vid-thumb:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 3px; }
+</style>
+
+<!-- Portrait video modal: iframe preloaded hidden so video is buffered before user clicks -->
+<div id="kc-vid-modal"
+     role="dialog"
+     aria-modal="true"
+     aria-label="Video player"
+     style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);align-items:center;justify-content:center;padding:1rem;">
+    <button id="kc-vid-close"
+            aria-label="Close video"
+            style="position:absolute;top:1.25rem;right:1.5rem;background:none;border:none;color:#fff;font-size:2.5rem;line-height:1;cursor:pointer;opacity:.75;transition:opacity .2s;"
+            onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=.75">&times;</button>
+    <div style="position:relative;width:min(92vw,calc(82vh*(9/16)));aspect-ratio:9/16;">
+        <!-- iframe rendered at page load so Vimeo buffers immediately; visibility toggled via JS -->
+        <iframe id="kc-vid-iframe"
+                src="https://player.vimeo.com/video/<?php echo esc_attr( $bk_vimeo_id ); ?>?badge=0&autopause=0&player_id=0&app_id=58479&background=0"
+                style="width:100%;height:100%;border:0;border-radius:var(--radius-card);"
+                allow="autoplay;fullscreen;picture-in-picture;clipboard-write;encrypted-media"
+                allowfullscreen
+                title="<?php echo $bk_title; ?>"></iframe>
+    </div>
+</div>
+
+<!-- Vimeo Player SDK — gives us play()/pause() without recreating the iframe -->
+<script src="https://player.vimeo.com/api/player.js"></script>
+<script>
+(function(){
+    var thumb    = document.getElementById('kc-vid-thumb');
+    var modal    = document.getElementById('kc-vid-modal');
+    var closeBtn = document.getElementById('kc-vid-close');
+    var iframe   = document.getElementById('kc-vid-iframe');
+    if (!thumb || !modal || !iframe) return;
+
+    var player = new Vimeo.Player(iframe);
+
+    function openModal() {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        player.play();
+    }
+    function closeModal() {
+        player.pause();
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    thumb.addEventListener('click', openModal);
+    thumb.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(); } });
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', function(e){ if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && modal.style.display === 'flex') closeModal(); });
+})();
+</script>
+<?php else : ?>
 <div class="split__media hero__slider" id="hero-slider" style="position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-card);">
 <img alt="Kings City Book Now 1" class="hero__slide is-active" src="<?php echo kc_img('image_4', 'page-book-now-img/kings_img09.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 1s ease-in-out;"/>
 <img alt="Kings City Book Now 2" class="hero__slide" src="<?php echo kc_img('image_5', 'page-book-now-img/kings_img010.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 <img alt="Kings City Book Now 3" class="hero__slide" src="<?php echo kc_img('image_6', 'page-book-now-img/kings_img011.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out;"/>
 </div>
+<?php endif; ?>
 </div>
 </div>
 </section>
