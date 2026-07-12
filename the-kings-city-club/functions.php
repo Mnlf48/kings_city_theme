@@ -11,6 +11,39 @@ if ( ! defined( 'KINGS_CITY_VERSION' ) ) {
 }
 
 /**
+ * Splits a 3-word heading so words 1-2 are grouped with &nbsp; and word 3 wraps.
+ * Falls back to the raw heading if it isn't exactly 3 words.
+ * Echoes the result directly.
+ */
+function kc_split_heading( $heading ) {
+	$h = esc_html( trim( $heading ) );
+	if ( ! $h ) return;
+	$w = explode( ' ', $h );
+	if ( count( $w ) === 3 ) {
+		echo $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2];
+	} else {
+		echo $h;
+	}
+}
+
+/**
+ * Non-deprecated replacement for get_page_by_title().
+ * Returns the page ID or false if not found.
+ */
+function kc_get_page_id_by_title( $title, $post_type = 'page' ) {
+	$pages = get_posts( array(
+		'post_type'              => $post_type,
+		'title'                  => $title,
+		'post_status'            => 'any',
+		'posts_per_page'         => 1,
+		'no_found_rows'          => true,
+		'update_post_meta_cache' => false,
+		'update_post_term_cache' => false,
+	) );
+	return ! empty( $pages ) ? $pages[0]->ID : false;
+}
+
+/**
  * Sets up theme defaults and registers support for various WordPress features.
  */
 function kings_city_setup() {
@@ -345,7 +378,7 @@ function kings_city_auto_populate_pages() {
     $home_page_id = 0;
 
     foreach ( $pages as $page_title => $page_template ) {
-        $page_check = get_page_by_title( $page_title );
+        $page_check = kc_get_page_id_by_title( $page_title );
         
         $new_page = array(
             'post_type' => 'page',
@@ -355,7 +388,7 @@ function kings_city_auto_populate_pages() {
             'post_author' => 1,
         );
 
-        if ( ! isset( $page_check->ID ) ) {
+        if ( ! $page_check ) {
             $new_page_id = wp_insert_post( $new_page );
             if ( ! is_wp_error( $new_page_id ) ) {
                 update_post_meta( $new_page_id, '_wp_page_template', $page_template );
@@ -386,7 +419,7 @@ add_action( 'admin_init', function () {
         '404 Settings' => 'page-404-settings.php',
     );
     foreach ( $pages as $title => $template ) {
-        if ( ! get_page_by_title( $title ) ) {
+        if ( ! kc_get_page_id_by_title( $title ) ) {
             $id = wp_insert_post( array(
                 'post_type'    => 'page',
                 'post_title'   => $title,
@@ -470,7 +503,6 @@ require_once get_template_directory() . '/inc/mailing-list.php';
 require_once get_template_directory() . '/inc/ajax-booked-dates.php';
 
 // Bookings CRM & Dashboard
-require_once get_template_directory() . '/inc/settings-capacity.php';
 require_once get_template_directory() . '/inc/kpi-dashboard.php';
 require_once get_template_directory() . '/inc/cpt-bookings.php';
 require_once get_template_directory() . '/inc/dashboard-widget.php';
@@ -621,7 +653,7 @@ function kc_img($acf_field_name, $fallback_image_path, $post_id = false) {
 add_filter('acf/load_value/name=hero_section_txt_7', 'kc_strip_btn_label_html', 10, 3);
 add_filter('acf/load_value/name=section_txt_36',     'kc_strip_btn_label_html', 10, 3);
 function kc_strip_btn_label_html($value, $post_id, $field) {
-    return $value ? trim(strip_tags($value)) : $value;
+    return $value ? trim(wp_strip_all_tags($value)) : $value;
 }
 
 // ── Space card click tracker ──────────────────────────────────────────────────

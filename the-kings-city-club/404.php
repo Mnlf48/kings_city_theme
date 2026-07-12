@@ -2,8 +2,7 @@
 if (!defined('ABSPATH')) exit;
 /* 404 Error Page */
 
-$err_page    = get_page_by_title('404 Settings');
-$err_id      = $err_page ? $err_page->ID : false;
+$err_id = kc_get_page_id_by_title('404 Settings');
 
 $err_heading    = esc_html(get_field('err_heading',    $err_id) ?: 'Page Not Found');
 $err_subheading = esc_html(get_field('err_subheading', $err_id) ?: 'Oops — looks like this page took the day off.');

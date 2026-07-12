@@ -10,8 +10,7 @@
 <?php wp_body_open(); ?>
 <?php
 if (!defined('ABSPATH')) exit;
-  $header_page = get_page_by_title('Header'); 
-  $header_id = $header_page ? $header_page->ID : false; 
+  $header_id = kc_get_page_id_by_title('Header');
 
   $logo_text         = get_field('header_logo_text', $header_id) ?: 'THE KINGS CITY CLUB';
   $nav_more          = get_field('header_nav_more_label', $header_id) ?: 'More';

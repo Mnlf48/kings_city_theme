@@ -1,7 +1,6 @@
 <?php
 if (!defined('ABSPATH')) exit;
-  $footer_page = get_page_by_title('Footer');
-  $footer_id   = $footer_page ? $footer_page->ID : false;
+  $footer_id = kc_get_page_id_by_title('Footer');
 
   $f_logo_text       = get_field('footer_logo_text', $footer_id) ?: 'THE KINGS CITY CLUB';
   $f_address         = get_field('footer_address', $footer_id) ?: "Ground Level, RCS Building,\nDoña Soledad Ave, Better Living,\nParañaque City, Philippines";

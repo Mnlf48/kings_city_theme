@@ -3,8 +3,7 @@ if (!defined('ABSPATH')) exit;
 get_header();
 
 // --- Social URLs (pulled from footer settings for consistency) ---
-$footer_page = get_page_by_title('Footer');
-$footer_id   = $footer_page ? $footer_page->ID : false;
+$footer_id = kc_get_page_id_by_title('Footer');
 $fb_url      = get_field('footer_facebook_url', $footer_id) ?: 'https://www.facebook.com/KingsCityPH/';
 $ig_url      = get_field('footer_instagram_url', $footer_id) ?: 'https://www.instagram.com/kingscityph';
 $share_url   = esc_url(get_permalink());
