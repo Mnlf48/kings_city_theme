@@ -84,6 +84,7 @@ function kings_city_scripts() {
 	// Scripts
 	wp_enqueue_script( 'kings-city-navigation', get_template_directory_uri() . '/assets/js/navigation.js', array(), KINGS_CITY_VERSION, true );
 	wp_enqueue_script( 'kings-city-hero-slider', get_template_directory_uri() . '/assets/js/hero-slider.js', array(), KINGS_CITY_VERSION, true );
+	wp_enqueue_script( 'kings-city-gallery-carousel', get_template_directory_uri() . '/assets/js/gallery-carousel.js', array(), KINGS_CITY_VERSION, true );
 
 	// Messenger float button styles
 	$messenger_css = '
