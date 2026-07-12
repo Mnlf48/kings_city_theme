@@ -792,19 +792,6 @@ else:
           startAutoScroll();
         }
       </script><script>
-    // Hero Slider Auto-play
-    const slides = document.querySelectorAll('.hero__slide');
-    let currentSlide = 0;
-    if (slides.length > 0) {
-      setInterval(() => {
-        slides[currentSlide].style.opacity = '0';
-        slides[currentSlide].classList.remove('is-active');
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].style.opacity = '1';
-        slides[currentSlide].classList.add('is-active');
-      }, 4000);
-    }
-
     // SVG Line-Drawing Animation (What Defines Us)
     const definesIcons = document.querySelectorAll('.defines-icon');
     if (definesIcons.length > 0) {

@@ -434,19 +434,6 @@ get_header();
 <script>
 </script>
 <script>
-    // Hero Slider Auto-play
-    const slides = document.querySelectorAll('.hero__slide');
-    let currentSlide = 0;
-    if (slides.length > 0) {
-      setInterval(() => {
-        slides[currentSlide].style.opacity = '0';
-        slides[currentSlide].classList.remove('is-active');
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].style.opacity = '1';
-        slides[currentSlide].classList.add('is-active');
-      }, 4000);
-    }
-
     // Brands Interactive Tabs
     const brandItems = document.querySelectorAll('.brand-list__item');
     const brandDetails = document.querySelectorAll('.brand-detail');

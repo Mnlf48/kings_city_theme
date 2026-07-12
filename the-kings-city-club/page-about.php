@@ -536,22 +536,6 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 
 </section>
 </main>
-<script>
-    (function() {
-      const slider = document.getElementById('hero-slider');
-      if (!slider) return;
-      const slides = slider.querySelectorAll('.hero__slide');
-      if (slides.length < 2) return;
-      let current = 0;
-      setInterval(() => {
-        slides[current].style.opacity = '0';
-        slides[current].classList.remove('is-active');
-        current = (current + 1) % slides.length;
-        slides[current].style.opacity = '1';
-        slides[current].classList.add('is-active');
-      }, 4000);
-    })();
-  </script>
 
 
 <?php get_footer(); ?>
