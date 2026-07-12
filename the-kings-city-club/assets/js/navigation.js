@@ -76,6 +76,40 @@
   }
 })();
 
+// ── Announcement bar: close + scroll-hide ──
+(function () {
+  function initAnnouncement() {
+    var annBar  = document.getElementById('top-announcement');
+    var closeBtn = document.getElementById('close-announcement');
+    if (!annBar) return;
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function () {
+        annBar.style.display = 'none';
+        document.body.classList.remove('has-announcement');
+        sessionStorage.setItem('announcementDismissed', 'true');
+      });
+    }
+
+    var lastScrollY = window.scrollY;
+    window.addEventListener('scroll', function () {
+      if (sessionStorage.getItem('announcementDismissed') === 'true') return;
+      if (window.scrollY > 100 && window.scrollY > lastScrollY) {
+        document.body.classList.add('hide-announcement');
+      } else {
+        document.body.classList.remove('hide-announcement');
+      }
+      lastScrollY = window.scrollY;
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAnnouncement);
+  } else {
+    initAnnouncement();
+  }
+})();
+
 // ── Scroll-to-top page transition ──
 (function () {
   var origin = window.location.origin;

@@ -150,30 +150,3 @@ if (!defined('ABSPATH')) exit;
   </nav>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const annBar = document.getElementById('top-announcement');
-  const closeBtn = document.getElementById('close-announcement');
-  const header = document.getElementById('header');
-
-  if (closeBtn) {
-    closeBtn.addEventListener('click', () => {
-      annBar.style.display = 'none';
-      document.body.classList.remove('has-announcement');
-      sessionStorage.setItem('announcementDismissed', 'true');
-    });
-  }
-
-  let lastScrollY = window.scrollY;
-  window.addEventListener('scroll', () => {
-    if (sessionStorage.getItem('announcementDismissed') === 'true') return;
-    
-    if (window.scrollY > 100 && window.scrollY > lastScrollY) {
-      document.body.classList.add('hide-announcement');
-    } else {
-      document.body.classList.remove('hide-announcement');
-    }
-    lastScrollY = window.scrollY;
-  });
-});
-</script>
