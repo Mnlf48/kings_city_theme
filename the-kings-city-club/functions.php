@@ -27,6 +27,19 @@ function kc_split_heading( $heading ) {
 }
 
 /**
+ * Returns the permalink for the first page using a given template file.
+ * Falls back to home_url($fallback_path) if no page is found.
+ */
+function kc_get_page_url( $template_file, $fallback_path = '/' ) {
+	$pages = get_pages( array(
+		'meta_key'   => '_wp_page_template',
+		'meta_value' => $template_file,
+		'number'     => 1,
+	) );
+	return ! empty( $pages ) ? esc_url( get_permalink( $pages[0]->ID ) ) : esc_url( home_url( $fallback_path ) );
+}
+
+/**
  * Non-deprecated replacement for get_page_by_title().
  * Returns the page ID or false if not found.
  */

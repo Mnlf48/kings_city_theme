@@ -196,15 +196,15 @@ get_header();
 </div>
 <div class="animate-fadeInRight">
 <div class="brand-logos-3x3">
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_38', 'page-impact-img/kings-img69.png'); ?>"/></div>
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_39', 'page-impact-img/Metro.png'); ?>"/></div>
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_40', 'page-impact-img/Sterlingpaper-logo.png'); ?>"/></div>
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_41', 'page-impact-img/maxicare.png'); ?>"/></div>
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_42', 'page-impact-img/SanitaryCare.png'); ?>"/></div>
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_43', 'page-impact-img/concentrix.png'); ?>"/></div>
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_44', 'page-impact-img/Jollibee.png'); ?>"/></div>
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_45', 'page-impact-img/volvic.png'); ?>"/></div>
-<div class="brand-logo-item-3x3"><img alt="Partner" src="<?php echo kc_img('image_46', 'page-impact-img/Sofitel.png'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Kings City" src="<?php echo kc_img('image_38', 'page-impact-img/kings-img69.png'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Metro" src="<?php echo kc_img('image_39', 'page-impact-img/Metro.png'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Sterling Paper" src="<?php echo kc_img('image_40', 'page-impact-img/Sterlingpaper-logo.png'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Maxicare" src="<?php echo kc_img('image_41', 'page-impact-img/maxicare.png'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Sanitary Care" src="<?php echo kc_img('image_42', 'page-impact-img/SanitaryCare.png'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Concentrix" src="<?php echo kc_img('image_43', 'page-impact-img/concentrix.png'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Jollibee" src="<?php echo kc_img('image_44', 'page-impact-img/Jollibee.png'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Volvic" src="<?php echo kc_img('image_45', 'page-impact-img/volvic.png'); ?>"/></div>
+<div class="brand-logo-item-3x3"><img alt="Sofitel" src="<?php echo kc_img('image_46', 'page-impact-img/Sofitel.png'); ?>"/></div>
 </div>
 </div>
 </div>
