@@ -115,6 +115,70 @@ add_action('send_headers', function() {
 });
 
 /**
+ * Open Graph & Twitter Card meta tags for link previews.
+ */
+function kc_og_meta_tags() {
+    $site_name    = 'The Kings City Club';
+    $default_desc = 'A premium coworking and business community in Metro Manila. Flexible workspaces, private offices, meeting rooms, and more.';
+    $fallback_img = get_template_directory_uri() . '/assets/img/front-page-img/kings-img31.webp';
+
+    // --- Resolve image URL ---
+    if ( is_singular( 'post' ) && has_post_thumbnail() ) {
+        // Blog post: use featured image
+        $img_url = esc_url( get_the_post_thumbnail_url( get_the_ID(), 'large' ) );
+    } elseif ( is_front_page() ) {
+        // Homepage: use hero slide 1 ACF field
+        $hero = get_field( 'hero_section_img_1', get_the_ID() );
+        $img_url = ( $hero && isset( $hero['url'] ) ) ? esc_url( $hero['url'] ) : esc_url( $fallback_img );
+    } else {
+        // All other pages: fall back to homepage hero image
+        $img_url = esc_url( $fallback_img );
+    }
+
+    // --- Resolve title & description ---
+    if ( is_front_page() ) {
+        $title = esc_attr( $site_name . ' — Premium Coworking in Manila' );
+        $desc  = esc_attr( $default_desc );
+    } elseif ( is_singular() ) {
+        $title = esc_attr( get_the_title() . ' — ' . $site_name );
+        $desc  = has_excerpt() ? esc_attr( get_the_excerpt() ) : esc_attr( $default_desc );
+    } else {
+        $title = esc_attr( wp_title( '—', false, 'right' ) . $site_name );
+        $desc  = esc_attr( $default_desc );
+    }
+
+    $url = esc_url( ( is_singular() ? get_permalink() : home_url( '/' ) ) );
+
+    echo '<meta property="og:type"        content="' . ( is_singular( 'post' ) ? 'article' : 'website' ) . '">' . "\n";
+    echo '<meta property="og:site_name"   content="' . esc_attr( $site_name ) . '">' . "\n";
+    echo '<meta property="og:url"         content="' . $url . '">' . "\n";
+    echo '<meta property="og:title"       content="' . $title . '">' . "\n";
+    echo '<meta property="og:description" content="' . $desc . '">' . "\n";
+    echo '<meta property="og:image"       content="' . $img_url . '">' . "\n";
+    echo '<meta property="og:image:width" content="1200">' . "\n";
+    echo '<meta property="og:image:height" content="630">' . "\n";
+    echo '<meta name="twitter:card"       content="summary_large_image">' . "\n";
+    echo '<meta name="twitter:title"      content="' . $title . '">' . "\n";
+    echo '<meta name="twitter:description" content="' . $desc . '">' . "\n";
+    echo '<meta name="twitter:image"      content="' . $img_url . '">' . "\n";
+}
+add_action( 'wp_head', 'kc_og_meta_tags', 2 );
+
+/**
+ * Favicon — KC logo in browser tab, bookmarks, and home screen.
+ */
+function kc_favicon() {
+    $base = get_template_directory_uri() . '/assets/img/favicon';
+    echo '<link rel="icon" type="image/x-icon"     href="' . $base . '/favicon.ico">' . "\n";
+    echo '<link rel="icon" type="image/png" sizes="32x32"   href="' . $base . '/favicon-32x32.png">' . "\n";
+    echo '<link rel="icon" type="image/png" sizes="16x16"   href="' . $base . '/favicon-16x16.png">' . "\n";
+    echo '<link rel="apple-touch-icon"      sizes="180x180" href="' . $base . '/favicon-180x180.png">' . "\n";
+    echo '<link rel="icon" type="image/png" sizes="192x192" href="' . $base . '/favicon-192x192.png">' . "\n";
+    echo '<link rel="icon" type="image/png" sizes="512x512" href="' . $base . '/favicon-512x512.png">' . "\n";
+}
+add_action( 'wp_head', 'kc_favicon', 1 );
+
+/**
  * Enqueue scripts and styles.
  */
 function kings_city_scripts() {
