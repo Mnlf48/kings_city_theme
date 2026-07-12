@@ -5,90 +5,6 @@ if (!defined('ABSPATH')) exit;
 get_header();
 ?>
 
-<style>
-    /* Form Styles */
-    .form-group {
-      margin-bottom: var(--space-md);
-      display: flex;
-      flex-direction: column;
-    }
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: var(--space-md);
-    }
-    @media (min-width: 768px) {
-      .form-row { grid-template-columns: 1fr 1fr; }
-    }
-    .form-label {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--color-primary);
-      margin-bottom: var(--space-xs);
-    }
-    .form-input, .form-select, .form-textarea {
-      width: 100%;
-      padding: 0.875rem 1rem;
-      border: 1px solid rgba(189, 69, 31, 0.2);
-      border-radius: var(--radius-sm, 8px);
-      background: rgba(255, 255, 255, 0.6);
-      color: var(--color-text);
-      font-family: var(--font-body);
-      font-size: 1rem;
-      transition: border-color var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
-    }
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
-      outline: none;
-      border-color: var(--color-accent-red);
-      background: #FFFFFF;
-      box-shadow: 0 0 0 3px rgba(255, 191, 191, 0.2);
-    }
-    
-
-    
-    /* Sidebar Styles */
-    .sidebar-card {
-      padding: var(--space-lg);
-      margin-bottom: var(--space-md);
-    }
-    .sidebar-card h3 {
-      font-size: 1.25rem;
-      margin-bottom: var(--space-sm);
-    }
-    .contact-item {
-      margin-bottom: var(--space-sm);
-    }
-    .contact-label {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--color-text-muted);
-      margin-bottom: 0.25rem;
-    }
-    .contact-value {
-      color: var(--color-text);
-      font-weight: 500;
-    }
-    .sidebar-link {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.75rem 0;
-      border-bottom: 1px solid var(--color-border-light);
-      color: var(--color-primary);
-      font-weight: 600;
-      transition: color var(--transition-fast);
-    }
-    .sidebar-link:last-child {
-      border-bottom: none;
-    }
-    .sidebar-link:hover {
-      color: var(--color-accent-red);
-    }
-    
-  </style>
 
 <main id="main-content">
 <!-- hero section -->
@@ -122,30 +38,6 @@ get_header();
           <!-- 5. Star -->
           <div class="container grid-12" style="position: relative; z-index: 2;">
     <!-- Subsection 1: Team Builder Pricing -->
-    <style>
-      @media (min-width: 992px) {
-        .pricing-card-wrapper {
-          grid-column: 2 / span 10;
-        }
-      }
-      @media (max-width: 991px) {
-        .pricing-card-wrapper {
-          grid-column: 1 / -1; 
-        }
-      }
-      @media (max-width: 767px) {
-        .pricing-card-wrapper {
-          min-width: 0;
-        }
-        .pricing-card-wrapper .card-glass--strong {
-          padding: 1.5rem !important;
-          overflow: hidden;
-        }
-        .pricing-card-wrapper .tb-header {
-          flex-wrap: wrap;
-        }
-      }
-    </style>
     <div class="col-10 pricing-card-wrapper">
       <form id="quote-form" method="POST" action="#pricing-section" novalidate>
         <input type="hidden" name="quote_submit" value="1">

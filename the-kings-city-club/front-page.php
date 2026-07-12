@@ -56,10 +56,6 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 ?>
 <section class="section content-panel" style="position: relative; overflow: hidden;">
 <!-- Background floating confetti -->
-<style>
-@keyframes floatSpace { 0% { transform: translateY(0px) rotate(-5deg); } 50% { transform: translateY(-12px) rotate(5deg); } 100% { transform: translateY(0px) rotate(-5deg); } }
-.space-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
-</style>
 <!-- 1. Ivory Sparkle -->
 <!-- 2. Deep Red Heart -->
 <!-- 3. Muted Gold Circle -->
@@ -236,10 +232,6 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <!-- offshoring section -->
 <section class="section content-panel section--offshoring bg-terracotta" style="position: relative; overflow: hidden;">
 <!-- Background floating confetti -->
-<style>
-@keyframes floatOffshore { 0% { transform: translateY(0px) rotate(-5deg); } 50% { transform: translateY(-12px) rotate(5deg); } 100% { transform: translateY(0px) rotate(-5deg); } }
-.offshore-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
-</style>
 <!-- 1. Ivory Sparkle -->
 <!-- 2. Soft Blush Heart -->
 <!-- 3. Red Sparkle -->
@@ -478,11 +470,6 @@ $off_btn_url = kc_url('proposed_offshoring_btn_url', '/apply/');
 <!-- get social with us -->
 <section class="section content-panel section--social bg-blush" style="position: relative; overflow: hidden;">
 <!-- Floating Background "Social Stickers" -->
-<style>
-@keyframes floatSocial { 0% { transform: translateY(0px) rotate(-5deg); } 50% { transform: translateY(-12px) rotate(5deg); } 100% { transform: translateY(0px) rotate(-5deg); } }
-@keyframes pulseSocial { 0% { transform: scale(1); opacity: 0.2; } 50% { transform: scale(1.1); opacity: 0.4; } 100% { transform: scale(1); opacity: 0.2; } }
-.social-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
-</style>
 
 <!-- 1. Deep Red Heart (Top Right) -->
 
@@ -634,9 +621,6 @@ $news_url = !empty($news_pages) ? get_permalink($news_pages[0]->ID) : home_url('
 ?>
 <section class="section content-panel section--journal" style="position: relative; overflow: hidden;">
 <!-- Background floating confetti -->
-<style>
-.journal-bg-icon { position: absolute; pointer-events: none; z-index: 0; }
-</style>
 <!-- 1. Terracotta Sparkle -->
 <!-- 2. Soft Blush Heart -->
 <!-- 3. Ivory Sparkle -->

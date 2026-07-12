@@ -10,18 +10,6 @@ $apply_url     = ! empty( $apply_page )    ? esc_url( get_permalink( $apply_page
 $book_now_url  = ! empty( $book_now_page ) ? esc_url( get_permalink( $book_now_page[0]->ID ) ) : esc_url( home_url( '/book-now/' ) );
 ?>
 
-<style>
-    /* Enforce exactly the same size for all space sections on desktop (Full Viewport Height) */
-    @media (min-width: 1024px) {
-      .section--spaces {
-        min-height: 100vh;
-        min-height: 100dvh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-    }
-  </style>
 
 <main id="main-content">
 <!-- hero section -->
