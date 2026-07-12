@@ -29,9 +29,11 @@ if (!defined('ABSPATH')) exit;
   $f_loop_placeholder = get_field('footer_loop_placeholder', $footer_id) ?: 'Enter your email';
   $f_loop_btn         = get_field('footer_loop_btn', $footer_id)         ?: 'Keep Me Posted';
 
-  $f_copyright       = get_field('footer_copyright', $footer_id) ?: '2026 Home Culinary & Technical School. All rights reserved. | Powered by ITMonsters';
-  $f_privacy_label   = get_field('footer_privacy_label', $footer_id) ?: 'Privacy Policy';
-  $f_terms_label     = get_field('footer_terms_label', $footer_id) ?: 'Terms of Use';
+  $f_copyright          = get_field('footer_copyright', $footer_id) ?: '2026 Home Culinary & Technical School. All rights reserved. | Powered by';
+  $f_powered_by_label   = get_field('footer_powered_by_label', $footer_id) ?: 'ITMonsters';
+  $f_powered_by_url     = get_field('footer_powered_by_url', $footer_id)   ?: 'https://www.itmonsterszc.com/';
+  $f_privacy_label      = get_field('footer_privacy_label', $footer_id) ?: 'Privacy Policy';
+  $f_terms_label        = get_field('footer_terms_label', $footer_id) ?: 'Terms of Use';
 ?>
 <footer class="site-footer">
   <div class="container container--wide">
@@ -98,6 +100,7 @@ if (!defined('ABSPATH')) exit;
     <div class="footer-bottom">
       <div class="footer-bottom__copy">
         &copy; <?php echo date('Y'); ?> <?php echo esc_html($f_copyright); ?>
+        <a href="<?php echo esc_url($f_powered_by_url); ?>" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; white-space: nowrap;"><?php echo esc_html($f_powered_by_label); ?></a>
       </div>
       <div class="footer-bottom__links">
         <a href="<?php echo kc_get_page_url( 'page-privacy-policy.php', '/privacy-policy/' ); ?>"><?php echo esc_html($f_privacy_label); ?></a>
