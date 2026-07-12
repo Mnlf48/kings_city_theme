@@ -73,10 +73,8 @@ add_action('send_headers', function() {
  */
 function kings_city_scripts() {
 	// Enqueue combined style.css with aggressive cache busting
-	wp_enqueue_style( 'kings-city-style', get_stylesheet_uri(), array(), time() );
+	wp_enqueue_style( 'kings-city-style', get_stylesheet_uri(), array(), filemtime( get_stylesheet_directory() . '/style.css' ) );
 
-	// Enqueue Google Fonts (from original header)
-	wp_enqueue_style( 'kings-city-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600;700&display=swap', array(), null );
 
     // Font Awesome via direct tag to support SRI integrity attribute
     add_action('wp_head', function() {
@@ -85,7 +83,6 @@ function kings_city_scripts() {
 
 	// Scripts
 	wp_enqueue_script( 'kings-city-navigation', get_template_directory_uri() . '/assets/js/navigation.js', array(), KINGS_CITY_VERSION, true );
-	wp_enqueue_script( 'kings-city-main', get_template_directory_uri() . '/assets/js/main.js', array(), KINGS_CITY_VERSION, true );
 
 	// Messenger float button styles
 	$messenger_css = '

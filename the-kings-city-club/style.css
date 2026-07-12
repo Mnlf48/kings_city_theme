@@ -57,6 +57,14 @@ html, body {
   /* Lighter separator used in timeline lines and borders */
   --color-header-scroll: #db582e;
   /* Brighter Terracotta for scrolled state */
+  --color-text-muted: rgba(43, 43, 43, 0.55);
+  /* Charcoal at 55% — secondary body text, captions, meta */
+  --color-text-light: rgba(255, 249, 239, 0.75);
+  /* Ivory at 75% — muted text on dark/terracotta backgrounds */
+  --color-text-dark: #1a1a1a;
+  /* Near-black — high-contrast headings on light backgrounds */
+  --color-bg-alt: rgba(189, 69, 31, 0.08);
+  /* Faint terracotta tint — hover states, gallery nav */
 
   /* ── legacy aliases kept for layout.css compatibility ── */
   /* These map old names to new canonical values so no layout.css rules break */
@@ -73,6 +81,7 @@ html, body {
   --radius-pill: 0;
   --radius-card: 0;
   --radius-card-sm: 0;
+  --radius-sm: 0;
 
   /* ── glass ui tokens ── */
   --glass-bg: rgba(255, 255, 255, 0.55);
@@ -84,6 +93,8 @@ html, body {
   --glass-border-light: 1px solid rgba(255, 255, 255, 0.35);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   --glass-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+  /* Standard elevation shadow — article images, cards */
 
   /* ── spacing scale (the commons rhythm) ── */
   --space-xs: 0.5rem;

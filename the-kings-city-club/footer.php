@@ -110,73 +110,89 @@ if (!defined('ABSPATH')) exit;
 
 <script>
 (function() {
-  var form  = document.getElementById('kc-loop-form');
-  var msg   = document.getElementById('kc-loop-msg');
+  var form  = document.getElementById(‘kc-loop-form’);
+  var msg   = document.getElementById(‘kc-loop-msg’);
   if (!form) return;
 
-  var LS_KEY = 'kc_loop_subscribed';
+  var LS_KEY  = ‘kc_loop_subscribed_email’;
+  var input   = document.getElementById(‘kc-loop-email’);
+  var btn     = form.querySelector(‘.footer-loop__btn’);
+  var btnDefaultText = btn.textContent;
 
-  function lockForm(message) {
-    var input = document.getElementById('kc-loop-email');
-    var btn   = form.querySelector('.footer-loop__btn');
-    input.disabled = true;
-    input.value    = '';
-    btn.disabled   = true;
-    btn.textContent = 'Subscribed';
-    msg.textContent = message || "You’re already on our list!";
-    msg.className = 'footer-loop__msg footer-loop__msg--success';
+  function lockForm(email, message) {
+    localStorage.setItem(LS_KEY, email);
+    input.disabled  = true;
+    input.value     = email;
+    btn.disabled    = true;
+    btn.textContent = ‘Subscribed ✓’;
+    msg.innerHTML   = (message || "You’re on our list!") +
+      ‘ <a href="#" class="footer-loop__switch" style="color:inherit;text-decoration:underline;white-space:nowrap;">Use a different email?</a>’;
+    msg.className   = ‘footer-loop__msg footer-loop__msg--success’;
+
+    msg.querySelector(‘.footer-loop__switch’).addEventListener(‘click’, function(e) {
+      e.preventDefault();
+      unlockForm();
+    });
   }
 
-  // On page load: if already subscribed in this browser, lock immediately
-  if (localStorage.getItem(LS_KEY)) {
-    lockForm();
+  function unlockForm() {
+    localStorage.removeItem(LS_KEY);
+    input.disabled  = false;
+    input.value     = ‘’;
+    btn.disabled    = false;
+    btn.textContent = btnDefaultText;
+    msg.textContent = ‘’;
+    msg.className   = ‘footer-loop__msg’;
+    input.focus();
   }
 
-  form.addEventListener('submit', function(e) {
+  // On page load: if an email was subscribed in this browser, pre-fill and lock
+  var storedEmail = localStorage.getItem(LS_KEY);
+  if (storedEmail) {
+    lockForm(storedEmail);
+  }
+
+  form.addEventListener(‘submit’, function(e) {
     e.preventDefault();
-    var email = document.getElementById('kc-loop-email').value.trim();
-    msg.textContent = '';
-    msg.className = 'footer-loop__msg';
+    var email = input.value.trim();
+    msg.textContent = ‘’;
+    msg.className = ‘footer-loop__msg’;
 
     if (!email) {
-      msg.textContent = 'Please enter your email address.';
-      msg.classList.add('footer-loop__msg--error');
+      msg.textContent = ‘Please enter your email address.’;
+      msg.classList.add(‘footer-loop__msg--error’);
       return;
     }
 
-    var btn = form.querySelector('.footer-loop__btn');
-    btn.disabled = true;
-    btn.textContent = 'Sending...';
+    btn.disabled    = true;
+    btn.textContent = ‘Sending...’;
 
     var data = new FormData();
-    data.append('action', 'kc_mailing_list_subscribe');
-    data.append('email', email);
-    data.append('nonce', '<?php echo esc_js(wp_create_nonce("kc_mailing_list_nonce")); ?>');
+    data.append(‘action’, ‘kc_mailing_list_subscribe’);
+    data.append(‘email’, email);
+    data.append(‘nonce’, ‘<?php echo esc_js(wp_create_nonce("kc_mailing_list_nonce")); ?>’);
 
-    fetch('<?php echo esc_url(admin_url("admin-ajax.php")); ?>', { method: 'POST', body: data })
+    fetch(‘<?php echo esc_url(admin_url("admin-ajax.php")); ?>’, { method: ‘POST’, body: data })
       .then(function(r) { return r.json(); })
       .then(function(r) {
         if (r.success) {
-          localStorage.setItem(LS_KEY, '1');
-          lockForm(r.data.message);
+          lockForm(email, r.data.message);
         } else {
-          // Duplicate email — lock the form and remember it too
-          if (r.data && r.data.message && r.data.message.indexOf('already') !== -1) {
-            localStorage.setItem(LS_KEY, '1');
-            lockForm("You’re already on our list!");
+          if (r.data && r.data.message && r.data.message.indexOf(‘already’) !== -1) {
+            lockForm(email, "You’re already on our list!");
           } else {
-            msg.textContent = r.data.message;
-            msg.classList.add('footer-loop__msg--error');
-            btn.disabled = false;
-            btn.textContent = 'Keep Me Posted';
+            msg.textContent = r.data && r.data.message ? r.data.message : ‘Something went wrong.’;
+            msg.classList.add(‘footer-loop__msg--error’);
+            btn.disabled    = false;
+            btn.textContent = btnDefaultText;
           }
         }
       })
       .catch(function() {
-        msg.textContent = 'Something went wrong. Please try again.';
-        msg.classList.add('footer-loop__msg--error');
-        btn.disabled = false;
-        btn.textContent = 'Keep Me Posted';
+        msg.textContent = ‘Something went wrong. Please try again.’;
+        msg.classList.add(‘footer-loop__msg--error’);
+        btn.disabled    = false;
+        btn.textContent = btnDefaultText;
       });
   });
 })();

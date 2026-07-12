@@ -51,7 +51,7 @@ if (stripos($h1_val, 'the kings city space') !== false) {
 $spaces_hero_btn_text = get_field('proposed_spaces_hero_btn_text') ?: 'Become a Member';
 $spaces_hero_btn_url  = kc_url('proposed_spaces_hero_btn_url', '/book-a-tour/');
 ?>
-<a class="btn" href="<?php echo $spaces_hero_btn_url; ?>"><?php echo esc_html($spaces_hero_btn_text); ?></a>
+<a class="btn" href="<?php echo esc_url($spaces_hero_btn_url); ?>"><?php echo esc_html($spaces_hero_btn_text); ?></a>
 </div>
 </div>
 <!-- slider on right -->

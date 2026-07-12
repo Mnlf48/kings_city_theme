@@ -198,7 +198,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <li><span class="badge badge--pink"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Employee engagement and performance frameworks</li>
 <li><span class="badge badge--pink"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Best for businesses scaling a dedicated offshore division</li>
 </ul>
-<a class="btn btn--red off-models-btn" href="<?php echo kc_url('model1_btn_url', '/apply-now/'); ?>"><?php echo esc_html(get_field('model1_btn_text') ?: 'Get Started'); ?></a>
+<a class="btn btn--red off-models-btn" href="<?php echo esc_url(kc_url('model1_btn_url', '/apply-now/')); ?>"><?php echo esc_html(get_field('model1_btn_text') ?: 'Get Started'); ?></a>
 </div>
 <!-- model 2 card -->
 <div class="off-models-card off-models-card--terracotta card-glass">
@@ -211,7 +211,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 <li><span class="badge badge--terracotta"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Communicate your way via Zoom Skype email or on-site</li>
 <li><span class="badge badge--terracotta"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Best for targeted hires and growing teams quickly</li>
 </ul>
-<a class="btn btn--glass-white off-models-btn" href="<?php echo kc_url('model2_btn_url', '/apply-now/'); ?>"><?php echo esc_html(get_field('model2_btn_text') ?: 'Request a Quote'); ?></a>
+<a class="btn btn--glass-white off-models-btn" href="<?php echo esc_url(kc_url('model2_btn_url', '/apply-now/')); ?>"><?php echo esc_html(get_field('model2_btn_text') ?: 'Request a Quote'); ?></a>
 </div>
 </div>
 <!-- transparent billing callout -->

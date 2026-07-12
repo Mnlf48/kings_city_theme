@@ -24,6 +24,7 @@ function kc_parse_revenue_val($val) {
 function kc_export_kpi_csv() {
     global $wpdb;
     if (!current_user_can('manage_options')) wp_die('Unauthorized');
+    check_admin_referer('kc_export_kpi_csv');
 
     $selected_month = isset($_GET['kpi_month']) ? sanitize_text_field($_GET['kpi_month']) : date('Y-m');
 
@@ -520,7 +521,7 @@ function kc_render_kpi_dashboard() {
                     <span style="color:var(--kc-ivory);font-size:13px;">Reporting Period:</span>
                     <input type="month" name="kpi_month" value="<?php echo esc_attr($selected_month); ?>" onchange="this.form.submit()">
                 </form>
-                <a href="<?php echo esc_url(admin_url('admin-post.php?action=kc_export_kpi_csv&kpi_month=' . $selected_month)); ?>" class="kc-btn-csv">&#8595; Export CSV</a>
+                <a href="<?php echo esc_url(wp_nonce_url(admin_url('admin-post.php?action=kc_export_kpi_csv&kpi_month=' . rawurlencode($selected_month)), 'kc_export_kpi_csv')); ?>" class="kc-btn-csv">&#8595; Export CSV</a>
             </div>
         </div>
 

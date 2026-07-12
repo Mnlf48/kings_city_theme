@@ -34,7 +34,7 @@ $share_title = esc_attr(get_the_title());
       <!-- Meta Row -->
       <div class="single-article__meta">
         <div class="single-article__meta-left">
-          <span><?php echo get_the_date('M j'); ?></span>
+          <span><?php echo esc_html(get_the_date('M j')); ?></span>
           <span>&middot;</span>
           <span>1 min read</span>
         </div>
@@ -59,7 +59,7 @@ $share_title = esc_attr(get_the_title());
 
       <!-- Title -->
       <h1 class="single-article__title">
-        <?php the_title(); ?>
+        <?php echo esc_html(get_the_title()); ?>
       </h1>
 
       <!-- Content -->
@@ -123,7 +123,7 @@ $share_title = esc_attr(get_the_title());
               
               <div style="padding: var(--space-lg);">
                 <span class="text-overline" style="font-size: 0.7rem; color: var(--color-accent-red);">Kings City News</span>
-                <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;"><?php the_title(); ?></h3>
+                <h3 style="font-family: var(--font-heading); margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.3;"><?php echo esc_html(get_the_title()); ?></h3>
                 <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
                   <?php
                   $excerpt = get_the_excerpt();
@@ -132,7 +132,7 @@ $share_title = esc_attr(get_the_title());
                   ?>
                 </p>
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="font-size: 0.75rem; color: var(--color-text-muted);"><?php echo get_the_date('F j, Y'); ?></span>
+                  <span style="font-size: 0.75rem; color: var(--color-text-muted);"><?php echo esc_html(get_the_date('F j, Y')); ?></span>
                   <a class="btn btn--small" href="<?php the_permalink(); ?>" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Read More</a>
                 </div>
               </div>
