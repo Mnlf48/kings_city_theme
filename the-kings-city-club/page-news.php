@@ -58,27 +58,27 @@ if ($news_query->have_posts()) :
         <section class="section content-panel <?php echo esc_attr($bg_class); ?>" style="position: relative; overflow: hidden;">
           <!-- Background Floating Icons -->
           <!-- 1. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: <?php echo $c1; ?>;">
+          <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: <?php echo esc_attr( $c1 ); ?>;">
             <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
           </div>
           <!-- 2. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: <?php echo $c2; ?>;">
+          <div class="floating-bg-icon anim-pulse" style="bottom: 15%; left: 8%; color: <?php echo esc_attr( $c2 ); ?>;">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           </div>
           <!-- 3. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 25%; right: 40%; color: <?php echo $c3; ?>;">
+          <div class="floating-bg-icon anim-float-fast" style="top: 25%; right: 40%; color: <?php echo esc_attr( $c3 ); ?>;">
             <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
           </div>
           <!-- 4. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: <?php echo $c1; ?>;">
+          <div class="floating-bg-icon anim-pulse" style="bottom: 10%; right: 10%; color: <?php echo esc_attr( $c1 ); ?>;">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           </div>
           <!-- 5. Star -->
-          <div class="floating-bg-icon anim-float-fast" style="top: 15%; left: 12%; color: <?php echo $c2; ?>;">
+          <div class="floating-bg-icon anim-float-fast" style="top: 15%; left: 12%; color: <?php echo esc_attr( $c2 ); ?>;">
             <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
           </div>
           <!-- 6. Heart -->
-          <div class="floating-bg-icon anim-pulse" style="top: 45%; left: 25%; color: <?php echo $c3; ?>;">
+          <div class="floating-bg-icon anim-pulse" style="top: 45%; left: 25%; color: <?php echo esc_attr( $c3 ); ?>;">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           </div>
         
