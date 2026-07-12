@@ -287,8 +287,6 @@ endif;
 </section>
 </main>
 <script>
-</script>
-<script>
     // Generic Image Sliders
     (function() {
       const sliders = document.querySelectorAll('.spaces-img-slider');

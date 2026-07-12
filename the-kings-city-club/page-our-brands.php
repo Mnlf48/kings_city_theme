@@ -349,8 +349,6 @@ get_header();
 </section>
 </main>
 <script>
-</script>
-<script>
     // Brands Interactive Tabs
     const brandItems = document.querySelectorAll('.brand-list__item');
     const brandDetails = document.querySelectorAll('.brand-detail');

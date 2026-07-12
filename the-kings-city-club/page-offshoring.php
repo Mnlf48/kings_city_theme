@@ -739,10 +739,6 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
 
 </section>
 </main>
-<script>
-</script>
-<script>
-  </script>
 
 
 <?php get_footer(); ?>

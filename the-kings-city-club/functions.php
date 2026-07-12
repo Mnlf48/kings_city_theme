@@ -161,6 +161,136 @@ function kings_city_scripts() {
 	}
 }';
 	wp_add_inline_style( 'kings-city-style', $messenger_css );
+
+	// Page-specific: Apply Now (team builder)
+	if ( is_page_template( 'page-apply.php' ) ) {
+		wp_enqueue_script( 'kings-city-team-builder', get_template_directory_uri() . '/assets/js/team-builder.js', array(), KINGS_CITY_VERSION, true );
+
+		$tb_roles_raw = array();
+		$tb_query = new WP_Query( array( 'post_type' => 'tb_role', 'posts_per_page' => -1, 'post_status' => 'publish' ) );
+		if ( $tb_query->have_posts() ) {
+			while ( $tb_query->have_posts() ) {
+				$tb_query->the_post();
+				$terms = get_the_terms( get_the_ID(), 'tb_role_category' );
+				$cat   = ( $terms && ! is_wp_error( $terms ) ) ? $terms[0]->name : 'Uncategorized';
+				if ( ! isset( $tb_roles_raw[ $cat ] ) ) {
+					$tb_roles_raw[ $cat ] = array( 'cat' => $cat, 'roles' => array() );
+				}
+				$tb_roles_raw[ $cat ]['roles'][] = array(
+					'id'   => get_post_field( 'post_name', get_post() ),
+					'name' => get_the_title(),
+					'desc' => wp_strip_all_tags( get_the_content() ),
+					'base' => (int) get_field( 'base_price' ),
+				);
+			}
+			wp_reset_postdata();
+		}
+
+		$tb_currencies = get_option( 'kc_tb_currencies', array(
+			array( 'code' => 'AUD', 'rate' => 0.026 ),
+			array( 'code' => 'USD', 'rate' => 0.017 ),
+			array( 'code' => 'PHP', 'rate' => 1 ),
+		) );
+		if ( empty( $tb_currencies ) ) {
+			$tb_currencies = array(
+				array( 'code' => 'AUD', 'rate' => 0.026 ),
+				array( 'code' => 'USD', 'rate' => 0.017 ),
+				array( 'code' => 'PHP', 'rate' => 1 ),
+			);
+		}
+		$tb_rates = array();
+		foreach ( $tb_currencies as $c ) {
+			$tb_rates[ $c['code'] ] = (float) $c['rate'];
+		}
+
+		wp_localize_script( 'kings-city-team-builder', 'kcTeamBuilder', array(
+			'roleCatalog'   => array_values( $tb_roles_raw ),
+			'currencyRates' => $tb_rates,
+			'defaultCurr'   => $tb_currencies[0]['code'],
+			'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
+		) );
+	}
+
+	// Page-specific: Flatpickr (Book a Tour only)
+	if ( is_page_template( 'page-book-now.php' ) ) {
+		wp_enqueue_style(
+			'flatpickr',
+			'https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css',
+			array(),
+			'4.6.13'
+		);
+		wp_enqueue_script(
+			'flatpickr',
+			'https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js',
+			array(),
+			'4.6.13',
+			true
+		);
+		// Vimeo Player SDK (only when a video ID is present)
+		wp_enqueue_script(
+			'vimeo-player',
+			'https://player.vimeo.com/api/player.js',
+			array(),
+			null,
+			true
+		);
+
+		wp_enqueue_script( 'kings-city-booking', get_template_directory_uri() . '/assets/js/booking.js', array( 'flatpickr' ), KINGS_CITY_VERSION, true );
+
+		$bk_spaces = get_posts( array(
+			'post_type'      => 'kc_space',
+			'posts_per_page' => -1,
+			'post_status'    => 'publish',
+			'meta_query'     => array( array( 'key' => 'kc_space_is_active', 'value' => '1' ) ),
+			'orderby'        => 'menu_order',
+			'order'          => 'ASC',
+		) );
+		$bk_map = array();
+		foreach ( $bk_spaces as $bk_sp ) {
+			$bk_key = get_field( 'kc_space_booking_key', $bk_sp->ID );
+			if ( ! $bk_key ) continue;
+			$bk_heading    = get_field( 'kc_space_heading', $bk_sp->ID ) ?: $bk_sp->post_title;
+			$bk_overline   = get_field( 'kc_space_form_overline', $bk_sp->ID ) ?: $bk_key;
+			$bk_desc1      = get_field( 'kc_space_description_1', $bk_sp->ID ) ?: '';
+			$bk_desc2      = get_field( 'kc_space_description_2', $bk_sp->ID ) ?: '';
+			$bk_form_title = get_field( 'kc_space_form_title', $bk_sp->ID ) ?: 'Book ' . $bk_heading;
+			$bk_img_key    = get_field( 'kc_space_book_image_key', $bk_sp->ID );
+			$bk_img        = $bk_img_key ? ( get_field( $bk_img_key, $bk_sp->ID ) ?: get_field( 'kc_space_img_1', $bk_sp->ID ) ) : get_field( 'kc_space_img_1', $bk_sp->ID );
+			$bk_img        = $bk_img ?: '';
+			$bk_feats_raw  = get_field( 'kc_space_features', $bk_sp->ID ) ?: '';
+			$bk_features   = $bk_feats_raw ? array_values( array_filter( array_map( 'trim', explode( "\n", $bk_feats_raw ) ) ) ) : array();
+			$bk_opts_raw   = get_field( 'kc_space_pricing_options', $bk_sp->ID ) ?: '';
+			$bk_options    = array();
+			if ( $bk_opts_raw ) {
+				foreach ( array_filter( array_map( 'trim', explode( "\n", $bk_opts_raw ) ) ) as $opt_line ) {
+					$parts = explode( '|', $opt_line, 3 );
+					if ( count( $parts ) === 3 ) {
+						$bk_options[] = array( 'label' => trim( $parts[0] ), 'value' => trim( $parts[1] ), 'price' => (int) trim( $parts[2] ) );
+					}
+				}
+			}
+			$bk_text_html = '';
+			if ( $bk_desc1 ) $bk_text_html .= '<p>' . esc_html( $bk_desc1 ) . '</p>';
+			if ( $bk_desc2 ) $bk_text_html .= '<p>' . esc_html( $bk_desc2 ) . '</p>';
+			$bk_map[ $bk_key ] = array(
+				'image'     => $bk_img,
+				'overline'  => $bk_overline,
+				'title'     => $bk_heading,
+				'text'      => $bk_text_html,
+				'features'  => $bk_features,
+				'formTitle' => $bk_form_title,
+				'options'   => $bk_options,
+			);
+		}
+
+		wp_localize_script( 'kings-city-booking', 'kcBooking', array(
+			'bookingData' => $bk_map,
+			'ajax'        => array(
+				'url'   => admin_url( 'admin-ajax.php' ),
+				'nonce' => wp_create_nonce( 'kc_booked_dates_nonce' ),
+			),
+		) );
+	}
 }
 add_action( 'wp_enqueue_scripts', 'kings_city_scripts' );
 
