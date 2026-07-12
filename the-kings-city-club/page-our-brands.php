@@ -305,49 +305,31 @@ get_header();
 </section>
 </main>
 <script>
-    // Brands Interactive Tabs
-    const brandItems = document.querySelectorAll('.brand-list__item');
-    const brandDetails = document.querySelectorAll('.brand-detail');
+(function() {
+    var brandItems   = document.querySelectorAll('.brand-list__item');
+    var brandDetails = document.querySelectorAll('.brand-detail');
+    if (!brandItems.length) return;
 
     function updateBrandDetail(item) {
-      if (item.classList.contains('is-active')) return;
-
-      // Remove active class from all items and details
-      brandItems.forEach(el => el.classList.remove('is-active'));
-      brandDetails.forEach(el => {
-        el.classList.remove('is-active');
-        el.style.opacity = '0';
-      });
-
-      // Add active class to hovered/clicked item
-      item.classList.add('is-active');
-
-      // Show corresponding detail
-      const targetId = item.getAttribute('data-target');
-      const targetDetail = document.getElementById(targetId);
-      
-      if (targetDetail) {
-        targetDetail.classList.add('is-active');
-        // Slight delay for smooth fade-in
-        setTimeout(() => {
-          targetDetail.style.opacity = '1';
-        }, 50);
-      }
+        if (item.classList.contains('is-active')) return;
+        brandItems.forEach(function(el) { el.classList.remove('is-active'); });
+        brandDetails.forEach(function(el) { el.classList.remove('is-active'); el.style.opacity = '0'; });
+        item.classList.add('is-active');
+        var targetDetail = document.getElementById(item.getAttribute('data-target'));
+        if (targetDetail) {
+            targetDetail.classList.add('is-active');
+            setTimeout(function() { targetDetail.style.opacity = '1'; }, 50);
+        }
     }
 
-    brandItems.forEach(item => {
-      // Click interaction
-      item.addEventListener('click', () => updateBrandDetail(item));
-      
-      // Keyboard support
-      item.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          updateBrandDetail(item);
-        }
-      });
+    brandItems.forEach(function(item) {
+        item.addEventListener('click', function() { updateBrandDetail(item); });
+        item.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); updateBrandDetail(item); }
+        });
     });
-  </script>
+})();
+</script>
 
 
 <?php get_footer(); ?>

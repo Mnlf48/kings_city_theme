@@ -662,24 +662,22 @@ else:
 </main>
 
 <script>
-    // SVG Line-Drawing Animation (What Defines Us)
-    const definesIcons = document.querySelectorAll('.defines-icon');
-    if (definesIcons.length > 0) {
-      const iconObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-drawing');
-            // After the initial draw completes, add looping class
-            setTimeout(() => {
-              entry.target.classList.add('is-looping');
-            }, 2500);
-          }
+(function() {
+    var definesIcons = document.querySelectorAll('.defines-icon');
+    if (definesIcons.length === 0) return;
+    var iconObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-drawing');
+                setTimeout(function() {
+                    entry.target.classList.add('is-looping');
+                }, 2500);
+            }
         });
-      }, { threshold: 0.3 });
-
-      definesIcons.forEach(icon => iconObserver.observe(icon));
-    }
-  </script>
+    }, { threshold: 0.3 });
+    definesIcons.forEach(function(icon) { iconObserver.observe(icon); });
+})();
+</script>
 
 <?php
 get_footer();
