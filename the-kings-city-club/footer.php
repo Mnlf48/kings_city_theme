@@ -100,8 +100,8 @@ if (!defined('ABSPATH')) exit;
         &copy; <?php echo date('Y'); ?> <?php echo esc_html($f_copyright); ?>
       </div>
       <div class="footer-bottom__links">
-        <a href="#"><?php echo esc_html($f_privacy_label); ?></a>
-        <a href="#"><?php echo esc_html($f_terms_label); ?></a>
+        <a href="<?php echo kc_get_page_url( 'page-privacy-policy.php', '/privacy-policy/' ); ?>"><?php echo esc_html($f_privacy_label); ?></a>
+        <a href="<?php echo kc_get_page_url( 'page-term-of-use.php', '/term-of-use/' ); ?>"><?php echo esc_html($f_terms_label); ?></a>
       </div>
     </div>
   </div>
