@@ -306,11 +306,12 @@ function kc_ajax_submit_quote() {
     $email = sanitize_email($_POST['email']);
     $phone = sanitize_text_field($_POST['phone']);
     $address = sanitize_textarea_field($_POST['address']);
-    $team_json = stripslashes($_POST['team_json']);
-    
+    $team_json = wp_unslash($_POST['team_json']);
     $team_data = json_decode($team_json, true);
-    
-    $team_data = json_decode($team_json, true);
+    if (!is_array($team_data)) {
+        wp_send_json_error(array('message' => 'Invalid team data.'));
+    }
+    $team_json = wp_json_encode($team_data);
     
     // Check for recent submissions from the same email
     $recent_leads = get_posts(array(

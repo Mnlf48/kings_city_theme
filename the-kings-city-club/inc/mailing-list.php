@@ -119,7 +119,15 @@ function kc_ml_send_newsletter() {
     $recipients = sanitize_text_field($_POST['recipients'] ?? 'both');
 
     // Fetch recipients
-    if ($recipients === 'active') {
+    if ($recipients === 'specific') {
+        $raw_list = sanitize_text_field(wp_unslash($_POST['specific_emails'] ?? ''));
+        $emails   = array_values(array_unique(array_filter(
+            array_map('sanitize_email', explode(',', $raw_list))
+        )));
+        if (empty($emails)) {
+            wp_send_json_error(array('message' => 'No valid email addresses provided.'));
+        }
+    } elseif ($recipients === 'active') {
         $emails = $wpdb->get_col("SELECT email FROM {$table} WHERE status = 'active'");
     } else {
         $emails = $wpdb->get_col("SELECT email FROM {$table} WHERE status IN ('pending','active')");
@@ -315,6 +323,13 @@ function kc_ml_render_page() {
             .kc-ml-send-result { padding:12px 16px; border-radius:4px; font-size:13px; font-weight:600; margin-top:12px; display:none; }
             .kc-ml-send-result.success { background:#f0fdf4; border:1px solid #86efac; color:#166534; }
             .kc-ml-send-result.error   { background:#fff0f0; border:1px solid #fca5a5; color:#991b1b; }
+            /* Tag input */
+            .kc-ml-tag-input { display:flex; flex-wrap:wrap; gap:6px; padding:6px 8px; border:1px solid #d1d5db; border-radius:4px; cursor:text; min-height:40px; align-items:center; }
+            .kc-ml-tag-input:focus-within { border-color:#BD451F; }
+            .kc-ml-tag-input input { border:none; outline:none; font-size:13px; padding:2px 4px; flex:1; min-width:180px; background:transparent; }
+            .kc-ml-tag { display:inline-flex; align-items:center; gap:4px; background:#BD451F; color:#fff; font-size:12px; font-weight:600; padding:3px 8px; border-radius:3px; }
+            .kc-ml-tag-remove { background:none; border:none; color:#fff; cursor:pointer; font-size:14px; line-height:1; padding:0; opacity:.8; }
+            .kc-ml-tag-remove:hover { opacity:1; }
         </style>
 
         <!-- Stats -->
@@ -375,6 +390,19 @@ function kc_ml_render_page() {
                             Active only
                             <span style="color:#6b7280;font-size:12px;">(<?php echo esc_html($counts['active']); ?> total)</span>
                         </label>
+                        <label>
+                            <input type="radio" name="kc_ml_recipients" value="specific" />
+                            Specific subscribers
+                            <span style="color:#6b7280;font-size:12px;">(enter emails below)</span>
+                        </label>
+                    </div>
+
+                    <!-- Specific email tag input — shown only when "specific" is selected -->
+                    <div id="kc-ml-specific-wrap" style="display:none; margin-top:10px;">
+                        <div class="kc-ml-tag-input" id="kc-ml-tag-box">
+                            <input type="text" id="kc-ml-tag-entry" placeholder="Type an email and press Enter or comma…" autocomplete="off" />
+                        </div>
+                        <p style="font-size:11px; color:#6b7280; margin:4px 0 0;">Press <strong>Enter</strong> or <strong>,</strong> after each email. Click the × to remove.</p>
                     </div>
 
                     <div class="kc-ml-send-result" id="kc-ml-send-result"></div>
@@ -509,9 +537,70 @@ function kc_ml_render_page() {
             });
         });
 
+        // ----- Tag-input for specific emails -----
+        var specificEmails = [];
+
+        function renderTags() {
+            $('#kc-ml-tag-box .kc-ml-tag').remove();
+            var entry = $('#kc-ml-tag-entry');
+            $.each(specificEmails, function(i, email) {
+                var tag = $('<span class="kc-ml-tag"></span>').text(email);
+                var rm  = $('<button class="kc-ml-tag-remove" type="button">&times;</button>');
+                rm.on('click', function() {
+                    specificEmails.splice(i, 1);
+                    renderTags();
+                });
+                tag.append(rm);
+                entry.before(tag);
+            });
+        }
+
+        function addTag(raw) {
+            var emails = raw.split(/[\s,]+/);
+            $.each(emails, function(_, e) {
+                e = e.trim().toLowerCase();
+                if (e && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e) && specificEmails.indexOf(e) === -1) {
+                    specificEmails.push(e);
+                }
+            });
+            renderTags();
+        }
+
+        $('#kc-ml-tag-entry').on('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ',') {
+                e.preventDefault();
+                var val = $(this).val().trim();
+                if (val) { addTag(val); $(this).val(''); }
+            } else if (e.key === 'Backspace' && $(this).val() === '' && specificEmails.length) {
+                specificEmails.pop();
+                renderTags();
+            }
+        }).on('blur', function() {
+            var val = $(this).val().trim();
+            if (val) { addTag(val); $(this).val(''); }
+        });
+
+        // Click anywhere in tag box focuses the input
+        $('#kc-ml-tag-box').on('click', function() { $('#kc-ml-tag-entry').focus(); });
+
+        // Show/hide specific panel on radio change
+        $('input[name="kc_ml_recipients"]').on('change', function() {
+            if ($(this).val() === 'specific') {
+                $('#kc-ml-specific-wrap').show();
+                $('#kc-ml-tag-entry').focus();
+            } else {
+                $('#kc-ml-specific-wrap').hide();
+            }
+        });
+
         // Send Newsletter modal
         $('#kc-ml-open-send').on('click', function() {
             $('#kc-ml-send-result').hide().removeClass('success error').text('');
+            // Reset to "both" and hide specific panel each time modal opens
+            $('input[name="kc_ml_recipients"][value="both"]').prop('checked', true);
+            $('#kc-ml-specific-wrap').hide();
+            specificEmails = [];
+            renderTags();
             $('#kc-ml-send-modal').addClass('open');
         });
         $('#kc-ml-close-modal, #kc-ml-cancel-send').on('click', function() {
@@ -527,15 +616,30 @@ function kc_ml_render_page() {
             var recipients = $('input[name="kc_ml_recipients"]:checked').val();
             var result     = $('#kc-ml-send-result');
 
+            // Flush any partially-typed email in the tag box
+            var pending = $('#kc-ml-tag-entry').val().trim();
+            if (pending) { addTag(pending); $('#kc-ml-tag-entry').val(''); }
+
+            if (recipients === 'specific' && specificEmails.length === 0) {
+                result.removeClass('success').addClass('error')
+                      .text('Please add at least one email address.').show();
+                return;
+            }
+
             btn.prop('disabled', true).html('<span class="dashicons dashicons-update" style="font-size:14px;vertical-align:middle;margin-right:4px;"></span> Sending…');
             result.hide().removeClass('success error');
 
-            $.post(ajaxurl, {
+            var payload = {
                 action:     'kc_ml_send_newsletter',
                 custom_url: custom_url,
                 recipients: recipients,
                 nonce:      nonce
-            }, function(r) {
+            };
+            if (recipients === 'specific') {
+                payload.specific_emails = specificEmails.join(',');
+            }
+
+            $.post(ajaxurl, payload, function(r) {
                 btn.prop('disabled', false).html('<span class="dashicons dashicons-email-alt" style="font-size:14px;vertical-align:middle;margin-right:4px;"></span> Send Now');
                 if (r.success) {
                     var msg = '✓ Sent to ' + r.data.sent + ' of ' + r.data.total + ' recipients.';
@@ -568,19 +672,24 @@ function kc_ml_render_page() {
 
             $.post(ajaxurl, { action: 'kc_ml_activate_all_pending', nonce: nonce }, function(r) {
                 if (r.success) {
+                    var pendingCount = getCount('pending');
                     // Update every pending row in the table immediately
                     $('.kc-ml-status-select').each(function() {
                         if ($(this).val() === 'pending') {
-                            $(this).val('active').css({ 'background-color': colors.active.bg, color: colors.active.color });
+                            $(this).val('active').data('prev', 'active')
+                                   .css({ 'background-color': colors.active.bg, color: colors.active.color });
                             $(this).siblings('.kc-ml-select-arrow').css('color', colors.active.color);
                         }
                     });
+                    // Update the stat tiles
+                    setCount('active', getCount('active') + pendingCount);
+                    setCount('pending', 0);
                     btn.html('<span class="dashicons dashicons-yes-alt" style="font-size:16px;line-height:1.5;"></span> Activate All Pending (0)')
                        .prop('disabled', true);
                 } else {
                     alert('Error activating subscribers.');
                     btn.prop('disabled', false)
-                       .html('<span class="dashicons dashicons-yes-alt" style="font-size:16px;line-height:1.5;"></span> Activate All Pending');
+                       .html('<span class="dashicons dashicons-yes-alt" style="font-size:16px;line-height:1.5;"></span> Activate All Pending (' + getCount('pending') + ')');
                 }
             });
         });

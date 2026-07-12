@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 /**
  * Kings City Theme functions and definitions
  *
@@ -38,6 +39,35 @@ function kings_city_setup() {
 }
 add_action( 'after_setup_theme', 'kings_city_setup' );
 
+add_filter('rest_endpoints', function($endpoints) {
+    if (!is_user_logged_in()) {
+        unset($endpoints['/wp/v2/users']);
+        unset($endpoints['/wp/v2/users/(?P<id>[\d]+)']);
+    }
+    return $endpoints;
+});
+
+add_filter('xmlrpc_enabled', '__return_false');
+remove_action('wp_head', 'wp_generator');
+add_filter('the_generator', '__return_empty_string');
+add_filter('style_loader_src', function($src) {
+    return $src ? remove_query_arg('ver', $src) : $src;
+});
+add_filter('script_loader_src', function($src) {
+    return $src ? remove_query_arg('ver', $src) : $src;
+});
+
+add_action('send_headers', function() {
+    header('X-Frame-Options: SAMEORIGIN');
+    header('X-Content-Type-Options: nosniff');
+    header('X-XSS-Protection: 1; mode=block');
+    header('Referrer-Policy: strict-origin-when-cross-origin');
+    header('Permissions-Policy: geolocation=(), microphone=(), camera=()');
+    if (is_ssl()) {
+        header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
+    }
+});
+
 /**
  * Enqueue scripts and styles.
  */
@@ -48,8 +78,10 @@ function kings_city_scripts() {
 	// Enqueue Google Fonts (from original header)
 	wp_enqueue_style( 'kings-city-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600;700&display=swap', array(), null );
 
-    // Enqueue FontAwesome
-    wp_enqueue_style( 'font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', array(), '6.4.0' );
+    // Font Awesome via direct tag to support SRI integrity attribute
+    add_action('wp_head', function() {
+        echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">' . "\n";
+    }, 5);
 
 	// Scripts
 	wp_enqueue_script( 'kings-city-navigation', get_template_directory_uri() . '/assets/js/navigation.js', array(), KINGS_CITY_VERSION, true );

@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 /**
  * HTML Email Template: Booking Confirmed
  * 

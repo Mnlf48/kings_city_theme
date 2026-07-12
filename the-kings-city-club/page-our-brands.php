@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 /* Template Name: Our Brands */
 get_header();
 ?>

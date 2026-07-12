@@ -45,7 +45,7 @@ function kc_email_templates_page() {
         update_option($prefix . 'body',     wp_kses_post(wp_unslash($_POST['email_body'])));
         update_option($prefix . 'banner',   sanitize_text_field(wp_unslash($_POST['email_banner'])));
         update_option($prefix . 'btn_text', sanitize_text_field(wp_unslash($_POST['email_btn_text'])));
-        update_option($prefix . 'btn_url',  sanitize_text_field(wp_unslash($_POST['email_btn_url'])));
+        update_option($prefix . 'btn_url',  esc_url_raw(wp_unslash($_POST['email_btn_url'])));
 
         echo '<div class="notice notice-success is-dismissible"><p>Email template settings saved successfully!</p></div>';
     }

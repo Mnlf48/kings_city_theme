@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
   $footer_page = get_page_by_title('Footer');
   $footer_id   = $footer_page ? $footer_page->ID : false;
 
@@ -113,6 +114,24 @@
   var msg   = document.getElementById('kc-loop-msg');
   if (!form) return;
 
+  var LS_KEY = 'kc_loop_subscribed';
+
+  function lockForm(message) {
+    var input = document.getElementById('kc-loop-email');
+    var btn   = form.querySelector('.footer-loop__btn');
+    input.disabled = true;
+    input.value    = '';
+    btn.disabled   = true;
+    btn.textContent = 'Subscribed';
+    msg.textContent = message || "You’re already on our list!";
+    msg.className = 'footer-loop__msg footer-loop__msg--success';
+  }
+
+  // On page load: if already subscribed in this browser, lock immediately
+  if (localStorage.getItem(LS_KEY)) {
+    lockForm();
+  }
+
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     var email = document.getElementById('kc-loop-email').value.trim();
@@ -138,15 +157,20 @@
       .then(function(r) { return r.json(); })
       .then(function(r) {
         if (r.success) {
-          msg.textContent = r.data.message;
-          msg.classList.add('footer-loop__msg--success');
-          form.reset();
+          localStorage.setItem(LS_KEY, '1');
+          lockForm(r.data.message);
         } else {
-          msg.textContent = r.data.message;
-          msg.classList.add('footer-loop__msg--error');
+          // Duplicate email — lock the form and remember it too
+          if (r.data && r.data.message && r.data.message.indexOf('already') !== -1) {
+            localStorage.setItem(LS_KEY, '1');
+            lockForm("You’re already on our list!");
+          } else {
+            msg.textContent = r.data.message;
+            msg.classList.add('footer-loop__msg--error');
+            btn.disabled = false;
+            btn.textContent = 'Keep Me Posted';
+          }
         }
-        btn.disabled = false;
-        btn.textContent = 'Keep Me Posted';
       })
       .catch(function() {
         msg.textContent = 'Something went wrong. Please try again.';

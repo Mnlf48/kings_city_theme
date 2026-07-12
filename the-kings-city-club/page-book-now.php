@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 /* Template Name: Book a Tour */
 
 $booking_submitted = false;
@@ -579,8 +580,8 @@ foreach ($bk_active_spaces as $bk_sp) {
 </section>
 </main>
 <!-- Flatpickr — custom date picker with per-date enable/disable support -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css" integrity="sha384-RkASv+6KfBMW9eknReJIJ6b3UnjKOKC5bOUaNgIY778NFbQ8MtWq9Lr/khUgqtTt" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js" integrity="sha384-5JqMv4L/Xa0hfvtF06qboNdhvuYXUku9ZrhZh3bSk8VXF0A/RuSLHpLsSV9Zqhl6" crossorigin="anonymous"></script>
 <style>
 .flatpickr-calendar { border-radius: 0 !important; font-family: inherit; box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
 .flatpickr-months .flatpickr-month, .flatpickr-weekdays, span.flatpickr-weekday { background: #BD451F; color: #fff; fill: #fff; }

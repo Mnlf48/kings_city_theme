@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 /* Template Name: About */
 get_header();
 ?>
@@ -10,22 +11,22 @@ get_header();
 <div class="col-12 split split--media-right">
 <!-- text content on left -->
 <div class="split__content animate-fadeInUp hero__content--index">
-<span class="text-overline hero__overline"><?php echo get_field('overline_3'); ?></span>
+<span class="text-overline hero__overline"><?php echo esc_html(get_field('overline_3')); ?></span>
 <h1 class="hero__title hero__title--inner" style="width: 100%;">
 <?php 
 $h1_val = get_field('h1_1');
 if (!$h1_val) $h1_val = 'The Kings City Club';
 
 if (stripos($h1_val, 'the kings city club') !== false) {
-    echo '<span style="display: block;">' . trim(str_ireplace('City Club', '', $h1_val)) . '</span>';
+    echo '<span style="display: block;">' . esc_html(trim(str_ireplace('City Club', '', $h1_val))) . '</span>';
     echo '<span style="display: block;">CITY CLUB</span>';
 } else {
-    $w = explode(' ', trim($h1_val)); 
-    echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h1_val;
+    $w = explode(' ', trim($h1_val));
+    echo (count($w) === 3) ? esc_html($w[0]) . '&nbsp;' . esc_html($w[1]) . ' ' . esc_html($w[2]) : esc_html($h1_val);
 }
 ?>
 </h1>
-<p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
+<p class="hero__subtitle"><?php echo esc_html(get_field('p_2')); ?></p>
 <div class="hero__actions hero__actions--index">
 <?php
 $about_hero_btn_text = get_field('proposed_about_hero_btn_text') ?: 'Read Our Story';
@@ -60,10 +61,10 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 <img alt="Kings City Bag" src="<?php echo kc_img('image_12', 'page-about-img/kings_img08.webp'); ?>" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; border-radius: var(--radius-card);"/>
 </div>
 <div class="split__content">
-<span class="text-overline"><?php echo get_field('overline_11'); ?></span>
-<h2 style="font-family: var(--font-heading); font-weight: 400; color: var(--color-primary); margin-bottom: var(--space-lg); line-height: 1.2;"><?php echo get_field('h2_8'); ?></h2>
-<p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: var(--space-md);"><?php echo get_field('p_9'); ?></p>
-<p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: 0;"><?php echo get_field('p_10'); ?></p>
+<span class="text-overline"><?php echo esc_html(get_field('overline_11')); ?></span>
+<h2 style="font-family: var(--font-heading); font-weight: 400; color: var(--color-primary); margin-bottom: var(--space-lg); line-height: 1.2;"><?php echo esc_html(get_field('h2_8')); ?></h2>
+<p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: var(--space-md);"><?php echo esc_html(get_field('p_9')); ?></p>
+<p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: 0;"><?php echo esc_html(get_field('p_10')); ?></p>
 </div>
 </div>
 </div>
@@ -102,9 +103,9 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
           <!-- Intricate Mission Compass Icon -->
           <svg fill="none" height="32" stroke="var(--color-bg-ivory)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="32"><path fill="var(--color-primary)" fill-opacity="0.3" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.53-.21-1.04-.59-1.41-.37-.38-.59-.88-.59-1.41 0-1.1.9-2 2-2h1.67c2.65 0 4.83-2.18 4.83-4.83C21.83 6.31 17.43 2 12 2z"></path><circle cx="12" cy="12" r="3" fill="var(--color-accent-gold)" stroke="none"></circle><path d="M12 2v6" stroke="var(--color-accent-gold)"></path><path d="M12 22v-6" stroke="var(--color-accent-gold)"></path><path d="M2 12h6" stroke="var(--color-accent-gold)"></path><path d="M22 12h-6" stroke="var(--color-accent-gold)"></path></svg>
         </div>
-        <span class="text-overline"><?php echo get_field('overline_mv_mission'); ?></span>
-        <h2 class="mv-card__title"><?php echo get_field('h3_mv_mission'); ?></h2>
-        <p class="mv-card__text"><?php echo get_field('p_mv_mission'); ?></p>
+        <span class="text-overline"><?php echo esc_html(get_field('overline_mv_mission')); ?></span>
+        <h2 class="mv-card__title"><?php echo esc_html(get_field('h3_mv_mission')); ?></h2>
+        <p class="mv-card__text"><?php echo esc_html(get_field('p_mv_mission')); ?></p>
       </div>
       <!-- vision card -->
       <div class="split__content card-glass card-glass--strong section--brown mv-card">
@@ -112,9 +113,9 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
           <!-- Intricate Vision Diamond Icon -->
           <svg fill="none" height="32" stroke="var(--color-bg-ivory)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="32"><path fill="var(--color-secondary)" fill-opacity="0.8" d="M2 12l10-10 10 10-10 10Z"></path><path fill="var(--color-accent-gold)" d="M12 8l3 4-3 4-3-4Z" stroke="none"></path><circle cx="12" cy="12" r="1.5" fill="var(--color-bg-ivory)" stroke="none"></circle></svg>
         </div>
-        <span class="text-overline"><?php echo get_field('overline_mv_vision'); ?></span>
-        <h2 class="mv-card__title"><?php echo get_field('h3_mv_vision'); ?></h2>
-        <p class="mv-card__text"><?php echo get_field('p_mv_vision'); ?></p>
+        <span class="text-overline"><?php echo esc_html(get_field('overline_mv_vision')); ?></span>
+        <h2 class="mv-card__title"><?php echo esc_html(get_field('h3_mv_vision')); ?></h2>
+        <p class="mv-card__text"><?php echo esc_html(get_field('p_mv_vision')); ?></p>
       </div>
     </div>
   </div>
@@ -152,10 +153,10 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
   <div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split">
 <div class="split__content animate-fadeInUp">
-<span class="text-overline"><?php echo get_field('overline_17'); ?></span>
-<h2 style="font-family: var(--font-heading); font-weight: 400; color: var(--color-primary); margin-bottom: var(--space-md);"><?php echo get_field('h2_14'); ?></h2>
-<p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-md);"><?php echo get_field('p_15'); ?></p>
-<p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: 0;"><?php echo get_field('p_16'); ?></p>
+<span class="text-overline"><?php echo esc_html(get_field('overline_17')); ?></span>
+<h2 style="font-family: var(--font-heading); font-weight: 400; color: var(--color-primary); margin-bottom: var(--space-md);"><?php echo esc_html(get_field('h2_14')); ?></h2>
+<p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-md);"><?php echo esc_html(get_field('p_15')); ?></p>
+<p style="color: var(--color-text-muted); line-height: 1.7; margin-bottom: 0;"><?php echo esc_html(get_field('p_16')); ?></p>
 </div>
 <div class="split__media text-center">
 <img alt="Philippine Map" src="<?php echo kc_img('image_18', 'page-about-img/kings-img58.png'); ?>" style="max-width: 100%; height: auto; max-height: 400px; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05));"/>
@@ -191,8 +192,8 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
   <!-- Background Floating Icons (Ivory Optimized Mix) -->
   <div class="core-values-container" style="position: relative; z-index: 2;">
     <div class="text-center" style="margin-bottom: var(--space-2xl);">
-      <span class="text-overline"><?php echo get_field('overline_29'); ?></span>
-      <h2 style="font-family: var(--font-heading); font-weight: 400; color: var(--color-primary);"><?php echo get_field('h2_20'); ?></h2>
+      <span class="text-overline"><?php echo esc_html(get_field('overline_29')); ?></span>
+      <h2 style="font-family: var(--font-heading); font-weight: 400; color: var(--color-primary);"><?php echo esc_html(get_field('h2_20')); ?></h2>
     </div>
     <div class="universal-glass-grid cycle-card-bg">
       <!-- card 1 -->
@@ -202,8 +203,8 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
           <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="32"><path fill="var(--color-accent-red)" fill-opacity="0.3" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path><circle cx="15.5" cy="8.5" r="1.5" fill="var(--color-accent-gold)" stroke="none"></circle></svg>
         </div>
         <span class="text-overline" style="margin-bottom: 0.5rem; color: var(--color-secondary);">01.</span>
-        <h3 style="margin-top: 0; font-size: 1.5rem;"><?php echo get_field('h3_21'); ?></h3>
-        <p style="color: var(--color-text-muted); font-size: 1rem;"><?php echo get_field('p_25'); ?></p>
+        <h3 style="margin-top: 0; font-size: 1.5rem;"><?php echo esc_html(get_field('h3_21')); ?></h3>
+        <p style="color: var(--color-text-muted); font-size: 1rem;"><?php echo esc_html(get_field('p_25')); ?></p>
       </div>
       <!-- card 2 -->
       <div class="card-glass text-center compact-mobile" style="display: flex; flex-direction: column; align-items: center; padding: var(--space-xl) var(--space-lg);">
@@ -212,8 +213,8 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
           <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="32"><path fill="var(--color-secondary)" fill-opacity="0.3" d="M2 20h20"></path><path fill="var(--color-accent-gold)" fill-opacity="0.3" d="M4 20L5 8l4 4 3-6 3 6 4-4 1 12H4z"></path><circle cx="12" cy="4" r="1.5" fill="var(--color-accent-gold)" stroke="none"></circle><circle cx="5" cy="5" r="1" fill="var(--color-primary)" stroke="none"></circle><circle cx="19" cy="5" r="1" fill="var(--color-primary)" stroke="none"></circle></svg>
         </div>
         <span class="text-overline" style="margin-bottom: 0.5rem; color: var(--color-secondary);">02.</span>
-        <h3 style="margin-top: 0; font-size: 1.5rem;"><?php echo get_field('h3_22'); ?></h3>
-        <p style="color: var(--color-text-muted); font-size: 1rem;"><?php echo get_field('p_26'); ?></p>
+        <h3 style="margin-top: 0; font-size: 1.5rem;"><?php echo esc_html(get_field('h3_22')); ?></h3>
+        <p style="color: var(--color-text-muted); font-size: 1rem;"><?php echo esc_html(get_field('p_26')); ?></p>
       </div>
       <!-- card 3 -->
       <div class="card-glass text-center compact-mobile" style="display: flex; flex-direction: column; align-items: center; padding: var(--space-xl) var(--space-lg);">
@@ -222,8 +223,8 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
           <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="32"><path fill="var(--color-bg-pink)" d="M12 22v-6"></path><path fill="var(--color-primary)" fill-opacity="0.2" d="M12 16a4 4 0 0 0-4-4 4 4 0 0 0-4 4c0 2 1.5 3 4 3s4-1 4-3z"></path><path fill="var(--color-accent-gold)" fill-opacity="0.2" d="M12 16a4 4 0 0 1 4-4 4 4 0 0 1 4 4c0 2-1.5 3-4 3s-4-1-4-3z"></path><path fill="var(--color-secondary)" fill-opacity="0.4" d="M12 16a4 4 0 0 1-4-4 4 4 0 0 1 4-4c0-2 1.5-3 4-3s4 1 4 3a4 4 0 0 1-4 4z"></path></svg>
         </div>
         <span class="text-overline" style="margin-bottom: 0.5rem; color: var(--color-secondary);">03.</span>
-        <h3 style="margin-top: 0; font-size: 1.5rem;"><?php echo get_field('h3_23'); ?></h3>
-        <p style="color: var(--color-text-muted); font-size: 1rem;"><?php echo get_field('p_27'); ?></p>
+        <h3 style="margin-top: 0; font-size: 1.5rem;"><?php echo esc_html(get_field('h3_23')); ?></h3>
+        <p style="color: var(--color-text-muted); font-size: 1rem;"><?php echo esc_html(get_field('p_27')); ?></p>
       </div>
       <!-- card 4 -->
       <div class="card-glass text-center compact-mobile" style="display: flex; flex-direction: column; align-items: center; padding: var(--space-xl) var(--space-lg);">
@@ -232,8 +233,8 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
           <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="32"><path fill="var(--color-secondary)" fill-opacity="0.3" d="M2 12l10-10 10 10-10 10Z"></path><path fill="var(--color-accent-gold)" d="M12 8l3 4-3 4-3-4Z" stroke="none"></path><circle cx="12" cy="12" r="1.5" fill="var(--color-primary)" stroke="none"></circle></svg>
         </div>
         <span class="text-overline" style="margin-bottom: 0.5rem; color: var(--color-secondary);">04.</span>
-        <h3 style="margin-top: 0; font-size: 1.5rem;"><?php echo get_field('h3_24'); ?></h3>
-        <p style="color: var(--color-text-muted); font-size: 1rem;"><?php echo get_field('p_28'); ?></p>
+        <h3 style="margin-top: 0; font-size: 1.5rem;"><?php echo esc_html(get_field('h3_24')); ?></h3>
+        <p style="color: var(--color-text-muted); font-size: 1rem;"><?php echo esc_html(get_field('p_28')); ?></p>
       </div>
     </div>
   </div>
@@ -266,8 +267,8 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
   <!-- Background Floating Icons -->
   <div class="container" style="max-width: 800px; position: relative; z-index: 2;">
 <div class="text-center" style="margin-bottom: var(--space-xl);">
-<span class="text-overline"><?php echo get_field('overline_50'); ?></span>
-<h2 style="font-family: var(--font-heading); font-weight: 400; color: var(--color-primary);"><?php echo get_field('h2_31'); ?></h2>
+<span class="text-overline"><?php echo esc_html(get_field('overline_50')); ?></span>
+<h2 style="font-family: var(--font-heading); font-weight: 400; color: var(--color-primary);"><?php echo esc_html(get_field('h2_31')); ?></h2>
 </div>
 <div class="snake-timeline">
 <!-- row 1 -->
@@ -277,8 +278,8 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 <div class="snake-dot"></div>
 <div class="snake-content">
 <span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_1') ?: '1999'); ?></span>
-<h3 class="snake-title"><?php echo get_field('h3_32'); ?></h3>
-<p class="snake-desc"><?php echo get_field('p_41'); ?></p>
+<h3 class="snake-title"><?php echo esc_html(get_field('h3_32')); ?></h3>
+<p class="snake-desc"><?php echo esc_html(get_field('p_41')); ?></p>
 </div>
 </div>
 <!-- -->
@@ -286,8 +287,8 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 <div class="snake-dot"></div>
 <div class="snake-content">
 <span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_2') ?: '2005'); ?></span>
-<h3 class="snake-title"><?php echo get_field('h3_33'); ?></h3>
-<p class="snake-desc"><?php echo get_field('p_42'); ?></p>
+<h3 class="snake-title"><?php echo esc_html(get_field('h3_33')); ?></h3>
+<p class="snake-desc"><?php echo esc_html(get_field('p_42')); ?></p>
 </div>
 </div>
 <!-- -->
@@ -295,8 +296,8 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 <div class="snake-dot"></div>
 <div class="snake-content">
 <span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_3') ?: '2009'); ?></span>
-<h3 class="snake-title"><?php echo get_field('h3_34'); ?></h3>
-<p class="snake-desc"><?php echo get_field('p_43'); ?></p>
+<h3 class="snake-title"><?php echo esc_html(get_field('h3_34')); ?></h3>
+<p class="snake-desc"><?php echo esc_html(get_field('p_43')); ?></p>
 </div>
 </div>
 </div>
@@ -307,8 +308,8 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 <div class="snake-dot"></div>
 <div class="snake-content">
 <span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_4') ?: '2011'); ?></span>
-<h3 class="snake-title"><?php echo get_field('h3_35'); ?></h3>
-<p class="snake-desc"><?php echo get_field('p_44'); ?></p>
+<h3 class="snake-title"><?php echo esc_html(get_field('h3_35')); ?></h3>
+<p class="snake-desc"><?php echo esc_html(get_field('p_44')); ?></p>
 </div>
 </div>
 <!-- -->
@@ -316,8 +317,8 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 <div class="snake-dot"></div>
 <div class="snake-content">
 <span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_5') ?: '2016'); ?></span>
-<h3 class="snake-title"><?php echo get_field('h3_36'); ?></h3>
-<p class="snake-desc"><?php echo get_field('p_45'); ?></p>
+<h3 class="snake-title"><?php echo esc_html(get_field('h3_36')); ?></h3>
+<p class="snake-desc"><?php echo esc_html(get_field('p_45')); ?></p>
 </div>
 </div>
 <!-- -->
@@ -325,8 +326,8 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 <div class="snake-dot"></div>
 <div class="snake-content">
 <span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_6') ?: '2017'); ?></span>
-<h3 class="snake-title"><?php echo get_field('h3_37'); ?></h3>
-<p class="snake-desc"><?php echo get_field('p_46'); ?></p>
+<h3 class="snake-title"><?php echo esc_html(get_field('h3_37')); ?></h3>
+<p class="snake-desc"><?php echo esc_html(get_field('p_46')); ?></p>
 </div>
 </div>
 </div>
@@ -337,8 +338,8 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 <div class="snake-dot"></div>
 <div class="snake-content">
 <span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_7') ?: '2019'); ?></span>
-<h3 class="snake-title"><?php echo get_field('h3_38'); ?></h3>
-<p class="snake-desc"><?php echo get_field('p_47'); ?></p>
+<h3 class="snake-title"><?php echo esc_html(get_field('h3_38')); ?></h3>
+<p class="snake-desc"><?php echo esc_html(get_field('p_47')); ?></p>
 </div>
 </div>
 <!-- -->
@@ -346,8 +347,8 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 <div class="snake-dot"></div>
 <div class="snake-content">
 <span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_8') ?: '2020'); ?></span>
-<h3 class="snake-title"><?php echo get_field('h3_39'); ?></h3>
-<p class="snake-desc"><?php echo get_field('p_48'); ?></p>
+<h3 class="snake-title"><?php echo esc_html(get_field('h3_39')); ?></h3>
+<p class="snake-desc"><?php echo esc_html(get_field('p_48')); ?></p>
 </div>
 </div>
 <!-- -->
@@ -355,8 +356,8 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 <div class="snake-dot"></div>
 <div class="snake-content">
 <span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_9') ?: '2025'); ?></span>
-<h3 class="snake-title"><?php echo get_field('h3_40'); ?></h3>
-<p class="snake-desc"><?php echo get_field('p_49'); ?></p>
+<h3 class="snake-title"><?php echo esc_html(get_field('h3_40')); ?></h3>
+<p class="snake-desc"><?php echo esc_html(get_field('p_49')); ?></p>
 </div>
 </div>
 </div>
@@ -369,8 +370,8 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 <div class="snake-dot"></div>
 <div class="snake-content">
 <span class="snake-year"><?php echo esc_html(get_field('proposed_timeline_year_10') ?: '2026'); ?></span>
-<h3 class="snake-title"><?php echo get_field('h3_41') ?: 'Social Manila Lifestyle'; ?></h3>
-<p class="snake-desc"><?php echo get_field('p_50'); ?></p>
+<h3 class="snake-title"><?php echo esc_html(get_field('h3_41') ?: 'Social Manila Lifestyle'); ?></h3>
+<p class="snake-desc"><?php echo esc_html(get_field('p_50')); ?></p>
 </div>
 </div>
 <!-- empty spacer for left -->
@@ -411,9 +412,9 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 <img alt="One Pass. All Access. - Membership Perks" src="<?php echo kc_img('about_pass_image', 'page-about-img/kings_img07.webp'); ?>"/>
 </div>
 <div class="split__content">
-<span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('about_pass_overline'); ?></span>
-<h2 style="margin-bottom: var(--space-md);"><?php echo get_field('about_pass_heading'); ?></h2>
-<p style="margin-bottom: var(--space-lg);"><?php echo get_field('about_pass_subtext'); ?></p>
+<span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo esc_html(get_field('about_pass_overline')); ?></span>
+<h2 style="margin-bottom: var(--space-md);"><?php echo esc_html(get_field('about_pass_heading')); ?></h2>
+<p style="margin-bottom: var(--space-lg);"><?php echo esc_html(get_field('about_pass_subtext')); ?></p>
 <ul class="perks-list perks-list--brands-about">
 <li>
 <div class="perk-bubble">
@@ -422,7 +423,7 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 <polyline points="9 22 9 12 15 12 15 22"></polyline>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('about_pass_perk_1'); ?></span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('about_pass_perk_1')); ?></span>
 </li>
 <li>
 <div class="perk-bubble">
@@ -432,7 +433,7 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 <line x1="9" x2="9" y1="21" y2="9"></line>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('about_pass_perk_2'); ?></span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('about_pass_perk_2')); ?></span>
 </li>
 <li>
 <div class="perk-bubble">
@@ -441,7 +442,7 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 <rect height="14" rx="2" ry="2" width="15" x="1" y="5"></rect>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('about_pass_perk_3'); ?></span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('about_pass_perk_3')); ?></span>
 </li>
 <li>
 <div class="perk-bubble">
@@ -450,7 +451,7 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 <line x1="7" x2="7.01" y1="7" y2="7"></line>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('about_pass_perk_4'); ?></span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('about_pass_perk_4')); ?></span>
 </li>
 <li>
 <div class="perk-bubble">
@@ -462,7 +463,7 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 <line x1="14" x2="14" y1="1" y2="4"></line>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('about_pass_perk_5'); ?></span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('about_pass_perk_5')); ?></span>
 </li>
 </ul>
 </div>
@@ -501,10 +502,10 @@ $about_hero_btn_url  = kc_url('proposed_about_hero_btn_url', '#our-story');
 <div class="container grid-12" style="position: relative; z-index: 2;">
 <div class="col-12 split">
 <div class="split__content">
-<span class="text-overline"><?php echo get_field('overline_community'); ?></span>
-<h2 style="font-family: var(--font-heading); font-weight: 400; color: var(--color-primary); margin-bottom: var(--space-lg); line-height: 1.2;"><?php echo get_field('h2_community'); ?></h2>
-<p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: var(--space-md);"><?php echo get_field('p_community_1'); ?></p>
-<p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: 0;"><?php echo get_field('p_community_2'); ?></p>
+<span class="text-overline"><?php echo esc_html(get_field('overline_community')); ?></span>
+<h2 style="font-family: var(--font-heading); font-weight: 400; color: var(--color-primary); margin-bottom: var(--space-lg); line-height: 1.2;"><?php echo esc_html(get_field('h2_community')); ?></h2>
+<p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: var(--space-md);"><?php echo esc_html(get_field('p_community_1')); ?></p>
+<p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: 0;"><?php echo esc_html(get_field('p_community_2')); ?></p>
 </div>
 <div class="split__media">
 <img alt="Community Image" src="<?php echo kc_img('community_image', 'page-about-img/kings-img55.webp'); ?>" style="width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/3; border-radius: var(--radius-card);"/>

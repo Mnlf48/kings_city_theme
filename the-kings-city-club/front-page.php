@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 get_header();
 ?>
 
@@ -20,10 +21,10 @@ get_header();
 </div>
 <!-- text on right -->
 <div class="split__content animate-fadeInUp hero__content--index">
-<span class="text-overline hero__overline"><?php $h = get_field('hero_section_txt_6'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></span>
-<h1 class="hero__title hero__title--inner hero__welcome" style="margin-bottom: 0;"><?php $h = get_field('hero_section_txt_welcome'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></h1>
-<h1 class="hero__title hero__title--inner"><?php $h = get_field('hero_section_txt_4'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></h1>
-<p class="hero__subtitle"><?php $h = get_field('hero_section_txt_5'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h; } ?></p>
+<span class="text-overline hero__overline"><?php $h = get_field('hero_section_txt_6'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? esc_html($w[0]) . '&nbsp;' . esc_html($w[1]) . ' ' . esc_html($w[2]) : esc_html($h); } ?></span>
+<h1 class="hero__title hero__title--inner hero__welcome" style="margin-bottom: 0;"><?php $h = get_field('hero_section_txt_welcome'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? esc_html($w[0]) . '&nbsp;' . esc_html($w[1]) . ' ' . esc_html($w[2]) : esc_html($h); } ?></h1>
+<h1 class="hero__title hero__title--inner"><?php $h = get_field('hero_section_txt_4'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? esc_html($w[0]) . '&nbsp;' . esc_html($w[1]) . ' ' . esc_html($w[2]) : esc_html($h); } ?></h1>
+<p class="hero__subtitle"><?php $h = get_field('hero_section_txt_5'); if ($h) { $w = explode(' ', trim($h)); echo (count($w) === 3) ? esc_html($w[0]) . '&nbsp;' . esc_html($w[1]) . ' ' . esc_html($w[2]) : esc_html($h); } ?></p>
 <div class="hero__actions hero__actions--index" style="display: block; margin-top: 40px; height: 54px; overflow: hidden;">
 <?php
 $hero_btn_url = kc_url('proposed_hero_btn_url', '/apply/');
@@ -66,9 +67,9 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <!-- 5. Soft Blush Sparkle -->
 <div class="container" style="position: relative; z-index: 1;">
 <div class="section__header text-center mx-auto" style="max-width: 800px; margin-bottom: var(--space-xl);">
-<span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('section_txt_22'); ?></span>
-<h2 style="color: #BD451F; margin-bottom: var(--space-sm);"><?php echo get_field('section_txt_12'); ?></h2>
-<p class="text-lead"><?php echo get_field('section_txt_17'); ?></p>
+<span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo esc_html(get_field('section_txt_22')); ?></span>
+<h2 style="color: #BD451F; margin-bottom: var(--space-sm);"><?php echo esc_html(get_field('section_txt_12')); ?></h2>
+<p class="text-lead"><?php echo esc_html(get_field('section_txt_17')); ?></p>
 </div>
 <div class="spaces-grid stagger-children">
 <!-- space card 1 -->
@@ -77,8 +78,8 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <img alt="Coworking Space" class="space-card__img" src="<?php echo kc_img('section_img_8', 'front-page-img/kings-img45.webp'); ?>" loading="lazy"/>
 </div>
 <div class="space-card__body">
-<h3 class="space-card__title"><?php echo get_field('section_txt_13'); ?></h3>
-<p class="space-card__desc"><?php echo get_field('section_txt_18'); ?></p>
+<h3 class="space-card__title"><?php echo esc_html(get_field('section_txt_13')); ?></h3>
+<p class="space-card__desc"><?php echo esc_html(get_field('section_txt_18')); ?></p>
 </div>
 <div class="space-card__footer">
 <a class="btn btn--small" href="<?php echo $space_btn_url; ?>"><?php echo esc_html($space_btn_text); ?></a>
@@ -101,8 +102,8 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <img alt="Private Office Space" class="space-card__img" src="<?php echo kc_img('section_img_9', 'front-page-img/kings-img48.webp'); ?>" loading="lazy"/>
 </div>
 <div class="space-card__body">
-<h3 class="space-card__title"><?php echo get_field('section_txt_14'); ?></h3>
-<p class="space-card__desc"><?php echo get_field('section_txt_19'); ?></p>
+<h3 class="space-card__title"><?php echo esc_html(get_field('section_txt_14')); ?></h3>
+<p class="space-card__desc"><?php echo esc_html(get_field('section_txt_19')); ?></p>
 </div>
 <div class="space-card__footer">
 <a class="btn btn--small" href="<?php echo $space_btn_url; ?>"><?php echo esc_html($space_btn_text); ?></a>
@@ -125,8 +126,8 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <img alt="Enterprise" class="space-card__img" src="<?php echo kc_img('section_img_10', 'front-page-img/kings-img26.webp'); ?>" loading="lazy"/>
 </div>
 <div class="space-card__body">
-<h3 class="space-card__title"><?php echo get_field('section_txt_15'); ?></h3>
-<p class="space-card__desc"><?php echo get_field('section_txt_20'); ?></p>
+<h3 class="space-card__title"><?php echo esc_html(get_field('section_txt_15')); ?></h3>
+<p class="space-card__desc"><?php echo esc_html(get_field('section_txt_20')); ?></p>
 </div>
 <div class="space-card__footer">
 <a class="btn btn--small" href="<?php echo $space_btn_url; ?>"><?php echo esc_html($space_btn_text); ?></a>
@@ -149,8 +150,8 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <img alt="On-Demand" class="space-card__img" src="<?php echo kc_img('section_img_11', 'front-page-img/kings-img32.webp'); ?>" loading="lazy"/>
 </div>
 <div class="space-card__body">
-<h3 class="space-card__title"><?php echo get_field('section_txt_16'); ?></h3>
-<p class="space-card__desc"><?php echo get_field('section_txt_21'); ?></p>
+<h3 class="space-card__title"><?php echo esc_html(get_field('section_txt_16')); ?></h3>
+<p class="space-card__desc"><?php echo esc_html(get_field('section_txt_21')); ?></p>
 </div>
 <div class="space-card__footer">
 <a class="btn btn--small" href="<?php echo $space_btn_url; ?>"><?php echo esc_html($space_btn_text); ?></a>
@@ -173,8 +174,8 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <img alt="Virtual Office" class="space-card__img" src="<?php echo kc_img('section_img_100', 'front-page-img/kings-img74.webp'); ?>" loading="lazy"/>
 </div>
 <div class="space-card__body">
-<h3 class="space-card__title"><?php echo get_field('section_txt_101'); ?></h3>
-<p class="space-card__desc"><?php echo get_field('section_txt_102'); ?></p>
+<h3 class="space-card__title"><?php echo esc_html(get_field('section_txt_101')); ?></h3>
+<p class="space-card__desc"><?php echo esc_html(get_field('section_txt_102')); ?></p>
 </div>
 <div class="space-card__footer">
 <a class="btn btn--small" href="<?php echo $space_btn_url; ?>"><?php echo esc_html($space_btn_text); ?></a>
@@ -197,8 +198,8 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <img alt="Meeting Rooms" class="space-card__img" src="<?php echo kc_img('section_img_104', 'front-page-img/kings-img73.webp'); ?>" loading="lazy"/>
 </div>
 <div class="space-card__body">
-<h3 class="space-card__title"><?php echo get_field('section_txt_105'); ?></h3>
-<p class="space-card__desc"><?php echo get_field('section_txt_106'); ?></p>
+<h3 class="space-card__title"><?php echo esc_html(get_field('section_txt_105')); ?></h3>
+<p class="space-card__desc"><?php echo esc_html(get_field('section_txt_106')); ?></p>
 </div>
 <div class="space-card__footer">
 <a class="btn btn--small" href="<?php echo $space_btn_url; ?>"><?php echo esc_html($space_btn_text); ?></a>
@@ -247,9 +248,9 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <div class="container grid-12" style="position: relative; z-index: 1;">
 <div class="col-12 split" style="align-items: center;">
 <div class="split__content">
-<span class="text-overline" style="color: var(--color-bg-ivory); opacity: 0.8;"><?php echo get_field('section_txt_35'); ?></span>
-<h2 style="color: var(--color-bg-ivory); margin-bottom: var(--space-md);"><?php echo get_field('section_txt_33'); ?></h2>
-<p class="text-lead" style="color: var(--color-bg-ivory); opacity: 0.9;"><?php echo get_field('section_txt_34'); ?></p>
+<span class="text-overline" style="color: var(--color-bg-ivory); opacity: 0.8;"><?php echo esc_html(get_field('section_txt_35')); ?></span>
+<h2 style="color: var(--color-bg-ivory); margin-bottom: var(--space-md);"><?php echo esc_html(get_field('section_txt_33')); ?></h2>
+<p class="text-lead" style="color: var(--color-bg-ivory); opacity: 0.9;"><?php echo esc_html(get_field('section_txt_34')); ?></p>
 <?php
 $off_perk_1  = get_field('proposed_offshoring_perk_1') ?: 'Local Dedicated Talent';
 $off_perk_2  = get_field('proposed_offshoring_perk_2') ?: 'Fully Maintained Facilities';
@@ -335,9 +336,9 @@ $off_btn_url = kc_url('proposed_offshoring_btn_url', '/apply/');
 <img alt="One Pass. All Access. - Membership Perks" src="<?php echo kc_img('section_img_37', 'front-page-img/kings_img07.webp'); ?>" loading="lazy"/>
 </div>
 <div class="split__content" style="margin-top: 0;">
-<span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('section_txt_40'); ?></span>
-<h2 style="color: #BD451F; margin-bottom: var(--space-md);"><?php echo get_field('section_txt_38'); ?></h2>
-<p style="margin-bottom: var(--space-lg);"><?php echo get_field('section_txt_39'); ?></p>
+<span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo esc_html(get_field('section_txt_40')); ?></span>
+<h2 style="color: #BD451F; margin-bottom: var(--space-md);"><?php echo esc_html(get_field('section_txt_38')); ?></h2>
+<p style="margin-bottom: var(--space-lg);"><?php echo esc_html(get_field('section_txt_39')); ?></p>
 <ul class="perks-list perks-list--membership">
 <li>
 <div class="perk-bubble">
@@ -346,7 +347,7 @@ $off_btn_url = kc_url('proposed_offshoring_btn_url', '/apply/');
 <polyline points="9 22 9 12 15 12 15 22"></polyline>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_41'); ?></span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('section_txt_41')); ?></span>
 </li>
 <li>
 <div class="perk-bubble">
@@ -356,7 +357,7 @@ $off_btn_url = kc_url('proposed_offshoring_btn_url', '/apply/');
 <line x1="9" x2="9" y1="21" y2="9"></line>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_42'); ?></span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('section_txt_42')); ?></span>
 </li>
 <li>
 <div class="perk-bubble">
@@ -365,7 +366,7 @@ $off_btn_url = kc_url('proposed_offshoring_btn_url', '/apply/');
 <rect height="14" rx="2" ry="2" width="15" x="1" y="5"></rect>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_43'); ?></span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('section_txt_43')); ?></span>
 </li>
 <li>
 <div class="perk-bubble">
@@ -374,7 +375,7 @@ $off_btn_url = kc_url('proposed_offshoring_btn_url', '/apply/');
 <line x1="7" x2="7.01" y1="7" y2="7"></line>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_44'); ?></span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('section_txt_44')); ?></span>
 </li>
 <li>
 <div class="perk-bubble">
@@ -386,7 +387,7 @@ $off_btn_url = kc_url('proposed_offshoring_btn_url', '/apply/');
 <line x1="14" x2="14" y1="1" y2="4"></line>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_45'); ?></span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('section_txt_45')); ?></span>
 </li>
 </ul>
 </div>
@@ -419,7 +420,7 @@ $off_btn_url = kc_url('proposed_offshoring_btn_url', '/apply/');
 <!-- Heading -->
 <div class="container" style="position: relative; z-index: 2;">
   <div style="text-align: center; margin-bottom: var(--space-xl);">
-    <h2 style="color: var(--color-bg-ivory); margin-bottom: 0; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;"><?php $heading = get_field('section_txt_gallery_heading'); echo $heading ? $heading : 'Virtual Tour'; ?></h2>
+    <h2 style="color: var(--color-bg-ivory); margin-bottom: 0; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;"><?php $heading = get_field('section_txt_gallery_heading'); echo esc_html($heading ? $heading : 'Virtual Tour'); ?></h2>
   </div>
 </div>
 
@@ -494,9 +495,9 @@ $off_btn_url = kc_url('proposed_offshoring_btn_url', '/apply/');
 <!-- top row: heading + description -->
 <div class="col-12 split" style="align-items: center;">
 <div class="split__content">
-<span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo get_field('section_txt_67'); ?></span>
-<h2 style="color: #BD451F; margin-bottom: var(--space-md);"><?php echo get_field('section_txt_59'); ?></h2>
-<p style="font-size: 0.95rem; line-height: 1.7; max-width: 480px; margin-bottom: var(--space-lg);"><?php echo get_field('section_txt_60'); ?></p>
+<span class="text-overline" style="display: block; margin-bottom: var(--space-sm);"><?php echo esc_html(get_field('section_txt_67')); ?></span>
+<h2 style="color: #BD451F; margin-bottom: var(--space-md);"><?php echo esc_html(get_field('section_txt_59')); ?></h2>
+<p style="font-size: 0.95rem; line-height: 1.7; max-width: 480px; margin-bottom: var(--space-lg);"><?php echo esc_html(get_field('section_txt_60')); ?></p>
 
 <!-- feature list -->
 <ul class="perks-list perks-list--social">
@@ -511,7 +512,7 @@ $off_btn_url = kc_url('proposed_offshoring_btn_url', '/apply/');
 <rect height="3" rx="0.5" width="3" x="8" y="14"></rect>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_61'); ?></span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('section_txt_61')); ?></span>
 </li>
 
 <!-- feature 2: events & notifications -->
@@ -522,7 +523,7 @@ $off_btn_url = kc_url('proposed_offshoring_btn_url', '/apply/');
 <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_62'); ?></span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('section_txt_62')); ?></span>
 </li>
 
 <!-- feature 3: network & connect -->
@@ -538,7 +539,7 @@ $off_btn_url = kc_url('proposed_offshoring_btn_url', '/apply/');
 <line x1="17.7" x2="14.2" y1="13" y2="17.5"></line>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_63'); ?></span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('section_txt_63')); ?></span>
 </li>
 
 <!-- feature 4: interactive newsfeed -->
@@ -552,7 +553,7 @@ $off_btn_url = kc_url('proposed_offshoring_btn_url', '/apply/');
 <line x1="13" x2="18" y1="16.5" y2="16.5"></line>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_64'); ?></span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('section_txt_64')); ?></span>
 </li>
 
 <!-- feature 5: direct message -->
@@ -563,7 +564,7 @@ $off_btn_url = kc_url('proposed_offshoring_btn_url', '/apply/');
 <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_65'); ?></span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('section_txt_65')); ?></span>
 </li>
 
 <!-- feature 6: promote business -->
@@ -578,7 +579,7 @@ $off_btn_url = kc_url('proposed_offshoring_btn_url', '/apply/');
 <circle cx="18" cy="10" fill="currentColor" r="0.5" stroke="none"></circle>
 </svg>
 </div>
-<span style="font-size: 0.95rem; font-weight: 600;"><?php echo get_field('section_txt_66'); ?></span>
+<span style="font-size: 0.95rem; font-weight: 600;"><?php echo esc_html(get_field('section_txt_66')); ?></span>
 </li>
 </ul>
 </div>
@@ -609,10 +610,10 @@ $off_btn_url = kc_url('proposed_offshoring_btn_url', '/apply/');
 <img alt="Impact - Giving Back" src="<?php echo kc_img('section_img_68', 'front-page-img/kings-img20.webp'); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;" loading="lazy"/>
 <div class="container" style="position: relative; z-index: 1;">
 <div class="impact-card" style="background: var(--glass-bg-dark); backdrop-filter: var(--glass-blur); padding: clamp(2rem, 4vw, 4rem); border-radius: var(--radius-card); max-width: 650px;">
-<span class="text-overline" style="display: block; margin-bottom: var(--space-sm); color: var(--color-bg-ivory);"><?php echo get_field('section_txt_72'); ?></span>
-<h2 style="color: var(--color-bg-ivory); margin-bottom: var(--space-md);"><?php echo get_field('section_txt_69'); ?></h2>
-<p style="color: var(--color-bg-ivory); margin-bottom: var(--space-md); line-height: 1.7;"><?php echo get_field('section_txt_70'); ?></p>
-<p style="color: var(--color-bg-ivory); margin-bottom: var(--space-xl); line-height: 1.7;"><?php echo get_field('section_txt_71'); ?></p>
+<span class="text-overline" style="display: block; margin-bottom: var(--space-sm); color: var(--color-bg-ivory);"><?php echo esc_html(get_field('section_txt_72')); ?></span>
+<h2 style="color: var(--color-bg-ivory); margin-bottom: var(--space-md);"><?php echo esc_html(get_field('section_txt_69')); ?></h2>
+<p style="color: var(--color-bg-ivory); margin-bottom: var(--space-md); line-height: 1.7;"><?php echo esc_html(get_field('section_txt_70')); ?></p>
+<p style="color: var(--color-bg-ivory); margin-bottom: var(--space-xl); line-height: 1.7;"><?php echo esc_html(get_field('section_txt_71')); ?></p>
 <?php
 $impact_btn_text = get_field('proposed_impact_btn_text') ?: 'Learn More';
 $impact_btn_url  = kc_url('proposed_impact_btn_url', '/impact/');
@@ -644,8 +645,8 @@ $news_url = !empty($news_pages) ? get_permalink($news_pages[0]->ID) : home_url('
 <div class="container" style="position: relative; z-index: 1;">
 <div class="section__header-row" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--space-xl); flex-wrap: wrap; gap: var(--space-md);">
 <div>
-<span class="text-overline"><?php echo get_field('section_txt_85'); ?></span>
-<h2 style="color: #BD451F; margin-bottom: 0;"><?php echo get_field('section_txt_78'); ?></h2>
+<span class="text-overline"><?php echo esc_html(get_field('section_txt_85')); ?></span>
+<h2 style="color: #BD451F; margin-bottom: 0;"><?php echo esc_html(get_field('section_txt_78')); ?></h2>
 </div>
 <?php $news_btn_text = get_field('proposed_news_btn_text') ?: 'Read News'; ?>
 <div class="journal-cta-wrap journal-cta-wrap--desktop" style="align-self: flex-end; margin-bottom: 5px;">

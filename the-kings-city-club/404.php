@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 /* 404 Error Page */
 
 $err_page    = get_page_by_title('404 Settings');

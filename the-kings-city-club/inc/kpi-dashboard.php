@@ -45,12 +45,12 @@ function kc_export_kpi_csv() {
         $display_period = date('F Y', strtotime($selected_month . '-01'));
     }
 
-    // Bookings Query
+    // Bookings — completed only (revenue + space breakdown)
     $bookings_args = array(
-        'post_type' => 'kc_booking',
+        'post_type'      => 'kc_booking',
         'posts_per_page' => -1,
-        'fields' => 'ids',
-        'meta_query' => array(
+        'fields'         => 'ids',
+        'meta_query'     => array(
             array('key' => 'kc_status', 'value' => 'Completed')
         )
     );
@@ -60,17 +60,31 @@ function kc_export_kpi_csv() {
     $bookings_query = new WP_Query($bookings_args);
 
     $total_bookings_revenue = 0;
+    $revenue_by_space       = array();
     foreach ($bookings_query->posts as $post_id) {
         $price = kc_parse_revenue_val(get_post_meta($post_id, 'kc_price', true));
+        $space = get_post_meta($post_id, 'kc_space_type', true) ?: 'Unknown';
         $total_bookings_revenue += $price;
+        $revenue_by_space[$space] = ($revenue_by_space[$space] ?? 0) + $price;
     }
+    arsort($revenue_by_space);
 
-    // Quotes Query
+    // Bookings — all requests (for conversion rate)
+    $bookings_all_args = array('post_type' => 'kc_booking', 'posts_per_page' => -1, 'fields' => 'ids');
+    if (!empty($date_query)) {
+        $bookings_all_args['date_query'] = $date_query;
+    }
+    $bookings_all_count  = (new WP_Query($bookings_all_args))->found_posts;
+    $bookings_conversion = $bookings_all_count > 0
+        ? round(($bookings_query->found_posts / $bookings_all_count) * 100, 1)
+        : 0;
+
+    // Quotes — closed only (revenue)
     $quotes_args = array(
-        'post_type' => 'kg_quote_lead',
+        'post_type'      => 'kg_quote_lead',
         'posts_per_page' => -1,
-        'fields' => 'ids',
-        'meta_query' => array(
+        'fields'         => 'ids',
+        'meta_query'     => array(
             array('key' => 'lead_status', 'value' => 'Closed')
         )
     );
@@ -81,27 +95,52 @@ function kc_export_kpi_csv() {
 
     $total_quotes_revenue = 0;
     foreach ($quotes_query->posts as $post_id) {
-        $est = kc_parse_revenue_val(get_post_meta($post_id, 'total_est', true));
-        $total_quotes_revenue += $est;
+        $total_quotes_revenue += kc_parse_revenue_val(get_post_meta($post_id, 'total_est', true));
     }
 
-    $filename = "Kings_City_KPI_" . $selected_month . ".csv";
+    // Quotes — all requests (for conversion rate)
+    $quotes_all_args = array('post_type' => 'kg_quote_lead', 'posts_per_page' => -1, 'fields' => 'ids');
+    if (!empty($date_query)) {
+        $quotes_all_args['date_query'] = $date_query;
+    }
+    $quotes_all_count  = (new WP_Query($quotes_all_args))->found_posts;
+    $quotes_conversion = $quotes_all_count > 0
+        ? round(($quotes_query->found_posts / $quotes_all_count) * 100, 1)
+        : 0;
 
-    header("Content-Type: text/csv");
-    header("Content-Disposition: attachment; filename=\"$filename\"");
-    header("Pragma: no-cache");
-    header("Expires: 0");
+    $filename = 'Kings_City_KPI_' . $selected_month . '.csv';
 
-    $output = fopen("php://output", "w");
+    header('Content-Type: text/csv');
+    header('Content-Disposition: attachment; filename="' . $filename . '"');
+    header('Pragma: no-cache');
+    header('Expires: 0');
 
-    // CSV Headers
+    $output = fopen('php://output', 'w');
+
+    // --- Section 1: Bookings Summary ---
     fputcsv($output, array('Reporting Period', 'Metric', 'Value'));
+    fputcsv($output, array($display_period, 'Total Booking Requests',        $bookings_all_count));
+    fputcsv($output, array($display_period, 'Completed & Paid Bookings',     $bookings_query->found_posts));
+    fputcsv($output, array($display_period, 'Bookings Conversion Rate (%)',  $bookings_conversion . '%'));
+    fputcsv($output, array($display_period, 'Total Bookings Revenue (Php)',  number_format($total_bookings_revenue, 2)));
 
-    // Rows
-    fputcsv($output, array($selected_month, 'Total Completed Bookings', $bookings_query->found_posts));
-    fputcsv($output, array($selected_month, 'Total Bookings Revenue', $total_bookings_revenue));
-    fputcsv($output, array($selected_month, 'Total Successful Quotes', $quotes_query->found_posts));
-    fputcsv($output, array($selected_month, 'Total Quotes Est. Recurring Revenue', $total_quotes_revenue));
+    // --- Section 2: Quotes Summary ---
+    fputcsv($output, array('', '', ''));
+    fputcsv($output, array($display_period, 'Total Quote Requests',                   $quotes_all_count));
+    fputcsv($output, array($display_period, 'Successful Quotes (Closed)',             $quotes_query->found_posts));
+    fputcsv($output, array($display_period, 'Quotes Conversion Rate (%)',             $quotes_conversion . '%'));
+    fputcsv($output, array($display_period, 'Est. Recurring Revenue / mo (Php)',      number_format($total_quotes_revenue, 2)));
+
+    // --- Section 3: Revenue Breakdown by Space ---
+    fputcsv($output, array('', '', ''));
+    fputcsv($output, array('Space', 'Revenue (Php)', '% of Total'));
+    foreach ($revenue_by_space as $space => $rev) {
+        $pct = $total_bookings_revenue > 0 ? round(($rev / $total_bookings_revenue) * 100, 1) : 0;
+        fputcsv($output, array($space, number_format($rev, 2), $pct . '%'));
+    }
+    if (empty($revenue_by_space)) {
+        fputcsv($output, array('No completed bookings for this period', '', ''));
+    }
 
     fclose($output);
     exit;

@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 get_header();
 
 // --- Social URLs (pulled from footer settings for consistency) ---

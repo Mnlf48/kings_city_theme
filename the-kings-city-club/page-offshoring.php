@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 /* Template Name: Offshoring */
 get_header();
 
@@ -24,9 +25,10 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
   // Mobile: Groups "THE PHILIPPINES" allowing "IN" to wrap
   $words2 = explode(' ', trim($h1_2));
   if (count($words2) >= 3) {
-      $w3 = array_pop($words2);
-      $w2 = array_pop($words2);
-      $w1 = array_pop($words2);
+      $w3 = esc_html(array_pop($words2));
+      $w2 = esc_html(array_pop($words2));
+      $w1 = esc_html(array_pop($words2));
+      $words2 = array_map('esc_html', $words2);
       $words2[] = '<span class="group-desktop">' . $w1 . '&nbsp;' . $w2 . '&nbsp;' . $w3 . '</span><span class="group-mobile">' . $w1 . ' ' . $w2 . '&nbsp;' . $w3 . '</span>';
       $h1_2 = implode(' ', $words2);
   }
@@ -598,7 +600,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
               <h3 style="margin-bottom: 8px; font-size: 1.4rem; color: var(--color-primary);">Manila Office</h3>
               <div style="color: var(--color-text-muted); font-size: 1rem; white-space: pre-wrap; line-height: 1.6; margin-bottom: 8px;"><?php 
                 $manila_addr = get_field('off_contact_manila_addr') ?: "Manila Office\nKings City, Ground Level, RCS\nBuilding, Doña Soledad Ave,\nBetter Living, Parañaque";
-                echo str_replace("Manila Office\n", "", $manila_addr);
+                echo esc_html(str_replace("Manila Office\n", "", $manila_addr));
               ?></div>
             </div>
           </div>
@@ -612,7 +614,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
               <h3 style="margin-bottom: 8px; font-size: 1.4rem; color: var(--color-primary);">Manila Phone</h3>
               <div style="color: var(--color-text-muted); font-size: 1rem; white-space: pre-wrap; line-height: 1.6; margin-bottom: 8px;"><?php 
                 $manila_phones = get_field('off_contact_manila_phones') ?: "Manila Office\nTelephone Number:\n+63 (2) 8696 4490\n\nMobile Numbers:\n+63 (917) 187 0031\n+63 (917) 122 8034\n+63 (917) 710 3221";
-                echo str_replace("Manila Office\n", "", $manila_phones);
+                echo esc_html(str_replace("Manila Office\n", "", $manila_phones));
               ?></div>
             </div>
           </div>
@@ -626,7 +628,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
               <h3 style="margin-bottom: 8px; font-size: 1.4rem; color: var(--color-primary);">Australia Office</h3>
               <div style="color: var(--color-text-muted); font-size: 1rem; white-space: pre-wrap; line-height: 1.6; margin-bottom: 8px;"><?php 
                 $aus_addr = get_field('off_contact_aus_addr') ?: "Australia Office\nMelbourne G02 / 23 27,\nWellington Street, St. Kilda VIC\n3182 Australia";
-                echo str_replace("Australia Office\n", "", $aus_addr);
+                echo esc_html(str_replace("Australia Office\n", "", $aus_addr));
               ?></div>
             </div>
           </div>
@@ -640,10 +642,10 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
               <h3 style="margin-bottom: 8px; font-size: 1.4rem; color: var(--color-primary);">Aus Phone &amp; Email</h3>
               <div style="color: var(--color-text-muted); font-size: 1rem; white-space: pre-wrap; line-height: 1.6; margin-bottom: 8px;"><?php 
                 $aus_phones = get_field('off_contact_aus_phones') ?: "Australia Office\nTelephone Number:\n03 8375 9477 (Australia)";
-                echo str_replace("Australia Office\n", "", $aus_phones);
+                echo esc_html(str_replace("Australia Office\n", "", $aus_phones));
               ?></div>
               <div style="color: var(--color-text-muted); font-size: 1rem; white-space: pre-wrap; line-height: 1.6; word-break: break-word;"><?php 
-                echo get_field('off_contact_email') ?: "Email Address:\nkingscity@kingsgroup.com.ph";
+                echo esc_html(get_field('off_contact_email') ?: "Email Address:\nkingscity@kingsgroup.com.ph");
               ?></div>
             </div>
           </div>
@@ -655,7 +657,7 @@ $apply_url  = ! empty( $apply_page ) ? esc_url( get_permalink( $apply_page[0]->I
           <div style="color: var(--color-text-muted); font-size: 0.85rem; font-style: italic; opacity: 0.8; text-align: center; line-height: 1.6; border-top: 1px solid rgba(189, 69, 31, 0.1); padding-top: var(--space-md);">
             <?php 
               $ack = get_field('off_contact_ack') ?: "We acknowledge and pay respect to the past, present, and future Traditional Custodians and Elders of the nation...";
-              echo str_replace("\n", " ", $ack);
+              echo esc_html(str_replace("\n", " ", $ack));
             ?>
           </div>
         </div>

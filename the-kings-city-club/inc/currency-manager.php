@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 // Admin Menu Hook
 add_action('admin_menu', 'kc_tb_currency_manager_menu');
 function kc_tb_currency_manager_menu() {

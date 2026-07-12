@@ -8,7 +8,8 @@
 </head>
 <body <?php body_class('has-announcement'); ?>>
 <?php wp_body_open(); ?>
-<?php 
+<?php
+if (!defined('ABSPATH')) exit;
   $header_page = get_page_by_title('Header'); 
   $header_id = $header_page ? $header_page->ID : false; 
 
@@ -87,7 +88,7 @@
                 </div>
                 <div class="mega-menu__logo-box">
                   <!-- rationale: using png logo instead of svg as per direct user request. documented in project_context.md -->
-                  <img src="<?php echo $mega_logo_url; ?>" alt="Kings City Icon" class="mega-menu__logo-img">
+                  <img src="<?php echo esc_url($mega_logo_url); ?>" alt="Kings City Icon" class="mega-menu__logo-img">
                 </div>
               </div>
             </div>
@@ -128,7 +129,7 @@
     </svg>
   </button>
   <div style="text-align: center; margin-bottom: 2rem;">
-    <img src="<?php echo $mega_logo_url; ?>" alt="Kings City Icon" style="max-width: 150px; height: auto;">
+    <img src="<?php echo esc_url($mega_logo_url); ?>" alt="Kings City Icon" style="max-width: 150px; height: auto;">
   </div>
   <nav class="nav-drawer__list">
     <div class="nav-drawer__item has-submenu">

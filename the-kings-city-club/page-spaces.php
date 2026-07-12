@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 /* Template Name: Spaces */
 get_header();
 
@@ -29,22 +30,22 @@ $book_now_url  = ! empty( $book_now_page ) ? esc_url( get_permalink( $book_now_p
 <div class="col-12 split split--media-right">
 <!-- text on left -->
 <div class="split__content animate-fadeInUp hero__content--index">
-<span class="text-overline hero__overline"><?php echo get_field('overline_3'); ?></span>
+<span class="text-overline hero__overline"><?php echo esc_html(get_field('overline_3')); ?></span>
 <h1 class="hero__title hero__title--inner" style="width: 100%; text-transform: uppercase;">
 <?php 
 $h1_val = get_field('h1_1');
 if (!$h1_val) $h1_val = 'The Kings City Space';
 
 if (stripos($h1_val, 'the kings city space') !== false) {
-    echo '<span style="display: block;">' . trim(str_ireplace('City Space', '', $h1_val)) . '</span>';
+    echo '<span style="display: block;">' . esc_html(trim(str_ireplace('City Space', '', $h1_val))) . '</span>';
     echo '<span style="display: block;">City Space</span>';
 } else {
-    $w = explode(' ', trim($h1_val)); 
-    echo (count($w) === 3) ? $w[0] . '&nbsp;' . $w[1] . ' ' . $w[2] : $h1_val;
+    $w = explode(' ', trim($h1_val));
+    echo (count($w) === 3) ? esc_html($w[0]) . '&nbsp;' . esc_html($w[1]) . ' ' . esc_html($w[2]) : esc_html($h1_val);
 }
 ?>
 </h1>
-<p class="hero__subtitle"><?php echo get_field('p_2'); ?></p>
+<p class="hero__subtitle"><?php echo esc_html(get_field('p_2')); ?></p>
 <div class="hero__actions hero__actions--index">
 <?php
 $spaces_hero_btn_text = get_field('proposed_spaces_hero_btn_text') ?: 'Become a Member';
@@ -156,8 +157,8 @@ endif;
           <!-- 4. Heart -->
           <!-- 5. Star -->
           <div class="container text-center" style="position: relative; z-index: 2;">
-<span class="text-overline" style="margin-bottom: var(--space-sm); display: block;"><?php echo get_field('overline_43'); ?></span>
-<h2 style="margin-bottom: var(--space-xl);"><?php echo get_field('h2_38'); ?></h2>
+<span class="text-overline" style="margin-bottom: var(--space-sm); display: block;"><?php echo esc_html(get_field('overline_43')); ?></span>
+<h2 style="margin-bottom: var(--space-xl);"><?php echo esc_html(get_field('h2_38')); ?></h2>
 <div class="spaces-services-grid cycle-card-bg">
 <div class="spaces-services__item card-glass compact-mobile">
 <div class="universal-icon-wrapper">
@@ -169,7 +170,7 @@ endif;
 </div>
 <div>
 <h4 class="spaces-services__item-title"><?php echo esc_html(get_field('proposed_spaces_service_1_heading') ?: 'Premium Spaces'); ?></h4>
-<p class="spaces-services__item-text"><?php echo get_field('p_39'); ?></p>
+<p class="spaces-services__item-text"><?php echo esc_html(get_field('p_39')); ?></p>
 </div>
 </div>
 <div class="spaces-services__item card-glass compact-mobile">
@@ -184,7 +185,7 @@ endif;
 </div>
 <div>
 <h4 class="spaces-services__item-title"><?php echo esc_html(get_field('proposed_spaces_service_2_heading') ?: 'Dedicated Team'); ?></h4>
-<p class="spaces-services__item-text"><?php echo get_field('p_40'); ?></p>
+<p class="spaces-services__item-text"><?php echo esc_html(get_field('p_40')); ?></p>
 </div>
 </div>
 <div class="spaces-services__item card-glass compact-mobile">
@@ -197,7 +198,7 @@ endif;
 </div>
 <div>
 <h4 class="spaces-services__item-title"><?php echo esc_html(get_field('proposed_spaces_service_3_heading') ?: 'Social Manila Bakehouse'); ?></h4>
-<p class="spaces-services__item-text"><?php echo get_field('p_41'); ?></p>
+<p class="spaces-services__item-text"><?php echo esc_html(get_field('p_41')); ?></p>
 </div>
 </div>
 <div class="spaces-services__item card-glass compact-mobile">
@@ -213,7 +214,7 @@ endif;
 </div>
 <div>
 <h4 class="spaces-services__item-title"><?php echo esc_html(get_field('proposed_spaces_service_4_heading') ?: 'Taza'); ?></h4>
-<p class="spaces-services__item-text"><?php echo get_field('p_42'); ?></p>
+<p class="spaces-services__item-text"><?php echo esc_html(get_field('p_42')); ?></p>
 </div>
 </div>
 </div>
@@ -250,7 +251,7 @@ endif;
 <!-- Heading -->
 <div class="container" style="position: relative; z-index: 2;">
   <div style="text-align: center; margin-bottom: var(--space-xl);">
-    <h2 class="gallery-heading" style="margin-bottom: 0; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;"><?php $heading = get_field('section_txt_gallery_heading'); echo $heading ? $heading : 'Virtual Tour'; ?></h2>
+    <h2 class="gallery-heading" style="margin-bottom: 0; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;"><?php $heading = get_field('section_txt_gallery_heading'); echo esc_html($heading ? $heading : 'Virtual Tour'); ?></h2>
   </div>
 </div>
 

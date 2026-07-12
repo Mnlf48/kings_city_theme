@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 /* Template Name: Apply Now */
 
 get_header();
@@ -327,7 +328,7 @@ get_header();
       // Convert associative array to indexed array for JS
       $roleCatalogArray = array_values($dynamic_roles);
       ?>
-      const roleCatalog = <?php echo json_encode($roleCatalogArray); ?>;
+      const roleCatalog = <?php echo wp_json_encode($roleCatalogArray, JSON_HEX_TAG | JSON_HEX_AMP); ?>;
       <?php 
       $saved_currencies = get_option('kc_tb_currencies', array(
           array('code' => 'AUD', 'rate' => 0.026),
@@ -347,7 +348,7 @@ get_header();
       }
       $default_curr = $saved_currencies[0]['code'];
       ?>
-      const currencyRates = <?php echo json_encode($rates_map); ?>;
+      const currencyRates = <?php echo wp_json_encode($rates_map, JSON_HEX_TAG | JSON_HEX_AMP); ?>;
       let currentCurr = '<?php echo esc_js($default_curr); ?>'; // Default currency
 
 
