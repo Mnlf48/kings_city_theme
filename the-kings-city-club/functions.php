@@ -122,11 +122,6 @@ function kings_city_scripts() {
 	wp_enqueue_style( 'kings-city-style', get_stylesheet_uri(), array(), filemtime( get_stylesheet_directory() . '/style.css' ) );
 
 
-    // Font Awesome via direct tag to support SRI integrity attribute
-    add_action('wp_head', function() {
-        echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">' . "\n";
-    }, 5);
-
 	// Scripts
 	wp_enqueue_script( 'kings-city-navigation', get_template_directory_uri() . '/assets/js/navigation.js', array(), KINGS_CITY_VERSION, true );
 	wp_enqueue_script( 'kings-city-hero-slider', get_template_directory_uri() . '/assets/js/hero-slider.js', array(), KINGS_CITY_VERSION, true );
@@ -210,6 +205,7 @@ function kings_city_scripts() {
 
 	// Page-specific: Apply Now (team builder)
 	if ( is_page_template( 'page-apply.php' ) ) {
+		wp_enqueue_style( 'font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', array(), '6.4.0' );
 		wp_enqueue_script( 'kings-city-team-builder', get_template_directory_uri() . '/assets/js/team-builder.js', array(), KINGS_CITY_VERSION, true );
 
 		$tb_roles_raw = array();
