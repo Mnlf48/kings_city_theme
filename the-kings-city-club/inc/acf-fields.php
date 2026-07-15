@@ -2729,7 +2729,140 @@ acf_add_local_field_group(array(
             'wrapper' => array('width' => '33'),
         ),
 
-        // ── Tab 5: Comparison Table ─────────────────────────────────────
+        // ── Role Card Images ────────────────────────────────────────────
+        array(
+            'key'           => 'field_group_offshoring_img_role_1',
+            'label'         => 'Accountants — Card Image',
+            'name'          => 'img_role_1',
+            'type'          => 'image',
+            'return_format' => 'array',
+            'preview_size'  => 'medium',
+            'library'       => 'all',
+            'wrapper'       => array('width' => '33'),
+        ),
+
+        array(
+            'key'           => 'field_group_offshoring_img_role_2',
+            'label'         => 'Bookkeepers — Card Image',
+            'name'          => 'img_role_2',
+            'type'          => 'image',
+            'return_format' => 'array',
+            'preview_size'  => 'medium',
+            'library'       => 'all',
+            'wrapper'       => array('width' => '33'),
+        ),
+
+        array(
+            'key'           => 'field_group_offshoring_img_role_3',
+            'label'         => 'Virtual Assistants — Card Image',
+            'name'          => 'img_role_3',
+            'type'          => 'image',
+            'return_format' => 'array',
+            'preview_size'  => 'medium',
+            'library'       => 'all',
+            'wrapper'       => array('width' => '33'),
+        ),
+
+        array(
+            'key'           => 'field_group_offshoring_img_role_4',
+            'label'         => 'Graphic Designers — Card Image',
+            'name'          => 'img_role_4',
+            'type'          => 'image',
+            'return_format' => 'array',
+            'preview_size'  => 'medium',
+            'library'       => 'all',
+            'wrapper'       => array('width' => '33'),
+        ),
+
+        array(
+            'key'           => 'field_group_offshoring_img_role_5',
+            'label'         => 'Web Developers — Card Image',
+            'name'          => 'img_role_5',
+            'type'          => 'image',
+            'return_format' => 'array',
+            'preview_size'  => 'medium',
+            'library'       => 'all',
+            'wrapper'       => array('width' => '33'),
+        ),
+
+        array(
+            'key'           => 'field_group_offshoring_img_role_6',
+            'label'         => 'Customer Service — Card Image',
+            'name'          => 'img_role_6',
+            'type'          => 'image',
+            'return_format' => 'array',
+            'preview_size'  => 'medium',
+            'library'       => 'all',
+            'wrapper'       => array('width' => '33'),
+        ),
+
+        array(
+            'key'           => 'field_group_offshoring_img_role_7',
+            'label'         => 'Digital Marketers — Card Image',
+            'name'          => 'img_role_7',
+            'type'          => 'image',
+            'return_format' => 'array',
+            'preview_size'  => 'medium',
+            'library'       => 'all',
+            'wrapper'       => array('width' => '33'),
+        ),
+
+        array(
+            'key'           => 'field_group_offshoring_img_role_8',
+            'label'         => 'Data Analysts — Card Image',
+            'name'          => 'img_role_8',
+            'type'          => 'image',
+            'return_format' => 'array',
+            'preview_size'  => 'medium',
+            'library'       => 'all',
+            'wrapper'       => array('width' => '33'),
+        ),
+
+        array(
+            'key'           => 'field_group_offshoring_img_role_9',
+            'label'         => 'HR Specialists — Card Image',
+            'name'          => 'img_role_9',
+            'type'          => 'image',
+            'return_format' => 'array',
+            'preview_size'  => 'medium',
+            'library'       => 'all',
+            'wrapper'       => array('width' => '33'),
+        ),
+
+        array(
+            'key'           => 'field_group_offshoring_img_role_10',
+            'label'         => 'IT Support — Card Image',
+            'name'          => 'img_role_10',
+            'type'          => 'image',
+            'return_format' => 'array',
+            'preview_size'  => 'medium',
+            'library'       => 'all',
+            'wrapper'       => array('width' => '33'),
+        ),
+
+        array(
+            'key'           => 'field_group_offshoring_img_role_11',
+            'label'         => 'Content Writers — Card Image',
+            'name'          => 'img_role_11',
+            'type'          => 'image',
+            'return_format' => 'array',
+            'preview_size'  => 'medium',
+            'library'       => 'all',
+            'wrapper'       => array('width' => '33'),
+        ),
+
+        array(
+            'key'           => 'field_group_offshoring_img_role_12',
+            'label'         => 'Project Managers — Card Image',
+            'name'          => 'img_role_12',
+            'type'          => 'image',
+            'return_format' => 'array',
+            'preview_size'  => 'medium',
+            'library'       => 'all',
+            'wrapper'       => array('width' => '33'),
+        ),
+
+
         array(
             'key'       => 'field_tab_group_offshoring_4',
             'label'     => 'Comparison Table',

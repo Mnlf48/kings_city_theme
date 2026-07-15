@@ -31,6 +31,7 @@ function kc_email_templates_page() {
 
     $mailing_list_tabs = array(
         'newsletter_broadcast' => 'Newsletter Broadcast (Mailing List)',
+        'birthday_promo'       => 'Birthday Promo (Automated)'
     );
 
     $tabs = array_merge($quote_tabs, $booking_tabs, $mailing_list_tabs);
@@ -46,6 +47,14 @@ function kc_email_templates_page() {
         update_option($prefix . 'banner',   sanitize_text_field(wp_unslash($_POST['email_banner'])));
         update_option($prefix . 'btn_text', sanitize_text_field(wp_unslash($_POST['email_btn_text'])));
         update_option($prefix . 'btn_url',  esc_url_raw(wp_unslash($_POST['email_btn_url'])));
+
+        // Birthday Promo: also save discount settings
+        if ($active_tab === 'birthday_promo') {
+            $disc_type = sanitize_text_field($_POST['bday_discount_type'] ?? 'percentage');
+            $disc_val  = (float) ($_POST['bday_discount_value'] ?? 15);
+            update_option($prefix . 'discount_type',  $disc_type);
+            update_option($prefix . 'discount_value', $disc_val);
+        }
 
         echo '<div class="notice notice-success is-dismissible"><p>Email template settings saved successfully!</p></div>';
     }
@@ -97,6 +106,13 @@ function kc_email_templates_page() {
         $def_banner = '';
         $def_btn_text = 'Visit Kings City';
         $def_btn_url = '{site_url}';
+    } elseif ($active_tab === 'birthday_promo') {
+        $def_subject  = 'Happy Birthday from The Kings City Club! 🎂';
+        $def_heading  = 'Happy Birthday!';
+        $def_body     = "Dear {first_name},\n\nWishing you a wonderful birthday from all of us at The Kings City Club!\n\nAs a special gift, here's your exclusive birthday discount code:\n\n🎁 {promo_code}\n\nUse it when booking any of our spaces to enjoy your birthday savings. This code is valid for 30 days and is one-time use only.\n\nSee you soon!";
+        $def_banner   = 'An exclusive birthday discount code, just for you.';
+        $def_btn_text = 'Book My Space';
+        $def_btn_url  = '{site_url}';
     }
 
     $subject = get_option($prefix . 'subject', $def_subject);
@@ -191,6 +207,8 @@ function kc_email_templates_page() {
                                         echo '<br><span style="font-size: 12px;">Supported tokens: <code>{fname}</code>, <code>{space}</code>, <code>{date}</code>, <code>{duration}</code>, <code>{price}</code>, <code>{arrival}</code>, <code>{participants}</code></span>';
                                     } elseif ($active_tab === 'newsletter_broadcast') {
                                         echo '<br><span style="font-size: 12px;">Supported tokens: <code>{site_url}</code> &nbsp;|&nbsp; <strong>Note:</strong> This template is used when sending a broadcast from the Mailing List page.</span>';
+                                    } elseif ($active_tab === 'birthday_promo') {
+                                        echo '<br><span style="font-size: 12px;">Supported tokens: <code>{first_name}</code>, <code>{promo_code}</code>, <code>{discount}</code>, <code>{site_url}</code></span>';
                                     } else {
                                         echo '<br><span style="font-size: 12px;">Supported tokens: <code>{client_name}</code>, <code>{client_email}</code>, <code>{site_url}</code></span>';
                                     }
@@ -226,6 +244,33 @@ function kc_email_templates_page() {
                             </tr>
                         </tbody>
                     </table>
+
+                    <?php if ($active_tab === 'birthday_promo') : 
+                        $bday_disc_type  = get_option($prefix . 'discount_type',  'percentage');
+                        $bday_disc_value = get_option($prefix . 'discount_value', 15);
+                    ?>
+                    <h3 style="color:#AC201A; margin-top: 30px; border-top: 1px solid rgba(189,69,31,0.1); padding-top: 20px;">🎁 Birthday Discount Settings</h3>
+                    <p style="color:#646970; font-size:13px; margin-bottom:15px;">Configure the automatic discount generated for each subscriber on their birthday. Each code is unique, one-time use, and expires after 30 days.</p>
+                    <table class="form-table"><tbody>
+                        <tr>
+                            <th scope="row"><label for="bday_discount_type">Discount Type</label></th>
+                            <td>
+                                <select name="bday_discount_type" id="bday_discount_type">
+                                    <option value="percentage" <?php selected($bday_disc_type, 'percentage'); ?>>Percentage (% Off)</option>
+                                    <option value="flat"       <?php selected($bday_disc_type, 'flat'); ?>>Flat Amount (Php Off)</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><label for="bday_discount_value">Discount Value</label></th>
+                            <td>
+                                <input type="number" step="0.01" min="0" name="bday_discount_value" id="bday_discount_value" value="<?php echo esc_attr($bday_disc_value); ?>" class="small-text" />
+                                <p class="description">e.g., <code>15</code> for 15% off, or <code>500</code> for Php 500 flat discount.</p>
+                            </td>
+                        </tr>
+                    </tbody></table>
+                    <?php endif; ?>
+
                     <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Save Template Settings"></p>
                 </form>
             </div>

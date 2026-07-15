@@ -3,13 +3,22 @@ if (!defined('ABSPATH')) exit;
 
 // --- 1. Create DB table on theme activation ---
 function kc_create_mailing_list_table() {
+    // Only run when the schema version changes — avoids dbDelta on every page load
+    $current_ver = get_option('kc_ml_db_version', '0');
+    $target_ver  = '1.2'; // bump this if you change the schema
+
+    if ($current_ver === $target_ver) {
+        return; // Already up to date — skip
+    }
+
     global $wpdb;
-    $table = $wpdb->prefix . 'kc_mailing_list';
+    $table   = $wpdb->prefix . 'kc_mailing_list';
     $charset = $wpdb->get_charset_collate();
 
     $sql = "CREATE TABLE IF NOT EXISTS {$table} (
         id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
         email VARCHAR(191) NOT NULL,
+        birthdate DATE DEFAULT NULL,
         status VARCHAR(20) NOT NULL DEFAULT 'pending',
         subscribed_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (id),
@@ -18,47 +27,180 @@ function kc_create_mailing_list_table() {
 
     require_once ABSPATH . 'wp-admin/includes/upgrade.php';
     dbDelta($sql);
+
+    // Explicitly add birthdate column if dbDelta missed it (older MySQL versions)
+    $column_exists = $wpdb->get_var("SHOW COLUMNS FROM {$table} LIKE 'birthdate'");
+    if (!$column_exists) {
+        $wpdb->query("ALTER TABLE {$table} ADD COLUMN birthdate DATE DEFAULT NULL AFTER email");
+    }
+
+    update_option('kc_ml_db_version', $target_ver);
 }
 add_action('after_switch_theme', 'kc_create_mailing_list_table');
 
-// Run on every load so new installs catch up without re-activating
+// Run on every admin load so new columns catch up without re-activating
 add_action('admin_init', 'kc_create_mailing_list_table');
+
+/**
+ * Lightweight check: ensure the mailing list table physically exists in the DB.
+ * Called directly inside the subscribe handler so it never relies on hook timing.
+ * Uses SHOW TABLES (fast, single query) rather than dbDelta.
+ */
+function kc_ensure_mailing_list_table_exists() {
+    global $wpdb;
+    $table = $wpdb->prefix . 'kc_mailing_list';
+
+    // If table already exists, return immediately — no overhead
+    $exists = $wpdb->get_var($wpdb->prepare(
+        "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %s AND table_name = %s",
+        DB_NAME,
+        $table
+    ));
+
+    if ( (int) $exists > 0 ) {
+        return; // Table already exists
+    }
+
+    // Table missing — create it now (rare case: first run or fresh install)
+    require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+    $charset = $wpdb->get_charset_collate();
+    $sql = "CREATE TABLE IF NOT EXISTS {$table} (
+        id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+        email VARCHAR(191) NOT NULL,
+        birthdate DATE DEFAULT NULL,
+        status VARCHAR(20) NOT NULL DEFAULT 'pending',
+        subscribed_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id),
+        UNIQUE KEY email (email)
+    ) {$charset};";
+    dbDelta($sql);
+
+    // Ensure birthdate column exists (older dbDelta may skip it)
+    $col = $wpdb->get_var("SHOW COLUMNS FROM {$table} LIKE 'birthdate'");
+    if (!$col) {
+        $wpdb->query("ALTER TABLE {$table} ADD COLUMN birthdate DATE DEFAULT NULL AFTER email");
+    }
+
+    // Update version flag so the full dbDelta in kc_create_mailing_list_table also skips
+    update_option('kc_ml_db_version', '1.2');
+}
 
 // --- 2. AJAX: frontend form submission ---
 add_action('wp_ajax_nopriv_kc_mailing_list_subscribe', 'kc_mailing_list_subscribe');
 add_action('wp_ajax_kc_mailing_list_subscribe',        'kc_mailing_list_subscribe');
 function kc_mailing_list_subscribe() {
-    check_ajax_referer('kc_mailing_list_nonce', 'nonce');
+    // Use wp_verify_nonce instead of check_ajax_referer so a failure returns
+    // proper JSON (not plain "-1") which would break the browser's JSON parse.
+    $nonce = $_POST['nonce'] ?? '';
+    if ( ! wp_verify_nonce( $nonce, 'kc_mailing_list_nonce' ) ) {
+        error_log('[KC Mailing List] Nonce verification failed. Received nonce: ' . esc_html($nonce));
+        wp_send_json_error( array( 'message' => 'Security check failed. Please refresh the page and try again.', 'code' => 'bad_nonce' ) );
+        return;
+    }
 
-    $email = sanitize_email(wp_unslash($_POST['email'] ?? ''));
+    // Guarantee the table exists before any DB operation
+    kc_ensure_mailing_list_table_exists();
 
-    if (!is_email($email)) {
-        wp_send_json_error(array('message' => 'Please enter a valid email address.'));
+    $email = sanitize_email( wp_unslash( $_POST['email'] ?? '' ) );
+    error_log( '[KC Mailing List] Subscribe attempt for email: ' . $email );
+
+    if ( ! is_email( $email ) ) {
+        error_log( '[KC Mailing List] Invalid email: ' . $email );
+        wp_send_json_error( array( 'message' => 'Please enter a valid email address.', 'code' => 'invalid_email' ) );
+        return;
     }
 
     global $wpdb;
     $table = $wpdb->prefix . 'kc_mailing_list';
 
-    $exists = $wpdb->get_var($wpdb->prepare("SELECT id FROM {$table} WHERE email = %s", $email));
-    if ($exists) {
-        wp_send_json_error(array('message' => 'This email is already on our list.'));
+    // Check table actually exists in DB before querying it
+    $table_exists = $wpdb->get_var( $wpdb->prepare(
+        "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %s AND table_name = %s",
+        DB_NAME, $table
+    ));
+    if ( ! (int) $table_exists ) {
+        error_log( '[KC Mailing List] Table does not exist: ' . $table );
+        wp_send_json_error( array( 'message' => 'Subscription service is unavailable. Please try again later.', 'code' => 'no_table' ) );
+        return;
+    }
+
+    $exists = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$table} WHERE email = %s", $email ) );
+    if ( $exists ) {
+        error_log( '[KC Mailing List] Duplicate email: ' . $email );
+        wp_send_json_error( array( 'message' => 'This email is already on our list.', 'code' => 'duplicate' ) );
+        return;
     }
 
     $inserted = $wpdb->insert(
         $table,
         array(
-            'email'           => $email,
-            'status'          => 'pending',
-            'subscribed_at'   => current_time('mysql'),
+            'email'         => $email,
+            // New subscribers start as 'pending' — admin activates them before campaigns send.
+            // Birthday promos are also excluded because birthdate is NULL.
+            'status'        => 'pending',
+            'subscribed_at' => current_time( 'mysql' ),
         ),
-        array('%s', '%s', '%s')
+        array( '%s', '%s', '%s' )
     );
 
-    if ($inserted) {
-        wp_send_json_success(array('message' => "You're on the list! We'll keep you posted."));
+    if ( $inserted !== false ) {
+        error_log( '[KC Mailing List] Successfully subscribed: ' . $email );
+        wp_send_json_success( array( 'message' => "You're on the list! We'll keep you posted." ) );
+        return;
     }
 
-    wp_send_json_error(array('message' => 'Something went wrong. Please try again.'));
+    // Insert failed — log the actual DB error
+    $db_error = $wpdb->last_error ?: 'No DB error string returned.';
+    error_log( '[KC Mailing List] Insert FAILED for ' . $email . ' — DB error: ' . $db_error );
+    wp_send_json_error( array( 'message' => 'Something went wrong. Please try again.', 'code' => 'insert_failed', 'debug' => $db_error ) );
+}
+
+// --- 2b. Native form POST fallback via admin-post.php ----------------------
+// This handles subscriptions when AJAX/fetch fails. The footer form posts here
+// natively if JavaScript doesn't intercept it. After processing, we redirect
+// back to the referring page with a ?kc_subscribed= query string so the page
+// can show a message without JS.
+add_action( 'admin_post_nopriv_kc_ml_subscribe_post', 'kc_ml_subscribe_post_handler' );
+add_action( 'admin_post_kc_ml_subscribe_post',        'kc_ml_subscribe_post_handler' );
+function kc_ml_subscribe_post_handler() {
+    $referer = wp_get_referer() ?: home_url( '/' );
+
+    // Verify nonce
+    if ( ! isset( $_POST['kc_ml_post_nonce'] ) || ! wp_verify_nonce( $_POST['kc_ml_post_nonce'], 'kc_ml_subscribe_post' ) ) {
+        wp_safe_redirect( add_query_arg( 'kc_subscribed', 'error_nonce', $referer ) );
+        exit;
+    }
+
+    $email = sanitize_email( wp_unslash( $_POST['email'] ?? '' ) );
+
+    if ( ! is_email( $email ) ) {
+        wp_safe_redirect( add_query_arg( 'kc_subscribed', 'error_email', $referer ) );
+        exit;
+    }
+
+    kc_ensure_mailing_list_table_exists();
+
+    global $wpdb;
+    $table = $wpdb->prefix . 'kc_mailing_list';
+
+    $exists = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$table} WHERE email = %s", $email ) );
+    if ( $exists ) {
+        wp_safe_redirect( add_query_arg( 'kc_subscribed', 'already', $referer ) );
+        exit;
+    }
+
+    $inserted = $wpdb->insert(
+        $table,
+        array( 'email' => $email, 'status' => 'pending', 'subscribed_at' => current_time( 'mysql' ) ),
+        array( '%s', '%s', '%s' )
+    );
+
+    if ( $inserted !== false ) {
+        wp_safe_redirect( add_query_arg( 'kc_subscribed', 'yes', $referer ) );
+    } else {
+        wp_safe_redirect( add_query_arg( 'kc_subscribed', 'error_db', $referer ) );
+    }
+    exit;
 }
 
 // --- 3. AJAX: admin inline status update ---
@@ -202,15 +344,17 @@ function kc_ml_export_csv() {
 
     global $wpdb;
     $table = $wpdb->prefix . 'kc_mailing_list';
-    $rows  = $wpdb->get_results("SELECT email, status, subscribed_at FROM {$table} ORDER BY subscribed_at DESC", ARRAY_A);
+    // Use SELECT * to avoid DB errors if the birthdate column is missing for any reason
+    $rows  = $wpdb->get_results("SELECT * FROM {$table} ORDER BY subscribed_at DESC", ARRAY_A);
 
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename="mailing-list-' . gmdate('Y-m-d') . '.csv"');
 
     $out = fopen('php://output', 'w');
-    fputcsv($out, array('Email', 'Status', 'Date Subscribed'));
+    fputcsv($out, array('Email', 'Birthdate', 'Status', 'Date Subscribed'));
     foreach ($rows as $row) {
-        fputcsv($out, $row);
+        $bd = isset($row['birthdate']) ? $row['birthdate'] : '';
+        fputcsv($out, array($row['email'], $bd, $row['status'], $row['subscribed_at']));
     }
     fclose($out);
     exit;
@@ -435,6 +579,7 @@ function kc_ml_render_page() {
                 <tr>
                     <th>#</th>
                     <th>Email</th>
+                    <th>Birthdate</th>
                     <th>Status</th>
                     <th>Date Subscribed</th>
                     <th>Action</th>
@@ -447,6 +592,7 @@ function kc_ml_render_page() {
                 <tr id="kc-ml-row-<?php echo esc_attr($row->id); ?>">
                     <td style="color:#9ca3af; font-size:11px;"><?php echo esc_html($i + 1); ?></td>
                     <td><strong><?php echo esc_html($row->email); ?></strong></td>
+                    <td style="color:#6b7280; font-size:12px;"><?php echo isset($row->birthdate) && $row->birthdate ? esc_html(date_i18n('M j, Y', strtotime($row->birthdate))) : '&mdash;'; ?></td>
                     <td>
                         <div class="kc-ml-select-wrap">
                             <select class="kc-ml-status-select"
@@ -697,3 +843,109 @@ function kc_ml_render_page() {
     </script>
     <?php
 }
+
+// --- 8. CRON: Automated Birthday Promos ---
+// Schedule the event if it doesn't exist
+if (!wp_next_scheduled('kc_daily_birthday_check')) {
+    // Schedule it to run daily at 9:00 AM (server time)
+    wp_schedule_event(strtotime('09:00:00'), 'daily', 'kc_daily_birthday_check');
+}
+
+add_action('kc_daily_birthday_check', 'kc_process_birthday_promos');
+function kc_process_birthday_promos() {
+    global $wpdb;
+    $table = $wpdb->prefix . 'kc_mailing_list';
+
+    // Find active subscribers whose birthday is today
+    $today_month = date('m');
+    $today_day   = date('d');
+
+    $sql = $wpdb->prepare(
+        "SELECT email FROM {$table} WHERE status = 'active' AND MONTH(birthdate) = %d AND DAY(birthdate) = %d",
+        $today_month,
+        $today_day
+    );
+    $emails = $wpdb->get_col($sql);
+
+    if (empty($emails)) {
+        return; // No birthdays today
+    }
+
+    // Pull template from Email Templates settings
+    $prefix   = 'kc_birthday_promo_';
+    $subject  = get_option($prefix . 'subject',  'Happy Birthday from The Kings City Club! 🎂');
+    $heading  = get_option($prefix . 'heading',  'Happy Birthday!');
+    $body_tpl = get_option($prefix . 'body',     "Dear {first_name},\n\nWishing you a wonderful birthday from all of us at The Kings City Club!\n\nAs a special gift, here's your exclusive birthday discount code:\n\n🎁 {promo_code}\n\nUse it when booking any of our spaces to enjoy your birthday savings. This code is valid for 30 days and is one-time use only.\n\nSee you soon!");
+    $banner   = get_option($prefix . 'banner',   'An exclusive birthday discount code, just for you.');
+    $btn_text = get_option($prefix . 'btn_text', 'Book My Space');
+    $btn_url  = get_option($prefix . 'btn_url',  '{site_url}');
+
+    // Pull discount settings for the birthday promo
+    $bday_discount_type  = get_option($prefix . 'discount_type',  'percentage');
+    $bday_discount_value = (float) get_option($prefix . 'discount_value', 15); // Default: 15% off
+
+    $headers  = array('Content-Type: text/html; charset=UTF-8');
+    $site_url = home_url('/');
+
+    foreach ($emails as $email) {
+        // ── 1. Auto-generate a unique promo code for this subscriber ──
+        $unique_code = 'BDAY-' . strtoupper(substr(md5($email . date('Y')), 0, 8));
+
+        // Check if this year's birthday promo already exists (idempotent)
+        $existing_promo = get_posts(array(
+            'post_type'      => 'kc_promo',
+            'title'          => $unique_code,
+            'posts_per_page' => 1,
+            'post_status'    => 'any',
+        ));
+
+        if (!empty($existing_promo)) {
+            // Already sent this year — skip to avoid double-sending
+            continue;
+        }
+
+        // Create the promo code (1 use max, expires in 30 days)
+        $promo_id = wp_insert_post(array(
+            'post_type'   => 'kc_promo',
+            'post_title'  => $unique_code,
+            'post_status' => 'publish',
+        ));
+
+        if (!$promo_id || is_wp_error($promo_id)) {
+            continue; // Couldn't create promo, skip this subscriber
+        }
+
+        update_post_meta($promo_id, 'kc_discount_type',  $bday_discount_type);
+        update_post_meta($promo_id, 'kc_discount_value', $bday_discount_value);
+        update_post_meta($promo_id, 'kc_max_uses',       1); // One-time use!
+        update_post_meta($promo_id, 'kc_current_uses',   0);
+        update_post_meta($promo_id, 'kc_expires_at',     date('Y-m-d', strtotime('+30 days')));
+
+        // ── 2. Personalise the email ──
+        $first_name = ucfirst(strstr($email, '@', true));
+        $discount_label = $bday_discount_type === 'percentage'
+            ? $bday_discount_value . '% off'
+            : 'Php ' . number_format($bday_discount_value) . ' off';
+
+        $body = str_replace(
+            ['{first_name}', '{promo_code}', '{discount}', '{site_url}'],
+            [$first_name, $unique_code, $discount_label, esc_url($site_url)],
+            $body_tpl
+        );
+        $btn_url_final = str_replace('{site_url}', esc_url($site_url), $btn_url);
+
+        // ── 3. Build and send the email using the branded template ──
+        $email_heading  = $heading;
+        $email_body     = wpautop($body);
+        $email_banner   = str_replace('{discount}', $discount_label, $banner);
+        $email_btn_text = $btn_text;
+        $email_btn_url  = $btn_url_final;
+
+        ob_start();
+        include get_template_directory() . '/emails/email-newsletter.php';
+        $html = ob_get_clean();
+
+        wp_mail($email, $subject, $html, $headers);
+    }
+}
+

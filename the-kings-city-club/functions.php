@@ -392,8 +392,9 @@ function kings_city_scripts() {
 		wp_localize_script( 'kings-city-booking', 'kcBooking', array(
 			'bookingData' => $bk_map,
 			'ajax'        => array(
-				'url'   => admin_url( 'admin-ajax.php' ),
-				'nonce' => wp_create_nonce( 'kc_booked_dates_nonce' ),
+				'url'         => admin_url( 'admin-ajax.php' ),
+				'nonce'       => wp_create_nonce( 'kc_booked_dates_nonce' ),
+				'promo_nonce' => wp_create_nonce( 'kc_apply_promo_nonce' ),
 			),
 		) );
 	}
@@ -579,6 +580,16 @@ require_once get_template_directory() . '/inc/ajax-booked-dates.php';
 require_once get_template_directory() . '/inc/kpi-dashboard.php';
 require_once get_template_directory() . '/inc/cpt-bookings.php';
 require_once get_template_directory() . '/inc/dashboard-widget.php';
+
+// Promo Codes
+require_once get_template_directory() . '/inc/cpt-promos.php';
+
+// Email Campaigns Scheduler
+require_once get_template_directory() . '/inc/cpt-campaigns.php';
+
+// ⚠️ DEV ONLY — Remove before going to production! ⚠️
+// Adds "Clean Test Data" page under WP Admin → Tools
+require_once get_template_directory() . '/inc/dev-cleanup.php';
 
 // Daily cron: auto-expire memberships whose expiry date has passed
 if ( ! wp_next_scheduled( 'kc_expire_memberships_daily' ) ) {

@@ -23,6 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_submit'])) {
         $arrival_time = sanitize_text_field($_POST['book_arrival_time']);
         $participants = sanitize_text_field($_POST['book_participants']);
         $special = sanitize_textarea_field($_POST['book_special']);
+        $birthdate = sanitize_text_field($_POST['book_birthdate'] ?? '');
+        $promo_code = sanitize_text_field(trim($_POST['kc_promo_code'] ?? ''));
         
         // Check Capacity — limits are stored on each kc_space post via kc_space_capacity
         $opt_map = [];
@@ -68,6 +70,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_submit'])) {
         if ($is_full) {
             $error_message = "Sorry, " . esc_html($space_type) . " is fully booked on " . esc_html($start_date) . ". Please select another date.";
         } else {
+            
+            $base_price = (float) $price;
+            $discount_amount = 0;
+            
+            // Validate Promo Code server-side
+            if (!empty($promo_code)) {
+                $promo_query = get_posts([
+                    'post_type'      => 'kc_promo',
+                    'title'          => $promo_code,
+                    'posts_per_page' => 1,
+                    'post_status'    => 'any',
+                ]);
+                
+                if (!empty($promo_query)) {
+                    $promo_id = $promo_query[0]->ID;
+                    $expires = get_post_meta($promo_id, 'kc_expires_at', true);
+                    $max_uses = get_post_meta($promo_id, 'kc_max_uses', true);
+                    $current_uses = (int) (get_post_meta($promo_id, 'kc_current_uses', true) ?: 0);
+                    
+                    $valid = true;
+                    if (!empty($expires) && strtotime($expires) < current_time('timestamp')) $valid = false;
+                    if (!empty($max_uses) && $current_uses >= (int)$max_uses) $valid = false;
+                    
+                    if ($valid) {
+                        $type = get_post_meta($promo_id, 'kc_discount_type', true);
+                        $value = (float) get_post_meta($promo_id, 'kc_discount_value', true);
+                        
+                        if ($type === 'percentage') {
+                            $discount_amount = $base_price * ($value / 100);
+                        } else {
+                            $discount_amount = $value;
+                        }
+                        
+                        if ($discount_amount > $base_price) $discount_amount = $base_price;
+                        
+                        // Increment current uses
+                        update_post_meta($promo_id, 'kc_current_uses', $current_uses + 1);
+                        
+                        // Update the final price!
+                        $price = $base_price - $discount_amount;
+                    } else {
+                        $promo_code = ''; // Invalidated
+                    }
+                } else {
+                    $promo_code = ''; // Not found
+                }
+            }
+
             // Create CRM Booking Ticket
             $post_id = wp_insert_post(array(
                 'post_type'   => 'kc_booking',
@@ -88,6 +138,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_submit'])) {
                 update_post_meta($post_id, 'kc_participants', $participants);
                 update_post_meta($post_id, 'kc_special', $special);
                 update_post_meta($post_id, 'kc_status', 'Pending');
+                
+                if (isset($base_price)) update_post_meta($post_id, 'kc_base_price', $base_price);
+                if (!empty($promo_code)) {
+                    update_post_meta($post_id, 'kc_promo_code', $promo_code);
+                    update_post_meta($post_id, 'kc_discount_amount', $discount_amount);
+                }
+                
+                if ($birthdate) {
+                    update_post_meta($post_id, 'kc_birthdate', $birthdate);
+                }
+            }
+            
+            // Add or update mailing list
+            global $wpdb;
+            $table = $wpdb->prefix . 'kc_mailing_list';
+            $exists = $wpdb->get_var($wpdb->prepare("SELECT id FROM {$table} WHERE email = %s", $email));
+            
+            $bd_val = $birthdate ? $birthdate : null;
+            if ($exists) {
+                // Update existing subscriber's birthdate if not set, or override
+                $wpdb->update(
+                    $table,
+                    array('birthdate' => $bd_val),
+                    array('email' => $email),
+                    array('%s'),
+                    array('%s')
+                );
+            } else {
+                // Insert new subscriber
+                $wpdb->insert(
+                    $table,
+                    array(
+                        'email' => $email,
+                        'birthdate' => $bd_val,
+                        'status' => 'pending',
+                        'subscribed_at' => current_time('mysql')
+                    ),
+                    array('%s', '%s', '%s', '%s')
+                );
             }
             
             $booking_submitted = true;
@@ -115,8 +204,10 @@ get_header();
 $bk_video_url = get_field('bk_hero_video_url');
 $bk_vimeo_id  = '';
 if ( $bk_video_url ) {
-    // Extract numeric ID from e.g. https://vimeo.com/123456789 or https://vimeo.com/channels/foo/123456789
-    if ( preg_match( '/vimeo\.com\/(?:.*\/)?(\d+)/', $bk_video_url, $bk_vm ) ) {
+    // Strip query string and hash before matching — handles share URLs like
+    // https://vimeo.com/1209125598?share=copy&fi=sv#t=32
+    $bk_clean_url = preg_replace('/[?#].*$/', '', $bk_video_url);
+    if ( preg_match( '/vimeo\.com\/(?:.*\/)?(\d+)/', $bk_clean_url, $bk_vm ) ) {
         $bk_vimeo_id = $bk_vm[1];
     }
 }
@@ -158,7 +249,7 @@ if ( $bk_video_url ) {
     <div style="position:relative;width:min(92vw,calc(82vh*(9/16)));aspect-ratio:9/16;">
         <!-- iframe rendered at page load so Vimeo buffers immediately; visibility toggled via JS -->
         <iframe id="kc-vid-iframe"
-                src="https://player.vimeo.com/video/<?php echo esc_attr( $bk_vimeo_id ); ?>?badge=0&autopause=0&player_id=0&app_id=58479&background=0"
+                src="https://player.vimeo.com/video/<?php echo esc_attr( $bk_vimeo_id ); ?>?badge=0&autopause=0&player_id=0&app_id=58479&background=0&api=1"
                 style="width:100%;height:100%;border:0;border-radius:var(--radius-card);"
                 allow="autoplay;fullscreen;picture-in-picture;clipboard-write;encrypted-media"
                 allowfullscreen
@@ -174,15 +265,20 @@ if ( $bk_video_url ) {
     var iframe   = document.getElementById('kc-vid-iframe');
     if (!thumb || !modal || !iframe) return;
 
-    var player = new Vimeo.Player(iframe);
+    // Send a postMessage command to the Vimeo player iframe
+    function vimeoCmd(method, value) {
+        var msg = JSON.stringify({ method: method, value: value });
+        iframe.contentWindow.postMessage(msg, 'https://player.vimeo.com');
+    }
 
     function openModal() {
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
-        player.play();
+        // Small delay ensures iframe is visible before issuing play command
+        setTimeout(function() { vimeoCmd('play'); }, 150);
     }
     function closeModal() {
-        player.pause();
+        vimeoCmd('pause');
         modal.style.display = 'none';
         document.body.style.overflow = '';
     }
@@ -291,9 +387,15 @@ foreach ($bk_active_spaces as $bk_sp) {
 <label class="form-label"><?php echo esc_html(get_field('bk_label_email') ?: 'Email Address'); ?></label>
 <input class="form-control" name="book_email" placeholder="you@company.com" required="" type="email"/>
 </div>
+<div class="form-row">
 <div class="form-group">
 <label class="form-label"><?php echo esc_html(get_field('bk_label_phone') ?: 'Phone Number'); ?></label>
 <input class="form-control" name="book_phone" placeholder="+63 XXX XXX XXXX" required="" type="tel"/>
+</div>
+<div class="form-group">
+<label class="form-label">Date of Birth <span style="font-size:12px;color:var(--color-text-muted);">(For special promos)</span></label>
+<input class="form-control" name="book_birthdate" type="date" required=""/>
+</div>
 </div>
 <div class="form-row">
 <div class="form-group">
@@ -331,6 +433,15 @@ foreach ($bk_active_spaces as $bk_sp) {
 <option value="05:00 PM">05:00 PM</option>
 </select>
 </div>
+</div>
+<div class="form-group">
+<label class="form-label">Promo Code <span style="font-size:12px;color:var(--color-text-muted);">(Optional)</span></label>
+<div style="display: flex; gap: 10px;">
+    <input class="form-control" name="kc_promo_code_input" id="kc_promo_code_input" placeholder="e.g. SUMMER10" type="text" style="text-transform: uppercase;"/>
+    <button type="button" id="kc_apply_promo_btn" style="flex-shrink:0; padding: 0 18px; font-weight: bold; font-family: var(--font-heading); border: 2px solid var(--color-primary); color: var(--color-primary); background: transparent; border-radius: var(--radius-sm); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Apply</button>
+</div>
+<div id="kc_promo_msg" style="font-size: 13px; margin-top: 5px; font-weight: 500;"></div>
+<input type="hidden" name="kc_promo_code" id="kc_promo_code_hidden" value="" />
 </div>
 <div class="form-group">
 <label class="form-label"><?php echo esc_html(get_field('bk_label_special') ?: 'Special Requests'); ?></label>

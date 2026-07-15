@@ -247,6 +247,7 @@ function kc_render_client_meta_box($post) {
     $lname = get_post_meta($post->ID, 'kc_last_name', true);
     $email = get_post_meta($post->ID, 'kc_email', true);
     $phone = get_post_meta($post->ID, 'kc_phone', true);
+    $birthdate = get_post_meta($post->ID, 'kc_birthdate', true);
     ?>
     <div class="kc-panel-grid">
         <div class="kc-panel-field">
@@ -257,9 +258,13 @@ function kc_render_client_meta_box($post) {
             <span class="kc-panel-label">Phone Number</span>
             <span class="kc-panel-value"><span class="dashicons dashicons-phone" style="color:#94a3b8; font-size:16px; margin-right:5px; margin-top:2px;"></span> <?php echo esc_html($phone); ?></span>
         </div>
-        <div class="kc-panel-field" style="grid-column: span 2;">
+        <div class="kc-panel-field">
             <span class="kc-panel-label">Email Address</span>
             <span class="kc-panel-value"><span class="dashicons dashicons-email-alt" style="color:#94a3b8; font-size:16px; margin-right:5px; margin-top:2px;"></span> <a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a></span>
+        </div>
+        <div class="kc-panel-field">
+            <span class="kc-panel-label">Date of Birth</span>
+            <span class="kc-panel-value"><span class="dashicons dashicons-calendar-alt" style="color:#94a3b8; font-size:16px; margin-right:5px; margin-top:2px;"></span> <?php echo $birthdate ? esc_html($birthdate) : '<em>Not provided</em>'; ?></span>
         </div>
     </div>
     <?php
@@ -295,9 +300,26 @@ function kc_render_specs_meta_box($post) {
             <span class="kc-panel-label">Headcount</span>
             <span class="kc-panel-value"><?php echo esc_html($participants); ?> Participant(s)</span>
         </div>
+        
+        <?php 
+        $base_price = get_post_meta($post->ID, 'kc_base_price', true);
+        $promo_code = get_post_meta($post->ID, 'kc_promo_code', true);
+        $discount = get_post_meta($post->ID, 'kc_discount_amount', true);
+        if (!empty($promo_code)) : 
+        ?>
+        <div class="kc-panel-field">
+            <span class="kc-panel-label">Promo Code Used</span>
+            <span class="kc-panel-value" style="color: #10b981; font-weight: bold;"><?php echo esc_html($promo_code); ?></span>
+        </div>
+        <div class="kc-panel-field">
+            <span class="kc-panel-label">Discount Amount</span>
+            <span class="kc-panel-value">- Php <?php echo esc_html(number_format((float)$discount)); ?></span>
+        </div>
+        <?php endif; ?>
+
         <div class="kc-panel-field kc-financial-highlight">
             <span class="kc-panel-label" style="color:#b58d3d;">Total Revenue (Amount Due)</span>
-            <span class="kc-panel-value"><?php echo esc_html($price); ?></span>
+            <span class="kc-panel-value">Php <?php echo esc_html(number_format((float)$price)); ?></span>
         </div>
     </div>
     <?php

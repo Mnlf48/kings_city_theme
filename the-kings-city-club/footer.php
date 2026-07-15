@@ -87,11 +87,36 @@ if (!defined('ABSPATH')) exit;
         <div class="footer-loop">
           <h4 class="footer-col__title footer-loop__title"><?php echo esc_html($f_loop_title); ?></h4>
           <p class="footer-loop__desc"><?php echo esc_html($f_loop_desc); ?></p>
-          <form class="footer-loop__form" id="kc-loop-form" novalidate>
-            <input type="email" class="footer-loop__input" id="kc-loop-email" placeholder="<?php echo esc_attr($f_loop_placeholder); ?>" required aria-label="Email address" />
+          <?php
+          // Handle messages from native POST fallback (when JS/AJAX fails)
+          $kc_sub_status = sanitize_text_field( $_GET['kc_subscribed'] ?? '' );
+          $kc_sub_class  = '';
+          $kc_sub_msg    = '';
+          if ( $kc_sub_status === 'yes' ) {
+              $kc_sub_class = 'footer-loop__msg--success';
+              $kc_sub_msg   = "You're on the list! We'll keep you posted.";
+          } elseif ( $kc_sub_status === 'already' ) {
+              $kc_sub_class = 'footer-loop__msg--success';
+              $kc_sub_msg   = "You're already on our list!";
+          } elseif ( $kc_sub_status === 'error_email' ) {
+              $kc_sub_class = 'footer-loop__msg--error';
+              $kc_sub_msg   = 'Please enter a valid email address.';
+          } elseif ( in_array( $kc_sub_status, array( 'error_nonce', 'error_db' ), true ) ) {
+              $kc_sub_class = 'footer-loop__msg--error';
+              $kc_sub_msg   = 'Something went wrong. Please try again.';
+          }
+          ?>
+          <form class="footer-loop__form" id="kc-loop-form"
+                method="POST"
+                action="<?php echo esc_url( admin_url('admin-post.php') ); ?>">
+            <input type="hidden" name="action" value="kc_ml_subscribe_post">
+            <?php wp_nonce_field( 'kc_ml_subscribe_post', 'kc_ml_post_nonce' ); ?>
+            <input type="email" name="email" class="footer-loop__input" id="kc-loop-email" placeholder="<?php echo esc_attr($f_loop_placeholder); ?>" required aria-label="Email address" />
             <button type="submit" class="footer-loop__btn"><?php echo esc_html($f_loop_btn); ?></button>
           </form>
-          <p class="footer-loop__msg" id="kc-loop-msg" aria-live="polite"></p>
+          <p class="footer-loop__msg <?php echo esc_attr($kc_sub_class); ?>" id="kc-loop-msg" aria-live="polite">
+            <?php echo esc_html($kc_sub_msg); ?>
+          </p>
         </div>
       </div>
 
@@ -112,89 +137,72 @@ if (!defined('ABSPATH')) exit;
 
 <script>
 (function() {
-  var form  = document.getElementById(‘kc-loop-form’);
-  var msg   = document.getElementById(‘kc-loop-msg’);
+  var form  = document.getElementById('kc-loop-form');
+  var msg   = document.getElementById('kc-loop-msg');
   if (!form) return;
 
-  var LS_KEY  = ‘kc_loop_subscribed_email’;
-  var input   = document.getElementById(‘kc-loop-email’);
-  var btn     = form.querySelector(‘.footer-loop__btn’);
-  var btnDefaultText = btn.textContent;
+  var input          = document.getElementById('kc-loop-email');
+  var btn            = form.querySelector('.footer-loop__btn');
+  var btnDefaultText = btn ? btn.textContent : '';
 
-  function lockForm(email, message) {
-    localStorage.setItem(LS_KEY, email);
-    input.disabled  = true;
-    input.value     = email;
-    btn.disabled    = true;
-    btn.textContent = ‘Subscribed ✓’;
-    msg.innerHTML   = (message || "You’re on our list!") +
-      ‘ <a href="#" class="footer-loop__switch" style="color:inherit;text-decoration:underline;white-space:nowrap;">Use a different email?</a>’;
-    msg.className   = ‘footer-loop__msg footer-loop__msg--success’;
-
-    msg.querySelector(‘.footer-loop__switch’).addEventListener(‘click’, function(e) {
-      e.preventDefault();
-      unlockForm();
-    });
+  // Clean ?kc_subscribed= from URL after native POST redirect
+  if (window.history && window.history.replaceState && window.location.search.indexOf('kc_subscribed') !== -1) {
+    var cleanUrl = window.location.pathname + window.location.search.replace(/[?&]kc_subscribed=[^&]*/g, '').replace(/^&/, '?');
+    window.history.replaceState(null, '', cleanUrl || window.location.pathname);
   }
 
-  function unlockForm() {
-    localStorage.removeItem(LS_KEY);
-    input.disabled  = false;
-    input.value     = ‘’;
-    btn.disabled    = false;
-    btn.textContent = btnDefaultText;
-    msg.textContent = ‘’;
-    msg.className   = ‘footer-loop__msg’;
-    input.focus();
+  function showSuccess(message) {
+    if (input) { input.value = ''; }
+    if (btn)   { btn.disabled = false; btn.textContent = btnDefaultText; }
+    if (msg) {
+      msg.textContent = message || "You\u2019re on the list! We\u2019ll keep you posted.";
+      msg.className   = 'footer-loop__msg footer-loop__msg--success';
+    }
   }
 
-  // On page load: if an email was subscribed in this browser, pre-fill and lock
-  var storedEmail = localStorage.getItem(LS_KEY);
-  if (storedEmail) {
-    lockForm(storedEmail);
+  function showError(message) {
+    if (btn) { btn.disabled = false; btn.textContent = btnDefaultText; }
+    if (msg) {
+      msg.textContent = message || 'Something went wrong. Please try again.';
+      msg.className   = 'footer-loop__msg footer-loop__msg--error';
+    }
   }
 
-  form.addEventListener(‘submit’, function(e) {
-    e.preventDefault();
+  form.addEventListener('submit', function(e) {
+    if (!input || !btn) return;
     var email = input.value.trim();
-    msg.textContent = ‘’;
-    msg.className = ‘footer-loop__msg’;
-
     if (!email) {
-      msg.textContent = ‘Please enter your email address.’;
-      msg.classList.add(‘footer-loop__msg--error’);
+      e.preventDefault();
+      showError('Please enter your email address.');
       return;
     }
 
+    // Try AJAX first
+    e.preventDefault();
     btn.disabled    = true;
-    btn.textContent = ‘Sending...’;
+    btn.textContent = 'Sending...';
+    if (msg) { msg.textContent = ''; msg.className = 'footer-loop__msg'; }
 
     var data = new FormData();
-    data.append(‘action’, ‘kc_mailing_list_subscribe’);
-    data.append(‘email’, email);
-    data.append(‘nonce’, ‘<?php echo esc_js(wp_create_nonce("kc_mailing_list_nonce")); ?>’);
+    data.append('action', 'kc_mailing_list_subscribe');
+    data.append('email', email);
+    data.append('nonce', '<?php echo esc_js(wp_create_nonce("kc_mailing_list_nonce")); ?>');
 
-    fetch(‘<?php echo esc_url(admin_url("admin-ajax.php")); ?>’, { method: ‘POST’, body: data })
+    fetch('<?php echo esc_url(admin_url("admin-ajax.php")); ?>', { method: 'POST', body: data })
       .then(function(r) { return r.json(); })
       .then(function(r) {
         if (r.success) {
-          lockForm(email, r.data.message);
+          showSuccess(r.data.message);
+        } else if (r.data && r.data.code === 'duplicate') {
+          showSuccess("You\u2019re already on our list!");
         } else {
-          if (r.data && r.data.message && r.data.message.indexOf(‘already’) !== -1) {
-            lockForm(email, "You’re already on our list!");
-          } else {
-            msg.textContent = r.data && r.data.message ? r.data.message : ‘Something went wrong.’;
-            msg.classList.add(‘footer-loop__msg--error’);
-            btn.disabled    = false;
-            btn.textContent = btnDefaultText;
-          }
+          showError((r.data && r.data.message) ? r.data.message : 'Something went wrong.');
         }
       })
       .catch(function() {
-        msg.textContent = ‘Something went wrong. Please try again.’;
-        msg.classList.add(‘footer-loop__msg--error’);
-        btn.disabled    = false;
-        btn.textContent = btnDefaultText;
+        // AJAX failed — fall back to native form POST to admin-post.php
+        if (btn) { btn.disabled = false; btn.textContent = btnDefaultText; }
+        form.submit();
       });
   });
 })();

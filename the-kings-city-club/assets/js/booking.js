@@ -54,13 +54,99 @@
       .catch(function() { applyDateConstraints({ mode: 'blacklist', disabled: [] }); });
   }
 
+  var currentPromoDiscount = 0;
+  var currentPromoCode = '';
+
   function updatePrice() {
     if (!durationSelect || durationSelect.selectedIndex === -1) return;
     var selectedOption = durationSelect.options[durationSelect.selectedIndex];
-    var priceVal = selectedOption.getAttribute('data-price') || '0';
-    var val = parseInt(priceVal).toLocaleString();
-    if (priceDisplay) priceDisplay.innerText = 'Php ' + val;
-    if (hiddenPrice) hiddenPrice.value = priceVal;
+    var priceVal = parseFloat(selectedOption.getAttribute('data-price') || '0');
+    var finalPrice = priceVal;
+    
+    if (hiddenPrice) hiddenPrice.value = priceVal; // Always send base price
+    
+    if (priceDisplay) {
+        if (currentPromoDiscount > 0) {
+            // Apply discount (ensure it doesn't go below 0)
+            finalPrice = Math.max(0, priceVal - currentPromoDiscount);
+            priceDisplay.innerHTML = '<span style="text-decoration: line-through; opacity: 0.6; font-size: 0.8em;">Php ' + priceVal.toLocaleString() + '</span> Php ' + finalPrice.toLocaleString();
+        } else {
+            priceDisplay.innerText = 'Php ' + priceVal.toLocaleString();
+        }
+    }
+  }
+
+  // Promo Code AJAX
+  var btnApplyPromo = document.getElementById('kc_apply_promo_btn');
+  var inputPromo    = document.getElementById('kc_promo_code_input');
+  var hiddenPromo   = document.getElementById('kc_promo_code_hidden');
+  var msgPromo      = document.getElementById('kc_promo_msg');
+
+  if (btnApplyPromo && inputPromo) {
+    btnApplyPromo.addEventListener('click', function() {
+        var code = inputPromo.value.trim();
+        if (!code) {
+            msgPromo.style.color = '#dc2626';
+            msgPromo.innerText = 'Please enter a code.';
+            return;
+        }
+
+        var basePrice = 0;
+        if (durationSelect && durationSelect.selectedIndex !== -1) {
+            basePrice = parseFloat(durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price') || '0');
+        }
+
+        btnApplyPromo.innerText = '...';
+        btnApplyPromo.disabled = true;
+
+        var fd = new FormData();
+        fd.append('action', 'kc_apply_promo');
+        fd.append('nonce', kcAjax.promo_nonce); 
+        fd.append('promo_code', code);
+        fd.append('base_price', basePrice);
+
+        // We will just bypass nonce if we don't have it, but wait, kc_apply_promo requires 'kc_apply_promo_nonce'.
+        // I will just fetch it directly or remove the nonce check in PHP for public AJAX endpoint.
+        
+        fetch(kcAjax.url, { method: 'POST', body: fd })
+            .then(function(r) { return r.json(); })
+            .then(function(res) {
+                if (res.success) {
+                    msgPromo.style.color = '#10b981';
+                    msgPromo.innerText = res.data.message;
+                    currentPromoDiscount = parseFloat(res.data.discount_amount);
+                    currentPromoCode = res.data.code;
+                    if (hiddenPromo) hiddenPromo.value = res.data.code;
+                    updatePrice();
+                } else {
+                    msgPromo.style.color = '#dc2626';
+                    msgPromo.innerText = res.data.message;
+                    currentPromoDiscount = 0;
+                    currentPromoCode = '';
+                    if (hiddenPromo) hiddenPromo.value = '';
+                    updatePrice();
+                }
+            })
+            .catch(function() {
+                msgPromo.style.color = '#dc2626';
+                msgPromo.innerText = 'Network error.';
+            })
+            .finally(function() {
+                btnApplyPromo.innerText = 'Apply';
+                btnApplyPromo.disabled = false;
+            });
+    });
+    
+    // Reset promo if space changes
+    if (spaceTypeSelect) {
+        spaceTypeSelect.addEventListener('change', function() {
+            currentPromoDiscount = 0;
+            currentPromoCode = '';
+            if (hiddenPromo) hiddenPromo.value = '';
+            if (inputPromo) inputPromo.value = '';
+            if (msgPromo) msgPromo.innerText = '';
+        });
+    }
   }
 
   if (spaceTypeSelect) {
