@@ -33,7 +33,7 @@ function kc_register_campaign_cpt() {
         'labels'          => $labels,
         'public'          => false,
         'show_ui'         => true,
-        'show_in_menu'    => 'kc_newsletter', // Nest under Newsletter (mailing list menu)
+        'show_in_menu'    => 'edit.php?post_type=kc_welcome_packet', // Nest under Newsletters menu
         'query_var'       => false,
         'rewrite'         => false,
         'capability_type' => 'post',
@@ -100,6 +100,7 @@ function kc_render_campaign_meta_box($post) {
         <ul class="kc-token-list">
             <li>{first_name}</li>
             <li>{email}</li>
+            <li>{promo_code}</li>
             <li>{site_url}</li>
             <li>{unsubscribe_url}</li>
         </ul>
@@ -123,6 +124,21 @@ function kc_render_campaign_meta_box($post) {
                 <option value="all"      <?php selected($audience, 'all');    ?>>All Subscribers (including Pending)</option>
             </select>
         </div>
+    </div>
+
+    <div class="kc-camp-field">
+        <label>Attach Promo Code (Optional)</label>
+        <select name="kc_camp_promo_id">
+            <option value="">-- None --</option>
+            <?php
+            $promos = get_posts(array('post_type' => 'kc_promo', 'posts_per_page' => -1, 'post_status' => 'publish'));
+            $linked_promo = get_post_meta($post->ID, 'kc_camp_promo_id', true);
+            foreach ($promos as $p) {
+                echo '<option value="' . esc_attr($p->ID) . '" ' . selected($linked_promo, $p->ID, false) . '>' . esc_html($p->post_title) . '</option>';
+            }
+            ?>
+        </select>
+        <p style="font-size:11px;color:#64748b;margin:4px 0 0;">Select a code to attach. You must use the <code>{promo_code}</code> token in your message below to display it to the user.</p>
     </div>
 
     <div class="kc-camp-field">
@@ -201,6 +217,33 @@ function kc_render_campaign_status_box($post) {
     <?php else : ?>
     <p style="color:#94a3b8; font-size:12px; margin-top:8px;">Stats will appear once sending starts.</p>
     <?php endif; ?>
+
+    <?php if (in_array($status, ['scheduled', 'sending'])) : ?>
+        <hr style="margin: 15px 0; border: 0; border-top: 1px solid #e2e8f0;">
+        <button type="button" id="kc-force-send-btn" class="button button-primary" style="width:100%; text-align:center;">Force Send Now</button>
+        <p style="font-size:11px; color:#64748b; margin-top:8px; line-height:1.4;">Bypass the background cron schedule and send the next batch immediately.</p>
+        
+        <script>
+        jQuery(document).ready(function($) {
+            $('#kc-force-send-btn').on('click', function(e) {
+                e.preventDefault();
+                var btn = $(this);
+                btn.prop('disabled', true).text('Sending...');
+                $.post(ajaxurl, {
+                    action: 'kc_force_send_campaign',
+                    nonce: '<?php echo esc_js(wp_create_nonce("kc_force_send_campaign")); ?>'
+                }, function(res) {
+                    if (res.success) {
+                        location.reload();
+                    } else {
+                        alert('Error: ' + (res.data || 'Unknown error'));
+                        btn.prop('disabled', false).text('Force Send Now');
+                    }
+                });
+            });
+        });
+        </script>
+    <?php endif; ?>
     <?php
 }
 
@@ -216,7 +259,7 @@ function kc_campaign_save_meta($post_id) {
     $text_fields = [
         'kc_camp_subject', 'kc_camp_heading', 'kc_camp_banner',
         'kc_camp_btn_text', 'kc_camp_audience', 'kc_camp_status',
-        'kc_camp_scheduled_at',
+        'kc_camp_scheduled_at', 'kc_camp_promo_id',
     ];
     foreach ($text_fields as $field) {
         if (isset($_POST[$field])) {
@@ -347,6 +390,9 @@ function kc_run_campaign_batch() {
         $banner    = get_post_meta($post_id, 'kc_camp_banner',     true) ?: '';
         $btn_text  = get_post_meta($post_id, 'kc_camp_btn_text',   true) ?: 'Visit Us';
         $btn_url   = get_post_meta($post_id, 'kc_camp_btn_url',    true) ?: home_url('/');
+        
+        $promo_id  = get_post_meta($post_id, 'kc_camp_promo_id',   true);
+        $promo_code = $promo_id ? get_the_title($promo_id) : '';
 
         // On the very first batch: calculate total and mark as sending
         if ($status === 'scheduled') {
@@ -379,30 +425,40 @@ function kc_run_campaign_batch() {
         foreach ($rows as $row) {
             $email = $row['email'];
 
-            // Personalise body tokens
-            $body = str_replace(
-                ['{first_name}', '{email}', '{site_url}', '{unsubscribe_url}'],
-                [
-                    ucfirst(strstr($email, '@', true)), // best-effort first name from email
-                    $email,
-                    home_url('/'),
-                    home_url('/?kc_unsubscribe=' . urlencode($email)),
-                ],
-                $body_raw
-            );
+            // Personalise tokens across all fields
+            $search  = ['{first_name}', '{email}', '{promo_code}', '{site_url}', '{unsubscribe_url}'];
+            $replace = [
+                ucfirst(strstr($email, '@', true)), // best-effort first name from email
+                $email,
+                $promo_code,
+                home_url('/'),
+                home_url('/?kc_unsubscribe=' . urlencode($email)),
+            ];
+
+            $body = str_replace($search, $replace, $body_raw);
+            $parsed_subject = str_replace($search, $replace, $subject);
+            $parsed_heading = str_replace($search, $replace, $heading);
+            $parsed_banner  = str_replace($search, $replace, $banner);
+            $parsed_btn_url = str_replace($search, $replace, $btn_url);
+            $parsed_btn_text = str_replace($search, $replace, $btn_text);
 
             // Build HTML using the branded template
-            $email_heading  = $heading;
+            $email_heading  = $parsed_heading;
             $email_body     = wpautop($body);
-            $email_banner   = $banner;
-            $email_btn_text = $btn_text;
-            $email_btn_url  = $btn_url;
+            $email_banner   = $parsed_banner;
+            $email_btn_text = $parsed_btn_text;
+            $email_btn_url  = $parsed_btn_url;
 
             ob_start();
             include get_template_directory() . '/emails/email-newsletter.php';
             $html = ob_get_clean();
 
-            $result = wp_mail($email, $subject, $html, $headers);
+            // Add List-Unsubscribe header for better deliverability
+            $unsub_url = home_url('/?kc_unsubscribe=' . urlencode($email));
+            $camp_headers = $headers;
+            $camp_headers[] = 'List-Unsubscribe: <' . $unsub_url . '>';
+
+            $result = wp_mail(trim($email), $parsed_subject, $html, $camp_headers);
             if ($result) {
                 $sent++;
             } else {
@@ -410,9 +466,7 @@ function kc_run_campaign_batch() {
             }
         }
 
-        // Save progress
-        $new_offset = $offset + count($rows);
-        update_post_meta($post_id, 'kc_camp_offset',     $new_offset);
+        update_post_meta($post_id, 'kc_camp_offset',     $offset + $batch);
         update_post_meta($post_id, 'kc_camp_sent_count', $sent);
         update_post_meta($post_id, 'kc_camp_fail_count', $failed);
 
@@ -421,4 +475,18 @@ function kc_run_campaign_batch() {
             update_post_meta($post_id, 'kc_camp_status', 'sent');
         }
     }
+}
+
+// ---------------------------------------------------------------------------
+// 6. Manual Force Send AJAX
+// ---------------------------------------------------------------------------
+add_action('wp_ajax_kc_force_send_campaign', 'kc_force_send_campaign_ajax');
+function kc_force_send_campaign_ajax() {
+    check_ajax_referer('kc_force_send_campaign', 'nonce');
+    if (!current_user_can('manage_options')) wp_send_json_error('Unauthorized');
+    
+    // Call the cron function manually in this synchronous admin request
+    kc_run_campaign_batch();
+    
+    wp_send_json_success();
 }
