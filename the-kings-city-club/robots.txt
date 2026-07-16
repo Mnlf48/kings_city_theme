@@ -1,0 +1,85 @@
+# ============================================================
+# robots.txt — Kings City Club
+# SEO + AEO + GEO ready
+# ============================================================
+
+# --- Standard SEO Crawlers ---
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# --- AEO: Google Featured Snippets & SGE ---
+User-agent: Google-Extended
+Allow: /
+
+# --- GEO: AI Crawlers (ChatGPT, Perplexity, Gemini, Claude, etc.) ---
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: ImagesiftBot
+Allow: /
+
+User-agent: omgili
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+# --- Block sensitive WordPress paths from all crawlers ---
+User-agent: *
+Disallow: /wp-admin/
+Disallow: /wp-login.php
+Disallow: /wp-cron.php
+Disallow: /wp-config.php
+Disallow: /wp-includes/
+Disallow: /xmlrpc.php
+Disallow: /?s=
+Disallow: /search/
+Allow: /wp-admin/admin-ajax.php
+
+# Sitemap
+Sitemap: https://temptest.kings-city.com/sitemap.xml

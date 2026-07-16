@@ -31,7 +31,8 @@ function kc_email_templates_page() {
 
     $mailing_list_tabs = array(
         'newsletter_broadcast' => 'Newsletter Broadcast (Mailing List)',
-        'birthday_promo'       => 'Birthday Promo (Automated)'
+        'birthday_promo'       => 'Birthday Promo (Automated)',
+        'campaign_promo'       => 'Campaign / Other Promo (Default Template)',
     );
 
     $tabs = array_merge($quote_tabs, $booking_tabs, $mailing_list_tabs);
@@ -46,7 +47,8 @@ function kc_email_templates_page() {
         update_option($prefix . 'body',     wp_kses_post(wp_unslash($_POST['email_body'])));
         update_option($prefix . 'banner',   sanitize_text_field(wp_unslash($_POST['email_banner'])));
         update_option($prefix . 'btn_text', sanitize_text_field(wp_unslash($_POST['email_btn_text'])));
-        update_option($prefix . 'btn_url',  esc_url_raw(wp_unslash($_POST['email_btn_url'])));
+        // Saved as plain text so tokens like {site_url} survive — esc_url() applied at render time
+        update_option($prefix . 'btn_url',  sanitize_text_field(wp_unslash($_POST['email_btn_url'])));
 
         // Birthday Promo: also save discount settings
         if ($active_tab === 'birthday_promo') {
@@ -113,6 +115,13 @@ function kc_email_templates_page() {
         $def_banner   = 'An exclusive birthday discount code, just for you.';
         $def_btn_text = 'Book My Space';
         $def_btn_url  = '{site_url}';
+    } elseif ($active_tab === 'campaign_promo') {
+        $def_subject  = 'A Special Offer from The Kings City Club';
+        $def_heading  = 'A Special Offer Just for You';
+        $def_body     = "Hi {first_name},\n\nWe have an exclusive offer we'd love to share with you.\n\nUse code {promo_code} at checkout to enjoy your discount. This offer is valid for a limited time only — don't miss out!\n\nSee you soon at Kings City.";
+        $def_banner   = 'Use your exclusive promo code at checkout to redeem your discount.';
+        $def_btn_text = 'Book Now';
+        $def_btn_url  = '{site_url}';
     }
 
     $subject = get_option($prefix . 'subject', $def_subject);
@@ -161,7 +170,7 @@ function kc_email_templates_page() {
                     </a>
                 <?php endforeach; ?>
 
-                <h3 class="kc-email-sidebar-heading" style="margin-top: 15px;">Mailing List</h3>
+                <h3 class="kc-email-sidebar-heading" style="margin-top: 15px;">Mailing List & Campaigns</h3>
                 <?php foreach ($mailing_list_tabs as $tab_key => $tab_name): ?>
                     <a href="?page=kc-email-templates&tab=<?php echo esc_attr($tab_key); ?>" class="kc-email-nav-item <?php echo $active_tab === $tab_key ? 'active' : ''; ?>">
                         <?php echo esc_html($tab_name); ?>
@@ -209,6 +218,8 @@ function kc_email_templates_page() {
                                         echo '<br><span style="font-size: 12px;">Supported tokens: <code>{site_url}</code> &nbsp;|&nbsp; <strong>Note:</strong> This template is used when sending a broadcast from the Mailing List page.</span>';
                                     } elseif ($active_tab === 'birthday_promo') {
                                         echo '<br><span style="font-size: 12px;">Supported tokens: <code>{first_name}</code>, <code>{promo_code}</code>, <code>{discount}</code>, <code>{site_url}</code></span>';
+                                    } elseif ($active_tab === 'campaign_promo') {
+                                        echo '<br><span style="font-size: 12px;">Supported tokens: <code>{first_name}</code>, <code>{email}</code>, <code>{promo_code}</code>, <code>{site_url}</code>, <code>{unsubscribe_url}</code> &nbsp;|&nbsp; <strong>Note:</strong> This is the default template loaded when you create a new Campaign.</span>';
                                     } else {
                                         echo '<br><span style="font-size: 12px;">Supported tokens: <code>{client_name}</code>, <code>{client_email}</code>, <code>{site_url}</code></span>';
                                     }
@@ -273,6 +284,46 @@ function kc_email_templates_page() {
 
                     <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Save Template Settings"></p>
                 </form>
+
+                <?php if ($active_tab === 'birthday_promo') : ?>
+                <hr style="margin:30px 0; border:0; border-top:1px solid rgba(189,69,31,0.15);">
+                <h3 style="color:#AC201A; margin:0 0 8px;">🎂 Force Send Birthday Promos</h3>
+                <p style="color:#646970; font-size:13px; margin-bottom:14px;">
+                    Sends the birthday promo immediately to all <strong>Active</strong> subscribers whose birthday falls today (<strong><?php echo esc_html(date_i18n('F j')); ?></strong>).<br>
+                    Birthday promos are also sent automatically every day at midnight — use this button if you prefer not to wait.
+                </p>
+                <button type="button" id="kc-bday-force-btn" class="button button-primary" style="background:#AC201A; border-color:#8E1510;">
+                    Force Send Birthday Promos Now
+                </button>
+                <span id="kc-bday-force-result" style="display:none; margin-left:12px; font-size:13px; font-weight:600;"></span>
+
+                <script>
+                jQuery(document).ready(function($) {
+                    $('#kc-bday-force-btn').on('click', function() {
+                        var btn = $(this);
+                        var res = $('#kc-bday-force-result');
+                        btn.prop('disabled', true).text('Sending…');
+                        res.hide().removeClass('kc-bday-ok kc-bday-err');
+
+                        $.post(ajaxurl, {
+                            action: 'kc_force_birthday_promos',
+                            nonce:  '<?php echo esc_js(wp_create_nonce("kc_force_birthday_promos")); ?>'
+                        }, function(r) {
+                            btn.prop('disabled', false).text('Force Send Birthday Promos Now');
+                            if (r.success) {
+                                res.css('color', '#166534').text('✓ ' + r.data.message).show();
+                            } else {
+                                res.css('color', '#991b1b').text('✗ ' + (r.data || 'Unknown error.')).show();
+                            }
+                        }).fail(function() {
+                            btn.prop('disabled', false).text('Force Send Birthday Promos Now');
+                            res.css('color', '#991b1b').text('✗ Request failed. Please try again.').show();
+                        });
+                    });
+                });
+                </script>
+                <?php endif; ?>
+
             </div>
         </div>
     </div>

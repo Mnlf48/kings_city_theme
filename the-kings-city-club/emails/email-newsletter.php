@@ -50,6 +50,19 @@ if (!defined('ABSPATH')) exit;
             </div>
             <?php endif; ?>
 
+            <?php if (!empty($email_promo_code ?? '')): ?>
+            <!-- Promo Code Box -->
+            <div style="margin: 28px 0; text-align: center;">
+                <p style="margin: 0 0 10px; font-size: 13px; color: #646970; text-transform: uppercase; letter-spacing: 0.08em;">Your Exclusive Promo Code</p>
+                <div style="display: inline-block; background-color: #FFF9EF; border: 2px dashed #BD451F; padding: 16px 36px;">
+                    <span style="font-size: 26px; font-weight: 800; letter-spacing: 0.12em; color: #AC201A; font-family: 'Courier New', Courier, monospace;">
+                        <?php echo esc_html($email_promo_code); ?>
+                    </span>
+                </div>
+                <p style="margin: 10px 0 0; font-size: 12px; color: #646970;">Copy this code and use it at checkout to claim your discount.</p>
+            </div>
+            <?php endif; ?>
+
             <?php if (!empty($email_banner)): ?>
             <!-- Highlight Banner -->
             <div style="margin: 24px 0; background-color: #FFBFBF; border: 1px solid rgba(189,69,31,0.2); border-left: 4px solid #BD451F; padding: 20px 24px;">

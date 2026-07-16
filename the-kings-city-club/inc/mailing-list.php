@@ -856,9 +856,9 @@ function kc_process_birthday_promos() {
     global $wpdb;
     $table = $wpdb->prefix . 'kc_mailing_list';
 
-    // Find active subscribers whose birthday is today
-    $today_month = date('m');
-    $today_day   = date('d');
+    // Find active subscribers whose birthday is today (WP timezone)
+    $today_month = (int) date_i18n('m');
+    $today_day   = (int) date_i18n('d');
 
     $sql = $wpdb->prepare(
         "SELECT email FROM {$table} WHERE status = 'active' AND MONTH(birthdate) = %d AND DAY(birthdate) = %d",
@@ -919,7 +919,7 @@ function kc_process_birthday_promos() {
         update_post_meta($promo_id, 'kc_discount_value', $bday_discount_value);
         update_post_meta($promo_id, 'kc_max_uses',       1); // One-time use!
         update_post_meta($promo_id, 'kc_current_uses',   0);
-        update_post_meta($promo_id, 'kc_expires_at',     date('Y-m-d', strtotime('+30 days')));
+        update_post_meta($promo_id, 'kc_expires_at',     date_i18n('Y-m-d', strtotime('+30 days')));
 
         // ── 2. Personalise the email ──
         $first_name = ucfirst(strstr($email, '@', true));
@@ -935,17 +935,32 @@ function kc_process_birthday_promos() {
         $btn_url_final = str_replace('{site_url}', esc_url($site_url), $btn_url);
 
         // ── 3. Build and send the email using the branded template ──
-        $email_heading  = $heading;
-        $email_body     = wpautop($body);
-        $email_banner   = str_replace('{discount}', $discount_label, $banner);
-        $email_btn_text = $btn_text;
-        $email_btn_url  = $btn_url_final;
+        $email_heading     = $heading;
+        $email_body        = wpautop($body);
+        $email_banner      = str_replace('{discount}', $discount_label, $banner);
+        $email_btn_text    = $btn_text;
+        $email_btn_url     = $btn_url_final;
+        $email_promo_code  = $unique_code;
 
         ob_start();
         include get_template_directory() . '/emails/email-newsletter.php';
         $html = ob_get_clean();
 
-        wp_mail($email, $subject, $html, $headers);
+        $bday_headers   = $headers;
+        $bday_headers[] = 'List-Unsubscribe: <' . home_url('/?kc_unsubscribe=' . rawurlencode($email)) . '>';
+
+        wp_mail($email, $subject, $html, $bday_headers);
     }
 }
+
+// --- 9. AJAX: Force-run birthday promos now (admin test trigger) ---
+add_action('wp_ajax_kc_force_birthday_promos', 'kc_ajax_force_birthday_promos');
+function kc_ajax_force_birthday_promos() {
+    check_ajax_referer('kc_force_birthday_promos', 'nonce');
+    if (!current_user_can('manage_options')) wp_send_json_error('Unauthorized.');
+
+    kc_process_birthday_promos();
+    wp_send_json_success(array('message' => 'Birthday promo run complete. Check your inbox and Newsletters → Promo Codes for the generated code.'));
+}
+
 

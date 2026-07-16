@@ -241,32 +241,45 @@ function kc_add_booking_meta_boxes() {
 }
 add_action('add_meta_boxes', 'kc_add_booking_meta_boxes');
 
-// 1. Client Info Panel
+// 1. Client Info Panel (editable)
 function kc_render_client_meta_box($post) {
-    $fname = get_post_meta($post->ID, 'kc_first_name', true);
-    $lname = get_post_meta($post->ID, 'kc_last_name', true);
-    $email = get_post_meta($post->ID, 'kc_email', true);
-    $phone = get_post_meta($post->ID, 'kc_phone', true);
-    $birthdate = get_post_meta($post->ID, 'kc_birthdate', true);
+    $fname     = get_post_meta($post->ID, 'kc_first_name', true);
+    $lname     = get_post_meta($post->ID, 'kc_last_name',  true);
+    $email     = get_post_meta($post->ID, 'kc_email',      true);
+    $phone     = get_post_meta($post->ID, 'kc_phone',      true);
+    $birthdate = get_post_meta($post->ID, 'kc_birthdate',  true);
     ?>
-    <div class="kc-panel-grid">
-        <div class="kc-panel-field">
-            <span class="kc-panel-label">Full Name</span>
-            <span class="kc-panel-value"><span class="dashicons dashicons-admin-users" style="color:#94a3b8; font-size:16px; margin-right:5px; margin-top:2px;"></span> <?php echo esc_html("$fname $lname"); ?></span>
+    <style>
+        .kc-client-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .kc-client-field label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #94a3b8; margin-bottom: 5px; }
+        .kc-client-field input { width: 100%; padding: 7px 10px; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 13px; color: #2B2B2B; background: #fafafa; }
+        .kc-client-field input:focus { border-color: #BD451F; outline: none; background: #fff; }
+        .kc-client-hint { font-size: 11px; color: #94a3b8; margin: 10px 0 0; font-style: italic; }
+    </style>
+
+    <div class="kc-client-grid">
+        <div class="kc-client-field">
+            <label><span class="dashicons dashicons-admin-users" style="font-size:13px;vertical-align:middle;margin-right:3px;"></span> First Name</label>
+            <input type="text" name="kc_first_name" value="<?php echo esc_attr($fname); ?>" placeholder="First name" />
         </div>
-        <div class="kc-panel-field">
-            <span class="kc-panel-label">Phone Number</span>
-            <span class="kc-panel-value"><span class="dashicons dashicons-phone" style="color:#94a3b8; font-size:16px; margin-right:5px; margin-top:2px;"></span> <?php echo esc_html($phone); ?></span>
+        <div class="kc-client-field">
+            <label><span class="dashicons dashicons-admin-users" style="font-size:13px;vertical-align:middle;margin-right:3px;"></span> Last Name</label>
+            <input type="text" name="kc_last_name" value="<?php echo esc_attr($lname); ?>" placeholder="Last name" />
         </div>
-        <div class="kc-panel-field">
-            <span class="kc-panel-label">Email Address</span>
-            <span class="kc-panel-value"><span class="dashicons dashicons-email-alt" style="color:#94a3b8; font-size:16px; margin-right:5px; margin-top:2px;"></span> <a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a></span>
+        <div class="kc-client-field">
+            <label><span class="dashicons dashicons-email-alt" style="font-size:13px;vertical-align:middle;margin-right:3px;"></span> Email Address</label>
+            <input type="email" name="kc_email" value="<?php echo esc_attr($email); ?>" placeholder="email@example.com" />
         </div>
-        <div class="kc-panel-field">
-            <span class="kc-panel-label">Date of Birth</span>
-            <span class="kc-panel-value"><span class="dashicons dashicons-calendar-alt" style="color:#94a3b8; font-size:16px; margin-right:5px; margin-top:2px;"></span> <?php echo $birthdate ? esc_html($birthdate) : '<em>Not provided</em>'; ?></span>
+        <div class="kc-client-field">
+            <label><span class="dashicons dashicons-phone" style="font-size:13px;vertical-align:middle;margin-right:3px;"></span> Phone Number</label>
+            <input type="text" name="kc_phone" value="<?php echo esc_attr($phone); ?>" placeholder="+63 9XX XXX XXXX" />
+        </div>
+        <div class="kc-client-field">
+            <label><span class="dashicons dashicons-calendar-alt" style="font-size:13px;vertical-align:middle;margin-right:3px;"></span> Date of Birth</label>
+            <input type="date" name="kc_birthdate" value="<?php echo esc_attr($birthdate); ?>" />
         </div>
     </div>
+    <p class="kc-client-hint">Changes are saved when you click <strong>Update</strong>. Email and birthdate changes automatically sync to the Mailing List.</p>
     <?php
 }
 
@@ -556,15 +569,123 @@ function kc_save_booking_meta($post_id) {
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
     if (!current_user_can('edit_post', $post_id)) return;
 
-    $old_status = get_post_meta($post_id, 'kc_status', true);
-    $new_status = sanitize_text_field($_POST['kc_status']);
-    
+    // ── Client info fields ──
+    $old_email     = get_post_meta($post_id, 'kc_email',     true);
+    $old_birthdate = get_post_meta($post_id, 'kc_birthdate', true);
+
+    if (isset($_POST['kc_first_name'])) {
+        update_post_meta($post_id, 'kc_first_name', sanitize_text_field($_POST['kc_first_name']));
+    }
+    if (isset($_POST['kc_last_name'])) {
+        update_post_meta($post_id, 'kc_last_name', sanitize_text_field($_POST['kc_last_name']));
+    }
+    if (isset($_POST['kc_phone'])) {
+        update_post_meta($post_id, 'kc_phone', sanitize_text_field($_POST['kc_phone']));
+    }
+
+    $new_email     = isset($_POST['kc_email'])     ? sanitize_email($_POST['kc_email'])         : $old_email;
+    $new_birthdate = isset($_POST['kc_birthdate']) ? sanitize_text_field($_POST['kc_birthdate']) : $old_birthdate;
+
+    if (!empty($new_email)) {
+        update_post_meta($post_id, 'kc_email', $new_email);
+    }
+    if (isset($_POST['kc_birthdate'])) {
+        $bd_val = preg_match('/^\d{4}-\d{2}-\d{2}$/', $new_birthdate) ? $new_birthdate : null;
+        update_post_meta($post_id, 'kc_birthdate', $bd_val);
+    }
+
+    // ── Cascade email + birthdate changes to the mailing list ──
+    if (!empty($new_email)) {
+        global $wpdb;
+        $ml_table  = $wpdb->prefix . 'kc_mailing_list';
+        $bd_synced = isset($bd_val) ? $bd_val : $new_birthdate;
+
+        $ml_row = $wpdb->get_row($wpdb->prepare("SELECT id FROM {$ml_table} WHERE email = %s", $old_email));
+
+        if ($ml_row) {
+            // Row exists for the old email — update email + birthdate together
+            $wpdb->update(
+                $ml_table,
+                array('email' => $new_email, 'birthdate' => $bd_synced ?: null),
+                array('id'    => $ml_row->id),
+                array('%s', '%s'),
+                array('%d')
+            );
+        } elseif ($new_email !== $old_email) {
+            // Old email wasn't in the list — check if new email already is
+            $new_row = $wpdb->get_row($wpdb->prepare("SELECT id FROM {$ml_table} WHERE email = %s", $new_email));
+            if ($new_row) {
+                // New email already in list — just sync the birthdate
+                $wpdb->update(
+                    $ml_table,
+                    array('birthdate' => $bd_synced ?: null),
+                    array('id'        => $new_row->id),
+                    array('%s'),
+                    array('%d')
+                );
+            }
+            // If neither email is in the list, do nothing — they haven't subscribed
+        } else {
+            // Email unchanged, birthdate may have changed — sync it if row exists for current email
+            $cur_row = $wpdb->get_row($wpdb->prepare("SELECT id FROM {$ml_table} WHERE email = %s", $new_email));
+            if ($cur_row) {
+                $wpdb->update(
+                    $ml_table,
+                    array('birthdate' => $bd_synced ?: null),
+                    array('id'        => $cur_row->id),
+                    array('%s'),
+                    array('%d')
+                );
+            }
+        }
+    }
+
+    // ── Admin note ──
     if (isset($_POST['kc_admin_note'])) {
         update_post_meta($post_id, 'kc_admin_note', sanitize_textarea_field($_POST['kc_admin_note']));
     }
 
+    // ── Status change ──
+    $old_status = get_post_meta($post_id, 'kc_status', true);
+    $new_status = sanitize_text_field($_POST['kc_status'] ?? $old_status);
     if ($old_status !== $new_status) {
         kc_process_booking_status_change($post_id, $new_status, $old_status);
     }
 }
 add_action('save_post_kc_booking', 'kc_save_booking_meta');
+
+// When a booking is permanently deleted or trashed, clear the birthdate from
+// the mailing list ONLY if no other active/pending booking exists for that email.
+add_action('before_delete_post', 'kc_booking_delete_clean_mailing_list');
+add_action('wp_trash_post',      'kc_booking_delete_clean_mailing_list');
+function kc_booking_delete_clean_mailing_list($post_id) {
+    if (get_post_type($post_id) !== 'kc_booking') return;
+
+    $email = get_post_meta($post_id, 'kc_email', true);
+    if (empty($email)) return;
+
+    // Check if this subscriber has any OTHER bookings still alive
+    $other_bookings = get_posts(array(
+        'post_type'      => 'kc_booking',
+        'post_status'    => array('publish', 'pending', 'draft'),
+        'posts_per_page' => 1,
+        'post__not_in'   => array($post_id),
+        'meta_query'     => array(array(
+            'key'   => 'kc_email',
+            'value' => $email,
+        )),
+    ));
+
+    // Only wipe the birthdate if this was their only booking
+    if (empty($other_bookings)) {
+        global $wpdb;
+        $table = $wpdb->prefix . 'kc_mailing_list';
+        $wpdb->update(
+            $table,
+            array('birthdate' => null),
+            array('email'     => $email),
+            array('%s'),
+            array('%s')
+        );
+    }
+}
