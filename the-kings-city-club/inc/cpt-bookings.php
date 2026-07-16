@@ -75,11 +75,12 @@ function kc_custom_kc_booking_column($column, $post_id) {
             
             $bg = '#fef08a'; $color = '#854d0e'; // Pending
             if ($status === 'Contacted') { $bg = '#bfdbfe'; $color = '#1e3a8a'; }
+            if ($status === 'Active')    { $bg = '#d1fae5'; $color = '#065f46'; }
             if ($status === 'Completed') { $bg = '#bbf7d0'; $color = '#166534'; }
             if ($status === 'Rejected' || $status === 'Cancelled') { $bg = '#fecaca'; $color = '#991b1b'; }
-            
+
             echo "<select class='kc-inline-status-select' data-post-id='{$post_id}' data-post-type='kc_booking' style='background-color: {$bg}; color: {$color}; border: 1px solid {$color}; font-weight: 600; font-size:12px; padding:2px 24px 2px 8px; height:auto; min-height:26px; border-radius:4px;'>";
-            $options = ['Pending', 'Contacted', 'Completed', 'Rejected', 'Cancelled'];
+            $options = ['Pending', 'Contacted', 'Active', 'Completed', 'Rejected', 'Cancelled'];
             foreach ($options as $opt) {
                 echo "<option value='{$opt}' style='background-color:#fff; color:#000;' " . selected($status, $opt, false) . ">{$opt}</option>";
             }
@@ -235,9 +236,10 @@ function kc_add_booking_meta_boxes() {
     add_meta_box('kc_booking_special', 'Special Requests', 'kc_render_special_meta_box', 'kc_booking', 'normal', 'high');
     
     // Right Column (side)
-    add_meta_box('kc_booking_status', 'Booking Status & Actions', 'kc_render_status_meta_box', 'kc_booking', 'side', 'high');
-    add_meta_box('kc_booking_membership', 'Membership Tracker', 'kc_render_membership_meta_box', 'kc_booking', 'side', 'core');
-    add_meta_box('kc_booking_notes', 'Internal Admin Notes', 'kc_render_notes_meta_box', 'kc_booking', 'side', 'core');
+    add_meta_box('kc_booking_status',   'Booking Status & Actions', 'kc_render_status_meta_box',   'kc_booking', 'side', 'high');
+    add_meta_box('kc_booking_payment',  'Payment Tracker',          'kc_render_payment_meta_box',  'kc_booking', 'side', 'high');
+    add_meta_box('kc_booking_membership', 'Membership Tracker',     'kc_render_membership_meta_box','kc_booking', 'side', 'core');
+    add_meta_box('kc_booking_notes',    'Internal Admin Notes',     'kc_render_notes_meta_box',    'kc_booking', 'side', 'core');
 }
 add_action('add_meta_boxes', 'kc_add_booking_meta_boxes');
 
@@ -355,16 +357,18 @@ function kc_render_status_meta_box($post) {
     if (!$status) $status = 'Pending';
     ?>
     <select name="kc_status" id="kc_status" class="kc-status-select">
-        <option value="Pending" <?php selected($status, 'Pending'); ?>>⏳ Pending</option>
-        <option value="Contacted" <?php selected($status, 'Contacted'); ?>>✉️ Contacted / Confirmed</option>
-        <option value="Completed" <?php selected($status, 'Completed'); ?>>✅ Completed / Paid</option>
-        <option value="Rejected" <?php selected($status, 'Rejected'); ?>>❌ Rejected</option>
-        <option value="Cancelled" <?php selected($status, 'Cancelled'); ?>>🚫 Cancelled</option>
+        <option value="Pending"   <?php selected($status, 'Pending');   ?>>Pending</option>
+        <option value="Contacted" <?php selected($status, 'Contacted'); ?>>Contacted / Confirmed</option>
+        <option value="Active"    <?php selected($status, 'Active');    ?>>Active</option>
+        <option value="Completed" <?php selected($status, 'Completed'); ?>>Completed</option>
+        <option value="Rejected"  <?php selected($status, 'Rejected');  ?>>Rejected</option>
+        <option value="Cancelled" <?php selected($status, 'Cancelled'); ?>>Cancelled</option>
     </select>
     <p class="kc-status-desc">
         <strong>Automations:</strong><br>
         • <em>Contacted</em> instantly emails a confirmation to the client.<br>
-        • <em>Completed</em> logs the revenue in the KPI dashboard and activates memberships.<br>
+        • <em>Active</em> means the client is currently using the space — activates membership for monthly/annual passes.<br>
+        • <em>Completed</em> means the booking period is fully over — also activates membership if not already done.<br>
         • <em>Rejected</em> emails the client your admin notes below.
     </p>
     <?php
@@ -402,6 +406,131 @@ function kc_render_notes_meta_box($post) {
     <?php
 }
 
+
+// 7. Payment Tracker Panel (Right)
+function kc_render_payment_meta_box($post) {
+    $total_due   = (float) get_post_meta($post->ID, 'kc_price', true);
+    $log_raw     = get_post_meta($post->ID, 'kc_payment_log', true);
+    $log         = is_array($log_raw) ? $log_raw : [];
+    $total_paid  = array_sum(array_column($log, 'amount'));
+    $balance     = max(0, $total_due - $total_paid);
+    $inv_number  = get_post_meta($post->ID, 'kc_invoice_number', true);
+
+    if ($balance <= 0 && $total_paid > 0) {
+        $pay_status = 'Fully Paid';
+        $pay_color  = '#22c55e';
+    } elseif ($total_paid > 0) {
+        $pay_status = 'Partially Paid';
+        $pay_color  = '#f59e0b';
+    } else {
+        $pay_status = 'Unpaid';
+        $pay_color  = '#ef4444';
+    }
+    ?>
+    <style>
+        .kc-pay-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid #f1f5f9; font-size: 12px; }
+        .kc-pay-row:last-of-type { border-bottom: none; }
+        .kc-pay-label { color: #64748b; font-weight: 600; }
+        .kc-pay-val   { font-weight: 700; color: #0f172a; }
+        .kc-pay-badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; color: #fff; }
+        .kc-pay-input { width: 100%; padding: 6px 8px; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 12px; margin-bottom: 6px; box-sizing: border-box; }
+        .kc-pay-btn   { width: 100%; background: #AC201A; color: #fff; border: none; padding: 8px; font-weight: 700; font-size: 12px; cursor: pointer; border-radius: 4px; margin-top: 4px; }
+        .kc-pay-btn:hover { background: #8E1510; }
+        .kc-pay-history { margin-top: 10px; }
+        .kc-pay-entry { font-size: 11px; padding: 5px 0; border-bottom: 1px solid #f1f5f9; color: #475569; }
+        .kc-pay-entry:last-child { border-bottom: none; }
+        .kc-pay-entry strong { color: #22c55e; }
+        .kc-pay-sep { border: 0; border-top: 1px solid rgba(189,69,31,0.15); margin: 10px 0; }
+    </style>
+
+    <?php if ($inv_number): ?>
+    <div style="font-size:11px; color:#94a3b8; margin-bottom:8px;">Invoice: <strong style="color:#BD451F;"><?php echo esc_html($inv_number); ?></strong></div>
+    <?php endif; ?>
+
+    <div class="kc-pay-row">
+        <span class="kc-pay-label">Total Amount Due</span>
+        <span class="kc-pay-val">Php <?php echo number_format($total_due, 2); ?></span>
+    </div>
+    <div class="kc-pay-row">
+        <span class="kc-pay-label">Total Paid</span>
+        <span class="kc-pay-val" style="color:#22c55e;">Php <?php echo number_format($total_paid, 2); ?></span>
+    </div>
+    <div class="kc-pay-row">
+        <span class="kc-pay-label">Remaining Balance</span>
+        <span class="kc-pay-val" style="color:<?php echo esc_attr($pay_color); ?>;">Php <?php echo number_format($balance, 2); ?></span>
+    </div>
+    <div class="kc-pay-row" style="border-bottom:none; margin-bottom:6px;">
+        <span class="kc-pay-label">Payment Status</span>
+        <span class="kc-pay-badge" style="background:<?php echo esc_attr($pay_color); ?>;"><?php echo esc_html($pay_status); ?></span>
+    </div>
+
+    <hr class="kc-pay-sep">
+
+    <div style="font-size:11px; font-weight:700; color:#64748b; margin-bottom:6px; text-transform:uppercase; letter-spacing:.5px;">Add Payment</div>
+    <input type="number" id="kc-pay-amount" class="kc-pay-input" placeholder="Amount (e.g. 5000)" min="1" step="0.01" />
+    <input type="text"   id="kc-pay-note"   class="kc-pay-input" placeholder="Note / Ref # (e.g. Cash, GCash ref 12345)" />
+    <label style="font-size:11px; color:#475569; display:flex; align-items:center; gap:5px; margin-bottom:6px;">
+        <input type="checkbox" id="kc-pay-send-receipt" checked />
+        Send payment receipt email to client
+    </label>
+    <button type="button" class="kc-pay-btn" id="kc-pay-add-btn" data-post-id="<?php echo esc_attr($post->ID); ?>">Add Payment</button>
+    <div id="kc-pay-result" style="font-size:11px; margin-top:6px; font-weight:600;"></div>
+
+    <?php if (!empty($log)): ?>
+    <hr class="kc-pay-sep">
+    <div style="font-size:11px; font-weight:700; color:#64748b; margin-bottom:4px; text-transform:uppercase; letter-spacing:.5px;">Payment History</div>
+    <div class="kc-pay-history">
+        <?php foreach (array_reverse($log) as $entry): ?>
+        <div class="kc-pay-entry">
+            <strong>+ Php <?php echo number_format((float)$entry['amount'], 2); ?></strong>
+            &nbsp;<?php echo esc_html($entry['date']); ?>
+            <?php if (!empty($entry['note'])): ?>&nbsp;&mdash; <?php echo esc_html($entry['note']); ?><?php endif; ?>
+            <span style="color:#94a3b8;"> by <?php echo esc_html($entry['by']); ?></span>
+        </div>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
+
+    <script>
+    jQuery(document).ready(function($) {
+        $('#kc-pay-add-btn').on('click', function() {
+            var btn        = $(this);
+            var amount     = parseFloat($('#kc-pay-amount').val());
+            var note       = $('#kc-pay-note').val();
+            var sendReceipt = $('#kc-pay-send-receipt').is(':checked') ? 1 : 0;
+            var postId     = btn.data('post-id');
+            var result     = $('#kc-pay-result');
+
+            if (!amount || amount <= 0) {
+                result.css('color', '#ef4444').text('Please enter a valid amount.');
+                return;
+            }
+
+            btn.prop('disabled', true).text('Adding...');
+            result.text('');
+
+            $.post(ajaxurl, {
+                action:      'kc_add_payment',
+                nonce:       '<?php echo wp_create_nonce('kc_add_payment'); ?>',
+                post_id:     postId,
+                amount:      amount,
+                note:        note,
+                send_receipt: sendReceipt
+            }, function(res) {
+                btn.prop('disabled', false).text('Add Payment');
+                if (res.success) {
+                    result.css('color', '#22c55e').text(res.data.message);
+                    // Reload to refresh all totals and history
+                    setTimeout(function() { location.reload(); }, 800);
+                } else {
+                    result.css('color', '#ef4444').text(res.data.message || 'Error adding payment.');
+                }
+            });
+        });
+    });
+    </script>
+    <?php
+}
 
 // --- Save Logic & Automations ---
 
@@ -539,25 +668,38 @@ function kc_process_booking_status_change($post_id, $new_status, $old_status) {
     // 1. Email Logic
     if ($new_status === 'Contacted') {
         kc_send_booking_email($post_id, 'booking_confirmed');
+    } elseif ($new_status === 'Active') {
+        // Generate invoice number if not yet set, then send invoice
+        $inv_number = get_post_meta($post_id, 'kc_invoice_number', true);
+        if (empty($inv_number)) {
+            $counter    = (int) get_option('kc_invoice_counter', 0) + 1;
+            update_option('kc_invoice_counter', $counter);
+            $inv_number = 'KC-INV-' . date('Y') . '-' . str_pad($counter, 4, '0', STR_PAD_LEFT);
+            update_post_meta($post_id, 'kc_invoice_number', $inv_number);
+        }
+        kc_send_invoice_email($post_id, $inv_number);
     } elseif ($new_status === 'Rejected') {
         kc_send_booking_email($post_id, 'booking_rejected');
     }
 
-    // 2. Membership Expiration Logic
-    if ($new_status === 'Completed') {
-        $start_timestamp = strtotime($date);
-        if (!$start_timestamp) $start_timestamp = time(); // Fallback if no date is set
+    // 2. Membership Expiration Logic — triggers on Active OR Completed (whichever comes first)
+    if (in_array($new_status, ['Active', 'Completed'])) {
+        $already_active = get_post_meta($post_id, 'kc_membership_status', true) === 'Active';
+        if (!$already_active) {
+            $start_timestamp = strtotime($date);
+            if (!$start_timestamp) $start_timestamp = time();
 
-        if (stripos($duration, 'Month') !== false || $space === 'Office Leasing') {
-            $expiry = date('Y-m-d', strtotime('+1 month', $start_timestamp));
-            update_post_meta($post_id, 'kc_membership_status', 'Active');
-            update_post_meta($post_id, 'kc_membership_expiry', $expiry);
-        } elseif (stripos($duration, 'Year') !== false || stripos($duration, 'Annual') !== false) {
-            $expiry = date('Y-m-d', strtotime('+1 year', $start_timestamp));
-            update_post_meta($post_id, 'kc_membership_status', 'Active');
-            update_post_meta($post_id, 'kc_membership_expiry', $expiry);
-        } else {
-            update_post_meta($post_id, 'kc_membership_status', 'N/A');
+            if (stripos($duration, 'Month') !== false || $space === 'Office Leasing') {
+                $expiry = date('Y-m-d', strtotime('+1 month', $start_timestamp));
+                update_post_meta($post_id, 'kc_membership_status', 'Active');
+                update_post_meta($post_id, 'kc_membership_expiry', $expiry);
+            } elseif (stripos($duration, 'Year') !== false || stripos($duration, 'Annual') !== false) {
+                $expiry = date('Y-m-d', strtotime('+1 year', $start_timestamp));
+                update_post_meta($post_id, 'kc_membership_status', 'Active');
+                update_post_meta($post_id, 'kc_membership_expiry', $expiry);
+            } else {
+                update_post_meta($post_id, 'kc_membership_status', 'N/A');
+            }
         }
     }
 }
@@ -653,6 +795,125 @@ function kc_save_booking_meta($post_id) {
     }
 }
 add_action('save_post_kc_booking', 'kc_save_booking_meta');
+
+// --- Invoice Email ---
+function kc_send_invoice_email($post_id, $inv_number) {
+    $fname       = get_post_meta($post_id, 'kc_first_name',     true);
+    $lname       = get_post_meta($post_id, 'kc_last_name',      true);
+    $email       = get_post_meta($post_id, 'kc_email',          true);
+    $space       = get_post_meta($post_id, 'kc_space_type',     true);
+    $duration    = get_post_meta($post_id, 'kc_duration',       true);
+    $start_date  = get_post_meta($post_id, 'kc_start_date',     true);
+    $arrival     = get_post_meta($post_id, 'kc_arrival_time',   true);
+    $participants= get_post_meta($post_id, 'kc_participants',   true);
+    $base_price  = (float) get_post_meta($post_id, 'kc_base_price',     true);
+    $discount    = (float) get_post_meta($post_id, 'kc_discount_amount', true);
+    $total_due   = (float) get_post_meta($post_id, 'kc_price',          true);
+    $promo_code  = get_post_meta($post_id, 'kc_promo_code',     true);
+
+    if (empty($email)) return;
+
+    $subject        = 'Your Invoice from The Kings City Club — ' . $inv_number;
+    $email_heading  = 'Invoice';
+    $email_promo_code = '';
+
+    ob_start();
+    include get_template_directory() . '/emails/email-invoice.php';
+    $html = ob_get_clean();
+
+    $headers = ['Content-Type: text/html; charset=UTF-8'];
+    wp_mail($email, $subject, $html, $headers);
+}
+
+// --- Payment Receipt Email ---
+function kc_send_payment_receipt_email($post_id, $amount, $note, $total_paid, $balance, $inv_number) {
+    $fname    = get_post_meta($post_id, 'kc_first_name', true);
+    $lname    = get_post_meta($post_id, 'kc_last_name',  true);
+    $email    = get_post_meta($post_id, 'kc_email',      true);
+    $space    = get_post_meta($post_id, 'kc_space_type', true);
+    $duration = get_post_meta($post_id, 'kc_duration',   true);
+    $total_due = (float) get_post_meta($post_id, 'kc_price', true);
+
+    if (empty($email)) return;
+
+    $fully_paid = ($balance <= 0);
+    $subject    = $fully_paid
+        ? 'Your balance is fully settled — ' . get_bloginfo('name')
+        : 'Payment received — Remaining balance Php ' . number_format($balance, 2);
+
+    $email_heading  = $fully_paid ? 'Payment Complete — Thank You!' : 'Payment Received';
+    $email_promo_code = '';
+
+    ob_start();
+    include get_template_directory() . '/emails/email-payment-receipt.php';
+    $html = ob_get_clean();
+
+    $headers = ['Content-Type: text/html; charset=UTF-8'];
+    wp_mail($email, $subject, $html, $headers);
+}
+
+// --- AJAX: Add Payment ---
+add_action('wp_ajax_kc_add_payment', 'kc_ajax_add_payment');
+function kc_ajax_add_payment() {
+    check_ajax_referer('kc_add_payment', 'nonce');
+
+    if (!current_user_can('edit_posts')) {
+        wp_send_json_error(['message' => 'Permission denied.']);
+    }
+
+    $post_id     = (int) ($_POST['post_id'] ?? 0);
+    $amount      = (float) ($_POST['amount'] ?? 0);
+    $note        = sanitize_text_field($_POST['note'] ?? '');
+    $send_receipt = (int) ($_POST['send_receipt'] ?? 0);
+
+    if (!$post_id || $amount <= 0) {
+        wp_send_json_error(['message' => 'Invalid payment data.']);
+    }
+
+    if (get_post_type($post_id) !== 'kc_booking') {
+        wp_send_json_error(['message' => 'Invalid booking.']);
+    }
+
+    // Generate invoice number if not yet set
+    $inv_number = get_post_meta($post_id, 'kc_invoice_number', true);
+    if (empty($inv_number)) {
+        $counter    = (int) get_option('kc_invoice_counter', 0) + 1;
+        update_option('kc_invoice_counter', $counter);
+        $inv_number = 'KC-INV-' . date('Y') . '-' . str_pad($counter, 4, '0', STR_PAD_LEFT);
+        update_post_meta($post_id, 'kc_invoice_number', $inv_number);
+    }
+
+    // Append to payment log
+    $log = get_post_meta($post_id, 'kc_payment_log', true);
+    if (!is_array($log)) $log = [];
+
+    $log[] = [
+        'amount' => $amount,
+        'note'   => $note,
+        'date'   => date_i18n('M j, Y g:i A'),
+        'by'     => wp_get_current_user()->user_login,
+    ];
+    update_post_meta($post_id, 'kc_payment_log', $log);
+
+    // Recalculate balance
+    $total_due  = (float) get_post_meta($post_id, 'kc_price', true);
+    $total_paid = array_sum(array_column($log, 'amount'));
+    $balance    = max(0, $total_due - $total_paid);
+
+    // Send receipt email if requested
+    if ($send_receipt) {
+        kc_send_payment_receipt_email($post_id, $amount, $note, $total_paid, $balance, $inv_number);
+    }
+
+    $msg = 'Payment of Php ' . number_format($amount, 2) . ' recorded.';
+    if ($balance <= 0) {
+        $msg .= ' Fully paid!';
+    } else {
+        $msg .= ' Remaining: Php ' . number_format($balance, 2) . '.';
+    }
+
+    wp_send_json_success(['message' => $msg]);
+}
 
 // When a booking is permanently deleted or trashed, clear the birthdate from
 // the mailing list ONLY if no other active/pending booking exists for that email.

@@ -861,13 +861,13 @@ function kc_process_birthday_promos() {
     $today_day   = (int) date_i18n('d');
 
     $sql = $wpdb->prepare(
-        "SELECT email FROM {$table} WHERE status = 'active' AND MONTH(birthdate) = %d AND DAY(birthdate) = %d",
+        "SELECT email, first_name FROM {$table} WHERE status = 'active' AND MONTH(birthdate) = %d AND DAY(birthdate) = %d",
         $today_month,
         $today_day
     );
-    $emails = $wpdb->get_col($sql);
+    $subscribers = $wpdb->get_results($sql, ARRAY_A);
 
-    if (empty($emails)) {
+    if (empty($subscribers)) {
         return; // No birthdays today
     }
 
@@ -887,7 +887,9 @@ function kc_process_birthday_promos() {
     $headers  = array('Content-Type: text/html; charset=UTF-8');
     $site_url = home_url('/');
 
-    foreach ($emails as $email) {
+    foreach ($subscribers as $subscriber) {
+        $email = $subscriber['email'];
+
         // ── 1. Auto-generate a unique promo code for this subscriber ──
         $unique_code = 'BDAY-' . strtoupper(substr(md5($email . date('Y')), 0, 8));
 
@@ -922,7 +924,7 @@ function kc_process_birthday_promos() {
         update_post_meta($promo_id, 'kc_expires_at',     date_i18n('Y-m-d', strtotime('+30 days')));
 
         // ── 2. Personalise the email ──
-        $first_name = ucfirst(strstr($email, '@', true));
+        $first_name = !empty($subscriber['first_name']) ? ucfirst($subscriber['first_name']) : ucfirst(strstr($email, '@', true));
         $discount_label = $bday_discount_type === 'percentage'
             ? $bday_discount_value . '% off'
             : 'Php ' . number_format($bday_discount_value) . ' off';

@@ -250,13 +250,14 @@ function kc_render_campaign_status_box($post) {
 
     <p><span class="kc-camp-status-badge" style="background: <?php echo esc_attr($color); ?>;"><?php echo esc_html(ucfirst($status)); ?></span></p>
 
-    <div class="kc-camp-stat"><span class="kc-camp-stat-label">Status</span>
-        <select name="kc_camp_status" style="font-size:12px; padding:2px 4px;">
+    <div style="padding: 6px 0; border-bottom: 1px solid #f1f5f9;">
+        <div style="font-size:12px; font-weight:600; color:#64748b; margin-bottom:5px;">Change Status</div>
+        <select name="kc_camp_status" style="font-size:12px; padding:3px 6px; width:100%; box-sizing:border-box;">
             <option value="draft"     <?php selected($status, 'draft');     ?>>Draft</option>
             <option value="scheduled" <?php selected($status, 'scheduled'); ?>>Scheduled</option>
-            <option value="sending"   <?php selected($status, 'sending');   ?>>Sending…</option>
-            <option value="sent"      <?php selected($status, 'sent');      ?>>Sent ✅</option>
-            <option value="failed"    <?php selected($status, 'failed');    ?>>Failed ❌</option>
+            <option value="sending"   <?php selected($status, 'sending');   ?>>Sending</option>
+            <option value="sent"      <?php selected($status, 'sent');      ?>>Sent</option>
+            <option value="failed"    <?php selected($status, 'failed');    ?>>Failed</option>
         </select>
     </div>
 
@@ -495,7 +496,7 @@ function kc_run_single_campaign($post_id) {
     // Fetch this batch
     $where = $audience === 'all' ? '' : "WHERE status = 'active'";
     $rows  = $wpdb->get_results(
-        $wpdb->prepare("SELECT email FROM {$mailing_table} {$where} ORDER BY id ASC LIMIT %d OFFSET %d", $batch, $offset),
+        $wpdb->prepare("SELECT email, first_name FROM {$mailing_table} {$where} ORDER BY id ASC LIMIT %d OFFSET %d", $batch, $offset),
         ARRAY_A
     );
 
@@ -535,9 +536,11 @@ function kc_run_single_campaign($post_id) {
             }
         }
 
+        $first_name = !empty($row['first_name']) ? ucfirst($row['first_name']) : ucfirst(strstr($email, '@', true));
+
         $search  = ['{first_name}', '{email}', '{promo_code}', '{site_url}', '{unsubscribe_url}'];
         $replace = [
-            ucfirst(strstr($email, '@', true)),
+            $first_name,
             $email,
             $subscriber_code,
             home_url('/'),

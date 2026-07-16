@@ -109,9 +109,9 @@ function kc_email_templates_page() {
         $def_btn_text = 'Visit Kings City';
         $def_btn_url = '{site_url}';
     } elseif ($active_tab === 'birthday_promo') {
-        $def_subject  = 'Happy Birthday from The Kings City Club! 🎂';
+        $def_subject  = 'Happy Birthday from The Kings City Club!';
         $def_heading  = 'Happy Birthday!';
-        $def_body     = "Dear {first_name},\n\nWishing you a wonderful birthday from all of us at The Kings City Club!\n\nAs a special gift, here's your exclusive birthday discount code:\n\n🎁 {promo_code}\n\nUse it when booking any of our spaces to enjoy your birthday savings. This code is valid for 30 days and is one-time use only.\n\nSee you soon!";
+        $def_body     = "Dear {first_name},\n\nWishing you a wonderful birthday from all of us at The Kings City Club!\n\nAs a special gift, here's your exclusive birthday discount code:\n\n{promo_code}\n\nUse it when booking any of our spaces to enjoy your birthday savings. This code is valid for 30 days and is one-time use only.\n\nSee you soon!";
         $def_banner   = 'An exclusive birthday discount code, just for you.';
         $def_btn_text = 'Book My Space';
         $def_btn_url  = '{site_url}';
@@ -260,7 +260,7 @@ function kc_email_templates_page() {
                         $bday_disc_type  = get_option($prefix . 'discount_type',  'percentage');
                         $bday_disc_value = get_option($prefix . 'discount_value', 15);
                     ?>
-                    <h3 style="color:#AC201A; margin-top: 30px; border-top: 1px solid rgba(189,69,31,0.1); padding-top: 20px;">🎁 Birthday Discount Settings</h3>
+                    <h3 style="color:#AC201A; margin-top: 30px; border-top: 1px solid rgba(189,69,31,0.1); padding-top: 20px;">Birthday Discount Settings</h3>
                     <p style="color:#646970; font-size:13px; margin-bottom:15px;">Configure the automatic discount generated for each subscriber on their birthday. Each code is unique, one-time use, and expires after 30 days.</p>
                     <table class="form-table"><tbody>
                         <tr>
@@ -287,7 +287,7 @@ function kc_email_templates_page() {
 
                 <?php if ($active_tab === 'birthday_promo') : ?>
                 <hr style="margin:30px 0; border:0; border-top:1px solid rgba(189,69,31,0.15);">
-                <h3 style="color:#AC201A; margin:0 0 8px;">🎂 Force Send Birthday Promos</h3>
+                <h3 style="color:#AC201A; margin:0 0 8px;">Force Send Birthday Promos</h3>
                 <p style="color:#646970; font-size:13px; margin-bottom:14px;">
                     Sends the birthday promo immediately to all <strong>Active</strong> subscribers whose birthday falls today (<strong><?php echo esc_html(date_i18n('F j')); ?></strong>).<br>
                     Birthday promos are also sent automatically every day at midnight — use this button if you prefer not to wait.

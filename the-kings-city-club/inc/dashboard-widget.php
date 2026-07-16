@@ -41,11 +41,12 @@ function kc_render_bookings_dashboard_widget() {
 
     // Pipeline Counts
     $counts = array(
-        'Pending' => 0,
+        'Pending'   => 0,
         'Contacted' => 0,
+        'Active'    => 0,
         'Completed' => 0,
-        'Rejected' => 0,
-        'Cancelled' => 0
+        'Rejected'  => 0,
+        'Cancelled' => 0,
     );
 
     $all_bookings = new WP_Query(array(
@@ -76,7 +77,7 @@ function kc_render_bookings_dashboard_widget() {
             array(
                 'relation' => 'AND',
                 array('key' => 'kc_start_date', 'value' => $today),
-                array('key' => 'kc_status', 'value' => array('Pending', 'Contacted', 'Completed'), 'compare' => 'IN')
+                array('key' => 'kc_status', 'value' => array('Pending', 'Contacted', 'Active', 'Completed'), 'compare' => 'IN')
             ),
             array(
                 'relation' => 'AND',
@@ -125,6 +126,30 @@ function kc_render_bookings_dashboard_widget() {
         }
     }
 
+    // Bookings by Pass Type per Space (Completed bookings only)
+    global $wpdb;
+    $pass_types = ['Day Pass', 'Weekly Pass', 'Monthly Pass', 'Annual Pass'];
+
+    $pass_rows = $wpdb->get_results("
+        SELECT
+            pm_space.meta_value  AS space_type,
+            pm_dur.meta_value    AS duration,
+            COUNT(*)             AS total
+        FROM {$wpdb->posts} p
+        INNER JOIN {$wpdb->postmeta} pm_space ON pm_space.post_id = p.ID AND pm_space.meta_key = 'kc_space_type'
+        INNER JOIN {$wpdb->postmeta} pm_dur   ON pm_dur.post_id   = p.ID AND pm_dur.meta_key   = 'kc_duration'
+        INNER JOIN {$wpdb->postmeta} pm_stat  ON pm_stat.post_id  = p.ID AND pm_stat.meta_key  = 'kc_status' AND pm_stat.meta_value IN ('Active', 'Completed')
+        WHERE p.post_type = 'kc_booking' AND p.post_status = 'publish'
+        GROUP BY pm_space.meta_value, pm_dur.meta_value
+        ORDER BY pm_space.meta_value ASC
+    ", ARRAY_A);
+
+    // Pivot into [space][duration] = count
+    $pass_matrix = [];
+    foreach ($pass_rows as $r) {
+        $pass_matrix[ $r['space_type'] ][ $r['duration'] ] = (int) $r['total'];
+    }
+
     // Recent Bookings (5)
     $recent_bookings = new WP_Query(array(
         'post_type' => 'kc_booking',
@@ -164,10 +189,11 @@ function kc_render_bookings_dashboard_widget() {
         .kc-dash-pipeline-bar { height: 8px; border-radius: 4px; margin: 0 10px; flex-grow: 1; }
         .kc-dash-pipeline-row .kc-dash-progress-bar-container { background-color: #FFF9EF; height: 8px; border: 1px solid rgba(189,69,31,0.1); }
         
-        .kc-dash-pipeline-pending { background-color: #FBCB77; }
+        .kc-dash-pipeline-pending   { background-color: #FBCB77; }
         .kc-dash-pipeline-contacted { background-color: #BD451F; }
+        .kc-dash-pipeline-active    { background-color: #22c55e; }
         .kc-dash-pipeline-completed { background-color: #AC201A; }
-        .kc-dash-pipeline-rejected { background-color: #2B2B2B; }
+        .kc-dash-pipeline-rejected  { background-color: #2B2B2B; }
 
         .kc-dash-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 10px; }
         .kc-dash-table th, .kc-dash-table td { padding: 8px 4px; border-bottom: 1px solid rgba(189,69,31,0.1); text-align: left; }
@@ -176,6 +202,15 @@ function kc_render_bookings_dashboard_widget() {
         .kc-dash-table a { color: #BD451F; font-weight: bold; text-decoration: none; }
         .kc-dash-table a:hover { color: #AC201A; }
         
+        .kc-pass-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 10px; }
+        .kc-pass-table th { color: #AC201A; font-weight: 600; text-transform: uppercase; font-size: 10px; padding: 6px 6px; border-bottom: 2px solid rgba(189,69,31,0.2); text-align: center; }
+        .kc-pass-table th:first-child { text-align: left; }
+        .kc-pass-table td { padding: 6px 6px; border-bottom: 1px solid rgba(189,69,31,0.08); text-align: center; font-weight: 700; color: #0f172a; }
+        .kc-pass-table td:first-child { text-align: left; font-weight: 500; color: #2B2B2B; }
+        .kc-pass-table tr:last-child td { border-bottom: none; }
+        .kc-pass-table .kc-pass-zero { color: #cbd5e1; font-weight: 400; }
+        .kc-pass-table .kc-pass-total-row td { background: rgba(189,69,31,0.05); font-weight: 700; color: #AC201A; border-top: 2px solid rgba(189,69,31,0.2); }
+
         .kc-dash-actions { display: flex; justify-content: space-between; gap: 10px; margin-top: 15px; }
         .kc-dash-actions a { flex: 1; text-align: center; font-weight: bold; border-radius: 4px; }
         .kc-dash-actions .button-primary { background-color: #AC201A !important; border-color: #8c1713 !important; color: #FFF9EF !important; }
@@ -198,8 +233,8 @@ function kc_render_bookings_dashboard_widget() {
                 <div class="label">Open Slots Today</div>
             </div>
             <div class="kc-dash-box green">
-                <div class="number"><?php echo esc_html($counts['Completed']); ?></div>
-                <div class="label">Completed Bookings</div>
+                <div class="number"><?php echo esc_html($counts['Active'] + $counts['Completed']); ?></div>
+                <div class="label">Active & Completed</div>
             </div>
             <div class="kc-dash-box yellow">
                 <div class="number"><?php echo esc_html($counts['Pending']); ?></div>
@@ -228,10 +263,11 @@ function kc_render_bookings_dashboard_widget() {
 
         <?php 
         $pipeline_stages = array(
-            'Pending' => 'kc-dash-pipeline-pending',
+            'Pending'   => 'kc-dash-pipeline-pending',
             'Contacted' => 'kc-dash-pipeline-contacted',
+            'Active'    => 'kc-dash-pipeline-active',
             'Completed' => 'kc-dash-pipeline-completed',
-            'Rejected' => 'kc-dash-pipeline-rejected',
+            'Rejected'  => 'kc-dash-pipeline-rejected',
         );
         foreach ($pipeline_stages as $stage => $css_class): 
             $stage_count = $counts[$stage];
@@ -239,10 +275,11 @@ function kc_render_bookings_dashboard_widget() {
         ?>
         <div class="kc-dash-progress-row kc-dash-pipeline-row">
             <div class="kc-dash-progress-label" style="width:100px; font-weight: bold; color:<?php 
-                if($stage=='Pending') echo '#D97706';
+                if($stage=='Pending')   echo '#D97706';
                 elseif($stage=='Contacted') echo '#BD451F';
+                elseif($stage=='Active')    echo '#065f46';
                 elseif($stage=='Completed') echo '#AC201A';
-                elseif($stage=='Rejected') echo '#2B2B2B';
+                elseif($stage=='Rejected')  echo '#2B2B2B';
             ?>;"><?php echo esc_html($stage); ?></div>
             <div class="kc-dash-progress-bar-container">
                 <div class="kc-dash-progress-bar <?php echo esc_attr($css_class); ?>" style="width: <?php echo esc_attr($stage_percent); ?>%;"></div>
@@ -251,6 +288,55 @@ function kc_render_bookings_dashboard_widget() {
         </div>
         <?php endforeach; ?>
 
+
+        <div class="kc-dash-section-title">BOOKINGS BY PASS TYPE (COMPLETED)</div>
+        <?php if (!empty($pass_matrix)):
+            $col_totals = array_fill_keys($pass_types, 0);
+        ?>
+        <table class="kc-pass-table">
+            <thead>
+                <tr>
+                    <th>Space</th>
+                    <?php foreach ($pass_types as $pt): ?>
+                    <th><?php echo esc_html(str_replace(' Pass', '', $pt)); ?></th>
+                    <?php endforeach; ?>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($pass_matrix as $space => $dur_counts):
+                $row_total = 0;
+            ?>
+            <tr>
+                <td><?php echo esc_html($space_labels[$space] ?? $space); ?></td>
+                <?php foreach ($pass_types as $pt):
+                    $val = $dur_counts[$pt] ?? 0;
+                    $row_total += $val;
+                    $col_totals[$pt] += $val;
+                ?>
+                <td class="<?php echo $val === 0 ? 'kc-pass-zero' : ''; ?>"><?php echo $val ?: '—'; ?></td>
+                <?php endforeach; ?>
+                <td><?php echo esc_html($row_total); ?></td>
+            </tr>
+            <?php endforeach; ?>
+            </tbody>
+            <tfoot>
+                <tr class="kc-pass-total-row">
+                    <td>Total</td>
+                    <?php
+                    $grand_total = 0;
+                    foreach ($pass_types as $pt):
+                        $grand_total += $col_totals[$pt];
+                    ?>
+                    <td><?php echo esc_html($col_totals[$pt]); ?></td>
+                    <?php endforeach; ?>
+                    <td><?php echo esc_html($grand_total); ?></td>
+                </tr>
+            </tfoot>
+        </table>
+        <?php else: ?>
+        <p style="color:#94a3b8; font-size:12px;">No completed bookings yet.</p>
+        <?php endif; ?>
 
         <div class="kc-dash-section-title">RECENT BOOKINGS</div>
         <table class="kc-dash-table">
