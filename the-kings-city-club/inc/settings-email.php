@@ -25,8 +25,10 @@ function kc_email_templates_page() {
     );
 
     $booking_tabs = array(
-        'booking_confirmed' => 'Booking Confirmed Email (Client)',
-        'booking_rejected'  => 'Booking Rejected Email (Client)'
+        'booking_confirmed'        => 'Booking Confirmed Email (Client)',
+        'booking_rejected'         => 'Booking Rejected Email (Client)',
+        'booking_invoice'          => 'Invoice Email (Auto — on Active)',
+        'booking_payment_receipt'  => 'Payment Receipt Email (Auto — on Payment)',
     );
 
     $mailing_list_tabs = array(
@@ -180,7 +182,39 @@ function kc_email_templates_page() {
 
             <!-- Content Area -->
             <div class="kc-email-content">
-                <h2>Edit Template: <?php echo esc_html($tabs[$active_tab]); ?></h2>
+                <h2><?php echo in_array($active_tab, ['booking_invoice', 'booking_payment_receipt']) ? 'Email Info: ' : 'Edit Template: '; ?><?php echo esc_html($tabs[$active_tab]); ?></h2>
+
+                <?php if ($active_tab === 'booking_invoice'): ?>
+                <div style="background:#f0fdf4; border:1px solid #86efac; border-left:4px solid #22c55e; padding:16px 20px; border-radius:4px; margin-bottom:20px;">
+                    <strong style="color:#065f46;">Automatic — no editing needed.</strong>
+                    <p style="margin:8px 0 0; color:#064e3b; font-size:13px; line-height:1.6;">
+                        This email is sent automatically when a booking's status is changed to <strong>Active</strong>. It contains the client's invoice with a breakdown of their space, pass type, start date, original price, any discount applied, and the total amount due.<br><br>
+                        An invoice number (<code>KC-INV-YYYY-XXXX</code>) is generated and attached to the booking at that point. The client is instructed to pay at the front desk — cash or GCash — using their invoice number as reference.
+                    </p>
+                </div>
+                <table class="form-table"><tbody>
+                    <tr><th>Trigger</th><td>Booking status changes to <strong>Active</strong></td></tr>
+                    <tr><th>Recipient</th><td>The client's email on the booking</td></tr>
+                    <tr><th>Content</th><td>Space, pass type, start date, participants, base price, discount (if promo code used), <strong>total amount due</strong>, payment instructions</td></tr>
+                    <tr><th>Invoice Number</th><td>Auto-generated once per booking — stored permanently and shown in Payment Tracker sidebar</td></tr>
+                    <tr><th>Template File</th><td><code>emails/email-invoice.php</code></td></tr>
+                </tbody></table>
+
+                <?php elseif ($active_tab === 'booking_payment_receipt'): ?>
+                <div style="background:#f0fdf4; border:1px solid #86efac; border-left:4px solid #22c55e; padding:16px 20px; border-radius:4px; margin-bottom:20px;">
+                    <strong style="color:#065f46;">Automatic — fires on each logged payment.</strong>
+                    <p style="margin:8px 0 0; color:#064e3b; font-size:13px; line-height:1.6;">
+                        This email is sent every time you add a payment in the <strong>Payment Tracker</strong> sidebar of a booking, provided the "Send payment receipt email" checkbox is ticked. It shows the client exactly how much they just paid, their running total, and their remaining balance. If the balance reaches zero it sends a "Fully Paid" confirmation instead.
+                    </p>
+                </div>
+                <table class="form-table"><tbody>
+                    <tr><th>Trigger</th><td>Admin logs a payment in the Payment Tracker (checkbox must be ticked)</td></tr>
+                    <tr><th>Recipient</th><td>The client's email on the booking</td></tr>
+                    <tr><th>Content</th><td>Amount just paid, payment note/ref, total paid so far, <strong>remaining balance</strong> — or "Fully Paid" confirmation if balance is zero</td></tr>
+                    <tr><th>Template File</th><td><code>emails/email-payment-receipt.php</code></td></tr>
+                </tbody></table>
+
+                <?php else: ?>
                 <form method="POST" action="">
                     <?php wp_nonce_field('kc_save_email_templates', 'kc_email_templates_nonce'); ?>
                     
@@ -284,6 +318,7 @@ function kc_email_templates_page() {
 
                     <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Save Template Settings"></p>
                 </form>
+                <?php endif; // end else (non-auto tabs) ?>
 
                 <?php if ($active_tab === 'birthday_promo') : ?>
                 <hr style="margin:30px 0; border:0; border-top:1px solid rgba(189,69,31,0.15);">
