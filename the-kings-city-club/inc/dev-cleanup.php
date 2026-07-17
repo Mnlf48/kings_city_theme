@@ -107,6 +107,23 @@ function kc_cleanup_tool_page() {
             $results[] = "✅ Deleted <strong>{$count}</strong> promo code(s).";
         }
 
+        // 5. Campaigns
+        if ( in_array( 'campaigns', $what ) ) {
+            $posts = get_posts( array(
+                'post_type'      => 'kc_campaign',
+                'posts_per_page' => -1,
+                'post_status'    => 'any',
+                'fields'         => 'ids',
+            ) );
+            $count = 0;
+            foreach ( $posts as $id ) {
+                $wpdb->delete( $wpdb->postmeta, array( 'post_id' => $id ), array( '%d' ) );
+                wp_delete_post( $id, true );
+                $count++;
+            }
+            $results[] = "✅ Deleted <strong>{$count}</strong> campaign(s).";
+        }
+
         // Reset any relevant WP options / caches
         wp_cache_flush();
     }
@@ -167,6 +184,9 @@ function kc_cleanup_tool_page() {
     $promo_count = wp_count_posts( 'kc_promo' );
     $promo_total = ( $promo_count->publish ?? 0 ) + ( $promo_count->private ?? 0 ) + ( $promo_count->draft ?? 0 );
 
+    $campaign_count = wp_count_posts( 'kc_campaign' );
+    $campaign_total = ( $campaign_count->publish ?? 0 ) + ( $campaign_count->private ?? 0 ) + ( $campaign_count->draft ?? 0 );
+
     // ── UI ──────────────────────────────────────────────────────────────────
     ?>
     <div class="wrap">
@@ -208,8 +228,12 @@ function kc_cleanup_tool_page() {
                         <td style="padding:10px 15px;text-align:center;font-weight:bold;color:<?php echo $ml_count > 0 ? '#dc2626' : '#22c55e'; ?>;"><?php echo $ml_count; ?></td>
                     </tr>
                     <tr>
-                        <td style="padding:10px 15px;">Promo Codes (<code>kc_promo</code>)</td>
+                        <td style="padding:10px 15px;border-bottom:1px solid #f1f5f9;">Promo Codes (<code>kc_promo</code>)</td>
                         <td style="padding:10px 15px;text-align:center;font-weight:bold;color:<?php echo $promo_total > 0 ? '#dc2626' : '#22c55e'; ?>;"><?php echo $promo_total; ?></td>
+                    </tr>
+                    <tr>
+                        <td style="padding:10px 15px;">Campaigns (<code>kc_campaign</code>)</td>
+                        <td style="padding:10px 15px;text-align:center;font-weight:bold;color:<?php echo $campaign_total > 0 ? '#dc2626' : '#22c55e'; ?>;"><?php echo $campaign_total; ?></td>
                     </tr>
                 </tbody>
             </table>
@@ -239,9 +263,14 @@ function kc_cleanup_tool_page() {
                     <span><strong>Mailing List</strong> — <?php echo $ml_count; ?> subscriber(s)</span>
                 </label>
 
-                <label style="display:flex;align-items:center;gap:10px;margin-bottom:20px;cursor:pointer;">
+                <label style="display:flex;align-items:center;gap:10px;margin-bottom:12px;cursor:pointer;">
                     <input type="checkbox" name="kc_clean_what[]" value="promos" style="width:18px;height:18px;">
                     <span><strong>Promo Codes</strong> — <?php echo $promo_total; ?> code(s) (optional — uncheck to keep manual codes)</span>
+                </label>
+
+                <label style="display:flex;align-items:center;gap:10px;margin-bottom:20px;cursor:pointer;">
+                    <input type="checkbox" name="kc_clean_what[]" value="campaigns" style="width:18px;height:18px;">
+                    <span><strong>Campaigns</strong> — <?php echo $campaign_total; ?> campaign(s) (optional — uncheck to keep existing campaigns)</span>
                 </label>
 
                 <?php

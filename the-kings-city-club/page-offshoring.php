@@ -256,7 +256,7 @@ $apply_url = kc_get_page_url( 'page-apply.php', '/apply/' );
 <div class="off-roles-mobile-row off-roles-mobile-row--1 cycle-card-bg">
 <!-- 1. Accountants (Calculator) -->
 <div class="off-role-item card-glass compact-mobile">
-<div class="off-role-item__image"><?php $r1 = get_field('img_role_1'); ?><img src="<?php echo $r1 ? esc_url($r1['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img57.webp'; ?>" alt="<?php echo $r1 ? esc_attr($r1['alt']) : 'Accountants'; ?>" loading="lazy" /></div>
+<div class="off-role-item__image"><?php $r1 = get_field('img_role_1'); ?><img src="<?php echo $r1 ? esc_url($r1['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img150.jpg'; ?>" alt="<?php echo $r1 ? esc_attr($r1['alt']) : 'Accountants'; ?>" loading="lazy" /></div>
 <div class="off-role-item__content">
 <div class="universal-icon-wrapper">
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><rect fill="var(--color-secondary)" fill-opacity="0.3" height="18" rx="2" ry="2" width="16" x="4" y="3"></rect><rect height="4" width="10" x="7" y="6" fill="var(--color-bg-ivory)"></rect><circle cx="9" cy="14" r="1" fill="var(--color-accent-gold)"></circle><circle cx="15" cy="14" r="1"></circle><circle cx="9" cy="18" r="1"></circle><circle cx="15" cy="18" r="1"></circle></svg>
@@ -267,7 +267,7 @@ $apply_url = kc_get_page_url( 'page-apply.php', '/apply/' );
 </div>
 <!-- 2. Bookkeepers (Book) -->
 <div class="off-role-item card-glass compact-mobile">
-<div class="off-role-item__image"><?php $r2 = get_field('img_role_2'); ?><img src="<?php echo $r2 ? esc_url($r2['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img57.webp'; ?>" alt="<?php echo $r2 ? esc_attr($r2['alt']) : 'Bookkeepers'; ?>" loading="lazy" /></div>
+<div class="off-role-item__image"><?php $r2 = get_field('img_role_2'); ?><img src="<?php echo $r2 ? esc_url($r2['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img151.jpg'; ?>" alt="<?php echo $r2 ? esc_attr($r2['alt']) : 'Bookkeepers'; ?>" loading="lazy" /></div>
 <div class="off-role-item__content">
 <div class="universal-icon-wrapper">
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-bg-ivory)" d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path fill="var(--color-accent-gold)" fill-opacity="0.3" d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
@@ -278,7 +278,7 @@ $apply_url = kc_get_page_url( 'page-apply.php', '/apply/' );
 </div>
 <!-- 3. Virtual Assistants (Calendar/Clock) -->
 <div class="off-role-item card-glass compact-mobile">
-<div class="off-role-item__image"><?php $r3 = get_field('img_role_3'); ?><img src="<?php echo $r3 ? esc_url($r3['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img57.webp'; ?>" alt="<?php echo $r3 ? esc_attr($r3['alt']) : 'Virtual Assistants'; ?>" loading="lazy" /></div>
+<div class="off-role-item__image"><?php $r3 = get_field('img_role_3'); ?><img src="<?php echo $r3 ? esc_url($r3['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img152.jpg'; ?>" alt="<?php echo $r3 ? esc_attr($r3['alt']) : 'Virtual Assistants'; ?>" loading="lazy" /></div>
 <div class="off-role-item__content">
 <div class="universal-icon-wrapper">
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><rect fill="var(--color-secondary)" fill-opacity="0.4" height="18" rx="2" ry="2" width="18" x="3" y="4"></rect><line x1="16" x2="16" y1="2" y2="6"></line><line x1="8" x2="8" y1="2" y2="6"></line><line x1="3" x2="21" y1="10" y2="10" stroke="var(--color-primary)"></line><circle cx="12" cy="16" r="2" fill="var(--color-accent-gold)"></circle></svg>
@@ -289,7 +289,7 @@ $apply_url = kc_get_page_url( 'page-apply.php', '/apply/' );
 </div>
 <!-- 4. Graphic Designers (Palette) -->
 <div class="off-role-item card-glass compact-mobile">
-<div class="off-role-item__image"><?php $r4 = get_field('img_role_4'); ?><img src="<?php echo $r4 ? esc_url($r4['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img57.webp'; ?>" alt="<?php echo $r4 ? esc_attr($r4['alt']) : 'Graphic Designers'; ?>" loading="lazy" /></div>
+<div class="off-role-item__image"><?php $r4 = get_field('img_role_4'); ?><img src="<?php echo $r4 ? esc_url($r4['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img153.jpg'; ?>" alt="<?php echo $r4 ? esc_attr($r4['alt']) : 'Graphic Designers'; ?>" loading="lazy" /></div>
 <div class="off-role-item__content">
 <div class="universal-icon-wrapper">
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-secondary)" fill-opacity="0.5" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.53-.21-1.04-.59-1.41-.37-.38-.59-.88-.59-1.41 0-1.1.9-2 2-2h1.67c2.65 0 4.83-2.18 4.83-4.83C21.83 6.31 17.43 2 12 2z"></path><circle cx="6.5" cy="10.5" r="1.5" fill="var(--color-accent-gold)"></circle><circle cx="10.5" cy="5.5" r="1.5" fill="var(--color-bg-ivory)"></circle><circle cx="16.5" cy="8.5" r="1.5" fill="var(--color-primary)"></circle></svg>
@@ -300,7 +300,7 @@ $apply_url = kc_get_page_url( 'page-apply.php', '/apply/' );
 </div>
 <!-- 5. Web Developers (Code) -->
 <div class="off-role-item card-glass compact-mobile">
-<div class="off-role-item__image"><?php $r5 = get_field('img_role_5'); ?><img src="<?php echo $r5 ? esc_url($r5['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img57.webp'; ?>" alt="<?php echo $r5 ? esc_attr($r5['alt']) : 'Web Developers'; ?>" loading="lazy" /></div>
+<div class="off-role-item__image"><?php $r5 = get_field('img_role_5'); ?><img src="<?php echo $r5 ? esc_url($r5['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img154.jpg'; ?>" alt="<?php echo $r5 ? esc_attr($r5['alt']) : 'Web Developers'; ?>" loading="lazy" /></div>
 <div class="off-role-item__content">
 <div class="universal-icon-wrapper">
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><rect x="2" y="4" width="20" height="16" rx="2" fill="var(--color-accent-gold)" fill-opacity="0.2"></rect><polyline points="8 10 5 13 8 16" stroke="var(--color-primary)"></polyline><polyline points="16 10 19 13 16 16" stroke="var(--color-primary)"></polyline><line x1="14" x2="10" y1="8" y2="18" stroke="var(--color-secondary)"></line></svg>
@@ -311,7 +311,7 @@ $apply_url = kc_get_page_url( 'page-apply.php', '/apply/' );
 </div>
 <!-- 6. Customer Service (Headset) -->
 <div class="off-role-item card-glass compact-mobile">
-<div class="off-role-item__image"><?php $r6 = get_field('img_role_6'); ?><img src="<?php echo $r6 ? esc_url($r6['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img57.webp'; ?>" alt="<?php echo $r6 ? esc_attr($r6['alt']) : 'Customer Service'; ?>" loading="lazy" /></div>
+<div class="off-role-item__image"><?php $r6 = get_field('img_role_6'); ?><img src="<?php echo $r6 ? esc_url($r6['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img155.jpg'; ?>" alt="<?php echo $r6 ? esc_attr($r6['alt']) : 'Customer Service'; ?>" loading="lazy" /></div>
 <div class="off-role-item__content">
 <div class="universal-icon-wrapper">
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-secondary)" fill-opacity="0.3" d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" fill="var(--color-accent-gold)"></path></svg>
@@ -324,7 +324,7 @@ $apply_url = kc_get_page_url( 'page-apply.php', '/apply/' );
 <div class="off-roles-mobile-row off-roles-mobile-row--2 cycle-card-bg">
 <!-- 7. Digital Marketers (Megaphone) -->
 <div class="off-role-item card-glass compact-mobile">
-<div class="off-role-item__image"><?php $r7 = get_field('img_role_7'); ?><img src="<?php echo $r7 ? esc_url($r7['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img57.webp'; ?>" alt="<?php echo $r7 ? esc_attr($r7['alt']) : 'Digital Marketers'; ?>" loading="lazy" /></div>
+<div class="off-role-item__image"><?php $r7 = get_field('img_role_7'); ?><img src="<?php echo $r7 ? esc_url($r7['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img156.jpg'; ?>" alt="<?php echo $r7 ? esc_attr($r7['alt']) : 'Digital Marketers'; ?>" loading="lazy" /></div>
 <div class="off-role-item__content">
 <div class="universal-icon-wrapper">
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-bg-ivory)" d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" stroke="var(--color-accent-gold)"></path></svg>
@@ -335,7 +335,7 @@ $apply_url = kc_get_page_url( 'page-apply.php', '/apply/' );
 </div>
 <!-- 8. Data Analysts (Bar Chart) -->
 <div class="off-role-item card-glass compact-mobile">
-<div class="off-role-item__image"><?php $r8 = get_field('img_role_8'); ?><img src="<?php echo $r8 ? esc_url($r8['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img57.webp'; ?>" alt="<?php echo $r8 ? esc_attr($r8['alt']) : 'Data Analysts'; ?>" loading="lazy" /></div>
+<div class="off-role-item__image"><?php $r8 = get_field('img_role_8'); ?><img src="<?php echo $r8 ? esc_url($r8['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img157.jpg'; ?>" alt="<?php echo $r8 ? esc_attr($r8['alt']) : 'Data Analysts'; ?>" loading="lazy" /></div>
 <div class="off-role-item__content">
 <div class="universal-icon-wrapper">
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><line x1="18" x2="18" y1="20" y2="10" stroke="var(--color-secondary)" stroke-width="4"></line><line x1="12" x2="12" y1="20" y2="4" stroke="var(--color-accent-gold)" stroke-width="4"></line><line x1="6" x2="6" y1="20" y2="14" stroke="var(--color-primary)" stroke-width="4"></line></svg>
@@ -346,7 +346,7 @@ $apply_url = kc_get_page_url( 'page-apply.php', '/apply/' );
 </div>
 <!-- 9. HR Specialists (Heart/People) -->
 <div class="off-role-item card-glass compact-mobile">
-<div class="off-role-item__image"><?php $r9 = get_field('img_role_9'); ?><img src="<?php echo $r9 ? esc_url($r9['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img57.webp'; ?>" alt="<?php echo $r9 ? esc_attr($r9['alt']) : 'HR Specialists'; ?>" loading="lazy" /></div>
+<div class="off-role-item__image"><?php $r9 = get_field('img_role_9'); ?><img src="<?php echo $r9 ? esc_url($r9['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img158.jpg'; ?>" alt="<?php echo $r9 ? esc_attr($r9['alt']) : 'HR Specialists'; ?>" loading="lazy" /></div>
 <div class="off-role-item__content">
 <div class="universal-icon-wrapper">
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-secondary)" fill-opacity="0.8" stroke="none" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path><circle cx="12" cy="11" r="3" fill="var(--color-bg-ivory)" stroke="var(--color-primary)"></circle></svg>
@@ -357,7 +357,7 @@ $apply_url = kc_get_page_url( 'page-apply.php', '/apply/' );
 </div>
 <!-- 10. IT Support (Wrench) -->
 <div class="off-role-item card-glass compact-mobile">
-<div class="off-role-item__image"><?php $r10 = get_field('img_role_10'); ?><img src="<?php echo $r10 ? esc_url($r10['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img57.webp'; ?>" alt="<?php echo $r10 ? esc_attr($r10['alt']) : 'IT Support'; ?>" loading="lazy" /></div>
+<div class="off-role-item__image"><?php $r10 = get_field('img_role_10'); ?><img src="<?php echo $r10 ? esc_url($r10['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img159.jpg'; ?>" alt="<?php echo $r10 ? esc_attr($r10['alt']) : 'IT Support'; ?>" loading="lazy" /></div>
 <div class="off-role-item__content">
 <div class="universal-icon-wrapper">
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-bg-ivory)" d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path><circle cx="18" cy="6" r="1" fill="var(--color-accent-gold)" stroke="none"></circle></svg>
@@ -368,7 +368,7 @@ $apply_url = kc_get_page_url( 'page-apply.php', '/apply/' );
 </div>
 <!-- 11. Content Writers (Pen) -->
 <div class="off-role-item card-glass compact-mobile">
-<div class="off-role-item__image"><?php $r11 = get_field('img_role_11'); ?><img src="<?php echo $r11 ? esc_url($r11['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img57.webp'; ?>" alt="<?php echo $r11 ? esc_attr($r11['alt']) : 'Content Writers'; ?>" loading="lazy" /></div>
+<div class="off-role-item__image"><?php $r11 = get_field('img_role_11'); ?><img src="<?php echo $r11 ? esc_url($r11['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img160.jpg'; ?>" alt="<?php echo $r11 ? esc_attr($r11['alt']) : 'Content Writers'; ?>" loading="lazy" /></div>
 <div class="off-role-item__content">
 <div class="universal-icon-wrapper">
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-secondary)" fill-opacity="0.4" d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586" stroke="var(--color-accent-gold)"></path><circle cx="11" cy="11" r="2" fill="var(--color-bg-ivory)"></circle></svg>
@@ -379,7 +379,7 @@ $apply_url = kc_get_page_url( 'page-apply.php', '/apply/' );
 </div>
 <!-- 12. Project Managers (Clipboard) -->
 <div class="off-role-item card-glass compact-mobile">
-<div class="off-role-item__image"><?php $r12 = get_field('img_role_12'); ?><img src="<?php echo $r12 ? esc_url($r12['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img57.webp'; ?>" alt="<?php echo $r12 ? esc_attr($r12['alt']) : 'Project Managers'; ?>" loading="lazy" /></div>
+<div class="off-role-item__image"><?php $r12 = get_field('img_role_12'); ?><img src="<?php echo $r12 ? esc_url($r12['url']) : esc_url(get_template_directory_uri()) . '/assets/img/front-page-img/kings-img161.jpg'; ?>" alt="<?php echo $r12 ? esc_attr($r12['alt']) : 'Project Managers'; ?>" loading="lazy" /></div>
 <div class="off-role-item__content">
 <div class="universal-icon-wrapper">
 <svg fill="none" height="32" stroke="var(--color-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="32"><path fill="var(--color-bg-ivory)" d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect fill="var(--color-accent-gold)" fill-opacity="0.6" height="4" rx="1" ry="1" width="8" x="8" y="2"></rect><path d="M9 14l2 2 4-4" stroke="var(--color-secondary)"></path></svg>
