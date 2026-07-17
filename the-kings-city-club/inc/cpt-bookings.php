@@ -38,12 +38,13 @@ add_action('init', 'kc_register_cpt_bookings');
 // --- Custom Columns ---
 
 function kc_set_custom_edit_kc_booking_columns($columns) {
-    unset($columns['date']); // Remove default date
+    unset($columns['date']);
     $columns['client_info'] = 'Client Name';
-    $columns['space_info'] = 'Space & Date';
-    $columns['status'] = 'Status';
-    $columns['membership'] = 'Membership';
-    $columns['date'] = 'Submitted';
+    $columns['space_info']  = 'Space & Date';
+    $columns['invoice']     = 'Invoice';
+    $columns['status']      = 'Status';
+    $columns['membership']  = 'Membership';
+    $columns['date']        = 'Submitted';
     return $columns;
 }
 add_filter('manage_kc_booking_posts_columns', 'kc_set_custom_edit_kc_booking_columns');
@@ -87,11 +88,19 @@ function kc_custom_kc_booking_column($column, $post_id) {
             echo "</select>";
             echo "<span class='kc-inline-status-spinner spinner' id='kc-spinner-{$post_id}' style='float:none; margin:0 0 0 5px;'></span>";
             break;
+        case 'invoice':
+            $inv = get_post_meta($post_id, 'kc_invoice_number', true);
+            if ($inv) {
+                echo "<code style='font-size:11px; background:#FFF9EF; border:1px solid rgba(189,69,31,0.25); padding:2px 6px; border-radius:3px; color:#AC201A; font-weight:700; white-space:nowrap;'>" . esc_html($inv) . "</code>";
+            } else {
+                echo "<span style='color:#cbd5e1; font-size:12px;'>—</span>";
+            }
+            break;
         case 'membership':
             $mem_status = get_post_meta($post_id, 'kc_membership_status', true);
             $mem_expiry = get_post_meta($post_id, 'kc_membership_expiry', true);
             if ($mem_status === 'Active') {
-                echo "<span style='color: #d97706; font-weight: bold;'>👑 Active Member</span><br>";
+                echo "<span style='color: #d97706; font-weight: bold;'>Active Member</span><br>";
                 echo "<small>Expires: " . esc_html($mem_expiry) . "</small>";
             } elseif ($mem_status === 'Expired') {
                 echo "<span style='color: #9ca3af;'>Expired</span>";
@@ -102,6 +111,42 @@ function kc_custom_kc_booking_column($column, $post_id) {
     }
 }
 add_action('manage_kc_booking_posts_custom_column', 'kc_custom_kc_booking_column', 10, 2);
+
+// --- Invoice number search ---
+// Extend WP admin search to also match kc_invoice_number and kc_email meta fields
+add_filter('posts_search', 'kc_booking_extend_search', 10, 2);
+function kc_booking_extend_search($search, $query) {
+    global $wpdb;
+
+    if (!is_admin() || !$query->is_main_query()) return $search;
+    if ($query->get('post_type') !== 'kc_booking') return $search;
+
+    $term = $query->get('s');
+    if (empty($term)) return $search;
+
+    // Already has a search clause — append an OR for meta fields
+    $like = '%' . $wpdb->esc_like($term) . '%';
+    $search .= $wpdb->prepare(
+        " OR ( {$wpdb->posts}.ID IN (
+            SELECT post_id FROM {$wpdb->postmeta}
+            WHERE meta_key IN ('kc_invoice_number', 'kc_email', 'kc_first_name', 'kc_last_name', 'kc_phone')
+            AND meta_value LIKE %s
+          )
+        )",
+        $like
+    );
+
+    return $search;
+}
+
+// Prevent WP from ignoring our extended search when s is set
+add_filter('posts_distinct', 'kc_booking_search_distinct', 10, 2);
+function kc_booking_search_distinct($distinct, $query) {
+    if (!is_admin() || !$query->is_main_query()) return $distinct;
+    if ($query->get('post_type') !== 'kc_booking') return $distinct;
+    if (empty($query->get('s'))) return $distinct;
+    return 'DISTINCT';
+}
 
 // --- Admin CSS for SaaS UI ---
 
@@ -236,10 +281,10 @@ function kc_add_booking_meta_boxes() {
     add_meta_box('kc_booking_special', 'Special Requests', 'kc_render_special_meta_box', 'kc_booking', 'normal', 'high');
     
     // Right Column (side)
-    add_meta_box('kc_booking_status',   'Booking Status & Actions', 'kc_render_status_meta_box',   'kc_booking', 'side', 'high');
-    add_meta_box('kc_booking_payment',  'Payment Tracker',          'kc_render_payment_meta_box',  'kc_booking', 'side', 'high');
-    add_meta_box('kc_booking_membership', 'Membership Tracker',     'kc_render_membership_meta_box','kc_booking', 'side', 'core');
-    add_meta_box('kc_booking_notes',    'Internal Admin Notes',     'kc_render_notes_meta_box',    'kc_booking', 'side', 'core');
+    add_meta_box('kc_booking_status',      'Booking Status & Actions', 'kc_render_status_meta_box',      'kc_booking', 'side', 'high');
+    add_meta_box('kc_booking_change_pass', 'Change Pass / Duration',  'kc_render_change_pass_meta_box', 'kc_booking', 'side', 'high');
+    add_meta_box('kc_booking_payment',     'Payment Tracker',         'kc_render_payment_meta_box',     'kc_booking', 'side', 'high');
+    add_meta_box('kc_booking_membership',  'Membership Tracker',      'kc_render_membership_meta_box',  'kc_booking', 'side', 'core');
 }
 add_action('add_meta_boxes', 'kc_add_booking_meta_boxes');
 
@@ -287,12 +332,13 @@ function kc_render_client_meta_box($post) {
 
 // 2. Booking Specs Panel
 function kc_render_specs_meta_box($post) {
-    $space = get_post_meta($post->ID, 'kc_space_type', true);
-    $duration = get_post_meta($post->ID, 'kc_duration', true);
-    $price = get_post_meta($post->ID, 'kc_price', true);
-    $start_date = get_post_meta($post->ID, 'kc_start_date', true);
-    $arrival = get_post_meta($post->ID, 'kc_arrival_time', true);
-    $participants = get_post_meta($post->ID, 'kc_participants', true);
+    $space        = get_post_meta($post->ID, 'kc_space_type',      true);
+    $duration     = get_post_meta($post->ID, 'kc_duration',        true);
+    $start_date   = get_post_meta($post->ID, 'kc_start_date',      true);
+    $arrival      = get_post_meta($post->ID, 'kc_arrival_time',    true);
+    $participants = get_post_meta($post->ID, 'kc_participants',     true);
+    $promo_code   = get_post_meta($post->ID, 'kc_promo_code',      true);
+    $discount     = get_post_meta($post->ID, 'kc_discount_amount', true);
     ?>
     <div class="kc-panel-grid">
         <div class="kc-panel-field">
@@ -315,28 +361,106 @@ function kc_render_specs_meta_box($post) {
             <span class="kc-panel-label">Headcount</span>
             <span class="kc-panel-value"><?php echo esc_html($participants); ?> Participant(s)</span>
         </div>
-        
-        <?php 
-        $base_price = get_post_meta($post->ID, 'kc_base_price', true);
-        $promo_code = get_post_meta($post->ID, 'kc_promo_code', true);
-        $discount = get_post_meta($post->ID, 'kc_discount_amount', true);
-        if (!empty($promo_code)) : 
-        ?>
+        <?php if (!empty($promo_code)): ?>
         <div class="kc-panel-field">
             <span class="kc-panel-label">Promo Code Used</span>
-            <span class="kc-panel-value" style="color: #10b981; font-weight: bold;"><?php echo esc_html($promo_code); ?></span>
+            <span class="kc-panel-value" style="color:#10b981; font-weight:bold;"><?php echo esc_html($promo_code); ?></span>
         </div>
         <div class="kc-panel-field">
             <span class="kc-panel-label">Discount Amount</span>
-            <span class="kc-panel-value">- Php <?php echo esc_html(number_format((float)$discount)); ?></span>
+            <span class="kc-panel-value">- Php <?php echo esc_html(number_format((float) $discount)); ?></span>
         </div>
         <?php endif; ?>
-
-        <div class="kc-panel-field kc-financial-highlight">
-            <span class="kc-panel-label" style="color:#b58d3d;">Total Revenue (Amount Due)</span>
-            <span class="kc-panel-value">Php <?php echo esc_html(number_format((float)$price)); ?></span>
-        </div>
     </div>
+    <?php
+}
+
+// 2b. Change Pass / Duration sidebar box
+function kc_render_change_pass_meta_box($post) {
+    $space    = get_post_meta($post->ID, 'kc_space_type',      true);
+    $duration = get_post_meta($post->ID, 'kc_duration',        true);
+    $price    = get_post_meta($post->ID, 'kc_price',           true);
+    $discount = (float) get_post_meta($post->ID, 'kc_discount_amount', true);
+
+    // Load pricing options via direct SQL
+    $pricing_options = [];
+    if (!empty($space)) {
+        global $wpdb;
+        $space_post_id = $wpdb->get_var($wpdb->prepare(
+            "SELECT pm.post_id FROM {$wpdb->postmeta} pm
+             INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+             WHERE pm.meta_key = 'kc_space_booking_key'
+               AND pm.meta_value = %s
+               AND p.post_type = 'kc_space'
+               AND p.post_status = 'publish'
+             LIMIT 1",
+            $space
+        ));
+        if ($space_post_id) {
+            $raw = get_post_meta((int) $space_post_id, 'kc_space_pricing_options', true);
+            foreach (array_filter(array_map('trim', explode("\n", $raw ?: ''))) as $line) {
+                $parts = array_map('trim', explode('|', $line));
+                if (count($parts) >= 3) {
+                    $pricing_options[] = [
+                        'label' => $parts[0],
+                        'value' => $parts[1],
+                        'price' => (float) preg_replace('/[^0-9.]/', '', $parts[2]),
+                    ];
+                }
+            }
+        }
+    }
+
+    if (empty($pricing_options)) {
+        echo '<p style="font-size:12px; color:#94a3b8; font-style:italic;">No pricing options found for this space.</p>';
+        return;
+    }
+    ?>
+    <style>
+        .kc-change-pass-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#64748b; margin-bottom:5px; display:block; }
+        .kc-change-pass-select { width:100%; padding:6px 8px; border:1px solid #e2e8f0; border-radius:4px; font-size:12px; color:#0f172a; box-sizing:border-box; }
+        .kc-change-pass-preview { margin-top:10px; padding:8px 10px; background:#FFF9EF; border:1px solid rgba(189,69,31,0.2); border-radius:4px; font-size:12px; }
+        .kc-change-pass-preview .label { color:#64748b; }
+        .kc-change-pass-preview .val   { font-weight:700; color:#AC201A; font-size:14px; }
+        .kc-change-pass-hint { font-size:11px; color:#94a3b8; margin:6px 0 0; line-height:1.5; }
+    </style>
+
+    <span class="kc-change-pass-label">Select New Pass Type</span>
+    <select name="kc_duration" id="kc_duration_select" class="kc-change-pass-select">
+        <?php foreach ($pricing_options as $opt): ?>
+        <option value="<?php echo esc_attr($opt['value']); ?>"
+                data-price="<?php echo esc_attr($opt['price']); ?>"
+                <?php selected($duration, $opt['value']); ?>>
+            <?php echo esc_html($opt['label']); ?>
+        </option>
+        <?php endforeach; ?>
+    </select>
+
+    <div class="kc-change-pass-preview">
+        <span class="label">New Total Due&nbsp;&nbsp;</span>
+        <span class="val" id="kc_price_display">Php <?php echo number_format((float) $price, 2); ?></span>
+    </div>
+    <input type="hidden" name="kc_price_override" id="kc_price_override" value="">
+    <p class="kc-change-pass-hint">Changing the pass type updates the total due. Click <strong>Update</strong> to save. Existing payments in the Payment Tracker are kept — only the total changes.</p>
+
+    <script>
+    (function () {
+        var sel      = document.getElementById('kc_duration_select');
+        var display  = document.getElementById('kc_price_display');
+        var override = document.getElementById('kc_price_override');
+        var discount = <?php echo $discount; ?>;
+
+        if (!sel) return;
+
+        sel.addEventListener('change', function () {
+            var opt   = sel.options[sel.selectedIndex];
+            var base  = parseFloat(opt.getAttribute('data-price')) || 0;
+            var total = Math.max(0, base - discount);
+            display.textContent = 'Php ' + total.toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            override.value = total;
+        });
+    })();
+    </script>
     <?php
 }
 
@@ -369,7 +493,7 @@ function kc_render_status_meta_box($post) {
         • <em>Contacted</em> instantly emails a confirmation to the client.<br>
         • <em>Active</em> means the client is currently using the space — activates membership for monthly/annual passes.<br>
         • <em>Completed</em> means the booking period is fully over — also activates membership if not already done.<br>
-        • <em>Rejected</em> emails the client your admin notes below.
+        • <em>Rejected</em> automatically sends a rejection email to the client. No reason required.
     </p>
     <?php
 }
@@ -386,25 +510,49 @@ function kc_render_membership_meta_box($post) {
         $mem_status = 'Expired';
     }
 
+    $space    = get_post_meta($post->ID, 'kc_space_type',  true);
+    $duration = get_post_meta($post->ID, 'kc_duration',    true);
+    $fname    = get_post_meta($post->ID, 'kc_first_name',  true);
+    $lname    = get_post_meta($post->ID, 'kc_last_name',   true);
+    $email    = get_post_meta($post->ID, 'kc_client_email', true);
+
+    $renew_nonce = wp_create_nonce('kc_renew_booking_' . $post->ID);
+
     if ($mem_status === 'Active') {
-        echo '<div class="kc-membership-badge kc-badge-active">👑 Active Member</div>';
-        echo '<div style="font-size:13px; color:#475569; margin-top:5px;">Valid until: <strong>' . esc_html($mem_expiry) . '</strong></div>';
+        $expiry_fmt = $mem_expiry ? date_i18n('F j, Y', strtotime($mem_expiry)) : $mem_expiry;
+        echo '<div class="kc-membership-badge kc-badge-active">Active Member</div>';
+        echo '<div style="font-size:13px; color:#475569; margin-top:5px;">Valid until: <strong>' . esc_html($expiry_fmt) . '</strong></div>';
     } elseif ($mem_status === 'Expired') {
+        $expiry_fmt = $mem_expiry ? date_i18n('F j, Y', strtotime($mem_expiry)) : $mem_expiry;
         echo '<div class="kc-membership-badge kc-badge-expired">Expired Member</div>';
-        echo '<div style="font-size:13px; color:#475569; margin-top:5px;">Expired on: ' . esc_html($mem_expiry) . '</div>';
+        echo '<div style="font-size:13px; color:#475569; margin-top:5px;">Expired on: ' . esc_html($expiry_fmt) . '</div>';
     } else {
         echo '<div style="font-size:13px; color:#64748b; font-style:italic;">This booking does not include a monthly/annual membership, or the booking is not yet completed.</div>';
     }
+
+    // Show Continue Pass button only for Active or Expired memberships
+    if (in_array($mem_status, ['Active', 'Expired'])) {
+        $continue_nonce = wp_create_nonce('kc_continue_pass_' . $post->ID);
+        $is_monthly     = stripos($duration, 'Month') !== false;
+        $period_label   = $is_monthly ? '1 Month' : '1 Year';
+        ?>
+        <hr style="border:0; border-top:1px solid rgba(189,69,31,0.15); margin:12px 0;">
+        <div style="font-size:12px; color:#64748b; margin-bottom:8px;">
+            Extend this client's pass by <strong><?php echo esc_html($period_label); ?></strong> from the current expiry date. No new booking is created — the expiry date is simply pushed forward and membership stays Active.
+        </div>
+        <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+            <input type="hidden" name="action"       value="kc_continue_pass">
+            <input type="hidden" name="booking_id"   value="<?php echo esc_attr($post->ID); ?>">
+            <input type="hidden" name="_wpnonce"     value="<?php echo esc_attr($continue_nonce); ?>">
+            <button type="submit" class="button button-primary" style="width:100%; background:#BD451F; border-color:#AC201A; color:#fff; font-weight:700; font-size:12px; padding:7px 0; cursor:pointer;">
+                Continue Pass (+ <?php echo esc_html($period_label); ?>)
+            </button>
+        </form>
+        <?php
+    }
 }
 
-// 6. Admin Notes Panel (Right)
-function kc_render_notes_meta_box($post) {
-    $admin_note = get_post_meta($post->ID, 'kc_admin_note', true);
-    ?>
-    <textarea name="kc_admin_note" class="kc-admin-note-area" placeholder="Type rejection reasons or internal staff notes here..."><?php echo esc_textarea($admin_note); ?></textarea>
-    <p class="kc-status-desc" style="margin-bottom:0;">These notes are only visible to admins. If you reject the booking, this exact text will be emailed to the client as the reason.</p>
-    <?php
-}
+// 6. Admin Notes Panel — removed; rejection email no longer requires a manual reason.
 
 
 // 7. Payment Tracker Panel (Right)
@@ -689,12 +837,28 @@ function kc_process_booking_status_change($post_id, $new_status, $old_status) {
             $start_timestamp = strtotime($date);
             if (!$start_timestamp) $start_timestamp = time();
 
-            if (stripos($duration, 'Month') !== false || $space === 'Office Leasing') {
-                $expiry = date('Y-m-d', strtotime('+1 month', $start_timestamp));
-                update_post_meta($post_id, 'kc_membership_status', 'Active');
-                update_post_meta($post_id, 'kc_membership_expiry', $expiry);
-            } elseif (stripos($duration, 'Year') !== false || stripos($duration, 'Annual') !== false) {
-                $expiry = date('Y-m-d', strtotime('+1 year', $start_timestamp));
+            // Check the space CPT flag — only spaces marked as membership-supporting get a membership record
+            $space_post_id = $wpdb->get_var($wpdb->prepare(
+                "SELECT pm.post_id FROM {$wpdb->postmeta} pm
+                 INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+                 WHERE pm.meta_key = 'kc_space_booking_key'
+                   AND pm.meta_value = %s
+                   AND p.post_type = 'kc_space'
+                   AND p.post_status = 'publish'
+                 LIMIT 1",
+                $space
+            ));
+            $has_membership = $space_post_id
+                ? (bool) get_post_meta((int) $space_post_id, 'kc_space_has_membership', true)
+                : false;
+
+            if ($has_membership) {
+                if (stripos($duration, 'Month') !== false) {
+                    $expiry = date('Y-m-d', strtotime('+1 month', $start_timestamp));
+                } else {
+                    // Annual / Year
+                    $expiry = date('Y-m-d', strtotime('+1 year', $start_timestamp));
+                }
                 update_post_meta($post_id, 'kc_membership_status', 'Active');
                 update_post_meta($post_id, 'kc_membership_expiry', $expiry);
             } else {
@@ -782,9 +946,34 @@ function kc_save_booking_meta($post_id) {
         }
     }
 
-    // ── Admin note ──
-    if (isset($_POST['kc_admin_note'])) {
-        update_post_meta($post_id, 'kc_admin_note', sanitize_textarea_field($_POST['kc_admin_note']));
+    // ── Duration + price change ──
+    if (isset($_POST['kc_duration'])) {
+        $old_duration = get_post_meta($post_id, 'kc_duration', true);
+        $new_duration = sanitize_text_field($_POST['kc_duration']);
+
+        if ($new_duration !== $old_duration) {
+            update_post_meta($post_id, 'kc_duration', $new_duration);
+
+            // kc_price_override is set by JS when the admin changed the dropdown
+            $price_override = isset($_POST['kc_price_override']) ? (float) $_POST['kc_price_override'] : 0;
+            if ($price_override > 0) {
+                update_post_meta($post_id, 'kc_price', $price_override);
+            }
+
+            // If membership is already Active, recalculate expiry from today with the new period
+            $mem_status = get_post_meta($post_id, 'kc_membership_status', true);
+            if ($mem_status === 'Active') {
+                $base = date('Y-m-d');
+                if (stripos($new_duration, 'Month') !== false) {
+                    $new_expiry = date('Y-m-d', strtotime('+1 month', strtotime($base)));
+                } else {
+                    $new_expiry = date('Y-m-d', strtotime('+1 year', strtotime($base)));
+                }
+                update_post_meta($post_id, 'kc_membership_expiry', $new_expiry);
+                // Reset reminder so client gets a fresh 7-day notice on new expiry
+                delete_post_meta($post_id, 'kc_expiry_reminder_sent');
+            }
+        }
     }
 
     // ── Status change ──
@@ -798,23 +987,34 @@ add_action('save_post_kc_booking', 'kc_save_booking_meta');
 
 // --- Invoice Email ---
 function kc_send_invoice_email($post_id, $inv_number) {
-    $fname       = get_post_meta($post_id, 'kc_first_name',     true);
-    $lname       = get_post_meta($post_id, 'kc_last_name',      true);
-    $email       = get_post_meta($post_id, 'kc_email',          true);
-    $space       = get_post_meta($post_id, 'kc_space_type',     true);
-    $duration    = get_post_meta($post_id, 'kc_duration',       true);
-    $start_date  = get_post_meta($post_id, 'kc_start_date',     true);
-    $arrival     = get_post_meta($post_id, 'kc_arrival_time',   true);
-    $participants= get_post_meta($post_id, 'kc_participants',   true);
-    $base_price  = (float) get_post_meta($post_id, 'kc_base_price',     true);
-    $discount    = (float) get_post_meta($post_id, 'kc_discount_amount', true);
-    $total_due   = (float) get_post_meta($post_id, 'kc_price',          true);
-    $promo_code  = get_post_meta($post_id, 'kc_promo_code',     true);
+    $fname        = get_post_meta($post_id, 'kc_first_name',      true);
+    $lname        = get_post_meta($post_id, 'kc_last_name',       true);
+    $email        = get_post_meta($post_id, 'kc_email',           true);
+    $space        = get_post_meta($post_id, 'kc_space_type',      true);
+    $duration     = get_post_meta($post_id, 'kc_duration',        true);
+    $start_date   = get_post_meta($post_id, 'kc_start_date',      true);
+    $arrival      = get_post_meta($post_id, 'kc_arrival_time',    true);
+    $participants = get_post_meta($post_id, 'kc_participants',    true);
+    $base_price   = (float) get_post_meta($post_id, 'kc_base_price',      true);
+    $discount     = (float) get_post_meta($post_id, 'kc_discount_amount', true);
+    $total_due    = (float) get_post_meta($post_id, 'kc_price',           true);
+    $promo_code   = get_post_meta($post_id, 'kc_promo_code',      true);
 
     if (empty($email)) return;
 
-    $subject        = 'Your Invoice from The Kings City Club — ' . $inv_number;
-    $email_heading  = 'Invoice';
+    $tokens = [
+        '{fname}'      => $fname,
+        '{lname}'      => $lname,
+        '{space}'      => $space,
+        '{duration}'   => $duration,
+        '{date}'       => $start_date,
+        '{inv_number}' => $inv_number,
+        '{site_url}'   => site_url(),
+    ];
+
+    $subject       = strtr(get_option('kc_booking_invoice_subject', 'Your Invoice from Kings City Club — {inv_number}'), $tokens);
+    $email_heading = strtr(get_option('kc_booking_invoice_heading', 'Invoice'), $tokens);
+
     $email_promo_code = '';
 
     ob_start();
@@ -827,21 +1027,36 @@ function kc_send_invoice_email($post_id, $inv_number) {
 
 // --- Payment Receipt Email ---
 function kc_send_payment_receipt_email($post_id, $amount, $note, $total_paid, $balance, $inv_number) {
-    $fname    = get_post_meta($post_id, 'kc_first_name', true);
-    $lname    = get_post_meta($post_id, 'kc_last_name',  true);
-    $email    = get_post_meta($post_id, 'kc_email',      true);
-    $space    = get_post_meta($post_id, 'kc_space_type', true);
-    $duration = get_post_meta($post_id, 'kc_duration',   true);
+    $fname     = get_post_meta($post_id, 'kc_first_name', true);
+    $lname     = get_post_meta($post_id, 'kc_last_name',  true);
+    $email     = get_post_meta($post_id, 'kc_email',      true);
+    $space     = get_post_meta($post_id, 'kc_space_type', true);
+    $duration  = get_post_meta($post_id, 'kc_duration',   true);
     $total_due = (float) get_post_meta($post_id, 'kc_price', true);
 
     if (empty($email)) return;
 
     $fully_paid = ($balance <= 0);
-    $subject    = $fully_paid
-        ? 'Your balance is fully settled — ' . get_bloginfo('name')
-        : 'Payment received — Remaining balance Php ' . number_format($balance, 2);
 
-    $email_heading  = $fully_paid ? 'Payment Complete — Thank You!' : 'Payment Received';
+    $tokens = [
+        '{fname}'      => $fname,
+        '{lname}'      => $lname,
+        '{space}'      => $space,
+        '{duration}'   => $duration,
+        '{inv_number}' => $inv_number,
+        '{amount}'     => 'Php ' . number_format($amount, 2),
+        '{balance}'    => 'Php ' . number_format($balance, 2),
+        '{site_url}'   => site_url(),
+    ];
+
+    if ($fully_paid) {
+        $subject       = strtr(get_option('kc_booking_payment_receipt_subject_paid',   'Your balance is fully settled — Kings City Club'), $tokens);
+        $email_heading = strtr(get_option('kc_booking_payment_receipt_heading_paid',   'Payment Complete — Thank You!'), $tokens);
+    } else {
+        $subject       = strtr(get_option('kc_booking_payment_receipt_subject_partial', 'Payment received — Remaining balance {balance}'), $tokens);
+        $email_heading = strtr(get_option('kc_booking_payment_receipt_heading_partial', 'Payment Received'), $tokens);
+    }
+
     $email_promo_code = '';
 
     ob_start();
@@ -914,6 +1129,52 @@ function kc_ajax_add_payment() {
 
     wp_send_json_success(['message' => $msg]);
 }
+
+// Continue Pass: extends the expiry date on the existing booking (no new booking created)
+add_action('admin_post_kc_continue_pass', 'kc_handle_continue_pass');
+function kc_handle_continue_pass() {
+    $booking_id = (int) ($_POST['booking_id'] ?? 0);
+    if (!$booking_id || !check_admin_referer('kc_continue_pass_' . $booking_id)) {
+        wp_die('Invalid request.');
+    }
+    if (!current_user_can('edit_posts')) {
+        wp_die('Permission denied.');
+    }
+    if (get_post_type($booking_id) !== 'kc_booking') {
+        wp_die('Invalid booking.');
+    }
+
+    $duration   = get_post_meta($booking_id, 'kc_duration', true);
+    $old_expiry = get_post_meta($booking_id, 'kc_membership_expiry', true);
+
+    // Extend from current expiry, or from today if already past
+    $base = ($old_expiry && $old_expiry >= date('Y-m-d')) ? $old_expiry : date('Y-m-d');
+
+    if (stripos($duration, 'Month') !== false) {
+        $new_expiry = date('Y-m-d', strtotime('+1 month', strtotime($base)));
+    } else {
+        $new_expiry = date('Y-m-d', strtotime('+1 year', strtotime($base)));
+    }
+
+    update_post_meta($booking_id, 'kc_membership_expiry', $new_expiry);
+    update_post_meta($booking_id, 'kc_membership_status', 'Active');
+    // Clear the reminder flag so the client gets a fresh reminder on the new expiry cycle
+    delete_post_meta($booking_id, 'kc_expiry_reminder_sent');
+
+    wp_redirect(admin_url('post.php?post=' . $booking_id . '&action=edit&kc_continued=1'));
+    exit;
+}
+
+// Show success notice after Continue Pass redirect
+add_action('admin_notices', function () {
+    if (!isset($_GET['kc_continued']) || get_current_screen()->post_type !== 'kc_booking') return;
+    $booking_id = (int) ($_GET['post'] ?? 0);
+    $expiry     = $booking_id ? get_post_meta($booking_id, 'kc_membership_expiry', true) : '';
+    $expiry_fmt = $expiry ? date_i18n('F j, Y', strtotime($expiry)) : '';
+    echo '<div class="notice notice-success is-dismissible"><p>';
+    echo 'Pass continued successfully. New expiry date: <strong>' . esc_html($expiry_fmt) . '</strong>.';
+    echo '</p></div>';
+});
 
 // When a booking is permanently deleted or trashed, clear the birthdate from
 // the mailing list ONLY if no other active/pending booking exists for that email.

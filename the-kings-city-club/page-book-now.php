@@ -364,11 +364,13 @@ $bk_active_spaces = get_posts([
     'orderby'        => 'menu_order',
     'order'          => 'ASC',
 ]);
+$bk_preselect = isset($_GET['space']) ? sanitize_text_field($_GET['space']) : '';
 foreach ($bk_active_spaces as $bk_sp) {
     $bk_key   = get_field('kc_space_booking_key', $bk_sp->ID);
     $bk_label = get_field('kc_space_heading', $bk_sp->ID) ?: $bk_sp->post_title;
     if (!$bk_key) continue;
-    echo '<option value="' . esc_attr($bk_key) . '">' . esc_html($bk_label) . '</option>' . "\n";
+    $bk_selected = ($bk_preselect && strtolower($bk_preselect) === strtolower($bk_key)) ? ' selected' : '';
+    echo '<option value="' . esc_attr($bk_key) . '"' . $bk_selected . '>' . esc_html($bk_label) . '</option>' . "\n";
 }
 ?>
 </select>

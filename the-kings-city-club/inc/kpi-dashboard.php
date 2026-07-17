@@ -38,7 +38,7 @@ function kc_export_kpi_csv() {
     }
 
     // --- Bookings: single pass over all records ---
-    $booking_statuses   = array('Pending', 'Contacted', 'Completed', 'Rejected', 'Cancelled');
+    $booking_statuses   = array('Pending', 'Contacted', 'Active', 'Completed', 'Rejected', 'Cancelled');
     $bookings_by_status = array_fill_keys($booking_statuses, 0);
 
     $b_all_args = array('post_type' => 'kc_booking', 'posts_per_page' => -1, 'fields' => 'ids');
@@ -53,11 +53,13 @@ function kc_export_kpi_csv() {
     foreach ($b_all_query->posts as $post_id) {
         $status = get_post_meta($post_id, 'kc_status', true) ?: 'Pending';
         if (isset($bookings_by_status[$status])) $bookings_by_status[$status]++;
-        if ($status === 'Completed') {
-            $price = kc_parse_revenue_val(get_post_meta($post_id, 'kc_price', true));
-            $space = get_post_meta($post_id, 'kc_space_type', true) ?: 'Unknown';
-            $total_bookings_revenue += $price;
-            $revenue_by_space[$space] = ($revenue_by_space[$space] ?? 0) + $price;
+        if ($status === 'Active' || $status === 'Completed') {
+            $space     = get_post_meta($post_id, 'kc_space_type', true) ?: 'Unknown';
+            $log_raw   = get_post_meta($post_id, 'kc_payment_log', true);
+            $log       = is_array($log_raw) ? $log_raw : array();
+            $collected = array_sum(array_column($log, 'amount'));
+            $total_bookings_revenue += $collected;
+            $revenue_by_space[$space] = ($revenue_by_space[$space] ?? 0) + $collected;
             $total_bookings_won++;
         }
     }
@@ -96,138 +98,66 @@ function kc_export_kpi_csv() {
     $ml_unsub   = (int) $wpdb->get_var("SELECT COUNT(*) FROM {$ml_table} WHERE status = 'unsubscribed'");
 
     // --- Summary values ---
-    $combined_revenue   = $total_bookings_revenue + $total_quotes_revenue;
     $total_needs_action = $bookings_pending_action + $quotes_pending_action;
-    $blended_conversion = ($bookings_all_count + $quotes_all_count) > 0
-        ? round((($total_bookings_won + $total_quotes_won) / ($bookings_all_count + $quotes_all_count)) * 100, 1)
-        : 0;
 
-    // --- Output ---
-    $filename = 'Kings_City_KPI_' . $selected_month . '.csv';
-    header('Content-Type: text/csv; charset=utf-8');
-    header('Content-Disposition: attachment; filename="' . $filename . '"');
-    header('Pragma: no-cache');
-    header('Expires: 0');
-
-    $out = fopen('php://output', 'w');
-
-    // Section 0: Summary
-    fputcsv($out, array('=== SUMMARY ===', '', ''));
-    fputcsv($out, array('Reporting Period', 'Metric', 'Value'));
-    fputcsv($out, array($display_period, 'Combined Revenue — Bookings + Quotes (Php)', number_format($combined_revenue, 2)));
-    fputcsv($out, array($display_period, 'Overall Blended Conversion Rate',            $blended_conversion . '%'));
-    fputcsv($out, array($display_period, 'Needs Action — Pending + Contacted Items',   $total_needs_action));
-
-    // Section 1: Bookings
-    fputcsv($out, array('', '', ''));
-    fputcsv($out, array('=== BOOKINGS (SPACES) ===', '', ''));
-    fputcsv($out, array($display_period, 'Total Booking Requests',       $bookings_all_count));
-    fputcsv($out, array($display_period, 'Completed & Paid',             $total_bookings_won));
-    fputcsv($out, array($display_period, 'Conversion Rate',              $bookings_conversion . '%'));
-    fputcsv($out, array($display_period, 'Total Bookings Revenue (Php)', number_format($total_bookings_revenue, 2)));
-    fputcsv($out, array('', '', ''));
-    fputcsv($out, array('--- Pipeline Breakdown ---', '', ''));
-    foreach ($bookings_by_status as $status => $count) {
-        fputcsv($out, array($display_period, 'Bookings — ' . $status, $count));
+    // --- Space Leads (for CSV) ---
+    $csv_space_posts = get_posts(array('post_type' => 'kc_space', 'posts_per_page' => -1, 'post_status' => 'publish', 'orderby' => 'menu_order', 'order' => 'ASC'));
+    $csv_space_leads = array();
+    foreach ($csv_space_posts as $csv_sp) {
+        $csv_key   = get_field('kc_space_booking_key', $csv_sp->ID);
+        $csv_label = get_field('kc_space_heading', $csv_sp->ID) ?: $csv_sp->post_title;
+        if (!$csv_key) continue;
+        $csv_space_leads[$csv_key] = array('label' => $csv_label, 'total' => 0, 'Pending' => 0, 'Contacted' => 0, 'Active' => 0, 'Completed' => 0, 'Rejected' => 0, 'Cancelled' => 0, 'revenue' => 0);
     }
-
-    // Section 1b: Individual Booking Records
-    fputcsv($out, array('', '', '', '', '', '', '', '', '', '', ''));
-    fputcsv($out, array('--- Booking Records ---', '', '', '', '', '', '', '', '', '', ''));
-    fputcsv($out, array('Client Name', 'Email', 'Phone', 'Space', 'Start Date', 'Duration', 'Price (Php)', 'Status', 'Membership Status', 'Membership Expiry', 'Admin Note'));
-    $bk_rec_query = new WP_Query(array('post_type' => 'kc_booking', 'posts_per_page' => -1, 'orderby' => 'date', 'order' => 'DESC', 'fields' => 'ids'));
-    if (!empty($bk_rec_query->posts)) {
-        foreach ($bk_rec_query->posts as $pid) {
-            $bk_name = trim(get_post_meta($pid, 'kc_first_name', true) . ' ' . get_post_meta($pid, 'kc_last_name', true));
-            fputcsv($out, array(
-                $bk_name,
-                get_post_meta($pid, 'kc_email',             true),
-                get_post_meta($pid, 'kc_phone',             true),
-                get_post_meta($pid, 'kc_space_type',        true),
-                get_post_meta($pid, 'kc_start_date',        true),
-                get_post_meta($pid, 'kc_duration',          true),
-                get_post_meta($pid, 'kc_price',             true),
-                get_post_meta($pid, 'kc_status',            true) ?: 'Pending',
-                get_post_meta($pid, 'kc_membership_status', true) ?: '—',
-                get_post_meta($pid, 'kc_membership_expiry', true) ?: '—',
-                get_post_meta($pid, 'kc_admin_note',        true) ?: '—',
-            ));
-        }
-    } else {
-        fputcsv($out, array('No booking records found.', '', '', '', '', '', '', '', '', '', ''));
-    }
-
-    // Section 2: Quotes
-    fputcsv($out, array('', '', ''));
-    fputcsv($out, array('=== QUOTE LEADS (TEAM BUILDER) ===', '', ''));
-    fputcsv($out, array($display_period, 'Total Quote Requests',              $quotes_all_count));
-    fputcsv($out, array($display_period, 'Successful Quotes (Closed)',        $total_quotes_won));
-    fputcsv($out, array($display_period, 'Conversion Rate',                   $quotes_conversion . '%'));
-    fputcsv($out, array($display_period, 'Est. Recurring Revenue / mo (Php)', number_format($total_quotes_revenue, 2)));
-    fputcsv($out, array('', '', ''));
-    fputcsv($out, array('--- Pipeline Breakdown ---', '', ''));
-    foreach ($quotes_by_status as $status => $count) {
-        fputcsv($out, array($display_period, 'Quotes — ' . $status, $count));
-    }
-
-    // Section 2b: Individual Quote Request Records
-    fputcsv($out, array('', '', '', '', '', '', '', '', ''));
-    fputcsv($out, array('--- Quote Request Records ---', '', '', '', '', '', '', '', ''));
-    fputcsv($out, array('Client Name', 'Email', 'Phone', 'Address', 'Date Submitted', 'Status', 'Currency', 'Est. Total', 'Team Breakdown'));
-    $qt_rec_query = new WP_Query(array('post_type' => 'kg_quote_lead', 'posts_per_page' => -1, 'orderby' => 'date', 'order' => 'DESC', 'fields' => 'ids'));
-    if (!empty($qt_rec_query->posts)) {
-        foreach ($qt_rec_query->posts as $qid) {
-            $qt_fn   = get_post_meta($qid, 'first_name',   true);
-            $qt_mn   = get_post_meta($qid, 'middle_name',  true);
-            $qt_ln   = get_post_meta($qid, 'last_name',    true);
-            $qt_name = trim($qt_fn . ($qt_mn ? ' ' . $qt_mn : '') . ' ' . $qt_ln);
-            // Collapse team into a readable single-cell string
-            $qt_team_raw = get_post_meta($qid, 'team_json', true);
-            $qt_team     = $qt_team_raw ? json_decode($qt_team_raw, true) : array();
-            $qt_team_str = '—';
-            if (is_array($qt_team) && !empty($qt_team)) {
-                $parts = array();
-                foreach ($qt_team as $m) {
-                    $role  = $m['title']     ?? $m['role'] ?? 'Unknown';
-                    $level = $m['level']     ?? '';
-                    $count = $m['headcount'] ?? $m['count'] ?? 1;
-                    $rate  = $m['monthly']   ?? $m['rate']  ?? '';
-                    $part  = $role . ($level ? ' — ' . $level : '') . ' x' . $count;
-                    if ($rate) $part .= ' (' . $rate . '/mo)';
-                    $parts[] = $part;
-                }
-                $qt_team_str = implode(' | ', $parts);
-            }
-            fputcsv($out, array(
-                $qt_name,
-                get_post_meta($qid, 'email',        true),
-                get_post_meta($qid, 'phone',        true),
-                get_post_meta($qid, 'address',      true),
-                get_the_date('Y-m-d', $qid),
-                get_post_meta($qid, 'lead_status',  true) ?: 'Pending',
-                get_post_meta($qid, 'currency_used',true) ?: 'PHP',
-                get_post_meta($qid, 'total_est',    true),
-                $qt_team_str,
-            ));
-        }
-    } else {
-        fputcsv($out, array('No quote request records found.', '', '', '', '', '', '', '', ''));
-    }
-
-    // Section 3: Revenue by Space
-    fputcsv($out, array('', '', ''));
-    fputcsv($out, array('=== REVENUE BREAKDOWN BY SPACE ===', '', ''));
-    fputcsv($out, array('Space', 'Revenue (Php)', '% of Total Bookings Revenue'));
-    if (empty($revenue_by_space)) {
-        fputcsv($out, array('No completed bookings for this period', '', ''));
-    } else {
-        foreach ($revenue_by_space as $space => $rev) {
-            $pct = $total_bookings_revenue > 0 ? round(($rev / $total_bookings_revenue) * 100, 1) : 0;
-            fputcsv($out, array($space, number_format($rev, 2), $pct . '%'));
+    foreach ($b_all_query->posts as $pid) {
+        $csv_sp_key  = get_post_meta($pid, 'kc_space_type', true);
+        $csv_st      = get_post_meta($pid, 'kc_status', true) ?: 'Pending';
+        if (!$csv_sp_key || !isset($csv_space_leads[$csv_sp_key])) continue;
+        $csv_space_leads[$csv_sp_key]['total']++;
+        if (isset($csv_space_leads[$csv_sp_key][$csv_st])) $csv_space_leads[$csv_sp_key][$csv_st]++;
+        if ($csv_st === 'Active' || $csv_st === 'Completed') {
+            $csv_log = get_post_meta($pid, 'kc_payment_log', true);
+            $csv_log = is_array($csv_log) ? $csv_log : array();
+            $csv_space_leads[$csv_sp_key]['revenue'] += array_sum(array_column($csv_log, 'amount'));
         }
     }
 
-    // Section 4: Members (all-time — not date filtered)
+    // --- Monthly analytics (last 12 months, for CSV) ---
+    $csv_months = array();
+    for ($i = 11; $i >= 0; $i--) {
+        $csv_months[] = date('Y-m', strtotime("-{$i} months"));
+    }
+    $csv_bk_monthly  = array_fill_keys($csv_months, 0);
+    $csv_rev_monthly = array_fill_keys($csv_months, 0);
+    $csv_qt_monthly  = array_fill_keys($csv_months, 0);
+    $csv_qt_rev_monthly = array_fill_keys($csv_months, 0);
+    $csv_pass_monthly = array('Day Pass' => array_fill_keys($csv_months, 0), 'Weekly Pass' => array_fill_keys($csv_months, 0), 'Monthly Pass' => array_fill_keys($csv_months, 0), 'Annual Pass' => array_fill_keys($csv_months, 0));
+
+    $csv_bk_chart = new WP_Query(array('post_type' => 'kc_booking', 'posts_per_page' => -1, 'fields' => 'ids', 'date_query' => array(array('after' => date('Y-m-d', strtotime('-12 months'))))));
+    foreach ($csv_bk_chart->posts as $pid) {
+        $mk = substr(get_post_field('post_date', $pid), 0, 7);
+        if (!isset($csv_bk_monthly[$mk])) continue;
+        $csv_bk_monthly[$mk]++;
+        $st = get_post_meta($pid, 'kc_status', true);
+        if ($st === 'Active' || $st === 'Completed') {
+            $lg = get_post_meta($pid, 'kc_payment_log', true);
+            $lg = is_array($lg) ? $lg : array();
+            $csv_rev_monthly[$mk] += array_sum(array_column($lg, 'amount'));
+        }
+        $dur = get_post_meta($pid, 'kc_duration', true);
+        if (isset($csv_pass_monthly[$dur])) $csv_pass_monthly[$dur][$mk]++;
+    }
+    $csv_qt_chart = new WP_Query(array('post_type' => 'kg_quote_lead', 'posts_per_page' => -1, 'fields' => 'ids', 'date_query' => array(array('after' => date('Y-m-d', strtotime('-12 months'))))));
+    foreach ($csv_qt_chart->posts as $qid) {
+        $mk = substr(get_post_field('post_date', $qid), 0, 7);
+        if (!isset($csv_qt_monthly[$mk])) continue;
+        $csv_qt_monthly[$mk]++;
+        if (get_post_meta($qid, 'lead_status', true) === 'Closed') {
+            $csv_qt_rev_monthly[$mk] += kc_parse_revenue_val(get_post_meta($qid, 'total_est', true));
+        }
+    }
+
+    // --- Members (all-time) ---
     $mem_args = array('post_type' => 'kc_booking', 'posts_per_page' => -1, 'fields' => 'ids');
     $mem_all  = (new WP_Query($mem_args))->posts;
     $mem_active = $mem_expired = $mem_expiring = $mem_none = 0;
@@ -235,7 +165,7 @@ function kc_export_kpi_csv() {
     $today_csv = date('Y-m-d');
     $in30_csv  = date('Y-m-d', strtotime('+30 days'));
     foreach ($mem_all as $pid) {
-        $email  = get_post_meta($pid, 'kc_email', true);
+        $email = get_post_meta($pid, 'kc_email', true);
         if ($email && in_array($email, $seen_emails_csv, true)) continue;
         if ($email) $seen_emails_csv[] = $email;
         $ms  = get_post_meta($pid, 'kc_membership_status', true);
@@ -250,39 +180,186 @@ function kc_export_kpi_csv() {
         }
     }
 
-    fputcsv($out, array('', '', ''));
-    fputcsv($out, array('=== MEMBERS (ALL-TIME) ===', '', ''));
+    // --- Output ---
+    $filename = 'Kings_City_KPI_' . $selected_month . '.csv';
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename="' . $filename . '"');
+    header('Pragma: no-cache');
+    header('Expires: 0');
+
+    $out = fopen('php://output', 'w');
+
+    // ── SECTION 0: Summary ──────────────────────────────────────────────────
+    fputcsv($out, array('=== SUMMARY ==='));
+    fputcsv($out, array('Reporting Period', 'Metric', 'Value'));
+    fputcsv($out, array($display_period, 'Bookings Revenue Collected (Php)',          number_format($total_bookings_revenue, 2)));
+    fputcsv($out, array($display_period, 'Team Builder Est. Revenue / mo (Php)',      number_format($total_quotes_revenue, 2)));
+    fputcsv($out, array($display_period, 'Needs Action — Pending + Contacted Items', $total_needs_action));
+
+    // ── SECTION 1: Bookings ─────────────────────────────────────────────────
+    fputcsv($out, array(''));
+    fputcsv($out, array('=== BOOKINGS — SPACES ==='));
+    fputcsv($out, array($display_period, 'Total Booking Requests',        $bookings_all_count));
+    fputcsv($out, array($display_period, 'Active & Completed',            $total_bookings_won));
+    fputcsv($out, array($display_period, 'Conversion Rate',               $bookings_conversion . '%'));
+    fputcsv($out, array($display_period, 'Revenue Collected (Php)',       number_format($total_bookings_revenue, 2)));
+    fputcsv($out, array(''));
+    fputcsv($out, array('--- Pipeline Breakdown ---'));
+    foreach ($bookings_by_status as $st => $cnt) {
+        fputcsv($out, array($display_period, 'Bookings — ' . $st, $cnt));
+    }
+
+    // ── SECTION 1b: Booking Client Records ─────────────────────────────────
+    fputcsv($out, array(''));
+    fputcsv($out, array('--- Booking Client Records ---'));
+    fputcsv($out, array('Client Name', 'Email', 'Phone', 'Space', 'Duration', 'Start Date', 'Total Due (Php)', 'Total Paid (Php)', 'Balance (Php)', 'Invoice', 'Status', 'Membership Status', 'Membership Expiry'));
+    $bk_rec_query = new WP_Query(array('post_type' => 'kc_booking', 'posts_per_page' => -1, 'orderby' => 'date', 'order' => 'DESC', 'fields' => 'ids'));
+    if (!empty($bk_rec_query->posts)) {
+        foreach ($bk_rec_query->posts as $pid) {
+            $bk_name    = trim(get_post_meta($pid, 'kc_first_name', true) . ' ' . get_post_meta($pid, 'kc_last_name', true));
+            $bk_price   = (float) get_post_meta($pid, 'kc_price', true);
+            $bk_log_raw = get_post_meta($pid, 'kc_payment_log', true);
+            $bk_log     = is_array($bk_log_raw) ? $bk_log_raw : array();
+            $bk_paid    = array_sum(array_column($bk_log, 'amount'));
+            $bk_balance = max(0, $bk_price - $bk_paid);
+            fputcsv($out, array(
+                $bk_name,
+                get_post_meta($pid, 'kc_email',             true),
+                get_post_meta($pid, 'kc_phone',             true),
+                get_post_meta($pid, 'kc_space_type',        true),
+                get_post_meta($pid, 'kc_duration',          true),
+                get_post_meta($pid, 'kc_start_date',        true),
+                number_format($bk_price, 2),
+                number_format($bk_paid, 2),
+                number_format($bk_balance, 2),
+                get_post_meta($pid, 'kc_invoice_number',    true) ?: '—',
+                get_post_meta($pid, 'kc_status',            true) ?: 'Pending',
+                get_post_meta($pid, 'kc_membership_status', true) ?: '—',
+                get_post_meta($pid, 'kc_membership_expiry', true) ?: '—',
+            ));
+        }
+    } else {
+        fputcsv($out, array('No booking records found.'));
+    }
+
+    // ── SECTION 2: Space Leads ──────────────────────────────────────────────
+    fputcsv($out, array(''));
+    fputcsv($out, array('=== SPACE LEADS — REQUESTS & CONVERSION PER SPACE ==='));
+    fputcsv($out, array('Space', 'Total Requests', 'Pending', 'Contacted', 'Active', 'Completed', 'Rejected', 'Cancelled', 'Revenue Collected (Php)', 'Conversion %'));
+    $sl_csv_grand = array('total' => 0, 'Pending' => 0, 'Contacted' => 0, 'Active' => 0, 'Completed' => 0, 'Rejected' => 0, 'Cancelled' => 0, 'revenue' => 0, 'won' => 0);
+    foreach ($csv_space_leads as $sl) {
+        $sl_won  = $sl['Active'] + $sl['Completed'];
+        $sl_conv = $sl['total'] > 0 ? round(($sl_won / $sl['total']) * 100, 1) : 0;
+        fputcsv($out, array($sl['label'], $sl['total'], $sl['Pending'], $sl['Contacted'], $sl['Active'], $sl['Completed'], $sl['Rejected'], $sl['Cancelled'], number_format($sl['revenue'], 2), $sl_conv . '%'));
+        foreach (array('total','Pending','Contacted','Active','Completed','Rejected','Cancelled') as $k) $sl_csv_grand[$k] += $sl[$k];
+        $sl_csv_grand['revenue'] += $sl['revenue'];
+        $sl_csv_grand['won']     += $sl_won;
+    }
+    $sl_csv_grand_conv = $sl_csv_grand['total'] > 0 ? round(($sl_csv_grand['won'] / $sl_csv_grand['total']) * 100, 1) : 0;
+    fputcsv($out, array('ALL SPACES', $sl_csv_grand['total'], $sl_csv_grand['Pending'], $sl_csv_grand['Contacted'], $sl_csv_grand['Active'], $sl_csv_grand['Completed'], $sl_csv_grand['Rejected'], $sl_csv_grand['Cancelled'], number_format($sl_csv_grand['revenue'], 2), $sl_csv_grand_conv . '%'));
+
+    // ── SECTION 3: Quotes ───────────────────────────────────────────────────
+    fputcsv($out, array(''));
+    fputcsv($out, array('=== QUOTE LEADS — TEAM BUILDER ==='));
+    fputcsv($out, array($display_period, 'Total Quote Requests',              $quotes_all_count));
+    fputcsv($out, array($display_period, 'Successful Quotes (Closed)',        $total_quotes_won));
+    fputcsv($out, array($display_period, 'Conversion Rate',                   $quotes_conversion . '%'));
+    fputcsv($out, array($display_period, 'Est. Recurring Revenue / mo (Php)', number_format($total_quotes_revenue, 2)));
+    fputcsv($out, array(''));
+    fputcsv($out, array('--- Pipeline Breakdown ---'));
+    foreach ($quotes_by_status as $st => $cnt) {
+        fputcsv($out, array($display_period, 'Quotes — ' . $st, $cnt));
+    }
+
+    // ── SECTION 3b: Quote Client Records ───────────────────────────────────
+    fputcsv($out, array(''));
+    fputcsv($out, array('--- Quote Client Records ---'));
+    fputcsv($out, array('Client Name', 'Email', 'Phone', 'Address', 'Date Submitted', 'Status', 'Currency', 'Est. Total', 'Team Roles', 'Team Breakdown'));
+    $qt_rec_query = new WP_Query(array('post_type' => 'kg_quote_lead', 'posts_per_page' => -1, 'orderby' => 'date', 'order' => 'DESC', 'fields' => 'ids'));
+    if (!empty($qt_rec_query->posts)) {
+        foreach ($qt_rec_query->posts as $qid) {
+            $qt_fn       = get_post_meta($qid, 'first_name',  true);
+            $qt_mn       = get_post_meta($qid, 'middle_name', true);
+            $qt_ln       = get_post_meta($qid, 'last_name',   true);
+            $qt_name     = trim($qt_fn . ($qt_mn ? ' ' . $qt_mn : '') . ' ' . $qt_ln);
+            $qt_team_raw = get_post_meta($qid, 'team_json', true);
+            $qt_team     = $qt_team_raw ? json_decode($qt_team_raw, true) : array();
+            $qt_team_str = '—';
+            $qt_roles    = 0;
+            if (is_array($qt_team) && !empty($qt_team)) {
+                $qt_roles = count($qt_team);
+                $parts    = array();
+                foreach ($qt_team as $m) {
+                    $role  = $m['title']     ?? $m['role'] ?? 'Unknown';
+                    $level = $m['level']     ?? '';
+                    $count = $m['headcount'] ?? $m['count'] ?? 1;
+                    $rate  = $m['monthly']   ?? $m['rate']  ?? '';
+                    $part  = $role . ($level ? ' — ' . $level : '') . ' x' . $count;
+                    if ($rate) $part .= ' (' . $rate . '/mo)';
+                    $parts[] = $part;
+                }
+                $qt_team_str = implode(' | ', $parts);
+            }
+            fputcsv($out, array(
+                $qt_name,
+                get_post_meta($qid, 'email',         true),
+                get_post_meta($qid, 'phone',         true),
+                get_post_meta($qid, 'address',       true),
+                get_the_date('Y-m-d', $qid),
+                get_post_meta($qid, 'lead_status',   true) ?: 'Pending',
+                get_post_meta($qid, 'currency_used', true) ?: 'PHP',
+                get_post_meta($qid, 'total_est',     true),
+                $qt_roles,
+                $qt_team_str,
+            ));
+        }
+    } else {
+        fputcsv($out, array('No quote request records found.'));
+    }
+
+    // ── SECTION 4: Members ──────────────────────────────────────────────────
+    fputcsv($out, array(''));
+    fputcsv($out, array('=== MEMBERS — ALL-TIME ==='));
     fputcsv($out, array('All Time', 'Active Members',          $mem_active));
     fputcsv($out, array('All Time', 'Expiring Within 30 Days', $mem_expiring));
     fputcsv($out, array('All Time', 'Expired Members',         $mem_expired));
     fputcsv($out, array('All Time', 'No Membership (N/A)',     $mem_none));
 
-    // Section 5: Mailing List
-    fputcsv($out, array('', '', ''));
-    fputcsv($out, array('=== MAILING LIST (ALL-TIME) ===', '', ''));
-    fputcsv($out, array('All Time', 'Total Subscribers',      $ml_total));
-    fputcsv($out, array('All Time', 'Active Subscribers',     $ml_active));
-    fputcsv($out, array('All Time', 'Pending Subscribers',    $ml_pending));
-    fputcsv($out, array('All Time', 'Unsubscribed',           $ml_unsub));
-
-    // Section 5b: Individual Mailing List Records
-    fputcsv($out, array('', '', ''));
-    fputcsv($out, array('--- Mailing List Records ---', '', ''));
+    // ── SECTION 5: Mailing List ─────────────────────────────────────────────
+    fputcsv($out, array(''));
+    fputcsv($out, array('=== MAILING LIST — ALL-TIME ==='));
+    fputcsv($out, array('All Time', 'Total Subscribers',   $ml_total));
+    fputcsv($out, array('All Time', 'Active Subscribers',  $ml_active));
+    fputcsv($out, array('All Time', 'Pending Subscribers', $ml_pending));
+    fputcsv($out, array('All Time', 'Unsubscribed',        $ml_unsub));
+    fputcsv($out, array(''));
+    fputcsv($out, array('--- Mailing List Records ---'));
     fputcsv($out, array('Email', 'Status', 'Subscribed At'));
-    $ml_records = $wpdb->get_results(
-        "SELECT email, status, subscribed_at FROM {$ml_table} ORDER BY id DESC",
-        ARRAY_A
-    );
+    $ml_records = $wpdb->get_results("SELECT email, status, subscribed_at FROM {$ml_table} ORDER BY id DESC", ARRAY_A);
     if (!empty($ml_records)) {
         foreach ($ml_records as $row) {
-            fputcsv($out, array(
-                $row['email'],
-                ucfirst($row['status']),
-                $row['subscribed_at'],
-            ));
+            fputcsv($out, array($row['email'], ucfirst($row['status']), $row['subscribed_at']));
         }
     } else {
-        fputcsv($out, array('No subscribers found.', '', ''));
+        fputcsv($out, array('No subscribers found.'));
+    }
+
+    // ── SECTION 6: Monthly Analytics (last 12 months) ──────────────────────
+    fputcsv($out, array(''));
+    fputcsv($out, array('=== MONTHLY ANALYTICS — LAST 12 MONTHS ==='));
+    fputcsv($out, array('Month', 'Space Bookings', 'Bookings Revenue Collected (Php)', 'Day Pass', 'Weekly Pass', 'Monthly Pass', 'Annual Pass', 'Quote Requests', 'Quote Est. Revenue (Php)'));
+    foreach ($csv_months as $mk) {
+        fputcsv($out, array(
+            date('M Y', strtotime($mk . '-01')),
+            $csv_bk_monthly[$mk],
+            number_format($csv_rev_monthly[$mk], 2),
+            $csv_pass_monthly['Day Pass'][$mk],
+            $csv_pass_monthly['Weekly Pass'][$mk],
+            $csv_pass_monthly['Monthly Pass'][$mk],
+            $csv_pass_monthly['Annual Pass'][$mk],
+            $csv_qt_monthly[$mk],
+            number_format($csv_qt_rev_monthly[$mk], 2),
+        ));
     }
 
     fclose($out);
@@ -306,7 +383,7 @@ function kc_render_kpi_dashboard() {
     }
 
     // --- Bookings: all statuses for pipeline breakdown ---
-    $booking_statuses = array('Pending', 'Contacted', 'Completed', 'Rejected', 'Cancelled');
+    $booking_statuses = array('Pending', 'Contacted', 'Active', 'Completed', 'Rejected', 'Cancelled');
     $bookings_by_status = array_fill_keys($booking_statuses, 0);
 
     $bookings_all_args = array('post_type' => 'kc_booking', 'posts_per_page' => -1, 'fields' => 'ids');
@@ -321,17 +398,54 @@ function kc_render_kpi_dashboard() {
     foreach ($bookings_all_query->posts as $post_id) {
         $status = get_post_meta($post_id, 'kc_status', true) ?: 'Pending';
         if (isset($bookings_by_status[$status])) $bookings_by_status[$status]++;
-        if ($status === 'Completed') {
-            $price = kc_parse_revenue_val(get_post_meta($post_id, 'kc_price', true));
-            $space = get_post_meta($post_id, 'kc_space_type', true) ?: 'Unknown';
-            $total_bookings_revenue += $price;
-            $revenue_by_space[$space] = ($revenue_by_space[$space] ?? 0) + $price;
+        if ($status === 'Active' || $status === 'Completed') {
+            $space    = get_post_meta($post_id, 'kc_space_type', true) ?: 'Unknown';
+            $log_raw  = get_post_meta($post_id, 'kc_payment_log', true);
+            $log      = is_array($log_raw) ? $log_raw : array();
+            $collected = array_sum(array_column($log, 'amount'));
+            $total_bookings_revenue += $collected;
+            $revenue_by_space[$space] = ($revenue_by_space[$space] ?? 0) + $collected;
             $total_bookings_won++;
         }
     }
     arsort($revenue_by_space);
     $bookings_conversion = $bookings_all_count > 0 ? round(($total_bookings_won / $bookings_all_count) * 100, 1) : 0;
     $bookings_pending_action = $bookings_by_status['Pending'] + $bookings_by_status['Contacted'];
+
+    // --- Space Leads: requests, pipeline counts, and conversion per space ---
+    $space_leads_posts = get_posts(array(
+        'post_type'      => 'kc_space',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+        'orderby'        => 'menu_order',
+        'order'          => 'ASC',
+    ));
+    $space_leads = array(); // keyed by booking_key
+    foreach ($space_leads_posts as $sl_sp) {
+        $sl_key   = get_field('kc_space_booking_key', $sl_sp->ID);
+        $sl_label = get_field('kc_space_heading', $sl_sp->ID) ?: $sl_sp->post_title;
+        if (!$sl_key) continue;
+        $space_leads[$sl_key] = array(
+            'label'     => $sl_label,
+            'total'     => 0,
+            'Pending'   => 0,
+            'Contacted' => 0,
+            'Active'    => 0,
+            'Completed' => 0,
+            'Rejected'  => 0,
+            'Cancelled' => 0,
+        );
+    }
+    // Tally from the already-queried bookings
+    foreach ($bookings_all_query->posts as $post_id) {
+        $sl_space  = get_post_meta($post_id, 'kc_space_type', true);
+        $sl_status = get_post_meta($post_id, 'kc_status', true) ?: 'Pending';
+        if (!$sl_space || !isset($space_leads[$sl_space])) continue;
+        $space_leads[$sl_space]['total']++;
+        if (isset($space_leads[$sl_space][$sl_status])) {
+            $space_leads[$sl_space][$sl_status]++;
+        }
+    }
 
     // --- Quotes: all statuses for pipeline breakdown ---
     $quote_statuses = array('Pending', 'Contacted', 'Closed', 'Rejected');
@@ -390,17 +504,115 @@ function kc_render_kpi_dashboard() {
     }
 
     // --- Summary tile values ---
-    $combined_revenue    = $total_bookings_revenue + $total_quotes_revenue;
     $total_pending_items = $bookings_pending_action + $quotes_pending_action;
-    $blended_conversion  = ($bookings_all_count + $quotes_all_count) > 0
-        ? round((($total_bookings_won + $total_quotes_won) / ($bookings_all_count + $quotes_all_count)) * 100, 1)
-        : 0;
+
+    // --- Analytics: monthly bookings + revenue for last 12 months (always all-time, ignores period filter) ---
+    $chart_months       = array();
+    $chart_bk_counts    = array();
+    $chart_bk_revenue   = array();
+    $chart_pass_types   = array('Day Pass' => array(), 'Weekly Pass' => array(), 'Monthly Pass' => array(), 'Annual Pass' => array());
+
+    for ($i = 11; $i >= 0; $i--) {
+        $m_ts    = strtotime("-{$i} months");
+        $m_label = date('M Y', $m_ts);
+        $m_key   = date('Y-m', $m_ts);
+        $chart_months[]       = $m_label;
+        $chart_bk_counts[$m_key]  = 0;
+        $chart_bk_revenue[$m_key] = 0;
+        foreach ($chart_pass_types as $pt => $arr) $chart_pass_types[$pt][$m_key] = 0;
+    }
+
+    $all_bk_chart = new WP_Query(array(
+        'post_type'      => 'kc_booking',
+        'posts_per_page' => -1,
+        'fields'         => 'ids',
+        'date_query'     => array(array('after' => date('Y-m-d', strtotime('-12 months')))),
+    ));
+    foreach ($all_bk_chart->posts as $pid) {
+        $bk_post_date = get_post_field('post_date', $pid);
+        $bk_mkey      = substr($bk_post_date, 0, 7);
+        if (isset($chart_bk_counts[$bk_mkey])) {
+            $chart_bk_counts[$bk_mkey]++;
+            $bk_status = get_post_meta($pid, 'kc_status', true);
+            if ($bk_status === 'Active' || $bk_status === 'Completed') {
+                $bk_log_raw = get_post_meta($pid, 'kc_payment_log', true);
+                $bk_log     = is_array($bk_log_raw) ? $bk_log_raw : array();
+                $chart_bk_revenue[$bk_mkey] += array_sum(array_column($bk_log, 'amount'));
+            }
+            $bk_dur = get_post_meta($pid, 'kc_duration', true);
+            foreach ($chart_pass_types as $pt => $arr) {
+                if ($bk_dur === $pt) $chart_pass_types[$pt][$bk_mkey]++;
+            }
+        }
+    }
+
+    // Donut data: bookings by space (all-time)
+    $donut_space_labels = array();
+    $donut_space_counts = array();
+    foreach ($space_leads as $sl_key => $sl) {
+        if ($sl['total'] > 0) {
+            $donut_space_labels[] = $sl['label'];
+            $donut_space_counts[] = $sl['total'];
+        }
+    }
+
+    // Donut data: pass type split (all-time, Active+Completed only)
+    $donut_pass_labels = array();
+    $donut_pass_counts = array();
+    $pass_type_totals  = array('Day Pass' => 0, 'Weekly Pass' => 0, 'Monthly Pass' => 0, 'Annual Pass' => 0);
+    $all_bk_pass = new WP_Query(array('post_type' => 'kc_booking', 'posts_per_page' => -1, 'fields' => 'ids'));
+    foreach ($all_bk_pass->posts as $pid) {
+        $dur = get_post_meta($pid, 'kc_duration', true);
+        if (isset($pass_type_totals[$dur])) $pass_type_totals[$dur]++;
+    }
+    foreach ($pass_type_totals as $pt => $cnt) {
+        if ($cnt > 0) { $donut_pass_labels[] = $pt; $donut_pass_counts[] = $cnt; }
+    }
+
+    // Donut data: pipeline status (all-time)
+    $donut_status_labels = array();
+    $donut_status_counts = array();
+    foreach ($bookings_by_status as $st => $cnt) {
+        if ($cnt > 0) { $donut_status_labels[] = $st; $donut_status_counts[] = $cnt; }
+    }
+
+    // --- Analytics: quotes monthly (last 12 months) ---
+    $chart_qt_counts  = array();
+    $chart_qt_revenue = array();
+    foreach ($chart_months as $i => $m_label) {
+        $m_key = date('Y-m', strtotime('-' . (11 - $i) . ' months'));
+        $chart_qt_counts[$m_key]  = 0;
+        $chart_qt_revenue[$m_key] = 0;
+    }
+    $all_qt_chart = new WP_Query(array(
+        'post_type'      => 'kg_quote_lead',
+        'posts_per_page' => -1,
+        'fields'         => 'ids',
+        'date_query'     => array(array('after' => date('Y-m-d', strtotime('-12 months')))),
+    ));
+    foreach ($all_qt_chart->posts as $qid) {
+        $qt_mkey = substr(get_post_field('post_date', $qid), 0, 7);
+        if (isset($chart_qt_counts[$qt_mkey])) {
+            $chart_qt_counts[$qt_mkey]++;
+            if (get_post_meta($qid, 'lead_status', true) === 'Closed') {
+                $chart_qt_revenue[$qt_mkey] += kc_parse_revenue_val(get_post_meta($qid, 'total_est', true));
+            }
+        }
+    }
+
+    // Donut data: quote pipeline status (all-time)
+    $donut_qt_status_labels = array();
+    $donut_qt_status_counts = array();
+    foreach ($quotes_by_status as $st => $cnt) {
+        if ($cnt > 0) { $donut_qt_status_labels[] = $st; $donut_qt_status_counts[] = $cnt; }
+    }
 
     // Pipeline status badge colours
     $status_colors = array(
         'Pending'   => array('#fef9c3', '#854d0e'),
         'Contacted' => array('#dbeafe', '#1e40af'),
-        'Completed' => array('#dcfce7', '#166534'),
+        'Active'    => array('#dcfce7', '#166534'),
+        'Completed' => array('#d1fae5', '#064e3b'),
         'Closed'    => array('#dcfce7', '#166534'),
         'Rejected'  => array('#fee2e2', '#991b1b'),
         'Cancelled' => array('#f1f5f9', '#475569'),
@@ -505,6 +717,9 @@ function kc_render_kpi_dashboard() {
         .kc-mem-tile--none     { background: #f1f5f9; } .kc-mem-tile--none     .kc-mem-tile__num { color: #475569; }
 
         .kc-section-divider { grid-column: 1/-1; border: none; border-top: 1px solid #e2e8f0; margin: 4px 0; }
+
+        /* Sticky header on scrollable overview tables */
+        .kc-kpi-card div[style*="max-height"] .kc-records-table thead th { position: sticky; top: 0; z-index: 2; background: var(--kc-terracotta); }
     </style>
 
     <div class="wrap kc-kpi-wrap">
@@ -531,26 +746,123 @@ function kc_render_kpi_dashboard() {
         <!-- Row 1: Summary Tiles -->
         <div class="kc-kpi-tiles">
             <div class="kc-tile kc-tile--revenue">
-                <div class="kc-tile__label">Combined Revenue</div>
-                <div class="kc-tile__value">Php <?php echo number_format($combined_revenue, 2); ?></div>
-                <div class="kc-tile__sub">Bookings + Quote leads</div>
+                <div class="kc-tile__label">Bookings Revenue Collected</div>
+                <div class="kc-tile__value">Php <?php echo number_format($total_bookings_revenue, 2); ?></div>
+                <div class="kc-tile__sub">Cash received from space bookings</div>
             </div>
-            <div class="kc-tile kc-tile--audience">
-                <div class="kc-tile__label">Active Subscribers</div>
-                <div class="kc-tile__value"><?php echo esc_html($ml_active); ?></div>
-                <div class="kc-tile__sub"><?php echo esc_html($ml_total); ?> total on mailing list</div>
+            <div class="kc-tile kc-tile--audience" style="border-top-color:#b45309;">
+                <div class="kc-tile__label">Team Builder Est. Revenue</div>
+                <div class="kc-tile__value" style="color:#b45309;">Php <?php echo number_format($total_quotes_revenue, 2); ?>/mo</div>
+                <div class="kc-tile__sub">From closed quote leads</div>
             </div>
             <div class="kc-tile kc-tile--action">
                 <div class="kc-tile__label">Needs Action</div>
                 <div class="kc-tile__value"><?php echo esc_html($total_pending_items); ?></div>
                 <div class="kc-tile__sub"><?php echo esc_html($bookings_pending_action); ?> bookings · <?php echo esc_html($quotes_pending_action); ?> quotes</div>
             </div>
-            <div class="kc-tile kc-tile--rate">
-                <div class="kc-tile__label">Overall Conversion</div>
-                <div class="kc-tile__value"><?php echo esc_html($blended_conversion); ?>%</div>
-                <div class="kc-tile__sub">Across bookings &amp; quotes</div>
+            <div class="kc-tile kc-tile--audience">
+                <div class="kc-tile__label">Active Subscribers</div>
+                <div class="kc-tile__value"><?php echo esc_html($ml_active); ?></div>
+                <div class="kc-tile__sub"><?php echo esc_html($ml_total); ?> total on mailing list</div>
             </div>
         </div>
+
+        <!-- Client Overview: Bookings + Quotes side-by-side -->
+        <div class="kc-kpi-grid" style="margin-bottom:20px;">
+
+            <!-- Booking Clients -->
+            <div class="kc-kpi-card" style="padding-bottom:16px;">
+                <div class="kc-card-title kc-card-title--bookings">Booking Clients</div>
+                <div style="overflow-x:auto;max-height:340px;overflow-y:auto;">
+                    <table class="kc-records-table">
+                        <thead><tr>
+                            <th>Client</th><th>Space</th><th>Duration</th><th>Date</th><th>Paid / Balance</th><th>Status</th>
+                        </tr></thead>
+                        <tbody>
+                        <?php
+                        $ov_bk_ids = $bookings_all_query->posts;
+                        if (!empty($ov_bk_ids)):
+                            foreach ($ov_bk_ids as $pid):
+                                $ov_fname   = get_post_meta($pid, 'kc_first_name', true);
+                                $ov_lname   = get_post_meta($pid, 'kc_last_name',  true);
+                                $ov_bname   = trim($ov_fname . ' ' . $ov_lname) ?: '(no name)';
+                                $ov_space   = get_post_meta($pid, 'kc_space_type', true) ?: '—';
+                                $ov_dur     = get_post_meta($pid, 'kc_duration',   true) ?: '—';
+                                $ov_date    = get_post_meta($pid, 'kc_start_date', true) ?: '—';
+                                $ov_status  = get_post_meta($pid, 'kc_status',     true) ?: 'Pending';
+                                $ov_price   = (float) get_post_meta($pid, 'kc_price', true);
+                                $ov_log     = get_post_meta($pid, 'kc_payment_log', true);
+                                $ov_log     = is_array($ov_log) ? $ov_log : array();
+                                $ov_paid    = array_sum(array_column($ov_log, 'amount'));
+                                $ov_balance = max(0, $ov_price - $ov_paid);
+                                $ov_col     = $status_colors[$ov_status] ?? array('#f1f5f9', '#475569');
+                        ?>
+                        <tr>
+                            <td><a href="<?php echo esc_url(get_edit_post_link($pid)); ?>" style="color:var(--kc-terracotta);font-weight:700;"><?php echo esc_html($ov_bname); ?></a></td>
+                            <td><?php echo esc_html($ov_space); ?></td>
+                            <td><?php echo esc_html($ov_dur); ?></td>
+                            <td><?php echo esc_html($ov_date); ?></td>
+                            <td>
+                                <?php if ($ov_paid > 0): ?>
+                                    <span style="color:#166534;font-weight:700;">Php <?php echo number_format($ov_paid, 2); ?></span>
+                                    <?php if ($ov_balance > 0): ?>
+                                    <div style="font-size:10px;color:#d97706;font-weight:600;margin-top:2px;">Balance: Php <?php echo number_format($ov_balance, 2); ?></div>
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <span style="color:#94a3b8;">—</span>
+                                <?php endif; ?>
+                            </td>
+                            <td><span class="kc-badge" style="background:<?php echo esc_attr($ov_col[0]); ?>;color:<?php echo esc_attr($ov_col[1]); ?>;"><?php echo esc_html($ov_status); ?></span></td>
+                        </tr>
+                        <?php endforeach; else: ?>
+                        <tr><td colspan="6" class="kc-no-results">No bookings for this period.</td></tr>
+                        <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Quote Request Clients -->
+            <div class="kc-kpi-card" style="padding-bottom:16px;">
+                <div class="kc-card-title kc-card-title--quotes">Quote Request Clients</div>
+                <div style="overflow-x:auto;max-height:340px;overflow-y:auto;">
+                    <table class="kc-records-table">
+                        <thead><tr>
+                            <th>Client</th><th>Team Roles</th><th>Est. Total</th><th>Date</th><th>Status</th>
+                        </tr></thead>
+                        <tbody>
+                        <?php
+                        $ov_qt_ids = $quotes_all_query->posts;
+                        if (!empty($ov_qt_ids)):
+                            foreach ($ov_qt_ids as $qid):
+                                $ov_qfn      = get_post_meta($qid, 'first_name', true);
+                                $ov_qln      = get_post_meta($qid, 'last_name',  true);
+                                $ov_qname    = trim($ov_qfn . ' ' . $ov_qln) ?: '(no name)';
+                                $ov_team_raw = get_post_meta($qid, 'team_json', true);
+                                $ov_team     = ($ov_team_raw) ? json_decode($ov_team_raw, true) : array();
+                                $ov_tcount   = is_array($ov_team) ? count($ov_team) : 0;
+                                $ov_total    = get_post_meta($qid, 'total_est',    true);
+                                $ov_cur      = get_post_meta($qid, 'currency_used', true) ?: 'PHP';
+                                $ov_qstatus  = get_post_meta($qid, 'lead_status',  true) ?: 'Pending';
+                                $ov_qdate    = get_the_date('Y-m-d', $qid);
+                                $ov_qcol     = $status_colors[$ov_qstatus] ?? array('#f1f5f9', '#475569');
+                        ?>
+                        <tr>
+                            <td><a href="<?php echo esc_url(get_edit_post_link($qid)); ?>" style="color:#b45309;font-weight:700;"><?php echo esc_html($ov_qname); ?></a></td>
+                            <td><?php echo $ov_tcount > 0 ? esc_html($ov_tcount) . ' role' . ($ov_tcount !== 1 ? 's' : '') : '—'; ?></td>
+                            <td><?php echo $ov_total ? esc_html($ov_cur) . ' ' . esc_html($ov_total) : '—'; ?></td>
+                            <td><?php echo esc_html($ov_qdate); ?></td>
+                            <td><span class="kc-badge" style="background:<?php echo esc_attr($ov_qcol[0]); ?>;color:<?php echo esc_attr($ov_qcol[1]); ?>;"><?php echo esc_html($ov_qstatus); ?></span></td>
+                        </tr>
+                        <?php endforeach; else: ?>
+                        <tr><td colspan="5" class="kc-no-results">No quote requests for this period.</td></tr>
+                        <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div><!-- /.client overview grid -->
 
         <!-- Row 2: Mailing List + Members side-by-side -->
         <div class="kc-kpi-grid" style="margin-bottom:20px;">
@@ -623,7 +935,7 @@ function kc_render_kpi_dashboard() {
                     <span class="kc-stat-value"><?php echo esc_html($bookings_all_count); ?></span>
                 </div>
                 <div class="kc-stat-row">
-                    <span class="kc-stat-label">Completed &amp; Paid</span>
+                    <span class="kc-stat-label">Active &amp; Completed</span>
                     <span class="kc-stat-value"><?php echo esc_html($total_bookings_won); ?></span>
                 </div>
                 <div class="kc-stat-row" style="margin-top:14px;padding-top:14px;border-top:2px dashed #f1f5f9;">
@@ -671,50 +983,343 @@ function kc_render_kpi_dashboard() {
 
             <!-- Conversion Funnel -->
             <div class="kc-kpi-card kc-kpi-full">
-                <div class="kc-card-title kc-card-title--funnel">Revenue Conversion Funnel</div>
+                <div class="kc-card-title kc-card-title--funnel">Conversion Rates</div>
+                <p style="font-size:12px;color:#64748b;margin:0 0 18px;">How many inquiries turned into confirmed bookings or closed deals.</p>
+
                 <div class="kc-bar-wrap">
                     <div class="kc-bar-header">
-                        <span>Bookings Conversion Rate</span>
+                        <span>
+                            Space Bookings
+                            <span style="font-size:11px;font-weight:400;color:#94a3b8;margin-left:8px;"><?php echo esc_html($total_bookings_won); ?> Active/Completed out of <?php echo esc_html($bookings_all_count); ?> total requests</span>
+                        </span>
                         <span><?php echo number_format($bookings_conversion, 1); ?>%</span>
                     </div>
                     <div class="kc-bar-track"><div class="kc-bar-fill-b" style="width:<?php echo esc_attr(min($bookings_conversion,100)); ?>%;"></div></div>
                 </div>
+
                 <div class="kc-bar-wrap">
                     <div class="kc-bar-header">
-                        <span>Team Builder Quotes Conversion Rate</span>
+                        <span>
+                            Team Builder Quotes
+                            <span style="font-size:11px;font-weight:400;color:#94a3b8;margin-left:8px;"><?php echo esc_html($total_quotes_won); ?> Closed out of <?php echo esc_html($quotes_all_count); ?> total requests</span>
+                        </span>
                         <span><?php echo number_format($quotes_conversion, 1); ?>%</span>
                     </div>
                     <div class="kc-bar-track"><div class="kc-bar-fill-q" style="width:<?php echo esc_attr(min($quotes_conversion,100)); ?>%;"></div></div>
                 </div>
-                <div class="kc-bar-wrap">
-                    <div class="kc-bar-header">
-                        <span>Overall Blended Conversion Rate</span>
-                        <span><?php echo number_format($blended_conversion, 1); ?>%</span>
-                    </div>
-                    <div class="kc-bar-track"><div class="kc-bar-fill-b" style="width:<?php echo esc_attr(min($blended_conversion,100)); ?>%; background:var(--kc-terracotta);"></div></div>
+            </div>
+
+
+        </div><!-- /.kc-kpi-grid -->
+
+        <!-- Space Leads Overview (bottom) -->
+        <div class="kc-kpi-card kc-kpi-full" style="margin-top:20px;">
+            <div class="kc-card-title kc-card-title--spaces">Space Leads — Requests &amp; Conversion per Space</div>
+            <p style="font-size:12px;color:#64748b;margin:0 0 16px;">How many inquiries each space received and how many turned into confirmed (Active or Completed) bookings.</p>
+            <?php if (empty($space_leads)): ?>
+                <p style="color:#94a3b8;font-style:italic;font-size:13px;">No spaces found.</p>
+            <?php else: ?>
+            <div style="overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                <thead>
+                    <tr style="background:var(--kc-terracotta);">
+                        <th style="color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding:10px 14px;text-align:left;font-weight:700;white-space:nowrap;">Space</th>
+                        <th style="color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding:10px 10px;text-align:center;font-weight:700;">Total Requests</th>
+                        <th style="color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding:10px 10px;text-align:center;font-weight:700;">Pending</th>
+                        <th style="color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding:10px 10px;text-align:center;font-weight:700;">Contacted</th>
+                        <th style="color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding:10px 10px;text-align:center;font-weight:700;">Active</th>
+                        <th style="color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding:10px 10px;text-align:center;font-weight:700;">Completed</th>
+                        <th style="color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding:10px 10px;text-align:center;font-weight:700;">Rejected</th>
+                        <th style="color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding:10px 10px;text-align:center;font-weight:700;">Cancelled</th>
+                        <th style="color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding:10px 10px;text-align:center;font-weight:700;">Revenue Collected</th>
+                        <th style="color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding:10px 14px;text-align:center;font-weight:700;">Conversion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                $sl_grand_total = 0;
+                $sl_grand_won   = 0;
+                $sl_grand_rev   = 0;
+                $sl_grand_cols  = array('Pending' => 0, 'Contacted' => 0, 'Active' => 0, 'Completed' => 0, 'Rejected' => 0, 'Cancelled' => 0);
+                foreach ($space_leads as $sl_key => $sl):
+                    $sl_won  = $sl['Active'] + $sl['Completed'];
+                    $sl_conv = $sl['total'] > 0 ? round(($sl_won / $sl['total']) * 100, 1) : 0;
+                    $sl_rev  = $revenue_by_space[$sl_key] ?? 0;
+                    $sl_grand_total += $sl['total'];
+                    $sl_grand_won   += $sl_won;
+                    $sl_grand_rev   += $sl_rev;
+                    foreach ($sl_grand_cols as $k => $v) $sl_grand_cols[$k] += $sl[$k];
+                    $sl_conv_color = $sl_conv >= 70 ? '#166534' : ($sl_conv >= 40 ? '#854d0e' : '#991b1b');
+                    $sl_conv_bg    = $sl['total'] === 0 ? '#f1f5f9' : ($sl_conv >= 70 ? '#dcfce7' : ($sl_conv >= 40 ? '#fef9c3' : '#fee2e2'));
+                ?>
+                <tr style="border-bottom:1px solid #f1f5f9;">
+                    <td style="padding:10px 14px;font-weight:700;color:#334155;"><?php echo esc_html($sl['label']); ?></td>
+                    <td style="padding:10px 10px;text-align:center;font-weight:800;color:#1e293b;"><?php echo esc_html($sl['total']); ?></td>
+                    <td style="padding:10px 10px;text-align:center;<?php echo $sl['Pending']   > 0 ? 'color:#854d0e;font-weight:700;' : 'color:#cbd5e1;'; ?>"><?php echo $sl['Pending']   ?: '—'; ?></td>
+                    <td style="padding:10px 10px;text-align:center;<?php echo $sl['Contacted'] > 0 ? 'color:#1e40af;font-weight:700;' : 'color:#cbd5e1;'; ?>"><?php echo $sl['Contacted'] ?: '—'; ?></td>
+                    <td style="padding:10px 10px;text-align:center;<?php echo $sl['Active']    > 0 ? 'color:#166534;font-weight:700;' : 'color:#cbd5e1;'; ?>"><?php echo $sl['Active']    ?: '—'; ?></td>
+                    <td style="padding:10px 10px;text-align:center;<?php echo $sl['Completed'] > 0 ? 'color:#064e3b;font-weight:700;' : 'color:#cbd5e1;'; ?>"><?php echo $sl['Completed'] ?: '—'; ?></td>
+                    <td style="padding:10px 10px;text-align:center;<?php echo $sl['Rejected']  > 0 ? 'color:#991b1b;font-weight:700;' : 'color:#cbd5e1;'; ?>"><?php echo $sl['Rejected']  ?: '—'; ?></td>
+                    <td style="padding:10px 10px;text-align:center;<?php echo $sl['Cancelled'] > 0 ? 'color:#475569;font-weight:700;' : 'color:#cbd5e1;'; ?>"><?php echo $sl['Cancelled'] ?: '—'; ?></td>
+                    <td style="padding:10px 10px;text-align:center;font-weight:700;<?php echo $sl_rev > 0 ? 'color:#166534;' : 'color:#cbd5e1;'; ?>">
+                        <?php echo $sl_rev > 0 ? 'Php ' . number_format($sl_rev, 2) : '—'; ?>
+                    </td>
+                    <td style="padding:10px 14px;text-align:center;">
+                        <?php if ($sl['total'] > 0): ?>
+                        <span style="display:inline-block;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:800;background:<?php echo esc_attr($sl_conv_bg); ?>;color:<?php echo esc_attr($sl_conv_color); ?>;">
+                            <?php echo esc_html($sl_conv); ?>%
+                        </span>
+                        <?php else: ?>
+                        <span style="color:#cbd5e1;font-size:12px;">—</span>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <?php endforeach;
+                $sl_grand_conv = $sl_grand_total > 0 ? round(($sl_grand_won / $sl_grand_total) * 100, 1) : 0;
+                ?>
+                <tr style="background:rgba(189,69,31,0.05);border-top:2px solid rgba(189,69,31,0.2);">
+                    <td style="padding:10px 14px;font-weight:800;color:var(--kc-deep-red);text-transform:uppercase;font-size:11px;letter-spacing:.4px;">All Spaces</td>
+                    <td style="padding:10px 10px;text-align:center;font-weight:800;color:var(--kc-deep-red);"><?php echo esc_html($sl_grand_total); ?></td>
+                    <?php foreach ($sl_grand_cols as $k => $v): ?>
+                    <td style="padding:10px 10px;text-align:center;font-weight:700;color:var(--kc-deep-red);"><?php echo $v ?: '—'; ?></td>
+                    <?php endforeach; ?>
+                    <td style="padding:10px 10px;text-align:center;font-weight:800;color:var(--kc-deep-red);">
+                        <?php echo $sl_grand_rev > 0 ? 'Php ' . number_format($sl_grand_rev, 2) : '—'; ?>
+                    </td>
+                    <td style="padding:10px 14px;text-align:center;">
+                        <?php if ($sl_grand_total > 0): ?>
+                        <span style="display:inline-block;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:800;background:rgba(189,69,31,0.1);color:var(--kc-deep-red);">
+                            <?php echo esc_html($sl_grand_conv); ?>%
+                        </span>
+                        <?php else: ?>
+                        <span style="color:#cbd5e1;font-size:12px;">—</span>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- Analytics Charts -->
+        <?php
+        $c_months      = wp_json_encode(array_values($chart_months));
+        $c_bk_counts   = wp_json_encode(array_values($chart_bk_counts));
+        $c_bk_revenue  = wp_json_encode(array_values($chart_bk_revenue));
+        $c_pass_series = array();
+        foreach ($chart_pass_types as $pt => $arr) {
+            $c_pass_series[$pt] = array_values($arr);
+        }
+        $c_pass_json = wp_json_encode($c_pass_series);
+        ?>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+        <style>
+            .kc-charts-section { margin-top: 20px; }
+            .kc-charts-row     { display: grid; gap: 20px; margin-bottom: 20px; }
+            .kc-charts-row--2  { grid-template-columns: 1fr 1fr; }
+            .kc-charts-row--3  { grid-template-columns: 1fr 1fr 1fr; }
+            .kc-chart-card     { background: #fff; border-radius: 8px; padding: 22px 24px; box-shadow: 0 1px 4px rgba(0,0,0,.07); }
+            .kc-chart-title    { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; color: var(--kc-deep-red); margin-bottom: 4px; }
+            .kc-chart-sub      { font-size: 11px; color: #94a3b8; margin-bottom: 16px; }
+            .kc-chart-canvas   { width: 100% !important; }
+        </style>
+
+        <div class="kc-charts-section">
+
+            <!-- Row 1: 2x2 — Bookings bar charts top, Quote bar charts bottom -->
+            <div class="kc-charts-row kc-charts-row--2">
+                <div class="kc-chart-card">
+                    <div class="kc-chart-title">Space Bookings per Month</div>
+                    <div class="kc-chart-sub">Total space booking requests — last 12 months</div>
+                    <canvas id="kc-chart-bk-monthly" class="kc-chart-canvas" height="220"></canvas>
+                </div>
+                <div class="kc-chart-card">
+                    <div class="kc-chart-title">Bookings Revenue Collected per Month</div>
+                    <div class="kc-chart-sub">Cash received from Active &amp; Completed bookings — last 12 months</div>
+                    <canvas id="kc-chart-rev-monthly" class="kc-chart-canvas" height="220"></canvas>
+                </div>
+                <div class="kc-chart-card">
+                    <div class="kc-chart-title">Quote Requests per Month</div>
+                    <div class="kc-chart-sub">Team Builder enquiries submitted — last 12 months</div>
+                    <canvas id="kc-chart-qt-monthly" class="kc-chart-canvas" height="220"></canvas>
+                </div>
+                <div class="kc-chart-card">
+                    <div class="kc-chart-title">Quote Est. Revenue per Month</div>
+                    <div class="kc-chart-sub">Est. recurring revenue from Closed quotes — last 12 months</div>
+                    <canvas id="kc-chart-qt-rev-monthly" class="kc-chart-canvas" height="220"></canvas>
                 </div>
             </div>
 
-            <!-- Revenue Breakdown by Space -->
-            <div class="kc-kpi-card kc-kpi-full">
-                <div class="kc-card-title kc-card-title--spaces">Bookings Revenue Breakdown by Space</div>
-                <?php if (empty($revenue_by_space)): ?>
-                    <p style="color:#64748b;font-style:italic;">No completed bookings yet to display revenue breakdown.</p>
-                <?php else:
-                    $max_rev = max($revenue_by_space);
-                    foreach ($revenue_by_space as $space => $rev):
-                        $pct = $max_rev > 0 ? ($rev / $max_rev) * 100 : 0;
-                        $share = $total_bookings_revenue > 0 ? round(($rev / $total_bookings_revenue) * 100, 1) : 0;
-                    ?>
-                    <div class="kc-space-row">
-                        <div class="kc-space-name" title="<?php echo esc_attr($space); ?>"><?php echo esc_html($space); ?></div>
-                        <div class="kc-space-bar"><div class="kc-space-bar-fill" style="width:<?php echo esc_attr($pct); ?>%;"></div></div>
-                        <div class="kc-space-val">Php <?php echo number_format($rev); ?> <span style="color:#94a3b8;font-size:11px;">(<?php echo esc_html($share); ?>%)</span></div>
-                    </div>
-                    <?php endforeach; endif; ?>
+            <!-- Row 2: Stacked bar — pass type per month -->
+            <div class="kc-charts-row" style="grid-template-columns:1fr;">
+                <div class="kc-chart-card">
+                    <div class="kc-chart-title">Bookings by Pass Type per Month</div>
+                    <div class="kc-chart-sub">Day / Weekly / Monthly / Annual split — last 12 months</div>
+                    <canvas id="kc-chart-pass-monthly" class="kc-chart-canvas" height="160"></canvas>
+                </div>
             </div>
 
-        </div><!-- /.kc-kpi-grid -->
+            <!-- Row 3: Four donuts -->
+            <div class="kc-charts-row kc-charts-row--2" style="grid-template-columns:repeat(4,1fr);">
+                <div class="kc-chart-card">
+                    <div class="kc-chart-title">Bookings by Space</div>
+                    <div class="kc-chart-sub">All-time requests per space</div>
+                    <canvas id="kc-chart-donut-space" class="kc-chart-canvas" height="220"></canvas>
+                </div>
+                <div class="kc-chart-card">
+                    <div class="kc-chart-title">Bookings by Pass Type</div>
+                    <div class="kc-chart-sub">All-time pass type breakdown</div>
+                    <canvas id="kc-chart-donut-pass" class="kc-chart-canvas" height="220"></canvas>
+                </div>
+                <div class="kc-chart-card">
+                    <div class="kc-chart-title">Booking Pipeline</div>
+                    <div class="kc-chart-sub">All-time booking status split</div>
+                    <canvas id="kc-chart-donut-status" class="kc-chart-canvas" height="220"></canvas>
+                </div>
+                <div class="kc-chart-card">
+                    <div class="kc-chart-title">Quote Pipeline</div>
+                    <div class="kc-chart-sub">All-time quote lead status split</div>
+                    <canvas id="kc-chart-donut-qt-status" class="kc-chart-canvas" height="220"></canvas>
+                </div>
+            </div>
+
+        </div><!-- /.kc-charts-section -->
+
+        <script>
+        (function() {
+            var MONTHS      = <?php echo $c_months; ?>;
+            var BK_CNT      = <?php echo $c_bk_counts; ?>;
+            var BK_REV      = <?php echo $c_bk_revenue; ?>;
+            var PASS_SER    = <?php echo $c_pass_json; ?>;
+            var QT_CNT      = <?php echo wp_json_encode(array_values($chart_qt_counts)); ?>;
+            var QT_REV      = <?php echo wp_json_encode(array_values($chart_qt_revenue)); ?>;
+
+            var TERRACOTTA = '#BD451F';
+            var DEEP_RED   = '#AC201A';
+            var GOLD       = '#FBCB77';
+            var TEAL       = '#0369a1';
+            var TEAL_DARK  = '#075985';
+
+            var DONUT_SPACE_LABELS     = <?php echo wp_json_encode($donut_space_labels); ?>;
+            var DONUT_SPACE_COUNTS     = <?php echo wp_json_encode($donut_space_counts); ?>;
+            var DONUT_PASS_LABELS      = <?php echo wp_json_encode($donut_pass_labels); ?>;
+            var DONUT_PASS_COUNTS      = <?php echo wp_json_encode($donut_pass_counts); ?>;
+            var DONUT_STATUS_LABELS    = <?php echo wp_json_encode($donut_status_labels); ?>;
+            var DONUT_STATUS_COUNTS    = <?php echo wp_json_encode($donut_status_counts); ?>;
+            var DONUT_QT_STATUS_LABELS = <?php echo wp_json_encode($donut_qt_status_labels); ?>;
+            var DONUT_QT_STATUS_COUNTS = <?php echo wp_json_encode($donut_qt_status_counts); ?>;
+
+            var PALETTE    = ['#BD451F','#AC201A','#FBCB77','#FFBFBF','#94a3b8','#475569','#1e40af','#166534'];
+            var QT_PALETTE = ['#0369a1','#075985','#bae6fd','#94a3b8'];
+
+            var baseOpts = {
+                responsive: true,
+                plugins: { legend: { display: false }, tooltip: { callbacks: {} } },
+                scales: {
+                    x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#94a3b8' } },
+                    y: { grid: { color: '#f1f5f9' }, ticks: { font: { size: 10 }, color: '#94a3b8' }, beginAtZero: true }
+                }
+            };
+
+            function phpTooltip(ctx) {
+                return ' Php ' + ctx.raw.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+            }
+            function phpAxisTick(v) { return 'Php ' + v.toLocaleString(); }
+
+            // 1. Space Bookings per month
+            new Chart(document.getElementById('kc-chart-bk-monthly'), {
+                type: 'bar',
+                data: { labels: MONTHS, datasets: [{ label: 'Bookings', data: BK_CNT, backgroundColor: TERRACOTTA, borderRadius: 4, borderSkipped: false }] },
+                options: Object.assign({}, baseOpts)
+            });
+
+            // 2. Bookings Revenue per month
+            new Chart(document.getElementById('kc-chart-rev-monthly'), {
+                type: 'bar',
+                data: { labels: MONTHS, datasets: [{ label: 'Revenue (Php)', data: BK_REV, backgroundColor: DEEP_RED, borderRadius: 4, borderSkipped: false }] },
+                options: Object.assign({}, baseOpts, {
+                    plugins: { legend: { display: false }, tooltip: { callbacks: { label: phpTooltip } } },
+                    scales: { x: baseOpts.scales.x, y: Object.assign({}, baseOpts.scales.y, { ticks: { font:{size:10}, color:'#94a3b8', callback: phpAxisTick } }) }
+                })
+            });
+
+            // 3. Quote Requests per month
+            new Chart(document.getElementById('kc-chart-qt-monthly'), {
+                type: 'bar',
+                data: { labels: MONTHS, datasets: [{ label: 'Quote Requests', data: QT_CNT, backgroundColor: TEAL, borderRadius: 4, borderSkipped: false }] },
+                options: Object.assign({}, baseOpts)
+            });
+
+            // 4. Quote Est. Revenue per month
+            new Chart(document.getElementById('kc-chart-qt-rev-monthly'), {
+                type: 'bar',
+                data: { labels: MONTHS, datasets: [{ label: 'Est. Revenue (Php)', data: QT_REV, backgroundColor: TEAL_DARK, borderRadius: 4, borderSkipped: false }] },
+                options: Object.assign({}, baseOpts, {
+                    plugins: { legend: { display: false }, tooltip: { callbacks: { label: phpTooltip } } },
+                    scales: { x: baseOpts.scales.x, y: Object.assign({}, baseOpts.scales.y, { ticks: { font:{size:10}, color:'#94a3b8', callback: phpAxisTick } }) }
+                })
+            });
+
+            // 5. Pass type stacked bar per month
+            var passColors = { 'Day Pass': '#BD451F', 'Weekly Pass': '#FBCB77', 'Monthly Pass': '#AC201A', 'Annual Pass': '#475569' };
+            var passDatasets = Object.keys(PASS_SER).map(function(pt) {
+                return { label: pt, data: PASS_SER[pt], backgroundColor: passColors[pt] || '#94a3b8', borderRadius: 3, borderSkipped: false };
+            });
+            new Chart(document.getElementById('kc-chart-pass-monthly'), {
+                type: 'bar',
+                data: { labels: MONTHS, datasets: passDatasets },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: true, position: 'bottom', labels: { font: { size: 11 }, padding: 16 } } },
+                    scales: {
+                        x: { stacked: true, grid: { display: false }, ticks: { font: { size: 10 }, color: '#94a3b8' } },
+                        y: { stacked: true, grid: { color: '#f1f5f9' }, beginAtZero: true, ticks: { font: { size: 10 }, color: '#94a3b8' } }
+                    }
+                }
+            });
+
+            // Helper: donut chart
+            function makeDonut(canvasId, labels, data, palette) {
+                if (!labels.length) {
+                    var el = document.getElementById(canvasId);
+                    if (el) {
+                        el.parentNode.insertAdjacentHTML('beforeend',
+                            '<p style="text-align:center;color:#94a3b8;font-size:12px;font-style:italic;margin:32px 0;">No data yet.</p>');
+                        el.style.display = 'none';
+                    }
+                    return;
+                }
+                var colors = labels.map(function(l, i) { return palette[i % palette.length]; });
+                new Chart(document.getElementById(canvasId), {
+                    type: 'doughnut',
+                    data: { labels: labels, datasets: [{ data: data, backgroundColor: colors, borderWidth: 2, borderColor: '#fff', hoverOffset: 6 }] },
+                    options: {
+                        responsive: true,
+                        cutout: '62%',
+                        plugins: {
+                            legend: { display: true, position: 'bottom', labels: { font: { size: 11 }, padding: 14 } },
+                            tooltip: { callbacks: {
+                                label: function(ctx) {
+                                    var total = ctx.dataset.data.reduce(function(a,b){return a+b;},0);
+                                    var pct = total > 0 ? Math.round(ctx.raw / total * 100) : 0;
+                                    return ' ' + ctx.label + ': ' + ctx.raw + ' (' + pct + '%)';
+                                }
+                            }}
+                        }
+                    }
+                });
+            }
+
+            // 6–9. Donuts
+            makeDonut('kc-chart-donut-space',     DONUT_SPACE_LABELS,     DONUT_SPACE_COUNTS,     PALETTE);
+            makeDonut('kc-chart-donut-pass',      DONUT_PASS_LABELS,      DONUT_PASS_COUNTS,      PALETTE);
+            makeDonut('kc-chart-donut-status',    DONUT_STATUS_LABELS,    DONUT_STATUS_COUNTS,    PALETTE);
+            makeDonut('kc-chart-donut-qt-status', DONUT_QT_STATUS_LABELS, DONUT_QT_STATUS_COUNTS, QT_PALETTE);
+
+        })();
+        </script>
+
         </div><!-- /#kc-tab-overview -->
 
         <!-- =============================================
@@ -867,6 +1472,7 @@ function kc_render_kpi_dashboard() {
                             <option value="">All Statuses</option>
                             <option value="Pending">Pending</option>
                             <option value="Contacted">Contacted</option>
+                            <option value="Active">Active</option>
                             <option value="Completed">Completed</option>
                             <option value="Rejected">Rejected</option>
                             <option value="Cancelled">Cancelled</option>
@@ -892,7 +1498,8 @@ function kc_render_kpi_dashboard() {
                     var BADGE = {
                         Pending:   'background:#fef9c3;color:#854d0e',
                         Contacted: 'background:#dbeafe;color:#1e40af',
-                        Completed: 'background:#dcfce7;color:#166534',
+                        Active:    'background:#dcfce7;color:#166534',
+                        Completed: 'background:#d1fae5;color:#064e3b',
                         Rejected:  'background:#fee2e2;color:#991b1b',
                         Cancelled: 'background:#f1f5f9;color:#475569'
                     };

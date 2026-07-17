@@ -199,6 +199,15 @@ function kc_register_space_acf_fields() {
                 'ui'            => 1,
                 'instructions'  => 'You can also toggle this from Space Add → Capacity in the sidebar.',
             ],
+            [
+                'key'           => 'field_kc_space_has_membership',
+                'name'          => 'kc_space_has_membership',
+                'label'         => 'Supports Membership (Monthly / Annual Pass)',
+                'type'          => 'true_false',
+                'default_value' => 0,
+                'ui'            => 1,
+                'instructions'  => 'Enable this if this space offers a Monthly or Annual Pass. When enabled, completing or activating a booking will create a membership record with an expiry date, and a 7-day renewal reminder email will be sent to the client before it expires.',
+            ],
         ],
     ]);
 }

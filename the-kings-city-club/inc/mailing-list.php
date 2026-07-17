@@ -965,4 +965,96 @@ function kc_ajax_force_birthday_promos() {
     wp_send_json_success(array('message' => 'Birthday promo run complete. Check your inbox and Newsletters → Promo Codes for the generated code.'));
 }
 
+// --- 10. CRON: Membership / Pass Expiry Reminders (7 days before) ---
+if (!wp_next_scheduled('kc_daily_expiry_reminder')) {
+    wp_schedule_event(strtotime('09:00:00'), 'daily', 'kc_daily_expiry_reminder');
+}
+add_action('kc_daily_expiry_reminder', 'kc_process_expiry_reminders');
+
+function kc_process_expiry_reminders() {
+    $target_date = date('Y-m-d', strtotime('+7 days'));
+
+    // Find all bookings whose membership expiry is exactly 7 days from today
+    // and whose membership status is Active (not already expired or N/A)
+    $args = [
+        'post_type'      => 'kc_booking',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+        'meta_query'     => [
+            'relation' => 'AND',
+            [
+                'key'     => 'kc_membership_expiry',
+                'value'   => $target_date,
+                'compare' => '=',
+            ],
+            [
+                'key'     => 'kc_membership_status',
+                'value'   => 'Active',
+                'compare' => '=',
+            ],
+            [
+                'key'     => 'kc_expiry_reminder_sent',
+                'compare' => 'NOT EXISTS',
+            ],
+        ],
+    ];
+    $bookings = get_posts($args);
+    if (empty($bookings)) return;
+
+    $from_name  = get_option('blogname');
+    $from_email = get_option('kc_email_from', get_option('admin_email'));
+    $headers    = [
+        'Content-Type: text/html; charset=UTF-8',
+        'From: ' . $from_name . ' <' . $from_email . '>',
+    ];
+
+    foreach ($bookings as $booking) {
+        $post_id = $booking->ID;
+
+        $client_email = get_post_meta($post_id, 'kc_email', true);
+        if (empty($client_email)) continue;
+
+        $fname      = get_post_meta($post_id, 'kc_first_name',       true) ?: '';
+        $lname      = get_post_meta($post_id, 'kc_last_name',        true) ?: '';
+        $space      = get_post_meta($post_id, 'kc_space_type',       true) ?: '';
+        $duration   = get_post_meta($post_id, 'kc_duration',         true) ?: '';
+        $expiry     = get_post_meta($post_id, 'kc_membership_expiry', true);
+
+        $expiry_date = $expiry ? date_i18n('F j, Y', strtotime($expiry)) : '';
+
+        $tokens = [
+            '{fname}'       => $fname,
+            '{lname}'       => $lname,
+            '{space}'       => $space,
+            '{duration}'    => $duration,
+            '{expiry_date}' => $expiry_date,
+            '{site_url}'    => site_url(),
+        ];
+
+        $subject = strtr(
+            get_option('kc_space_pass_expiry_reminder_subject', 'Your {space} Pass is Expiring on {expiry_date} — Kings City Club'),
+            $tokens
+        );
+
+        ob_start();
+        include get_template_directory() . '/emails/email-membership-expiry-reminder.php';
+        $html = ob_get_clean();
+
+        wp_mail($client_email, $subject, $html, $headers);
+
+        // Flag so we don't send a duplicate reminder for this booking
+        update_post_meta($post_id, 'kc_expiry_reminder_sent', date('Y-m-d'));
+    }
+}
+
+// --- 11. AJAX: Force-run expiry reminders now (admin test trigger) ---
+add_action('wp_ajax_kc_force_expiry_reminders', 'kc_ajax_force_expiry_reminders');
+function kc_ajax_force_expiry_reminders() {
+    check_ajax_referer('kc_force_expiry_reminders', 'nonce');
+    if (!current_user_can('manage_options')) wp_send_json_error('Unauthorized.');
+
+    kc_process_expiry_reminders();
+    wp_send_json_success(['message' => 'Expiry reminder run complete. Any memberships expiring in 7 days have been notified.']);
+}
+
 

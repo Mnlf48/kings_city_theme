@@ -3451,6 +3451,39 @@ button[type="submit"]:active,
   margin-top: var(--space-lg);
 }
 
+.spaces-book-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: var(--space-md);
+}
+
+.spaces-qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  line-height: 1;
+}
+
+.spaces-qr__img {
+  display: block;
+  width: 80px;
+  height: 80px;
+  border: 2px solid rgba(189, 69, 31, 0.2);
+  border-radius: 6px;
+  padding: 4px;
+  background: #fff;
+}
+
+.spaces-qr__label {
+  font-size: 9px;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
 
 /* spaces page — responsive breakpoints */
 

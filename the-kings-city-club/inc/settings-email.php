@@ -25,10 +25,11 @@ function kc_email_templates_page() {
     );
 
     $booking_tabs = array(
-        'booking_confirmed'        => 'Booking Confirmed Email (Client)',
-        'booking_rejected'         => 'Booking Rejected Email (Client)',
-        'booking_invoice'          => 'Invoice Email (Auto — on Active)',
-        'booking_payment_receipt'  => 'Payment Receipt Email (Auto — on Payment)',
+        'booking_confirmed'          => 'Booking Confirmed Email (Client)',
+        'booking_rejected'           => 'Booking Rejected Email (Client)',
+        'booking_invoice'            => 'Invoice Email (Auto — on Active)',
+        'booking_payment_receipt'    => 'Payment Receipt Email (Auto — on Payment)',
+        'space_pass_expiry_reminder' => 'Space Pass Expiry Reminder (Auto — 7 days)',
     );
 
     $mailing_list_tabs = array(
@@ -97,12 +98,12 @@ function kc_email_templates_page() {
         $def_btn_text = 'View Newsletter';
         $def_btn_url = '{packet_url}';
     } elseif ($active_tab === 'booking_rejected') {
-        $def_subject = 'Update regarding your Kings City Booking';
-        $def_heading = 'Booking Update';
-        $def_body = "Hi {fname},\n\nUnfortunately, we are unable to accommodate your booking request for the {space} on {date}.\n\n<strong>Reason:</strong>\n{admin_note}\n\nIf you have any questions, please reply to this email.\n\nThank you,\nThe Kings City Team";
-        $def_banner = 'We apologize for the inconvenience and hope to host you in the future.';
-        $def_btn_text = '';
-        $def_btn_url = '';
+        $def_subject  = 'Update on Your Booking Request — Kings City Club';
+        $def_heading  = 'Booking Request Update';
+        $def_body     = "Hi {fname},\n\nThank you for your interest in booking the <strong>{space}</strong> at Kings City Club.\n\nAfter reviewing your request, we regret to inform you that we are unable to accommodate your booking at this time. This may be due to availability, scheduling constraints, or other operational considerations.\n\nWe sincerely apologize for the inconvenience. We would love to host you in the future — please feel free to submit a new booking request for a different date or space, and our team will do their best to assist you.\n\nIf you have any questions, don't hesitate to reach out by replying to this email.";
+        $def_banner   = 'We apologize for the inconvenience and hope to welcome you at Kings City Club soon.';
+        $def_btn_text = 'Book Again';
+        $def_btn_url  = '{site_url}';
     } elseif ($active_tab === 'newsletter_broadcast') {
         $def_subject = 'News & Updates from The Kings City Club';
         $def_heading = 'Stay in the Loop';
@@ -123,6 +124,27 @@ function kc_email_templates_page() {
         $def_body     = "Hi {first_name},\n\nWe have an exclusive offer we'd love to share with you.\n\nUse code {promo_code} at checkout to enjoy your discount. This offer is valid for a limited time only — don't miss out!\n\nSee you soon at Kings City.";
         $def_banner   = 'Use your exclusive promo code at checkout to redeem your discount.';
         $def_btn_text = 'Book Now';
+        $def_btn_url  = '{site_url}';
+    } elseif ($active_tab === 'booking_invoice') {
+        $def_subject  = 'Your Invoice from Kings City Club — {inv_number}';
+        $def_heading  = 'Invoice — {inv_number}';
+        $def_body     = "Hi {fname},\n\nThank you for choosing Kings City Club! Please find your invoice details below for your upcoming booking.\n\nYour invoice number is <strong>{inv_number}</strong>. Payment can be settled at our front desk in cash or via GCash. You may pay in full or in installments — just quote your invoice number when making a payment.\n\nIf you have any questions about your invoice, please don't hesitate to reply to this email.";
+        $def_banner   = 'Please settle your balance at the front desk — cash or GCash accepted.';
+        $def_btn_text = 'Visit Kings City';
+        $def_btn_url  = '{site_url}';
+    } elseif ($active_tab === 'booking_payment_receipt') {
+        $def_subject  = 'Payment Received — Remaining Balance {balance} | Kings City Club';
+        $def_heading  = 'Payment Received';
+        $def_body     = "Hi {fname},\n\nWe have received your payment for your booking at <strong>{space}</strong>. Your updated payment summary is shown below.\n\nYour remaining balance can be settled at our front desk at your convenience. Please quote your invoice number <strong>{inv_number}</strong> when making future payments.\n\nThank you for being a valued member of Kings City Club!";
+        $def_banner   = 'Thank you for your payment. Your updated balance is reflected below.';
+        $def_btn_text = 'Visit Kings City';
+        $def_btn_url  = '{site_url}';
+    } elseif ($active_tab === 'space_pass_expiry_reminder') {
+        $def_subject  = 'Your {space} Pass is Expiring on {expiry_date} — Kings City Club';
+        $def_heading  = 'Your Pass is Expiring in 7 Days';
+        $def_body     = "Hi {fname},\n\nThis is a friendly reminder that your <strong>{duration}</strong> at <strong>{space}</strong> is expiring on <strong>{expiry_date}</strong>.\n\nTo continue enjoying uninterrupted access to your space, please visit our front desk before the expiry date to renew your pass. Our team will be happy to assist you.\n\nWe truly appreciate your continued support and look forward to keeping you as part of the Kings City Club community!";
+        $def_banner   = 'Visit our front desk before your expiry date to continue your pass without interruption.';
+        $def_btn_text = 'Contact Us';
         $def_btn_url  = '{site_url}';
     }
 
@@ -182,39 +204,22 @@ function kc_email_templates_page() {
 
             <!-- Content Area -->
             <div class="kc-email-content">
-                <h2><?php echo in_array($active_tab, ['booking_invoice', 'booking_payment_receipt']) ? 'Email Info: ' : 'Edit Template: '; ?><?php echo esc_html($tabs[$active_tab]); ?></h2>
+                <h2>Edit Template: <?php echo esc_html($tabs[$active_tab]); ?></h2>
 
                 <?php if ($active_tab === 'booking_invoice'): ?>
-                <div style="background:#f0fdf4; border:1px solid #86efac; border-left:4px solid #22c55e; padding:16px 20px; border-radius:4px; margin-bottom:20px;">
-                    <strong style="color:#065f46;">Automatic — no editing needed.</strong>
-                    <p style="margin:8px 0 0; color:#064e3b; font-size:13px; line-height:1.6;">
-                        This email is sent automatically when a booking's status is changed to <strong>Active</strong>. It contains the client's invoice with a breakdown of their space, pass type, start date, original price, any discount applied, and the total amount due.<br><br>
-                        An invoice number (<code>KC-INV-YYYY-XXXX</code>) is generated and attached to the booking at that point. The client is instructed to pay at the front desk — cash or GCash — using their invoice number as reference.
-                    </p>
+                <div style="background:#f0fdf4; border:1px solid #86efac; border-left:4px solid #22c55e; padding:12px 16px; border-radius:4px; margin-bottom:20px; font-size:13px; color:#064e3b;">
+                    <strong>Auto trigger:</strong> Sent when booking status changes to <strong>Active</strong>. Supported tokens: <code>{fname}</code>, <code>{lname}</code>, <code>{space}</code>, <code>{duration}</code>, <code>{date}</code>, <code>{inv_number}</code>, <code>{site_url}</code>. Only Subject and Heading are used — the email body is built from the invoice template file.
                 </div>
-                <table class="form-table"><tbody>
-                    <tr><th>Trigger</th><td>Booking status changes to <strong>Active</strong></td></tr>
-                    <tr><th>Recipient</th><td>The client's email on the booking</td></tr>
-                    <tr><th>Content</th><td>Space, pass type, start date, participants, base price, discount (if promo code used), <strong>total amount due</strong>, payment instructions</td></tr>
-                    <tr><th>Invoice Number</th><td>Auto-generated once per booking — stored permanently and shown in Payment Tracker sidebar</td></tr>
-                    <tr><th>Template File</th><td><code>emails/email-invoice.php</code></td></tr>
-                </tbody></table>
-
                 <?php elseif ($active_tab === 'booking_payment_receipt'): ?>
-                <div style="background:#f0fdf4; border:1px solid #86efac; border-left:4px solid #22c55e; padding:16px 20px; border-radius:4px; margin-bottom:20px;">
-                    <strong style="color:#065f46;">Automatic — fires on each logged payment.</strong>
-                    <p style="margin:8px 0 0; color:#064e3b; font-size:13px; line-height:1.6;">
-                        This email is sent every time you add a payment in the <strong>Payment Tracker</strong> sidebar of a booking, provided the "Send payment receipt email" checkbox is ticked. It shows the client exactly how much they just paid, their running total, and their remaining balance. If the balance reaches zero it sends a "Fully Paid" confirmation instead.
-                    </p>
+                <div style="background:#f0fdf4; border:1px solid #86efac; border-left:4px solid #22c55e; padding:12px 16px; border-radius:4px; margin-bottom:20px; font-size:13px; color:#064e3b;">
+                    <strong>Auto trigger:</strong> Sent when a payment is logged in the Payment Tracker. The Subject field here is used for <strong>partial payments</strong>. Supported tokens: <code>{fname}</code>, <code>{space}</code>, <code>{duration}</code>, <code>{inv_number}</code>, <code>{amount}</code>, <code>{balance}</code>, <code>{site_url}</code>. Email body is built from the receipt template file.
                 </div>
-                <table class="form-table"><tbody>
-                    <tr><th>Trigger</th><td>Admin logs a payment in the Payment Tracker (checkbox must be ticked)</td></tr>
-                    <tr><th>Recipient</th><td>The client's email on the booking</td></tr>
-                    <tr><th>Content</th><td>Amount just paid, payment note/ref, total paid so far, <strong>remaining balance</strong> — or "Fully Paid" confirmation if balance is zero</td></tr>
-                    <tr><th>Template File</th><td><code>emails/email-payment-receipt.php</code></td></tr>
-                </tbody></table>
+                <?php elseif ($active_tab === 'space_pass_expiry_reminder'): ?>
+                <div style="background:#f0fdf4; border:1px solid #86efac; border-left:4px solid #22c55e; padding:12px 16px; border-radius:4px; margin-bottom:20px; font-size:13px; color:#064e3b;">
+                    <strong>Auto trigger:</strong> Sent 7 days before a monthly/annual space pass expires. Supported tokens: <code>{fname}</code>, <code>{lname}</code>, <code>{space}</code>, <code>{duration}</code>, <code>{expiry_date}</code>, <code>{site_url}</code>. Email body is built from the expiry reminder template file.
+                </div>
+                <?php endif; ?>
 
-                <?php else: ?>
                 <form method="POST" action="">
                     <?php wp_nonce_field('kc_save_email_templates', 'kc_email_templates_nonce'); ?>
                     
@@ -245,7 +250,7 @@ function kc_email_templates_page() {
                                     ?>
                                     <?php 
                                     if ($active_tab === 'booking_rejected') {
-                                        echo '<br><span style="font-size: 12px;">Supported tokens: <code>{fname}</code>, <code>{space}</code>, <code>{date}</code>, <code>{duration}</code>, <code>{price}</code>, <code>{arrival}</code>, <code>{participants}</code>, <code>{admin_note}</code></span>';
+                                        echo '<br><span style="font-size: 12px;">Supported tokens: <code>{fname}</code>, <code>{space}</code>, <code>{date}</code>, <code>{duration}</code>, <code>{price}</code>, <code>{arrival}</code>, <code>{participants}</code></span>';
                                     } elseif ($active_tab === 'booking_confirmed') {
                                         echo '<br><span style="font-size: 12px;">Supported tokens: <code>{fname}</code>, <code>{space}</code>, <code>{date}</code>, <code>{duration}</code>, <code>{price}</code>, <code>{arrival}</code>, <code>{participants}</code></span>';
                                     } elseif ($active_tab === 'newsletter_broadcast') {
@@ -318,7 +323,6 @@ function kc_email_templates_page() {
 
                     <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Save Template Settings"></p>
                 </form>
-                <?php endif; // end else (non-auto tabs) ?>
 
                 <?php if ($active_tab === 'birthday_promo') : ?>
                 <hr style="margin:30px 0; border:0; border-top:1px solid rgba(189,69,31,0.15);">
