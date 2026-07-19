@@ -1,6 +1,10 @@
 <?php
 if (!defined('ABSPATH')) exit;
 
+function kc_can_manage_newsletters() {
+    return current_user_can('manage_options') || current_user_can('edit_kc_bookings');
+}
+
 // --- 1. Create DB table on theme activation ---
 function kc_create_mailing_list_table() {
     // Only run when the schema version changes — avoids dbDelta on every page load
@@ -207,7 +211,7 @@ function kc_ml_subscribe_post_handler() {
 add_action('wp_ajax_kc_ml_update_status', 'kc_ml_update_status');
 function kc_ml_update_status() {
     check_ajax_referer('kc_ml_admin_nonce', 'nonce');
-    if (!current_user_can('manage_options')) wp_send_json_error();
+    if (!kc_can_manage_newsletters()) wp_send_json_error();
 
     global $wpdb;
     $table  = $wpdb->prefix . 'kc_mailing_list';
@@ -226,7 +230,7 @@ function kc_ml_update_status() {
 add_action('wp_ajax_kc_ml_delete', 'kc_ml_delete');
 function kc_ml_delete() {
     check_ajax_referer('kc_ml_admin_nonce', 'nonce');
-    if (!current_user_can('manage_options')) wp_send_json_error();
+    if (!kc_can_manage_newsletters()) wp_send_json_error();
 
     global $wpdb;
     $table = $wpdb->prefix . 'kc_mailing_list';
@@ -240,7 +244,7 @@ function kc_ml_delete() {
 add_action('wp_ajax_kc_ml_activate_all_pending', 'kc_ml_activate_all_pending');
 function kc_ml_activate_all_pending() {
     check_ajax_referer('kc_ml_admin_nonce', 'nonce');
-    if (!current_user_can('manage_options')) wp_send_json_error();
+    if (!kc_can_manage_newsletters()) wp_send_json_error();
 
     global $wpdb;
     $table = $wpdb->prefix . 'kc_mailing_list';
@@ -252,7 +256,7 @@ function kc_ml_activate_all_pending() {
 add_action('wp_ajax_kc_ml_send_newsletter', 'kc_ml_send_newsletter');
 function kc_ml_send_newsletter() {
     check_ajax_referer('kc_ml_admin_nonce', 'nonce');
-    if (!current_user_can('manage_options')) wp_send_json_error(array('message' => 'Unauthorized.'));
+    if (!kc_can_manage_newsletters()) wp_send_json_error(array('message' => 'Unauthorized.'));
 
 
     global $wpdb;
@@ -339,7 +343,7 @@ function kc_ml_send_newsletter() {
 // --- 5b. AJAX: admin export CSV ---
 add_action('admin_post_kc_ml_export_csv', 'kc_ml_export_csv');
 function kc_ml_export_csv() {
-    if (!current_user_can('manage_options')) wp_die('Unauthorized');
+    if (!kc_can_manage_newsletters()) wp_die('Unauthorized');
     check_admin_referer('kc_ml_export_csv');
 
     global $wpdb;
@@ -367,7 +371,7 @@ function kc_ml_add_submenu() {
         'edit.php?post_type=kc_welcome_packet',
         'Mailing List',
         'Mailing List',
-        'manage_options',
+        'edit_kc_bookings',
         'kc-mailing-list',
         'kc_ml_render_page'
     );
@@ -959,7 +963,7 @@ function kc_process_birthday_promos() {
 add_action('wp_ajax_kc_force_birthday_promos', 'kc_ajax_force_birthday_promos');
 function kc_ajax_force_birthday_promos() {
     check_ajax_referer('kc_force_birthday_promos', 'nonce');
-    if (!current_user_can('manage_options')) wp_send_json_error('Unauthorized.');
+    if (!kc_can_manage_newsletters()) wp_send_json_error('Unauthorized.');
 
     kc_process_birthday_promos();
     wp_send_json_success(array('message' => 'Birthday promo run complete. Check your inbox and Newsletters → Promo Codes for the generated code.'));
@@ -1051,7 +1055,7 @@ function kc_process_expiry_reminders() {
 add_action('wp_ajax_kc_force_expiry_reminders', 'kc_ajax_force_expiry_reminders');
 function kc_ajax_force_expiry_reminders() {
     check_ajax_referer('kc_force_expiry_reminders', 'nonce');
-    if (!current_user_can('manage_options')) wp_send_json_error('Unauthorized.');
+    if (!kc_can_manage_newsletters()) wp_send_json_error('Unauthorized.');
 
     kc_process_expiry_reminders();
     wp_send_json_success(['message' => 'Expiry reminder run complete. Any memberships expiring in 7 days have been notified.']);

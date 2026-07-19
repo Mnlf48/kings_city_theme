@@ -432,6 +432,9 @@ add_action( 'wp_footer', 'kings_city_messenger_button' );
 // Include ACF Fields
 require_once get_template_directory() . '/inc/acf-fields.php';
 
+// User Roles
+require_once get_template_directory() . '/inc/user-roles.php';
+
 /* =========================================================================
    Auto-Bootstrap Theme Pages on Activation
    ========================================================================= */
@@ -619,7 +622,7 @@ function kc_run_membership_expiry() {
 add_action('wp_ajax_kc_update_inline_status', 'kc_ajax_update_inline_status');
 function kc_ajax_update_inline_status() {
     check_ajax_referer('kc_inline_status_nonce', 'nonce');
-    if (!current_user_can('edit_posts')) {
+    if (!current_user_can('edit_posts') && !current_user_can('edit_kc_bookings')) {
         wp_send_json_error('Unauthorized');
     }
 

@@ -395,7 +395,7 @@ foreach ($bk_active_spaces as $bk_sp) {
 <input class="form-control" name="book_phone" placeholder="+63 XXX XXX XXXX" required="" type="tel"/>
 </div>
 <div class="form-group">
-<label class="form-label">Date of Birth <span style="font-size:12px;color:var(--color-text-muted);">(For special promos)</span></label>
+<label class="form-label"><?php echo esc_html(get_field('bk_label_birthdate') ?: 'Date of Birth'); ?> <span style="font-size:12px;color:var(--color-text-muted);">(<?php echo esc_html(get_field('bk_label_birthdate_hint') ?: 'For special promos'); ?>)</span></label>
 <input class="form-control" name="book_birthdate" type="date" required=""/>
 </div>
 </div>
@@ -437,10 +437,10 @@ foreach ($bk_active_spaces as $bk_sp) {
 </div>
 </div>
 <div class="form-group">
-<label class="form-label">Promo Code <span style="font-size:12px;color:var(--color-text-muted);">(Optional)</span></label>
+<label class="form-label"><?php echo esc_html(get_field('bk_label_promo') ?: 'Promo Code'); ?> <span style="font-size:12px;color:var(--color-text-muted);">(<?php echo esc_html(get_field('bk_label_promo_hint') ?: 'Optional'); ?>)</span></label>
 <div style="display: flex; gap: 10px;">
     <input class="form-control" name="kc_promo_code_input" id="kc_promo_code_input" placeholder="e.g. SUMMER10" type="text" style="text-transform: uppercase;"/>
-    <button type="button" id="kc_apply_promo_btn" style="flex-shrink:0; padding: 0 18px; font-weight: bold; font-family: var(--font-heading); border: 2px solid var(--color-primary); color: var(--color-primary); background: transparent; border-radius: var(--radius-sm); cursor: pointer; white-space: nowrap; transition: all 0.2s;">Apply</button>
+    <button type="button" id="kc_apply_promo_btn" style="flex-shrink:0; padding: 0 18px; font-weight: bold; font-family: var(--font-heading); border: 2px solid var(--color-primary); color: var(--color-primary); background: transparent; border-radius: var(--radius-sm); cursor: pointer; white-space: nowrap; transition: all 0.2s;"><?php echo esc_html(get_field('bk_btn_apply_promo') ?: 'Apply'); ?></button>
 </div>
 <div id="kc_promo_msg" style="font-size: 13px; margin-top: 5px; font-weight: 500;"></div>
 <input type="hidden" name="kc_promo_code" id="kc_promo_code_hidden" value="" />

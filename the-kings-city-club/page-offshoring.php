@@ -423,47 +423,38 @@ $apply_url = kc_get_page_url( 'page-apply.php', '/apply/' );
 <h2><?php echo esc_html(get_field('h2_40')); ?></h2>
 <p class="text-lead mx-auto" style="margin-top: var(--space-sm); max-width: 700px;"><?php echo esc_html(get_field('p_41')); ?></p>
 </div>
+<?php
+$comp_col_1 = esc_html(get_field('comp_col_1')) ?: 'ROLE';
+$comp_col_2 = esc_html(get_field('comp_col_2')) ?: 'ONSHORE (ANNUAL)';
+$comp_col_3 = esc_html(get_field('comp_col_3')) ?: 'PHILIPPINES WITH KINGS CITY';
+$comp_col_4 = esc_html(get_field('comp_col_4')) ?: 'YOU SAVE';
+$comp_rows = array(
+    array( esc_html(get_field('comp_row_1_role')) ?: 'Accountant',        esc_html(get_field('comp_row_1_onshore')) ?: 'AUD 85,000',  esc_html(get_field('comp_row_1_kc')) ?: 'AUD 25,000', esc_html(get_field('comp_row_1_save')) ?: '~70%' ),
+    array( esc_html(get_field('comp_row_2_role')) ?: 'Virtual Assistant', esc_html(get_field('comp_row_2_onshore')) ?: 'AUD 65,000',  esc_html(get_field('comp_row_2_kc')) ?: 'AUD 18,000', esc_html(get_field('comp_row_2_save')) ?: '~72%' ),
+    array( esc_html(get_field('comp_row_3_role')) ?: 'Web Developer',     esc_html(get_field('comp_row_3_onshore')) ?: 'AUD 105,000', esc_html(get_field('comp_row_3_kc')) ?: 'AUD 32,000', esc_html(get_field('comp_row_3_save')) ?: '~70%' ),
+    array( esc_html(get_field('comp_row_4_role')) ?: 'Customer Service Rep', esc_html(get_field('comp_row_4_onshore')) ?: 'AUD 60,000', esc_html(get_field('comp_row_4_kc')) ?: 'AUD 16,000', esc_html(get_field('comp_row_4_save')) ?: '~73%' ),
+    array( esc_html(get_field('comp_row_5_role')) ?: 'Graphic Designer',  esc_html(get_field('comp_row_5_onshore')) ?: 'AUD 75,000',  esc_html(get_field('comp_row_5_kc')) ?: 'AUD 22,000', esc_html(get_field('comp_row_5_save')) ?: '~71%' ),
+);
+?>
 <div class="compare-table-wrapper card-glass">
 <table class="compare-table">
 <thead>
 <tr>
-<th class="head-dark">Role</th>
-<th class="head-dark">Onshore (Annual)</th>
-<th class="head-accent">Philippines with Kings City</th>
-<th class="head-accent">You Save</th>
+<th class="head-dark"><?php echo $comp_col_1; ?></th>
+<th class="head-dark"><?php echo $comp_col_2; ?></th>
+<th class="head-accent"><?php echo $comp_col_3; ?></th>
+<th class="head-accent"><?php echo $comp_col_4; ?></th>
 </tr>
 </thead>
 <tbody>
+<?php foreach ( $comp_rows as $row ) : ?>
 <tr>
-<td data-label="Role">Accountant</td>
-<td data-label="Onshore (Annual)">AUD 85,000</td>
-<td class="col-highlight" data-label="Philippines with Kings City">AUD 25,000</td>
-<td class="col-highlight" data-label="You Save"><span class="save-badge">~70%</span></td>
+<td data-label="<?php echo $comp_col_1; ?>"><?php echo $row[0]; ?></td>
+<td data-label="<?php echo $comp_col_2; ?>"><?php echo $row[1]; ?></td>
+<td class="col-highlight" data-label="<?php echo $comp_col_3; ?>"><?php echo $row[2]; ?></td>
+<td class="col-highlight" data-label="<?php echo $comp_col_4; ?>"><span class="save-badge"><?php echo $row[3]; ?></span></td>
 </tr>
-<tr>
-<td data-label="Role">Virtual Assistant</td>
-<td data-label="Onshore (Annual)">AUD 65,000</td>
-<td class="col-highlight" data-label="Philippines with Kings City">AUD 18,000</td>
-<td class="col-highlight" data-label="You Save"><span class="save-badge">~72%</span></td>
-</tr>
-<tr>
-<td data-label="Role">Web Developer</td>
-<td data-label="Onshore (Annual)">AUD 105,000</td>
-<td class="col-highlight" data-label="Philippines with Kings City">AUD 32,000</td>
-<td class="col-highlight" data-label="You Save"><span class="save-badge">~70%</span></td>
-</tr>
-<tr>
-<td data-label="Role">Customer Service Rep</td>
-<td data-label="Onshore (Annual)">AUD 60,000</td>
-<td class="col-highlight" data-label="Philippines with Kings City">AUD 16,000</td>
-<td class="col-highlight" data-label="You Save"><span class="save-badge">~73%</span></td>
-</tr>
-<tr>
-<td data-label="Role">Graphic Designer</td>
-<td data-label="Onshore (Annual)">AUD 75,000</td>
-<td class="col-highlight" data-label="Philippines with Kings City">AUD 22,000</td>
-<td class="col-highlight" data-label="You Save"><span class="save-badge">~71%</span></td>
-</tr>
+<?php endforeach; ?>
 </tbody>
 </table>
 <div class="compare-table-footer">

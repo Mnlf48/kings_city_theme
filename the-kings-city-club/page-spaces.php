@@ -108,18 +108,19 @@ if ($spaces_query->have_posts()) :
 </div>
 <?php endif; ?>
 <?php
-$sp_qr_url = home_url('/book-now/?space=' . urlencode($sp_booking_key));
-$sp_qr_img = 'https://chart.googleapis.com/chart?chs=80x80&cht=qr&chco=AC201A&chl=' . urlencode($sp_qr_url) . '&chld=M|2';
+$sp_qr_url = add_query_arg( 'space', rawurlencode($sp_booking_key), $book_now_url );
+$sp_qr_img = 'https://api.qrserver.com/v1/create-qr-code/?size=80x80&color=AC201A&bgcolor=FFF9EF&data=' . rawurlencode($sp_qr_url) . '&ecc=M&margin=2';
 ?>
-<div class="spaces-book-row">
+<div class="spaces-book-row" style="display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:var(--space-md);">
     <a class="btn" href="<?php echo esc_url($book_now_url); ?>">Book Now</a>
-    <div class="spaces-qr">
+    <div class="spaces-qr" style="display:flex;flex-direction:column;align-items:center;gap:4px;">
         <img class="spaces-qr__img"
              src="<?php echo esc_url($sp_qr_img); ?>"
              alt="Scan to book <?php echo esc_attr($sp_heading); ?>"
              width="80" height="80"
-             loading="lazy" />
-        <span class="spaces-qr__label">Scan to Book</span>
+             loading="lazy"
+             style="display:block;width:80px;height:80px;border:2px solid rgba(189,69,31,0.2);border-radius:6px;padding:4px;background:#fff;" />
+        <span class="spaces-qr__label" style="font-size:9px;color:var(--color-text-muted);letter-spacing:0.05em;text-transform:uppercase;">Scan to Book</span>
     </div>
 </div>
 </div>

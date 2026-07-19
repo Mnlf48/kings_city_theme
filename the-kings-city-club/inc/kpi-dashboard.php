@@ -1,11 +1,16 @@
 <?php
 if (!defined('ABSPATH')) exit;
 
+function kc_can_view_kpi() {
+    return current_user_can('manage_options') || current_user_can('edit_kc_bookings');
+}
+
 function kc_register_kpi_dashboard() {
+    if (!kc_can_view_kpi()) return;
     add_menu_page(
         'KPI Dashboard',
         'KPI Dashboard',
-        'manage_options',
+        'read',
         'kc-kpi-dashboard',
         'kc_render_kpi_dashboard',
         'dashicons-chart-bar',
@@ -23,7 +28,7 @@ function kc_parse_revenue_val($val) {
 // Handle CSV Export
 function kc_export_kpi_csv() {
     global $wpdb;
-    if (!current_user_can('manage_options')) wp_die('Unauthorized');
+    if (!kc_can_view_kpi()) wp_die('Unauthorized');
     check_admin_referer('kc_export_kpi_csv');
 
     $selected_month = isset($_GET['kpi_month']) ? sanitize_text_field($_GET['kpi_month']) : date('Y-m');
@@ -369,6 +374,7 @@ add_action('admin_post_kc_export_kpi_csv', 'kc_export_kpi_csv');
 
 
 function kc_render_kpi_dashboard() {
+    if (!kc_can_view_kpi()) wp_die('Unauthorized');
     global $wpdb;
 
     $selected_month = isset($_GET['kpi_month']) ? sanitize_text_field($_GET['kpi_month']) : date('Y-m');

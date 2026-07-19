@@ -142,7 +142,7 @@ function kc_newsletter_inline_status_script() {
 add_action('wp_ajax_kc_update_newsletter_status', 'kc_update_newsletter_status');
 function kc_update_newsletter_status() {
     check_ajax_referer('kc_newsletter_nonce', 'nonce');
-    if (!current_user_can('edit_posts')) wp_send_json_error();
+    if (!kc_can_manage_newsletters()) wp_send_json_error();
     
     $post_id = intval($_POST['post_id']);
     $status = sanitize_text_field($_POST['status']);

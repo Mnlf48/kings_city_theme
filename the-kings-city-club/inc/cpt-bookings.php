@@ -25,8 +25,9 @@ function kc_register_cpt_bookings() {
         'menu_position'      => 27,
         'menu_icon'          => 'dashicons-calendar-alt',
         'supports'           => array('title'),
+        'capability_type'    => array('kc_booking', 'kc_bookings'),
         'capabilities'       => array(
-            'create_posts' => 'do_not_allow', // Prevents manually creating bookings from admin easily
+            'create_posts' => 'do_not_allow',
         ),
         'map_meta_cap'       => true,
     );
@@ -873,7 +874,7 @@ function kc_save_booking_meta($post_id) {
         return;
     }
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
-    if (!current_user_can('edit_post', $post_id)) return;
+    if (!current_user_can('edit_post', $post_id) && !current_user_can('edit_kc_bookings')) return;
 
     // ── Client info fields ──
     $old_email     = get_post_meta($post_id, 'kc_email',     true);
@@ -1072,7 +1073,7 @@ add_action('wp_ajax_kc_add_payment', 'kc_ajax_add_payment');
 function kc_ajax_add_payment() {
     check_ajax_referer('kc_add_payment', 'nonce');
 
-    if (!current_user_can('edit_posts')) {
+    if (!current_user_can('edit_posts') && !current_user_can('edit_kc_bookings')) {
         wp_send_json_error(['message' => 'Permission denied.']);
     }
 
@@ -1137,7 +1138,7 @@ function kc_handle_continue_pass() {
     if (!$booking_id || !check_admin_referer('kc_continue_pass_' . $booking_id)) {
         wp_die('Invalid request.');
     }
-    if (!current_user_can('edit_posts')) {
+    if (!current_user_can('edit_posts') && !current_user_can('edit_kc_bookings')) {
         wp_die('Permission denied.');
     }
     if (get_post_type($booking_id) !== 'kc_booking') {

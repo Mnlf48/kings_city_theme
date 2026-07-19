@@ -2906,6 +2906,210 @@ acf_add_local_field_group(array(
             'wrapper' => array('width' => '50'),
         ),
 
+        // Column headers
+        array(
+            'key'           => 'field_group_offshoring_comp_col_1',
+            'label'         => 'Column 1 — Role',
+            'name'          => 'comp_col_1',
+            'type'          => 'text',
+            'default_value' => 'ROLE',
+            'wrapper'       => array('width' => '25'),
+        ),
+        array(
+            'key'           => 'field_group_offshoring_comp_col_2',
+            'label'         => 'Column 2 — Onshore',
+            'name'          => 'comp_col_2',
+            'type'          => 'text',
+            'default_value' => 'ONSHORE (ANNUAL)',
+            'wrapper'       => array('width' => '25'),
+        ),
+        array(
+            'key'           => 'field_group_offshoring_comp_col_3',
+            'label'         => 'Column 3 — Philippines',
+            'name'          => 'comp_col_3',
+            'type'          => 'text',
+            'default_value' => 'PHILIPPINES WITH KINGS CITY',
+            'wrapper'       => array('width' => '25'),
+        ),
+        array(
+            'key'           => 'field_group_offshoring_comp_col_4',
+            'label'         => 'Column 4 — You Save',
+            'name'          => 'comp_col_4',
+            'type'          => 'text',
+            'default_value' => 'YOU SAVE',
+            'wrapper'       => array('width' => '25'),
+        ),
+
+        // Row 1
+        array(
+            'key'           => 'field_group_offshoring_comp_row_1_role',
+            'label'         => 'Row 1 — Role',
+            'name'          => 'comp_row_1_role',
+            'type'          => 'text',
+            'default_value' => 'Accountant',
+            'wrapper'       => array('width' => '25'),
+        ),
+        array(
+            'key'           => 'field_group_offshoring_comp_row_1_onshore',
+            'label'         => 'Row 1 — Onshore Cost',
+            'name'          => 'comp_row_1_onshore',
+            'type'          => 'text',
+            'default_value' => 'AUD 85,000',
+            'wrapper'       => array('width' => '25'),
+        ),
+        array(
+            'key'           => 'field_group_offshoring_comp_row_1_kc',
+            'label'         => 'Row 1 — Kings City Cost',
+            'name'          => 'comp_row_1_kc',
+            'type'          => 'text',
+            'default_value' => 'AUD 25,000',
+            'wrapper'       => array('width' => '25'),
+        ),
+        array(
+            'key'           => 'field_group_offshoring_comp_row_1_save',
+            'label'         => 'Row 1 — You Save',
+            'name'          => 'comp_row_1_save',
+            'type'          => 'text',
+            'default_value' => '~70%',
+            'wrapper'       => array('width' => '25'),
+        ),
+
+        // Row 2
+        array(
+            'key'           => 'field_group_offshoring_comp_row_2_role',
+            'label'         => 'Row 2 — Role',
+            'name'          => 'comp_row_2_role',
+            'type'          => 'text',
+            'default_value' => 'Virtual Assistant',
+            'wrapper'       => array('width' => '25'),
+        ),
+        array(
+            'key'           => 'field_group_offshoring_comp_row_2_onshore',
+            'label'         => 'Row 2 — Onshore Cost',
+            'name'          => 'comp_row_2_onshore',
+            'type'          => 'text',
+            'default_value' => 'AUD 65,000',
+            'wrapper'       => array('width' => '25'),
+        ),
+        array(
+            'key'           => 'field_group_offshoring_comp_row_2_kc',
+            'label'         => 'Row 2 — Kings City Cost',
+            'name'          => 'comp_row_2_kc',
+            'type'          => 'text',
+            'default_value' => 'AUD 18,000',
+            'wrapper'       => array('width' => '25'),
+        ),
+        array(
+            'key'           => 'field_group_offshoring_comp_row_2_save',
+            'label'         => 'Row 2 — You Save',
+            'name'          => 'comp_row_2_save',
+            'type'          => 'text',
+            'default_value' => '~72%',
+            'wrapper'       => array('width' => '25'),
+        ),
+
+        // Row 3
+        array(
+            'key'           => 'field_group_offshoring_comp_row_3_role',
+            'label'         => 'Row 3 — Role',
+            'name'          => 'comp_row_3_role',
+            'type'          => 'text',
+            'default_value' => 'Web Developer',
+            'wrapper'       => array('width' => '25'),
+        ),
+        array(
+            'key'           => 'field_group_offshoring_comp_row_3_onshore',
+            'label'         => 'Row 3 — Onshore Cost',
+            'name'          => 'comp_row_3_onshore',
+            'type'          => 'text',
+            'default_value' => 'AUD 105,000',
+            'wrapper'       => array('width' => '25'),
+        ),
+        array(
+            'key'           => 'field_group_offshoring_comp_row_3_kc',
+            'label'         => 'Row 3 — Kings City Cost',
+            'name'          => 'comp_row_3_kc',
+            'type'          => 'text',
+            'default_value' => 'AUD 32,000',
+            'wrapper'       => array('width' => '25'),
+        ),
+        array(
+            'key'           => 'field_group_offshoring_comp_row_3_save',
+            'label'         => 'Row 3 — You Save',
+            'name'          => 'comp_row_3_save',
+            'type'          => 'text',
+            'default_value' => '~70%',
+            'wrapper'       => array('width' => '25'),
+        ),
+
+        // Row 4
+        array(
+            'key'           => 'field_group_offshoring_comp_row_4_role',
+            'label'         => 'Row 4 — Role',
+            'name'          => 'comp_row_4_role',
+            'type'          => 'text',
+            'default_value' => 'Customer Service Rep',
+            'wrapper'       => array('width' => '25'),
+        ),
+        array(
+            'key'           => 'field_group_offshoring_comp_row_4_onshore',
+            'label'         => 'Row 4 — Onshore Cost',
+            'name'          => 'comp_row_4_onshore',
+            'type'          => 'text',
+            'default_value' => 'AUD 60,000',
+            'wrapper'       => array('width' => '25'),
+        ),
+        array(
+            'key'           => 'field_group_offshoring_comp_row_4_kc',
+            'label'         => 'Row 4 — Kings City Cost',
+            'name'          => 'comp_row_4_kc',
+            'type'          => 'text',
+            'default_value' => 'AUD 16,000',
+            'wrapper'       => array('width' => '25'),
+        ),
+        array(
+            'key'           => 'field_group_offshoring_comp_row_4_save',
+            'label'         => 'Row 4 — You Save',
+            'name'          => 'comp_row_4_save',
+            'type'          => 'text',
+            'default_value' => '~73%',
+            'wrapper'       => array('width' => '25'),
+        ),
+
+        // Row 5
+        array(
+            'key'           => 'field_group_offshoring_comp_row_5_role',
+            'label'         => 'Row 5 — Role',
+            'name'          => 'comp_row_5_role',
+            'type'          => 'text',
+            'default_value' => 'Graphic Designer',
+            'wrapper'       => array('width' => '25'),
+        ),
+        array(
+            'key'           => 'field_group_offshoring_comp_row_5_onshore',
+            'label'         => 'Row 5 — Onshore Cost',
+            'name'          => 'comp_row_5_onshore',
+            'type'          => 'text',
+            'default_value' => 'AUD 75,000',
+            'wrapper'       => array('width' => '25'),
+        ),
+        array(
+            'key'           => 'field_group_offshoring_comp_row_5_kc',
+            'label'         => 'Row 5 — Kings City Cost',
+            'name'          => 'comp_row_5_kc',
+            'type'          => 'text',
+            'default_value' => 'AUD 22,000',
+            'wrapper'       => array('width' => '25'),
+        ),
+        array(
+            'key'           => 'field_group_offshoring_comp_row_5_save',
+            'label'         => 'Row 5 — You Save',
+            'name'          => 'comp_row_5_save',
+            'type'          => 'text',
+            'default_value' => '~71%',
+            'wrapper'       => array('width' => '25'),
+        ),
+
         // ── Tab 6: Services Section ─────────────────────────────────────
         array(
             'key'       => 'field_tab_group_offshoring_5',
@@ -4180,6 +4384,51 @@ acf_add_local_field_group(array(
             'name'    => 'bk_label_special',
             'type'    => 'text',
             'wrapper' => array('width' => '50'),
+        ),
+
+        array(
+            'key'           => 'field_group_book_now_bk_label_birthdate',
+            'label'         => 'Label — Date of Birth',
+            'name'          => 'bk_label_birthdate',
+            'type'          => 'text',
+            'default_value' => 'Date of Birth',
+            'wrapper'       => array('width' => '50'),
+        ),
+
+        array(
+            'key'           => 'field_group_book_now_bk_label_birthdate_hint',
+            'label'         => 'Label — Date of Birth Hint',
+            'name'          => 'bk_label_birthdate_hint',
+            'type'          => 'text',
+            'default_value' => 'For special promos',
+            'wrapper'       => array('width' => '50'),
+        ),
+
+        array(
+            'key'           => 'field_group_book_now_bk_label_promo',
+            'label'         => 'Label — Promo Code',
+            'name'          => 'bk_label_promo',
+            'type'          => 'text',
+            'default_value' => 'Promo Code',
+            'wrapper'       => array('width' => '50'),
+        ),
+
+        array(
+            'key'           => 'field_group_book_now_bk_label_promo_hint',
+            'label'         => 'Label — Promo Code Hint',
+            'name'          => 'bk_label_promo_hint',
+            'type'          => 'text',
+            'default_value' => 'Optional',
+            'wrapper'       => array('width' => '50'),
+        ),
+
+        array(
+            'key'           => 'field_group_book_now_bk_btn_apply_promo',
+            'label'         => 'Button — Apply Promo',
+            'name'          => 'bk_btn_apply_promo',
+            'type'          => 'text',
+            'default_value' => 'Apply',
+            'wrapper'       => array('width' => '50'),
         ),
 
         array(

@@ -7,7 +7,7 @@ function kc_email_templates_menu() {
     add_menu_page(
         'Email Templates',
         'Email Templates',
-        'manage_options',
+        'edit_posts',
         'kc-email-templates',
         'kc_email_templates_page',
         'dashicons-email-alt',
@@ -16,7 +16,7 @@ function kc_email_templates_menu() {
 }
 
 function kc_email_templates_page() {
-    if (!current_user_can('manage_options')) return;
+    if (!current_user_can('edit_posts')) return;
 
     $quote_tabs = array(
         'quote_contacted' => 'Proposal Request Acknowledgment (Client)',
