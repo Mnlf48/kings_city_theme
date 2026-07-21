@@ -182,8 +182,9 @@ add_action( 'wp_head', 'kc_favicon', 1 );
  * Enqueue scripts and styles.
  */
 function kings_city_scripts() {
-	// Enqueue combined style.css with aggressive cache busting
-	wp_enqueue_style( 'kings-city-style', get_stylesheet_uri(), array(), filemtime( get_stylesheet_directory() . '/style.css' ) );
+	// Enqueue combined style.css — version is an md5 of the file content so any
+	// change forces a cache-bust even when FTP preserves the original timestamp.
+	wp_enqueue_style( 'kings-city-style', get_stylesheet_uri(), array(), substr( md5_file( get_stylesheet_directory() . '/style.css' ), 0, 8 ) );
 
 
 	// Scripts

@@ -7,7 +7,7 @@ function kc_tb_currency_manager_menu() {
         'edit.php?post_type=tb_role',
         'Currency Rates',
         'Currency Rates',
-        'manage_options',
+        'edit_posts',
         'kc-tb-currency-rates',
         'kc_tb_currency_manager_page'
     );
