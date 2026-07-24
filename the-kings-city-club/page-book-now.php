@@ -438,10 +438,7 @@ foreach ($bk_active_spaces as $bk_sp) {
 </div>
 <div class="form-group">
 <label class="form-label"><?php echo esc_html(get_field('bk_label_promo') ?: 'Promo Code'); ?> <span style="font-size:12px;color:var(--color-text-muted);">(<?php echo esc_html(get_field('bk_label_promo_hint') ?: 'Optional'); ?>)</span></label>
-<div style="display: flex; gap: 10px;">
-    <input class="form-control" name="kc_promo_code_input" id="kc_promo_code_input" placeholder="e.g. SUMMER10" type="text" style="text-transform: uppercase;"/>
-    <button type="button" id="kc_apply_promo_btn" style="flex-shrink:0; padding: 0 18px; font-weight: bold; font-family: var(--font-heading); border: 2px solid var(--color-primary); color: var(--color-primary); background: transparent; border-radius: var(--radius-sm); cursor: pointer; white-space: nowrap; transition: all 0.2s;"><?php echo esc_html(get_field('bk_btn_apply_promo') ?: 'Apply'); ?></button>
-</div>
+<input class="form-control" name="kc_promo_code_input" id="kc_promo_code_input" placeholder="e.g. SUMMER10" type="text" style="text-transform: uppercase;" autocomplete="off"/>
 <div id="kc_promo_msg" style="font-size: 13px; margin-top: 5px; font-weight: 500;"></div>
 <input type="hidden" name="kc_promo_code" id="kc_promo_code_hidden" value="" />
 </div>

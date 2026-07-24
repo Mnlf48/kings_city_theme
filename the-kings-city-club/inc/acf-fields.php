@@ -4423,15 +4423,6 @@ acf_add_local_field_group(array(
         ),
 
         array(
-            'key'           => 'field_group_book_now_bk_btn_apply_promo',
-            'label'         => 'Button — Apply Promo',
-            'name'          => 'bk_btn_apply_promo',
-            'type'          => 'text',
-            'default_value' => 'Apply',
-            'wrapper'       => array('width' => '50'),
-        ),
-
-        array(
             'key'     => 'field_group_book_now_bk_btn_submit',
             'label'   => 'Submit Button Text',
             'name'    => 'bk_btn_submit',

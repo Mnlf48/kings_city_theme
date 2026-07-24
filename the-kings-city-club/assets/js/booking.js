@@ -76,77 +76,92 @@
     }
   }
 
-  // Promo Code AJAX
-  var btnApplyPromo = document.getElementById('kc_apply_promo_btn');
-  var inputPromo    = document.getElementById('kc_promo_code_input');
-  var hiddenPromo   = document.getElementById('kc_promo_code_hidden');
-  var msgPromo      = document.getElementById('kc_promo_msg');
+  // Promo Code — auto-validate on typing (debounced 600ms)
+  var inputPromo  = document.getElementById('kc_promo_code_input');
+  var hiddenPromo = document.getElementById('kc_promo_code_hidden');
+  var msgPromo    = document.getElementById('kc_promo_msg');
+  var promoTimer  = null;
 
-  if (btnApplyPromo && inputPromo) {
-    btnApplyPromo.addEventListener('click', function() {
-        var code = inputPromo.value.trim();
-        if (!code) {
-            msgPromo.style.color = '#dc2626';
-            msgPromo.innerText = 'Please enter a code.';
-            return;
-        }
+  function resetPromo() {
+    currentPromoDiscount = 0;
+    currentPromoCode     = '';
+    if (hiddenPromo) hiddenPromo.value = '';
+    updatePrice();
+  }
 
-        var basePrice = 0;
-        if (durationSelect && durationSelect.selectedIndex !== -1) {
-            basePrice = parseFloat(durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price') || '0');
-        }
-
-        btnApplyPromo.innerText = '...';
-        btnApplyPromo.disabled = true;
-
-        var fd = new FormData();
-        fd.append('action', 'kc_apply_promo');
-        fd.append('nonce', kcAjax.promo_nonce); 
-        fd.append('promo_code', code);
-        fd.append('base_price', basePrice);
-
-        // We will just bypass nonce if we don't have it, but wait, kc_apply_promo requires 'kc_apply_promo_nonce'.
-        // I will just fetch it directly or remove the nonce check in PHP for public AJAX endpoint.
-        
-        fetch(kcAjax.url, { method: 'POST', body: fd })
-            .then(function(r) { return r.json(); })
-            .then(function(res) {
-                if (res.success) {
-                    msgPromo.style.color = '#10b981';
-                    msgPromo.innerText = res.data.message;
-                    currentPromoDiscount = parseFloat(res.data.discount_amount);
-                    currentPromoCode = res.data.code;
-                    if (hiddenPromo) hiddenPromo.value = res.data.code;
-                    updatePrice();
-                } else {
-                    msgPromo.style.color = '#dc2626';
-                    msgPromo.innerText = res.data.message;
-                    currentPromoDiscount = 0;
-                    currentPromoCode = '';
-                    if (hiddenPromo) hiddenPromo.value = '';
-                    updatePrice();
-                }
-            })
-            .catch(function() {
-                msgPromo.style.color = '#dc2626';
-                msgPromo.innerText = 'Network error.';
-            })
-            .finally(function() {
-                btnApplyPromo.innerText = 'Apply';
-                btnApplyPromo.disabled = false;
-            });
-    });
-    
-    // Reset promo if space changes
-    if (spaceTypeSelect) {
-        spaceTypeSelect.addEventListener('change', function() {
-            currentPromoDiscount = 0;
-            currentPromoCode = '';
-            if (hiddenPromo) hiddenPromo.value = '';
-            if (inputPromo) inputPromo.value = '';
-            if (msgPromo) msgPromo.innerText = '';
-        });
+  function validatePromo(code) {
+    if (!code) {
+      resetPromo();
+      if (msgPromo) msgPromo.innerText = '';
+      return;
     }
+
+    if (msgPromo) {
+      msgPromo.style.color = '#888';
+      msgPromo.innerText   = 'Checking...';
+    }
+
+    var basePrice = 0;
+    if (durationSelect && durationSelect.selectedIndex !== -1) {
+      basePrice = parseFloat(durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price') || '0');
+    }
+
+    var fd = new FormData();
+    fd.append('action',     'kc_apply_promo');
+    fd.append('nonce',      kcAjax.promo_nonce);
+    fd.append('promo_code', code);
+    fd.append('base_price', basePrice);
+
+    fetch(kcAjax.url, { method: 'POST', body: fd })
+      .then(function(r) { return r.json(); })
+      .then(function(res) {
+        if (res.success) {
+          currentPromoDiscount = parseFloat(res.data.discount_amount);
+          currentPromoCode     = res.data.code;
+          if (hiddenPromo) hiddenPromo.value = res.data.code;
+          if (msgPromo) {
+            msgPromo.style.color = '#16a34a';
+            msgPromo.innerText   = 'Code applied — Php ' + currentPromoDiscount.toLocaleString() + ' off';
+          }
+        } else {
+          resetPromo();
+          if (msgPromo) {
+            msgPromo.style.color = '#dc2626';
+            msgPromo.innerText   = 'Invalid or expired code';
+          }
+        }
+        updatePrice();
+      })
+      .catch(function() {
+        resetPromo();
+        if (msgPromo) {
+          msgPromo.style.color = '#dc2626';
+          msgPromo.innerText   = 'Could not validate code. Try again.';
+        }
+      });
+  }
+
+  if (inputPromo) {
+    inputPromo.addEventListener('input', function() {
+      clearTimeout(promoTimer);
+      var code = inputPromo.value.trim().toUpperCase();
+      // Clear message immediately when field is emptied
+      if (!code) {
+        resetPromo();
+        if (msgPromo) msgPromo.innerText = '';
+        return;
+      }
+      promoTimer = setTimeout(function() { validatePromo(code); }, 600);
+    });
+  }
+
+  // Reset promo when space type changes
+  if (spaceTypeSelect) {
+    spaceTypeSelect.addEventListener('change', function() {
+      resetPromo();
+      if (inputPromo) inputPromo.value = '';
+      if (msgPromo)   msgPromo.innerText = '';
+    });
   }
 
   if (spaceTypeSelect) {
@@ -218,6 +233,13 @@
     if (form) {
       form.addEventListener('submit', function(e) {
         e.preventDefault();
+
+        // If client typed a code but debounce hasn't fired yet — flush it now
+        if (inputPromo && inputPromo.value.trim() && !currentPromoCode) {
+          clearTimeout(promoTimer);
+          validatePromo(inputPromo.value.trim().toUpperCase());
+        }
+
         var submitBtn   = form.querySelector('button[type="submit"]');
         var originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = 'Processing...';

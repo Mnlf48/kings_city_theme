@@ -227,8 +227,20 @@ function kc_register_capacity_submenu() {
 }
 add_action('admin_menu', 'kc_register_capacity_submenu');
 
+function kc_qr_base_url() {
+    $live = esc_url_raw( trim( get_option( 'kc_live_site_url', '' ) ) );
+    return $live ? rtrim( $live, '/' ) : rtrim( home_url(), '/' );
+}
+
 function kc_render_capacity_submenu_page() {
-    $saved = false;
+    $saved      = false;
+    $url_saved  = false;
+
+    if ( isset( $_POST['kc_save_live_url'] ) && check_admin_referer( 'kc_save_live_url_nonce' ) ) {
+        $raw = isset( $_POST['kc_live_site_url'] ) ? esc_url_raw( trim( $_POST['kc_live_site_url'] ) ) : '';
+        update_option( 'kc_live_site_url', $raw );
+        $url_saved = true;
+    }
 
     if (isset($_POST['kc_save_capacities']) && check_admin_referer('kc_save_capacities_nonce')) {
         $all_spaces = get_posts([
@@ -274,9 +286,38 @@ function kc_render_capacity_submenu_page() {
             New spaces added via <a href="<?php echo esc_url(admin_url('post-new.php?post_type=kc_space')); ?>">Add New Space</a> appear here automatically.
         </p>
 
+        <?php if ($url_saved): ?>
+        <div class="notice notice-success is-dismissible"><p><strong>Live site URL saved.</strong> QR codes will now encode the new URL.</p></div>
+        <?php endif; ?>
+
         <?php if ($saved): ?>
         <div class="notice notice-success is-dismissible"><p><strong>Capacities saved.</strong></p></div>
         <?php endif; ?>
+
+        <div style="background:#fff; border:1px solid #e0e0e0; padding:16px 20px; max-width:700px; margin-bottom:28px;">
+            <h2 style="margin:0 0 6px; font-size:14px; font-weight:600; color:#23282d;">QR Code — Live Site URL</h2>
+            <p style="margin:0 0 12px; color:#666; font-size:13px;">
+                QR codes must encode your <strong>live website URL</strong> so clients can scan them anywhere.
+                If you're working locally, set this to your live domain. On the live server you can leave it blank — it will use the site URL automatically.
+            </p>
+            <form method="POST" style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                <?php wp_nonce_field( 'kc_save_live_url_nonce' ); ?>
+                <input
+                    type="url"
+                    name="kc_live_site_url"
+                    value="<?php echo esc_attr( get_option( 'kc_live_site_url', '' ) ); ?>"
+                    placeholder="https://temptest.kings-city.com"
+                    style="flex:1; min-width:260px; padding:6px 10px; border:1px solid #ccc; font-size:13px;"
+                />
+                <button type="submit" name="kc_save_live_url" class="button button-primary"
+                    style="background:#AC201A; border-color:#8E1510;">
+                    Save URL
+                </button>
+            </form>
+            <p style="margin:8px 0 0; font-size:12px; color:#999;">
+                Current QR base: <code><?php echo esc_html( kc_qr_base_url() ); ?></code>
+            </p>
+        </div>
 
         <?php
         // Warn about any Enabled spaces with no windows defined
@@ -449,7 +490,100 @@ function kc_space_orderby_menu_order($query) {
 }
 add_action('pre_get_posts', 'kc_space_orderby_menu_order');
 
-// ─── E. Auto-assign menu_order on first publish ───────────────────────────────
+// ─── E. Space QR Code Metabox ────────────────────────────────────────────────
+
+function kc_space_qr_enqueue( $hook ) {
+    if ( $hook !== 'post.php' && $hook !== 'post-new.php' ) return;
+    $screen = get_current_screen();
+    if ( ! $screen || $screen->post_type !== 'kc_space' ) return;
+
+    // qrcode.js — lightweight client-side QR library (~12 KB), no server dependency
+    wp_enqueue_script(
+        'kc-qrcodejs',
+        'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js',
+        [],
+        '1.0.0',
+        true
+    );
+
+    // Build the Book Now URL using the live site base so the QR works when
+    // scanned by a phone — not the localhost URL that only this machine can reach
+    $book_now_page = get_pages( [ 'meta_key' => '_wp_page_template', 'meta_value' => 'page-book-now.php' ] );
+    $book_now_path = ! empty( $book_now_page ) ? '/' . ltrim( parse_url( get_permalink( $book_now_page[0]->ID ), PHP_URL_PATH ), '/' ) : '/book-a-tour/';
+    $book_now_url  = kc_qr_base_url() . $book_now_path;
+
+    $post_id     = isset( $_GET['post'] ) ? (int) $_GET['post'] : 0;
+    $booking_key = $post_id ? get_field( 'kc_space_booking_key', $post_id ) : '';
+    $qr_url      = $booking_key ? add_query_arg( 'space', rawurlencode( $booking_key ), $book_now_url ) : '';
+
+    wp_add_inline_script( 'kc-qrcodejs', '
+        window.kcSpaceQR = ' . wp_json_encode( [ 'url' => $qr_url, 'key' => $booking_key ] ) . ';
+    ' );
+}
+add_action( 'admin_enqueue_scripts', 'kc_space_qr_enqueue' );
+
+function kc_space_qr_metabox_register() {
+    add_meta_box(
+        'kc_space_qr_code',
+        'Space QR Code',
+        'kc_space_qr_metabox_render',
+        'kc_space',
+        'side',
+        'high'
+    );
+}
+add_action( 'add_meta_boxes', 'kc_space_qr_metabox_register' );
+
+function kc_space_qr_metabox_render( $post ) {
+    $booking_key = get_field( 'kc_space_booking_key', $post->ID );
+
+    if ( ! $booking_key ) : ?>
+        <p style="color:#888; font-size:13px; margin:8px 0;">
+            Set a <strong>Booking Key</strong> in the Booking Form tab and save — the QR code will appear here automatically.
+        </p>
+    <?php return; endif;
+
+    $book_now_page = get_pages( [ 'meta_key' => '_wp_page_template', 'meta_value' => 'page-book-now.php' ] );
+    $book_now_path = ! empty( $book_now_page ) ? '/' . ltrim( parse_url( get_permalink( $book_now_page[0]->ID ), PHP_URL_PATH ), '/' ) : '/book-a-tour/';
+    $book_now_url  = kc_qr_base_url() . $book_now_path;
+    $qr_url        = add_query_arg( 'space', rawurlencode( $booking_key ), $book_now_url );
+    ?>
+    <div style="text-align:center; padding:12px 0;">
+        <div id="kc-space-qr-canvas" style="display:inline-block; padding:8px; background:#fff; border:1px solid #e0e0e0;"></div>
+        <p style="font-size:11px; color:#999; margin:8px 0 12px;">Scan to book: <strong><?php echo esc_html( $booking_key ); ?></strong></p>
+        <button type="button" id="kc-qr-download"
+            style="display:inline-block; background:#AC201A; color:#fff; border:none; padding:8px 16px; font-size:13px; font-weight:600; cursor:pointer; width:100%;">
+            &#8659; Download QR Code
+        </button>
+    </div>
+    <script>
+    window.addEventListener('load', function() {
+        var cfg = window.kcSpaceQR || {};
+        if ( ! cfg.url ) return;
+
+        new QRCode( document.getElementById('kc-space-qr-canvas'), {
+            text:           cfg.url,
+            width:          160,
+            height:         160,
+            colorDark:      '#AC201A',
+            colorLight:     '#FFF9EF',
+            correctLevel:   QRCode.CorrectLevel.M
+        });
+
+        document.getElementById('kc-qr-download').addEventListener('click', function() {
+            var canvas = document.querySelector('#kc-space-qr-canvas canvas');
+            if ( ! canvas ) return;
+            var link    = document.createElement('a');
+            link.href   = canvas.toDataURL('image/png');
+            link.download = 'qr-' + ( cfg.key || 'space' ).replace(/\s+/g, '-').toLowerCase() + '.png';
+            link.click();
+        });
+    });
+    </script>
+    <?php
+}
+
+// ─── F. Auto-assign menu_order on first publish ───────────────────────────────
 // WordPress defaults all new posts to menu_order = 0, which floats them to the
 // top of the spaces list. This hook fires once — when a space transitions from
 // any status to 'publish' for the first time — and sets its order to max + 1.
