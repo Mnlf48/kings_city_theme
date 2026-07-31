@@ -4429,6 +4429,14 @@ acf_add_local_field_group(array(
             'type'    => 'text',
             'wrapper' => array('width' => '50'),
         ),
+        array(
+            'key'           => 'field_group_book_now_bk_note_no_refund',
+            'label'         => 'Note — Below Submit Button',
+            'name'          => 'bk_note_no_refund',
+            'type'          => 'text',
+            'default_value' => 'Please note: Payments are non-refundable. Transfer of payment to another date or space type is allowed subject to availability.',
+            'instructions'  => 'Displayed as small text below the Confirm Booking button.',
+        ),
 
     ),
     'location' => array(

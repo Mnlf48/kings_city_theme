@@ -212,4 +212,124 @@ $share_title = esc_attr(get_the_title());
 })();
 </script>
 
+<!-- Image Lightbox Script -->
+<script>
+(function() {
+  'use strict';
+
+  // Build lightbox entirely in JS with inline styles — immune to CSS caching
+  var lightbox = document.createElement('div');
+  lightbox.setAttribute('role', 'dialog');
+  lightbox.setAttribute('aria-modal', 'true');
+  var lb = lightbox.style;
+  lb.display        = 'none';
+  lb.position       = 'fixed';
+  lb.top            = '0';
+  lb.left           = '0';
+  lb.width          = '100vw';
+  lb.height         = '100vh';
+  lb.zIndex         = '999999';
+  lb.background     = 'rgba(0,0,0,0.92)';
+  lb.alignItems     = 'center';
+  lb.justifyContent = 'center';
+
+  var lbClose = document.createElement('button');
+  lbClose.type = 'button';
+  lbClose.setAttribute('aria-label', 'Close image');
+  lbClose.innerHTML = '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+  var lbc = lbClose.style;
+  lbc.position        = 'fixed';
+  lbc.top             = '1.25rem';
+  lbc.right           = '1.25rem';
+  lbc.zIndex          = '1000000';
+  lbc.background      = 'rgba(255,255,255,0.15)';
+  lbc.border          = '2px solid rgba(255,255,255,0.5)';
+  lbc.borderRadius    = '50%';
+  lbc.width           = '48px';
+  lbc.height          = '48px';
+  lbc.cursor          = 'pointer';
+  lbc.display         = 'flex';
+  lbc.alignItems      = 'center';
+  lbc.justifyContent  = 'center';
+  lbc.padding         = '0';
+  lbc.color           = '#fff';
+
+  var lbImg = document.createElement('img');
+  lbImg.alt = '';
+  var lbi = lbImg.style;
+  lbi.maxWidth     = '92vw';
+  lbi.maxHeight    = '88vh';
+  lbi.objectFit    = 'contain';
+  lbi.display      = 'block';
+  lbi.boxShadow    = '0 8px 48px rgba(0,0,0,0.6)';
+  lbi.borderRadius = '0';
+
+  lightbox.appendChild(lbClose);
+  lightbox.appendChild(lbImg);
+  document.body.appendChild(lightbox);
+
+  function openLightbox(src, alt) {
+    lbImg.src = src;
+    lbImg.alt = alt || '';
+    lightbox.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.style.display = 'none';
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }
+
+  var block = document.querySelector('.single-article__text-block');
+  if (!block) return;
+
+  // Step 1: Neutralise every <a> that wraps an <img> so the browser can NEVER navigate.
+  //         Store the real image URL on a data attribute, point href to #.
+  block.querySelectorAll('a').forEach(function(link) {
+    var img = link.querySelector('img');
+    if (!img) return;
+
+    var href = link.getAttribute('href') || '';
+    var isImgUrl = /\.(jpe?g|png|gif|webp|avif|svg)(\?.*)?$/i.test(href);
+    var fullSrc = isImgUrl
+      ? href
+      : img.src.replace(/-\d+x\d+(\.[a-z]+)$/i, '$1');
+
+    link.setAttribute('data-lightbox-src', fullSrc);
+    link.setAttribute('data-lightbox-alt', img.alt || '');
+    link.href = '#';
+    link.style.cursor = 'zoom-in';
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      openLightbox(link.getAttribute('data-lightbox-src'), link.getAttribute('data-lightbox-alt'));
+    });
+  });
+
+  // Step 2: Standalone images not inside any <a>
+  block.querySelectorAll('img').forEach(function(img) {
+    if (img.closest('a')) return;
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', function() {
+      openLightbox(img.src.replace(/-\d+x\d+(\.[a-z]+)$/i, '$1'), img.alt);
+    });
+  });
+
+  // Close on X button
+  lbClose.addEventListener('click', closeLightbox);
+
+  // Close on backdrop click (anywhere except the image itself)
+  lightbox.addEventListener('click', function(e) {
+    if (e.target !== lbImg) closeLightbox();
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && lightbox.style.display === 'flex') {
+      closeLightbox();
+    }
+  });
+})();
+</script>
+
 <?php get_footer(); ?>

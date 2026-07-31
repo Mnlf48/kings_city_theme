@@ -1816,13 +1816,13 @@ button[type="submit"]:active,
   /* Forces cards in different sections to match height */
 }
 
-.journal-grid>article>div:last-child {
+.journal-grid>article>.kc-news-card__body-link {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
 
-.journal-grid>article>div:last-child>div:last-child {
+.journal-grid>article>.kc-news-card__body-link>div:last-child {
   margin-top: auto;
 }
 
@@ -6287,6 +6287,7 @@ body.hide-announcement .site-header {
   border-radius: var(--radius-card);
   margin: 1rem auto;
   display: block;
+  cursor: zoom-in;
 }
 
 /* 
@@ -6916,5 +6917,76 @@ textarea.form-control { min-height: 100px; resize: vertical; }
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(-6px);
+}
+
+/* Gallery shortcode images — ensure clicks reach our lightbox listener */
+.single-article__text-block [data-breakout] { pointer-events: auto; }
+.single-article__text-block .gallery-item a,
+.single-article__text-block .gallery-item img { pointer-events: auto; cursor: zoom-in; }
+
+/* ========================================
+   Image Lightbox
+   ======================================== */
+.kc-lightbox {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  z-index: 999999 !important;
+  background: rgba(0, 0, 0, 0.92) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 1rem !important;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+.kc-lightbox[aria-hidden="false"] {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.kc-lightbox__img {
+  max-width: 92vw !important;
+  max-height: 88vh !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+  border-radius: 0 !important;
+  display: block !important;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.6) !important;
+  position: relative !important;
+  z-index: 1000000 !important;
+}
+
+.kc-lightbox__close {
+  position: fixed !important;
+  top: 1.25rem !important;
+  right: 1.25rem !important;
+  background: rgba(255,255,255,0.15) !important;
+  border: 2px solid rgba(255,255,255,0.5) !important;
+  color: #fff !important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 1000001 !important;
+  padding: 0 !important;
+}
+
+.kc-lightbox__close:hover {
+  background: rgba(255,255,255,0.3) !important;
+  transform: scale(1.1);
 }
 

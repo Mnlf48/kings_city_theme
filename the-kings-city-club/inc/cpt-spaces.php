@@ -220,7 +220,7 @@ function kc_register_capacity_submenu() {
         'edit.php?post_type=kc_space',
         'Space Capacities',
         'Capacity',
-        'manage_options',
+        'edit_kc_bookings',
         'kc-space-capacity',
         'kc_render_capacity_submenu_page'
     );

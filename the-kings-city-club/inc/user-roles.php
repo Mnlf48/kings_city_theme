@@ -97,6 +97,31 @@ function kc_register_user_roles() {
     ));
 }
 
+// Grant kc_booking custom caps to administrator — required because custom capability_type
+// does not auto-grant to any role, including administrator
+add_action('init', 'kc_grant_admin_booking_caps', 20);
+function kc_grant_admin_booking_caps() {
+    $admin = get_role('administrator');
+    if (!$admin) return;
+    $caps = array(
+        'edit_kc_bookings',
+        'edit_others_kc_bookings',
+        'edit_published_kc_bookings',
+        'read_private_kc_bookings',
+        'delete_kc_bookings',
+        'delete_others_kc_bookings',
+        'publish_kc_bookings',
+        'delete_published_kc_bookings',
+        'delete_private_kc_bookings',
+        'read_private_kc_bookings',
+    );
+    foreach ($caps as $cap) {
+        if (!$admin->has_cap($cap)) {
+            $admin->add_cap($cap);
+        }
+    }
+}
+
 // Hide irrelevant menu items per role
 add_action('admin_menu', 'kc_restrict_admin_menus', 999);
 function kc_restrict_admin_menus() {
@@ -106,8 +131,7 @@ function kc_restrict_admin_menus() {
     if (in_array('kc_bookings_manager', $user->roles)) {
         remove_menu_page('edit.php');                                                              // News & Insights (Posts)
         remove_menu_page('edit-comments.php');                                                     // Comments
-        remove_menu_page('edit.php?post_type=kc_space');                                           // Space Add
-        // Newsletters, Email Templates, and Team Builder (all submenus) remain visible
+        // Newsletters, Email Templates, Team Builder, and Space Add remain visible
     }
 
     if (in_array('kc_content_editor', $user->roles)) {

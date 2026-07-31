@@ -46,13 +46,8 @@ $kc_clicks_enterprise     = (int) get_option('kc_clicks_enterprise', 0);
 $kc_clicks_on_demand      = (int) get_option('kc_clicks_on_demand', 0);
 $kc_clicks_virtual_office = (int) get_option('kc_clicks_virtual_office', 0);
 $kc_clicks_meeting_rooms  = (int) get_option('kc_clicks_meeting_rooms', 0);
-
-$kc_track_coworking      = esc_url(add_query_arg('kc_track', 'coworking', home_url('/')));
-$kc_track_private_office = esc_url(add_query_arg('kc_track', 'private-office', home_url('/')));
-$kc_track_enterprise     = esc_url(add_query_arg('kc_track', 'enterprise', home_url('/')));
-$kc_track_on_demand      = esc_url(add_query_arg('kc_track', 'on-demand', home_url('/')));
-$kc_track_virtual_office = esc_url(add_query_arg('kc_track', 'virtual-office', home_url('/')));
-$kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', home_url('/')));
+$kc_spaces_url            = esc_url(kc_url('proposed_space_btn_url', '/spaces/'));
+$kc_track_nonce           = wp_create_nonce('kc_space_click');
 ?>
 <section class="section content-panel" style="position: relative; overflow: hidden;">
 <!-- Background floating confetti -->
@@ -69,7 +64,7 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 </div>
 <div class="spaces-grid stagger-children">
 <!-- space card 1 -->
-<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo $kc_track_coworking; ?>'" style="cursor: pointer;">
+<article class="space-card card-glass animate-fadeInUp kc-space-card" data-space="coworking" style="cursor: pointer;">
 <div class="space-card__img-wrap">
 <img alt="Coworking Space" class="space-card__img" src="<?php echo kc_img('section_img_8', 'front-page-img/kings-img45.webp'); ?>" loading="lazy"/>
 </div>
@@ -88,12 +83,12 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
 </svg>
 </div>
-<span><?php echo esc_html($kc_clicks_coworking); ?></span>
+<span data-space-key="coworking"><?php echo esc_html($kc_clicks_coworking); ?></span>
 </div>
 </div>
 </article>
 <!-- space card 2 -->
-<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo $kc_track_private_office; ?>'" style="cursor: pointer; animation-delay: 0.1s;">
+<article class="space-card card-glass animate-fadeInUp kc-space-card" data-space="private-office" style="cursor: pointer; animation-delay: 0.1s;">
 <div class="space-card__img-wrap">
 <img alt="Private Office Space" class="space-card__img" src="<?php echo kc_img('section_img_9', 'front-page-img/kings-img48.webp'); ?>" loading="lazy"/>
 </div>
@@ -112,12 +107,12 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
 </svg>
 </div>
-<span><?php echo esc_html($kc_clicks_private_office); ?></span>
+<span data-space-key="private-office"><?php echo esc_html($kc_clicks_private_office); ?></span>
 </div>
 </div>
 </article>
 <!-- space card 3 -->
-<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo $kc_track_enterprise; ?>'" style="cursor: pointer; animation-delay: 0.2s;">
+<article class="space-card card-glass animate-fadeInUp kc-space-card" data-space="enterprise" style="cursor: pointer; animation-delay: 0.2s;">
 <div class="space-card__img-wrap">
 <img alt="Enterprise" class="space-card__img" src="<?php echo kc_img('section_img_10', 'front-page-img/kings-img26.webp'); ?>" loading="lazy"/>
 </div>
@@ -136,12 +131,12 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
 </svg>
 </div>
-<span><?php echo esc_html($kc_clicks_enterprise); ?></span>
+<span data-space-key="enterprise"><?php echo esc_html($kc_clicks_enterprise); ?></span>
 </div>
 </div>
 </article>
 <!-- space card 4 -->
-<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo $kc_track_on_demand; ?>'" style="cursor: pointer; animation-delay: 0.3s;">
+<article class="space-card card-glass animate-fadeInUp kc-space-card" data-space="on-demand" style="cursor: pointer; animation-delay: 0.3s;">
 <div class="space-card__img-wrap">
 <img alt="On-Demand" class="space-card__img" src="<?php echo kc_img('section_img_11', 'front-page-img/kings-img32.webp'); ?>" loading="lazy"/>
 </div>
@@ -160,12 +155,12 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
 </svg>
 </div>
-<span><?php echo esc_html($kc_clicks_on_demand); ?></span>
+<span data-space-key="on-demand"><?php echo esc_html($kc_clicks_on_demand); ?></span>
 </div>
 </div>
 </article>
 <!-- space card 5 -->
-<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo $kc_track_virtual_office; ?>'" style="cursor: pointer; animation-delay: 0.4s;">
+<article class="space-card card-glass animate-fadeInUp kc-space-card" data-space="virtual-office" style="cursor: pointer; animation-delay: 0.4s;">
 <div class="space-card__img-wrap">
 <img alt="Virtual Office" class="space-card__img" src="<?php echo kc_img('section_img_100', 'front-page-img/kings-img74.webp'); ?>" loading="lazy"/>
 </div>
@@ -184,12 +179,12 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
 </svg>
 </div>
-<span><?php echo esc_html($kc_clicks_virtual_office); ?></span>
+<span data-space-key="virtual-office"><?php echo esc_html($kc_clicks_virtual_office); ?></span>
 </div>
 </div>
 </article>
 <!-- space card 6 -->
-<article class="space-card card-glass animate-fadeInUp" onclick="window.location.href='<?php echo $kc_track_meeting_rooms; ?>'" style="cursor: pointer; animation-delay: 0.5s;">
+<article class="space-card card-glass animate-fadeInUp kc-space-card" data-space="meeting-rooms" style="cursor: pointer; animation-delay: 0.5s;">
 <div class="space-card__img-wrap">
 <img alt="Meeting Rooms" class="space-card__img" src="<?php echo kc_img('section_img_104', 'front-page-img/kings-img73.webp'); ?>" loading="lazy"/>
 </div>
@@ -208,12 +203,69 @@ $kc_track_meeting_rooms  = esc_url(add_query_arg('kc_track', 'meeting-rooms', ho
 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
 </svg>
 </div>
-<span><?php echo esc_html($kc_clicks_meeting_rooms); ?></span>
+<span data-space-key="meeting-rooms"><?php echo esc_html($kc_clicks_meeting_rooms); ?></span>
 </div>
 </div>
 </article>
 </div>
 </div>
+
+<script>
+(function() {
+  'use strict';
+  var SPACES_URL = <?php echo wp_json_encode($kc_spaces_url); ?>;
+  var AJAX_URL   = <?php echo wp_json_encode(admin_url('admin-ajax.php')); ?>;
+  var NONCE      = <?php echo wp_json_encode($kc_track_nonce); ?>;
+  var SS_PREFIX  = 'kc_viewed_';
+
+  // Fetch live counts from DB on page load — bypasses GoDaddy page cache and bfcache.
+  var fd = new FormData();
+  fd.append('action', 'kc_get_space_counts');
+  fetch(AJAX_URL, { method: 'POST', body: fd })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data || !data.success || !data.data) return;
+      var counts = data.data;
+      document.querySelectorAll('[data-space-key]').forEach(function(span) {
+        var key = span.getAttribute('data-space-key');
+        if (key && counts[key] !== undefined) {
+          span.textContent = counts[key];
+        }
+      });
+    })
+    .catch(function() {});
+
+  document.querySelectorAll('.kc-space-card').forEach(function(card) {
+    card.addEventListener('click', function(e) {
+      // Ignore clicks on the "Learn More" button — let it navigate normally
+      if (e.target.closest('.btn')) return;
+
+      var space = card.getAttribute('data-space');
+      if (!space) { window.location.href = SPACES_URL; return; }
+
+      var ssKey = SS_PREFIX + space;
+
+      if (sessionStorage.getItem(ssKey)) {
+        // Already counted this session — just redirect
+        window.location.href = SPACES_URL;
+        return;
+      }
+
+      // Mark as counted immediately so double-clicks don't fire twice
+      sessionStorage.setItem(ssKey, '1');
+
+      // Fire AJAX in background, redirect without waiting
+      var fd2 = new FormData();
+      fd2.append('action', 'kc_space_click');
+      fd2.append('space',  space);
+      fd2.append('nonce',  NONCE);
+      fetch(AJAX_URL, { method: 'POST', body: fd2, keepalive: true }).catch(function() {});
+
+      window.location.href = SPACES_URL;
+    });
+  });
+})();
+</script>
 
           <!-- 1. Star -->
           <div class="floating-bg-icon anim-float-fast" style="top: 10%; right: 8%; color: var(--color-primary);"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg></div>

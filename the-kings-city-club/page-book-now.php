@@ -242,18 +242,22 @@ if ( $bk_video_url ) {
      aria-modal="true"
      aria-label="Video player"
      style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);align-items:center;justify-content:center;padding:1rem;">
-    <button id="kc-vid-close"
-            aria-label="Close video"
-            style="position:absolute;top:1.25rem;right:1.5rem;background:none;border:none;color:#fff;font-size:2.5rem;line-height:1;cursor:pointer;opacity:.75;transition:opacity .2s;"
-            onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=.75">&times;</button>
-    <div style="position:relative;width:min(92vw,calc(82vh*(9/16)));aspect-ratio:9/16;">
-        <!-- iframe rendered at page load so Vimeo buffers immediately; visibility toggled via JS -->
-        <iframe id="kc-vid-iframe"
-                src="https://player.vimeo.com/video/<?php echo esc_attr( $bk_vimeo_id ); ?>?badge=0&autopause=0&player_id=0&app_id=58479&background=0&api=1"
-                style="width:100%;height:100%;border:0;border-radius:var(--radius-card);"
-                allow="autoplay;fullscreen;picture-in-picture;clipboard-write;encrypted-media"
-                allowfullscreen
-                title="<?php echo $bk_title; ?>"></iframe>
+    <div style="display:flex;flex-direction:column;width:min(92vw,calc(82vh*(9/16)));gap:0.5rem;">
+        <div style="display:flex;justify-content:flex-end;">
+            <button id="kc-vid-close"
+                    aria-label="Close video"
+                    style="background:none;border:none;color:#fff;font-size:2.5rem;line-height:1;cursor:pointer;opacity:.75;transition:opacity .2s;padding:0;"
+                    onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=.75">&times;</button>
+        </div>
+        <div style="position:relative;aspect-ratio:9/16;">
+            <!-- iframe rendered at page load so Vimeo buffers immediately; visibility toggled via JS -->
+            <iframe id="kc-vid-iframe"
+                    src="https://player.vimeo.com/video/<?php echo esc_attr( $bk_vimeo_id ); ?>?badge=0&autopause=0&player_id=0&app_id=58479&background=0&api=1"
+                    style="width:100%;height:100%;border:0;border-radius:var(--radius-card);"
+                    allow="autoplay;fullscreen;picture-in-picture;clipboard-write;encrypted-media"
+                    allowfullscreen
+                    title="<?php echo $bk_title; ?>"></iframe>
+        </div>
     </div>
 </div>
 
@@ -447,6 +451,9 @@ foreach ($bk_active_spaces as $bk_sp) {
 <textarea class="form-control" name="book_special" placeholder="Any special requirements..."></textarea>
 </div>
 <button class="btn btn-book" name="book_submit" type="submit"><?php echo esc_html(get_field('bk_btn_submit') ?: 'Confirm Booking'); ?></button>
+<p style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--color-text-muted); text-align: center; line-height: 1.5;">
+    <?php echo esc_html(get_field('bk_note_no_refund') ?: 'Please note: Payments are non-refundable. Transfer of payment to another date or space type is allowed subject to availability.'); ?>
+</p>
 </form>
 
 </div>

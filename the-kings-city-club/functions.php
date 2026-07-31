@@ -85,6 +85,29 @@ function kings_city_setup() {
 }
 add_action( 'after_setup_theme', 'kings_city_setup' );
 
+// Disable WordPress core block lightbox — we use our own custom lightbox in single.php
+add_filter( 'render_block_data', function( $parsed_block ) {
+    if ( in_array( $parsed_block['blockName'], array( 'core/image', 'core/gallery' ), true ) ) {
+        if ( isset( $parsed_block['attrs']['lightbox'] ) ) {
+            $parsed_block['attrs']['lightbox'] = array( 'enabled' => false );
+        }
+    }
+    return $parsed_block;
+} );
+add_action( 'wp_enqueue_scripts', function() {
+    wp_dequeue_script( 'wp-block-image-view' );
+    wp_deregister_script( 'wp-block-image-view' );
+}, 100 );
+
+// Force WordPress classic gallery shortcode links to point to the image file, not attachment page
+add_filter( 'wp_get_attachment_link', function( $html, $id ) {
+    $full = wp_get_attachment_image_src( $id, 'full' );
+    if ( $full ) {
+        $html = preg_replace( '/href=[\'"][^\'"]+[\'"]/', 'href="' . esc_url( $full[0] ) . '"', $html );
+    }
+    return $html;
+}, 10, 2 );
+
 add_filter('rest_endpoints', function($endpoints) {
     if (!is_user_logged_in()) {
         unset($endpoints['/wp/v2/users']);
@@ -757,19 +780,31 @@ function kc_space_click_keys() {
     );
 }
 
-// PHP redirect handler: ?kc_track=coworking → increments counter → redirects to spaces page.
-add_action('template_redirect', function () {
-    if ( ! isset($_GET['kc_track']) ) return;
-
-    $space    = sanitize_key($_GET['kc_track']);
-    $map      = kc_space_click_keys();
-
+// AJAX handler: increments space click counter — called from front-page.php JS.
+// sessionStorage deduplication on the front end ensures 1 count per card per session.
+function kc_handle_space_click() {
+    if ( ! isset($_POST['nonce']) || ! wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'kc_space_click') ) {
+        wp_send_json_error('invalid_nonce', 403);
+    }
+    $space = isset($_POST['space']) ? sanitize_key($_POST['space']) : '';
+    $map   = kc_space_click_keys();
     if ( isset($map[$space]) ) {
         $current = (int) get_option($map[$space], 0);
         update_option($map[$space], $current + 1, false);
     }
+    wp_send_json_success();
+}
+add_action('wp_ajax_kc_space_click',        'kc_handle_space_click');
+add_action('wp_ajax_nopriv_kc_space_click', 'kc_handle_space_click');
 
-    $spaces_url = kc_url('proposed_space_btn_url', '/spaces/', get_queried_object_id());
-    wp_redirect($spaces_url, 302);
-    exit;
-});
+// AJAX handler: returns all current space click counts — called on page load to bypass page cache.
+function kc_get_space_counts() {
+    $map    = kc_space_click_keys();
+    $counts = array();
+    foreach ( $map as $space => $option_key ) {
+        $counts[ $space ] = (int) get_option( $option_key, 0 );
+    }
+    wp_send_json_success( $counts );
+}
+add_action('wp_ajax_kc_get_space_counts',        'kc_get_space_counts');
+add_action('wp_ajax_nopriv_kc_get_space_counts', 'kc_get_space_counts');
