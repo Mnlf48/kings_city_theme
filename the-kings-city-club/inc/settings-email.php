@@ -42,7 +42,7 @@ function kc_email_templates_page() {
 
     $active_tab = isset($_GET['tab']) && array_key_exists($_GET['tab'], $tabs) ? $_GET['tab'] : 'quote_contacted';
 
-    // Save Data
+    // Save Email Template Data
     if (isset($_POST['kc_email_templates_nonce']) && wp_verify_nonce($_POST['kc_email_templates_nonce'], 'kc_save_email_templates')) {
         $prefix = 'kc_' . $active_tab . '_';
         update_option($prefix . 'subject',  sanitize_text_field(wp_unslash($_POST['email_subject'])));
@@ -52,6 +52,16 @@ function kc_email_templates_page() {
         update_option($prefix . 'btn_text', sanitize_text_field(wp_unslash($_POST['email_btn_text'])));
         // Saved as plain text so tokens like {site_url} survive — esc_url() applied at render time
         update_option($prefix . 'btn_url',  sanitize_text_field(wp_unslash($_POST['email_btn_url'])));
+
+        // Booking Confirmed: also save payment instruction settings
+        if ($active_tab === 'booking_confirmed') {
+            update_option('kc_pay_bank_name',    sanitize_text_field(wp_unslash($_POST['kc_pay_bank_name']    ?? '')));
+            update_option('kc_pay_account_name', sanitize_text_field(wp_unslash($_POST['kc_pay_account_name'] ?? '')));
+            update_option('kc_pay_account_no',   sanitize_text_field(wp_unslash($_POST['kc_pay_account_no']   ?? '')));
+            update_option('kc_pay_proof_email',  sanitize_email(wp_unslash($_POST['kc_pay_proof_email']       ?? '')));
+            update_option('kc_pay_gcash_name',   sanitize_text_field(wp_unslash($_POST['kc_pay_gcash_name']   ?? '')));
+            update_option('kc_pay_gcash_no',     sanitize_text_field(wp_unslash($_POST['kc_pay_gcash_no']     ?? '')));
+        }
 
         // Birthday Promo: also save discount settings
         if ($active_tab === 'birthday_promo') {
@@ -93,7 +103,7 @@ function kc_email_templates_page() {
     } elseif ($active_tab === 'booking_confirmed') {
         $def_subject = 'Your Kings City Booking is Confirmed!';
         $def_heading = 'Booking Confirmation';
-        $def_body = "Dear {fname},\n\nYour booking for the <strong>{space}</strong> has been successfully confirmed. We are thrilled to host you and your team. Please arrive on your chosen date and complete your payment at our front desk.\n\nIf you need to make any changes to your reservation, please reply directly to this correspondence. We look forward to seeing you soon!";
+        $def_body = "Dear {fname},\n\nYour booking for the <strong>{space}</strong> has been successfully confirmed. We are thrilled to host you and your team. Please arrive on your chosen date and complete your payment at our front desk.\n\nIf you prefer to pay in advance, you may transfer your reservation fee to the bank or e-wallet account listed below. Once the transfer is complete, please reply to this email or send a screenshot of your transaction receipt along with your full name and booking reference number ({ref_number}) to " . get_option('kc_pay_proof_email', 'kingscity@kingsgroup.com.ph') . ". Our team will manually verify the payment and update your booking record.\n\nIf you need to make any changes to your reservation, please reply directly to this correspondence. We look forward to seeing you soon!";
         $def_banner = 'We\'ve prepared some important information and updates for your upcoming visit. Please review this before you arrive.';
         $def_btn_text = 'View Newsletter';
         $def_btn_url = '{packet_url}';
@@ -252,7 +262,7 @@ function kc_email_templates_page() {
                                     if ($active_tab === 'booking_rejected') {
                                         echo '<br><span style="font-size: 12px;">Supported tokens: <code>{fname}</code>, <code>{space}</code>, <code>{date}</code>, <code>{duration}</code>, <code>{price}</code>, <code>{arrival}</code>, <code>{participants}</code></span>';
                                     } elseif ($active_tab === 'booking_confirmed') {
-                                        echo '<br><span style="font-size: 12px;">Supported tokens: <code>{fname}</code>, <code>{space}</code>, <code>{date}</code>, <code>{duration}</code>, <code>{price}</code>, <code>{arrival}</code>, <code>{participants}</code></span>';
+                                        echo '<br><span style="font-size: 12px;">Supported tokens: <code>{fname}</code>, <code>{space}</code>, <code>{date}</code>, <code>{duration}</code>, <code>{price}</code>, <code>{arrival}</code>, <code>{participants}</code>, <code>{ref_number}</code></span>';
                                     } elseif ($active_tab === 'newsletter_broadcast') {
                                         echo '<br><span style="font-size: 12px;">Supported tokens: <code>{site_url}</code> &nbsp;|&nbsp; <strong>Note:</strong> This template is used when sending a broadcast from the Mailing List page.</span>';
                                     } elseif ($active_tab === 'birthday_promo') {
@@ -295,7 +305,39 @@ function kc_email_templates_page() {
                         </tbody>
                     </table>
 
-                    <?php if ($active_tab === 'birthday_promo') : 
+                    <?php if ($active_tab === 'booking_confirmed') : ?>
+                    <hr style="margin:30px 0; border:0; border-top:1px solid rgba(189,69,31,0.15);">
+                    <h3 style="color:#AC201A; margin:0 0 8px;">Payment Instructions Settings</h3>
+                    <p style="color:#646970; font-size:13px; margin-bottom:18px;">These details appear in the <strong>How to Pay</strong> section of the Booking Confirmation email. Update them whenever your bank or GCash details change — no code changes needed.</p>
+                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:16px;">
+                        <div>
+                            <label style="display:block; font-size:11px; font-weight:700; color:#AC201A; text-transform:uppercase; letter-spacing:0.4px; margin-bottom:4px;">Bank Name</label>
+                            <input type="text" name="kc_pay_bank_name" value="<?php echo esc_attr(get_option('kc_pay_bank_name', '')); ?>" placeholder="e.g. BDO" style="width:100%; padding:7px 10px; border:1px solid #e2e8f0; border-radius:4px; font-size:13px; box-sizing:border-box;">
+                        </div>
+                        <div>
+                            <label style="display:block; font-size:11px; font-weight:700; color:#AC201A; text-transform:uppercase; letter-spacing:0.4px; margin-bottom:4px;">Account Name</label>
+                            <input type="text" name="kc_pay_account_name" value="<?php echo esc_attr(get_option('kc_pay_account_name', '')); ?>" placeholder="e.g. Kings Group Inc." style="width:100%; padding:7px 10px; border:1px solid #e2e8f0; border-radius:4px; font-size:13px; box-sizing:border-box;">
+                        </div>
+                        <div>
+                            <label style="display:block; font-size:11px; font-weight:700; color:#AC201A; text-transform:uppercase; letter-spacing:0.4px; margin-bottom:4px;">Account Number</label>
+                            <input type="text" name="kc_pay_account_no" value="<?php echo esc_attr(get_option('kc_pay_account_no', '')); ?>" placeholder="e.g. 1234-5678-90" style="width:100%; padding:7px 10px; border:1px solid #e2e8f0; border-radius:4px; font-size:13px; box-sizing:border-box;">
+                        </div>
+                        <div>
+                            <label style="display:block; font-size:11px; font-weight:700; color:#AC201A; text-transform:uppercase; letter-spacing:0.4px; margin-bottom:4px;">GCash Name</label>
+                            <input type="text" name="kc_pay_gcash_name" value="<?php echo esc_attr(get_option('kc_pay_gcash_name', '')); ?>" placeholder="e.g. Kings City Club" style="width:100%; padding:7px 10px; border:1px solid #e2e8f0; border-radius:4px; font-size:13px; box-sizing:border-box;">
+                        </div>
+                        <div>
+                            <label style="display:block; font-size:11px; font-weight:700; color:#AC201A; text-transform:uppercase; letter-spacing:0.4px; margin-bottom:4px;">GCash Number</label>
+                            <input type="text" name="kc_pay_gcash_no" value="<?php echo esc_attr(get_option('kc_pay_gcash_no', '')); ?>" placeholder="e.g. 09XX XXX XXXX" style="width:100%; padding:7px 10px; border:1px solid #e2e8f0; border-radius:4px; font-size:13px; box-sizing:border-box;">
+                        </div>
+                        <div>
+                            <label style="display:block; font-size:11px; font-weight:700; color:#AC201A; text-transform:uppercase; letter-spacing:0.4px; margin-bottom:4px;">Proof of Payment Email</label>
+                            <input type="email" name="kc_pay_proof_email" value="<?php echo esc_attr(get_option('kc_pay_proof_email', '')); ?>" placeholder="e.g. kingscity@kingsgroup.com.ph" style="width:100%; padding:7px 10px; border:1px solid #e2e8f0; border-radius:4px; font-size:13px; box-sizing:border-box;">
+                        </div>
+                    </div>
+                    <?php endif; ?>
+
+                    <?php if ($active_tab === 'birthday_promo') :
                         $bday_disc_type  = get_option($prefix . 'discount_type',  'percentage');
                         $bday_disc_value = get_option($prefix . 'discount_value', 15);
                     ?>

@@ -126,6 +126,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_submit'])) {
             ));
 
             if ($post_id) {
+                // Generate booking reference number immediately on submission
+                $ref_counter = (int) get_option('kc_ref_counter', 0) + 1;
+                update_option('kc_ref_counter', $ref_counter);
+                $ref_number = 'KC-' . date('Y') . '-' . str_pad($ref_counter, 4, '0', STR_PAD_LEFT);
+                update_post_meta($post_id, 'kc_ref_number', $ref_number);
+
                 update_post_meta($post_id, 'kc_first_name', $first_name);
                 update_post_meta($post_id, 'kc_last_name', $last_name);
                 update_post_meta($post_id, 'kc_email', $email);

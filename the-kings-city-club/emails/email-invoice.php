@@ -116,7 +116,7 @@ $issue_date = date_i18n('F j, Y');
             <div style="background-color: #fff7ed; border: 1px solid rgba(189,69,31,0.2); border-left: 4px solid #BD451F; padding: 16px 20px; margin-bottom: 28px;">
                 <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #BD451F; margin-bottom: 6px;">Payment Instructions</div>
                 <p style="margin: 0; font-size: 13px; color: #9a3412; line-height: 1.6;">
-                    Payment is accepted at our front desk — cash or GCash. You may settle your balance in full or in installments. Please present this invoice or quote your invoice number <strong><?php echo esc_html($inv_number); ?></strong> when making a payment.
+                    Payment is accepted at our front desk — cash or GCash. You may also pay via bank transfer (see details in your booking confirmation email). Settle your balance in full or in installments. Please quote your reference number <strong><?php echo esc_html($inv_number); ?></strong> when making a payment.
                 </p>
             </div>
 

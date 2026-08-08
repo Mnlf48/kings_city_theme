@@ -42,7 +42,7 @@ function kc_set_custom_edit_kc_booking_columns($columns) {
     unset($columns['date']);
     $columns['client_info'] = 'Client Name';
     $columns['space_info']  = 'Space & Date';
-    $columns['invoice']     = 'Invoice';
+    $columns['invoice']     = 'Ref No.';
     $columns['status']      = 'Status';
     $columns['membership']  = 'Membership';
     $columns['date']        = 'Submitted';
@@ -90,9 +90,10 @@ function kc_custom_kc_booking_column($column, $post_id) {
             echo "<span class='kc-inline-status-spinner spinner' id='kc-spinner-{$post_id}' style='float:none; margin:0 0 0 5px;'></span>";
             break;
         case 'invoice':
-            $inv = get_post_meta($post_id, 'kc_invoice_number', true);
-            if ($inv) {
-                echo "<code style='font-size:11px; background:#FFF9EF; border:1px solid rgba(189,69,31,0.25); padding:2px 6px; border-radius:3px; color:#AC201A; font-weight:700; white-space:nowrap;'>" . esc_html($inv) . "</code>";
+            $ref = get_post_meta($post_id, 'kc_ref_number', true);
+            if (!$ref) $ref = get_post_meta($post_id, 'kc_invoice_number', true); // backward compat
+            if ($ref) {
+                echo "<code style='font-size:11px; background:#FFF9EF; border:1px solid rgba(189,69,31,0.25); padding:2px 6px; border-radius:3px; color:#AC201A; font-weight:700; white-space:nowrap;'>" . esc_html($ref) . "</code>";
             } else {
                 echo "<span style='color:#cbd5e1; font-size:12px;'>—</span>";
             }
@@ -130,7 +131,7 @@ function kc_booking_extend_search($search, $query) {
     $search .= $wpdb->prepare(
         " OR ( {$wpdb->posts}.ID IN (
             SELECT post_id FROM {$wpdb->postmeta}
-            WHERE meta_key IN ('kc_invoice_number', 'kc_email', 'kc_first_name', 'kc_last_name', 'kc_phone')
+            WHERE meta_key IN ('kc_ref_number', 'kc_invoice_number', 'kc_email', 'kc_first_name', 'kc_last_name', 'kc_phone')
             AND meta_value LIKE %s
           )
         )",
@@ -478,9 +479,17 @@ function kc_render_special_meta_box($post) {
 // 4. Status Panel (Right)
 function kc_render_status_meta_box($post) {
     wp_nonce_field('kc_save_booking_data', 'kc_booking_nonce');
-    $status = get_post_meta($post->ID, 'kc_status', true);
+    $status     = get_post_meta($post->ID, 'kc_status', true);
     if (!$status) $status = 'Pending';
+    $ref_number = get_post_meta($post->ID, 'kc_ref_number', true);
+    if (!$ref_number) $ref_number = get_post_meta($post->ID, 'kc_invoice_number', true);
     ?>
+    <?php if ($ref_number): ?>
+    <div style="background:#FFF9EF; border:1px solid rgba(189,69,31,0.25); border-radius:6px; padding:10px 12px; margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
+        <span style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:#64748b;">Booking Ref</span>
+        <code style="font-size:13px; font-weight:800; color:#AC201A; background:transparent; border:none; padding:0;"><?php echo esc_html($ref_number); ?></code>
+    </div>
+    <?php endif; ?>
     <select name="kc_status" id="kc_status" class="kc-status-select">
         <option value="Pending"   <?php selected($status, 'Pending');   ?>>Pending</option>
         <option value="Contacted" <?php selected($status, 'Contacted'); ?>>Contacted / Confirmed</option>
@@ -563,7 +572,8 @@ function kc_render_payment_meta_box($post) {
     $log         = is_array($log_raw) ? $log_raw : [];
     $total_paid  = array_sum(array_column($log, 'amount'));
     $balance     = max(0, $total_due - $total_paid);
-    $inv_number  = get_post_meta($post->ID, 'kc_invoice_number', true);
+    $inv_number  = get_post_meta($post->ID, 'kc_ref_number', true);
+    if (!$inv_number) $inv_number = get_post_meta($post->ID, 'kc_invoice_number', true); // backward compat
 
     if ($balance <= 0 && $total_paid > 0) {
         $pay_status = 'Fully Paid';
@@ -685,18 +695,20 @@ function kc_render_payment_meta_box($post) {
 
 // --- Helper Function for Booking Emails ---
 function kc_send_booking_email($post_id, $template_type) {
-    $fname = get_post_meta($post_id, 'kc_first_name', true);
-    $lname = get_post_meta($post_id, 'kc_last_name', true);
-    $email = get_post_meta($post_id, 'kc_email', true);
-    $space = get_post_meta($post_id, 'kc_space_type', true);
-    $duration = get_post_meta($post_id, 'kc_duration', true);
-    $price = get_post_meta($post_id, 'kc_price', true);
-    $date = get_post_meta($post_id, 'kc_start_date', true);
-    $arrival = get_post_meta($post_id, 'kc_arrival_time', true);
+    $fname      = get_post_meta($post_id, 'kc_first_name', true);
+    $lname      = get_post_meta($post_id, 'kc_last_name', true);
+    $email      = get_post_meta($post_id, 'kc_email', true);
+    $space      = get_post_meta($post_id, 'kc_space_type', true);
+    $duration   = get_post_meta($post_id, 'kc_duration', true);
+    $price      = get_post_meta($post_id, 'kc_price', true);
+    $date       = get_post_meta($post_id, 'kc_start_date', true);
+    $arrival    = get_post_meta($post_id, 'kc_arrival_time', true);
     $participants = get_post_meta($post_id, 'kc_participants', true);
-    $special = get_post_meta($post_id, 'kc_special', true);
+    $special    = get_post_meta($post_id, 'kc_special', true);
     $admin_note = get_post_meta($post_id, 'kc_admin_note', true);
-    
+    $ref_number = get_post_meta($post_id, 'kc_ref_number', true);
+    if (!$ref_number) $ref_number = get_post_meta($post_id, 'kc_invoice_number', true); // backward compat
+
     if (empty($email)) return;
 
     $prefix = 'kc_' . $template_type . '_';
@@ -765,18 +777,19 @@ function kc_send_booking_email($post_id, $template_type) {
     }
 
     $tokens = array(
-        '{fname}' => $fname,
-        '{lname}' => $lname,
-        '{space}' => $space,
-        '{date}' => $date,
-        '{duration}' => $duration,
-        '{price}' => $price,
-        '{arrival}' => $arrival,
+        '{fname}'        => $fname,
+        '{lname}'        => $lname,
+        '{space}'        => $space,
+        '{date}'         => $date,
+        '{duration}'     => $duration,
+        '{price}'        => $price,
+        '{arrival}'      => $arrival,
         '{participants}' => $participants,
-        '{special}' => $special,
-        '{admin_note}' => $admin_note,
-        '{packet_url}' => $packet_url,
-        '{site_url}' => site_url()
+        '{special}'      => $special,
+        '{admin_note}'   => $admin_note,
+        '{packet_url}'   => $packet_url,
+        '{ref_number}'   => $ref_number,
+        '{site_url}'     => site_url(),
     );
 
     $subject = strtr($subject_template, $tokens);
@@ -818,13 +831,17 @@ function kc_process_booking_status_change($post_id, $new_status, $old_status) {
     if ($new_status === 'Contacted') {
         kc_send_booking_email($post_id, 'booking_confirmed');
     } elseif ($new_status === 'Active') {
-        // Generate invoice number if not yet set, then send invoice
-        $inv_number = get_post_meta($post_id, 'kc_invoice_number', true);
+        // Use the ref number generated at submission as the invoice number
+        $inv_number = get_post_meta($post_id, 'kc_ref_number', true);
         if (empty($inv_number)) {
-            $counter    = (int) get_option('kc_invoice_counter', 0) + 1;
-            update_option('kc_invoice_counter', $counter);
-            $inv_number = 'KC-INV-' . date('Y') . '-' . str_pad($counter, 4, '0', STR_PAD_LEFT);
-            update_post_meta($post_id, 'kc_invoice_number', $inv_number);
+            // Fallback: generate one now for bookings created before this change
+            $inv_number = get_post_meta($post_id, 'kc_invoice_number', true);
+        }
+        if (empty($inv_number)) {
+            $counter    = (int) get_option('kc_ref_counter', 0) + 1;
+            update_option('kc_ref_counter', $counter);
+            $inv_number = 'KC-' . date('Y') . '-' . str_pad($counter, 4, '0', STR_PAD_LEFT);
+            update_post_meta($post_id, 'kc_ref_number', $inv_number);
         }
         kc_send_invoice_email($post_id, $inv_number);
     } elseif ($new_status === 'Rejected') {
@@ -1090,13 +1107,14 @@ function kc_ajax_add_payment() {
         wp_send_json_error(['message' => 'Invalid booking.']);
     }
 
-    // Generate invoice number if not yet set
-    $inv_number = get_post_meta($post_id, 'kc_invoice_number', true);
+    // Use ref number as invoice number; generate fallback only for very old bookings
+    $inv_number = get_post_meta($post_id, 'kc_ref_number', true);
+    if (empty($inv_number)) $inv_number = get_post_meta($post_id, 'kc_invoice_number', true);
     if (empty($inv_number)) {
-        $counter    = (int) get_option('kc_invoice_counter', 0) + 1;
-        update_option('kc_invoice_counter', $counter);
-        $inv_number = 'KC-INV-' . date('Y') . '-' . str_pad($counter, 4, '0', STR_PAD_LEFT);
-        update_post_meta($post_id, 'kc_invoice_number', $inv_number);
+        $counter    = (int) get_option('kc_ref_counter', 0) + 1;
+        update_option('kc_ref_counter', $counter);
+        $inv_number = 'KC-' . date('Y') . '-' . str_pad($counter, 4, '0', STR_PAD_LEFT);
+        update_post_meta($post_id, 'kc_ref_number', $inv_number);
     }
 
     // Append to payment log

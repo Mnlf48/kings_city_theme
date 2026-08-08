@@ -127,6 +127,73 @@ if (!defined('ABSPATH')) exit;
             </p>
             <?php endif; ?>
 
+            <?php
+            // Payment instructions block — shown only on booking_confirmed emails
+            if (!isset($hide_table) || !$hide_table):
+                $pay_bank_name    = get_option('kc_pay_bank_name', '');
+                $pay_account_name = get_option('kc_pay_account_name', '');
+                $pay_account_no   = get_option('kc_pay_account_no', '');
+                $pay_gcash_name   = get_option('kc_pay_gcash_name', '');
+                $pay_gcash_no     = get_option('kc_pay_gcash_no', '');
+                $pay_proof_email  = get_option('kc_pay_proof_email', '');
+            ?>
+            <div style="margin-top: 30px; border: 1px solid rgba(189,69,31,0.2); border-left: 4px solid #BD451F; background-color: #fff7ed; padding: 20px 24px;">
+                <div style="font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: #BD451F; margin-bottom: 14px;">How to Pay</div>
+
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td style="vertical-align: top; padding-right: 20px; width: 50%;">
+                            <?php if (!empty($pay_gcash_name) || !empty($pay_gcash_no)): ?>
+                            <div style="margin-bottom: 14px;">
+                                <div style="font-size: 12px; font-weight: 700; color: #9a3412; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 5px;">GCash</div>
+                                <?php if ($pay_gcash_name): ?>
+                                <div style="font-size: 13px; color: #2B2B2B;">Name: <strong><?php echo esc_html($pay_gcash_name); ?></strong></div>
+                                <?php endif; ?>
+                                <?php if ($pay_gcash_no): ?>
+                                <div style="font-size: 13px; color: #2B2B2B;">Number: <strong><?php echo esc_html($pay_gcash_no); ?></strong></div>
+                                <?php endif; ?>
+                            </div>
+                            <?php endif; ?>
+
+                            <div style="font-size: 12px; font-weight: 700; color: #9a3412; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 5px;">Cash</div>
+                            <div style="font-size: 13px; color: #2B2B2B;">Pay at our front desk on your visit date.</div>
+                        </td>
+
+                        <?php if (!empty($pay_bank_name) || !empty($pay_account_name) || !empty($pay_account_no)): ?>
+                        <td style="vertical-align: top; border-left: 1px solid rgba(189,69,31,0.15); padding-left: 20px; width: 50%;">
+                            <div style="font-size: 12px; font-weight: 700; color: #9a3412; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 5px;">Bank Transfer</div>
+                            <?php if ($pay_bank_name): ?>
+                            <div style="font-size: 13px; color: #2B2B2B;">Bank: <strong><?php echo esc_html($pay_bank_name); ?></strong></div>
+                            <?php endif; ?>
+                            <?php if ($pay_account_name): ?>
+                            <div style="font-size: 13px; color: #2B2B2B;">Account Name: <strong><?php echo esc_html($pay_account_name); ?></strong></div>
+                            <?php endif; ?>
+                            <?php if ($pay_account_no): ?>
+                            <div style="font-size: 13px; color: #2B2B2B;">Account No.: <strong><?php echo esc_html($pay_account_no); ?></strong></div>
+                            <?php endif; ?>
+                        </td>
+                        <?php endif; ?>
+                    </tr>
+                </table>
+
+                <?php if (!empty($pay_proof_email) || !empty($ref_number)): ?>
+                <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(189,69,31,0.15); font-size: 13px; color: #2B2B2B; line-height: 1.7;">
+                    After transferring, please email your <strong>proof of payment</strong> along with your booking reference number
+                    <?php if (!empty($ref_number)): ?>
+                    <strong style="color: #AC201A;"><?php echo esc_html($ref_number); ?></strong>
+                    <?php endif; ?>
+                    to
+                    <?php if (!empty($pay_proof_email)): ?>
+                    <a href="mailto:<?php echo esc_attr($pay_proof_email); ?>" style="color: #AC201A; font-weight: 700;"><?php echo esc_html($pay_proof_email); ?></a>.
+                    <?php else: ?>
+                    our team.
+                    <?php endif; ?>
+                    Our team will manually verify and confirm your payment.
+                </div>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
+
             <!-- Sign Off -->
             <div style="margin-top: 40px; text-align: right;">
                 <p style="margin: 0; font-size: 15px; color: #2B2B2B;">Regards,</p>
