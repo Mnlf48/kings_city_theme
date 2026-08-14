@@ -509,6 +509,49 @@ function kc_render_kpi_dashboard() {
         }
     }
 
+    // --- Members rows (Active + Expired — used in Overview mini-table and Members tab) ---
+    $mem_rows_q = new WP_Query(array(
+        'post_type'      => 'kc_booking',
+        'posts_per_page' => -1,
+        'meta_query'     => array(array(
+            'key'     => 'kc_membership_status',
+            'value'   => array('Active', 'Expired'),
+            'compare' => 'IN',
+        )),
+    ));
+    $mem_rows = array();
+    foreach ($mem_rows_q->posts as $pid) {
+        $mem_exp   = get_post_meta($pid, 'kc_membership_expiry', true);
+        $mem_stat  = get_post_meta($pid, 'kc_membership_status', true);
+        $mem_ref   = get_post_meta($pid, 'kc_ref_number', true) ?: get_post_meta($pid, 'kc_invoice_number', true);
+        $days_diff = $mem_exp ? (int) round((strtotime($mem_exp) - strtotime($today)) / 86400) : null;
+        $mem_rows[] = array(
+            'id'         => $pid,
+            'name'       => trim(get_post_meta($pid, 'kc_first_name', true) . ' ' . get_post_meta($pid, 'kc_last_name', true)),
+            'email'      => get_post_meta($pid, 'kc_email', true),
+            'phone'      => get_post_meta($pid, 'kc_phone', true),
+            'space'      => get_post_meta($pid, 'kc_space_type', true),
+            'duration'   => get_post_meta($pid, 'kc_duration', true),
+            'ref'        => $mem_ref ?: '',
+            'start_date' => get_post_meta($pid, 'kc_start_date', true),
+            'mem_expiry' => $mem_exp,
+            'mem_status' => $mem_stat,
+            'days_diff'  => $days_diff,
+            'bk_status'  => get_post_meta($pid, 'kc_status', true) ?: 'Pending',
+            'edit_url'   => get_edit_post_link($pid),
+        );
+    }
+    // Active first (soonest expiry first), Expired second (most recently expired first)
+    usort($mem_rows, function($a, $b) {
+        if ($a['mem_status'] !== $b['mem_status']) {
+            return $a['mem_status'] === 'Active' ? -1 : 1;
+        }
+        if ($a['mem_status'] === 'Active') {
+            return strcmp($a['mem_expiry'] ?: '', $b['mem_expiry'] ?: '');
+        }
+        return strcmp($b['mem_expiry'] ?: '', $a['mem_expiry'] ?: '');
+    });
+
     // --- Summary tile values ---
     $total_pending_items = $bookings_pending_action + $quotes_pending_action;
 
@@ -869,6 +912,50 @@ function kc_render_kpi_dashboard() {
             </div>
 
         </div><!-- /.client overview grid -->
+
+        <!-- Active Members mini-table -->
+        <?php
+        $ov_active_members = array_filter($mem_rows, function($r) { return $r['mem_status'] === 'Active'; });
+        ?>
+        <div class="kc-kpi-card kc-kpi-full" style="margin-bottom:20px;padding-bottom:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div class="kc-card-title kc-card-title--members" style="margin-bottom:0;border-bottom:none;padding-bottom:0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:5px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Active Members
+                    <span style="font-size:11px;font-weight:600;color:#94a3b8;margin-left:8px;text-transform:none;letter-spacing:0;">(<?php echo count($ov_active_members); ?>)</span>
+                </div>
+                <button class="kc-filter-clear" style="font-size:12px;padding:5px 12px;" onclick="document.querySelector('[data-tab=\'kc-tab-members\']').click();window.scrollTo({top:0,behavior:'smooth'});">View All Members &rarr;</button>
+            </div>
+            <div style="margin-top:14px;overflow-x:auto;max-height:300px;overflow-y:auto;">
+                <table class="kc-records-table">
+                    <thead><tr>
+                        <th>Client</th><th>Space</th><th>Duration</th><th>Start Date</th><th>Membership Expiry</th><th>Days Remaining</th><th>Booking Status</th>
+                    </tr></thead>
+                    <tbody>
+                    <?php if (!empty($ov_active_members)): foreach ($ov_active_members as $mr):
+                        $mr_days = $mr['days_diff'];
+                        if ($mr_days === null) { $mr_days_label = '—'; $mr_days_color = '#94a3b8'; }
+                        elseif ($mr_days <= 7)  { $mr_days_label = $mr_days . 'd'; $mr_days_color = '#dc2626'; }
+                        elseif ($mr_days <= 30) { $mr_days_label = $mr_days . 'd'; $mr_days_color = '#d97706'; }
+                        else                    { $mr_days_label = $mr_days . 'd'; $mr_days_color = '#166534'; }
+                        $mr_bk_col = $status_colors[$mr['bk_status']] ?? array('#f1f5f9', '#475569');
+                    ?>
+                    <tr>
+                        <td><a href="<?php echo esc_url($mr['edit_url']); ?>" style="color:var(--kc-terracotta);font-weight:700;"><?php echo esc_html($mr['name']); ?></a>
+                            <div style="font-size:11px;color:#94a3b8;"><?php echo esc_html($mr['email']); ?></div></td>
+                        <td><?php echo esc_html($mr['space']); ?></td>
+                        <td><?php echo esc_html($mr['duration']); ?></td>
+                        <td><?php echo esc_html($mr['start_date']); ?></td>
+                        <td><?php echo esc_html($mr['mem_expiry'] ?: '—'); ?></td>
+                        <td><strong style="color:<?php echo esc_attr($mr_days_color); ?>;"><?php echo esc_html($mr_days_label); ?></strong></td>
+                        <td><span class="kc-badge" style="background:<?php echo esc_attr($mr_bk_col[0]); ?>;color:<?php echo esc_attr($mr_bk_col[1]); ?>;"><?php echo esc_html($mr['bk_status']); ?></span></td>
+                    </tr>
+                    <?php endforeach; else: ?>
+                    <tr><td colspan="7" class="kc-no-results">No active members at this time.</td></tr>
+                    <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <!-- Row 2: Mailing List + Members side-by-side -->
         <div class="kc-kpi-grid" style="margin-bottom:20px;">
@@ -1406,6 +1493,9 @@ function kc_render_kpi_dashboard() {
                 <button class="kc-tab-btn" data-tab="kc-tab-bookings">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Bookings
                 </button>
+                <button class="kc-tab-btn" data-tab="kc-tab-members">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Members
+                </button>
                 <button class="kc-tab-btn" data-tab="kc-tab-quotes">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>Quote Requests
                 </button>
@@ -1587,6 +1677,166 @@ function kc_render_kpi_dashboard() {
                 })();
                 </script>
             </div>
+            <!-- =================== MEMBERS TAB =================== -->
+            <div id="kc-tab-members" class="kc-tab-panel">
+
+                <div class="kc-filter-bar">
+                    <div>
+                        <label for="kc-mem-search">Client Name / Email</label>
+                        <input type="text" id="kc-mem-search" placeholder="Search name or email…" />
+                    </div>
+                    <div>
+                        <label for="kc-mem-space">Space</label>
+                        <select id="kc-mem-space">
+                            <option value="">All Spaces</option>
+                            <?php foreach ($bk_spaces as $sp): ?>
+                            <option value="<?php echo esc_attr($sp['value']); ?>"><?php echo esc_html($sp['label']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="kc-mem-status">Membership Status</label>
+                        <select id="kc-mem-status">
+                            <option value="">All Members</option>
+                            <option value="active">Active</option>
+                            <option value="expiring">Expiring in 30 Days</option>
+                            <option value="Expired">Expired</option>
+                        </select>
+                    </div>
+                    <button class="kc-filter-apply" id="kc-mem-apply">Apply Filters</button>
+                    <button class="kc-filter-clear"  id="kc-mem-clear">Clear</button>
+                </div>
+
+                <div style="overflow-x:auto;">
+                    <table class="kc-records-table">
+                        <thead><tr>
+                            <th>#</th>
+                            <th>Client</th>
+                            <th>Space</th>
+                            <th>Duration</th>
+                            <th>Ref No.</th>
+                            <th>Start Date</th>
+                            <th>Membership Expiry</th>
+                            <th>Days</th>
+                            <th>Membership</th>
+                            <th>Booking</th>
+                            <th></th>
+                        </tr></thead>
+                        <tbody id="kc-mem-tbody"></tbody>
+                    </table>
+                </div>
+
+                <script>
+                (function() {
+                    var MEM = <?php echo wp_json_encode($mem_rows, JSON_HEX_TAG | JSON_HEX_AMP); ?>;
+                    var MEM_BADGE = {
+                        Active:  'background:#dcfce7;color:#166534',
+                        Expired: 'background:#fee2e2;color:#991b1b'
+                    };
+                    var BK_BADGE = {
+                        Pending:   'background:#fef9c3;color:#854d0e',
+                        Contacted: 'background:#dbeafe;color:#1e40af',
+                        Active:    'background:#dcfce7;color:#166534',
+                        Completed: 'background:#d1fae5;color:#064e3b',
+                        Rejected:  'background:#fee2e2;color:#991b1b',
+                        Cancelled: 'background:#f1f5f9;color:#475569'
+                    };
+                    var TODAY = new Date(); TODAY.setHours(0,0,0,0);
+                    var IN30  = new Date(TODAY); IN30.setDate(IN30.getDate() + 30);
+
+                    function esc(v) {
+                        if (v === null || v === undefined || v === '') return '—';
+                        return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+                    }
+                    function mrow(lbl, val) {
+                        return '<div class="kc-modal-row"><span class="kc-modal-lbl">'+lbl+'</span><span class="kc-modal-val">'+esc(val)+'</span></div>';
+                    }
+                    function daysLabel(d) {
+                        if (d === null || d === undefined) return { label: '—', color: '#94a3b8' };
+                        if (d < 0)   return { label: Math.abs(d)+'d overdue', color: '#991b1b' };
+                        if (d <= 7)  return { label: d+'d', color: '#dc2626' };
+                        if (d <= 30) return { label: d+'d', color: '#d97706' };
+                        return { label: d+'d', color: '#166534' };
+                    }
+                    function modalHtml(m) {
+                        var h = '<div class="kc-modal-section"><h3>Client Info</h3>';
+                        h += mrow('Full Name', m.name) + mrow('Email', m.email) + mrow('Phone', m.phone);
+                        h += '</div><div class="kc-modal-section"><h3>Booking Details</h3>';
+                        h += mrow('Space', m.space) + mrow('Duration', m.duration);
+                        h += mrow('Ref No.', m.ref) + mrow('Start Date', m.start_date);
+                        h += mrow('Booking Status', m.bk_status);
+                        h += '</div><div class="kc-modal-section"><h3>Membership</h3>';
+                        h += mrow('Membership Status', m.mem_status);
+                        h += mrow('Membership Expiry', m.mem_expiry);
+                        var dl = daysLabel(m.days_diff);
+                        h += '<div class="kc-modal-row"><span class="kc-modal-lbl">Days</span><span class="kc-modal-val" style="color:'+dl.color+';font-weight:700;">'+dl.label+'</span></div>';
+                        h += '</div>';
+                        if (m.edit_url) {
+                            h += '<div style="text-align:right;margin-top:8px;"><a href="'+esc(m.edit_url)+'" style="font-size:12px;color:var(--kc-terracotta);font-weight:700;">Edit Booking &rarr;</a></div>';
+                        }
+                        return h;
+                    }
+                    function render(list) {
+                        var tbody = document.getElementById('kc-mem-tbody');
+                        if (!list.length) {
+                            tbody.innerHTML = '<tr><td colspan="11" class="kc-no-results">No members found.</td></tr>';
+                            return;
+                        }
+                        var rows = '';
+                        list.forEach(function(m, i) {
+                            var ms  = MEM_BADGE[m.mem_status] || 'background:#f1f5f9;color:#475569';
+                            var bs  = BK_BADGE[m.bk_status]  || 'background:#f1f5f9;color:#475569';
+                            var dl  = daysLabel(m.days_diff);
+                            rows += '<tr>';
+                            rows += '<td class="kc-num">'+(i+1)+'</td>';
+                            rows += '<td><strong>'+esc(m.name)+'</strong><div style="font-size:11px;color:#94a3b8">'+esc(m.email)+'</div></td>';
+                            rows += '<td>'+esc(m.space)+'</td>';
+                            rows += '<td>'+esc(m.duration)+'</td>';
+                            rows += '<td style="font-size:12px;">'+esc(m.ref)+'</td>';
+                            rows += '<td>'+esc(m.start_date)+'</td>';
+                            rows += '<td>'+esc(m.mem_expiry)+'</td>';
+                            rows += '<td><strong style="color:'+dl.color+';">'+dl.label+'</strong></td>';
+                            rows += '<td><span class="kc-badge" style="'+ms+'">'+esc(m.mem_status)+'</span></td>';
+                            rows += '<td><span class="kc-badge" style="'+bs+'">'+esc(m.bk_status)+'</span></td>';
+                            rows += '<td><button class="kc-view-btn" data-idx="'+i+'">Details</button></td>';
+                            rows += '</tr>';
+                        });
+                        tbody.innerHTML = rows;
+                        tbody.querySelectorAll('.kc-view-btn').forEach(function(btn) {
+                            var m = list[parseInt(btn.dataset.idx, 10)];
+                            btn.setAttribute('data-modal-title', (m.name || 'Member') + ' — Membership');
+                            btn.setAttribute('data-modal-body',  modalHtml(m));
+                        });
+                    }
+                    function applyFilters() {
+                        var q  = document.getElementById('kc-mem-search').value.trim().toLowerCase();
+                        var sp = document.getElementById('kc-mem-space').value;
+                        var st = document.getElementById('kc-mem-status').value;
+                        render(MEM.filter(function(m) {
+                            if (q  && (m.name.toLowerCase().indexOf(q) === -1 && m.email.toLowerCase().indexOf(q) === -1)) return false;
+                            if (sp && m.space !== sp) return false;
+                            if (st === 'active')   return m.mem_status === 'Active' && (m.days_diff === null || m.days_diff > 30);
+                            if (st === 'expiring') return m.mem_status === 'Active' && m.days_diff !== null && m.days_diff >= 0 && m.days_diff <= 30;
+                            if (st === 'Expired')  return m.mem_status === 'Expired';
+                            return true;
+                        }));
+                    }
+                    document.getElementById('kc-mem-apply').addEventListener('click', applyFilters);
+                    document.getElementById('kc-mem-clear').addEventListener('click', function() {
+                        document.getElementById('kc-mem-search').value = '';
+                        document.getElementById('kc-mem-space').value  = '';
+                        document.getElementById('kc-mem-status').value = '';
+                        render(MEM);
+                    });
+                    document.getElementById('kc-mem-search').addEventListener('keydown', function(ev) {
+                        if (ev.key === 'Enter') applyFilters();
+                    });
+                    render(MEM);
+                })();
+                </script>
+            </div>
+            <!-- =================== /MEMBERS TAB =================== -->
+
             <?php
             /* ---- QUOTES TAB DATA ---- */
             $qt_q = new WP_Query(array('post_type'=>'kg_quote_lead','posts_per_page'=>-1,'orderby'=>'date','order'=>'DESC'));

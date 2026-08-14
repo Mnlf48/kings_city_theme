@@ -26,6 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_submit'])) {
         $birthdate = sanitize_text_field($_POST['book_birthdate'] ?? '');
         $promo_code = sanitize_text_field(trim($_POST['kc_promo_code'] ?? ''));
         
+        // Reject same-day or past bookings — minimum 1 day advance notice
+        $min_allowed_date = date('Y-m-d', strtotime('+1 day'));
+        $is_past_date = ($start_date && $start_date < $min_allowed_date);
+
         // Check Capacity — limits are stored on each kc_space post via kc_space_capacity
         $opt_map = [];
         $spaces_for_map = get_posts(['post_type' => 'kc_space', 'posts_per_page' => -1, 'post_status' => 'publish']);
@@ -38,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_submit'])) {
         }
 
         $is_full = false;
-        if (isset($opt_map[$space_type]) && $start_date && $opt_map[$space_type] > 0) {
+        if (!$is_past_date && isset($opt_map[$space_type]) && $start_date && $opt_map[$space_type] > 0) {
             $limit = $opt_map[$space_type];
 
             $existing_query = new WP_Query(array(
@@ -67,8 +71,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_submit'])) {
             }
         }
 
-        if ($is_full) {
+        // Duplicate check — same email + same space + same date + active status
+        $is_duplicate = false;
+        if (!$is_past_date && !$is_full && $email && $space_type && $start_date) {
+            $duplicate_query = new WP_Query(array(
+                'post_type'      => 'kc_booking',
+                'posts_per_page' => 1,
+                'fields'         => 'ids',
+                'meta_query'     => array(
+                    'relation' => 'AND',
+                    array( 'key' => 'kc_email',      'value' => $email ),
+                    array( 'key' => 'kc_space_type', 'value' => $space_type ),
+                    array( 'key' => 'kc_start_date', 'value' => $start_date ),
+                    array(
+                        'key'     => 'kc_status',
+                        'value'   => array( 'Pending', 'Contacted', 'Active' ),
+                        'compare' => 'IN',
+                    ),
+                ),
+            ));
+            if ( $duplicate_query->found_posts > 0 ) {
+                $is_duplicate = true;
+            }
+        }
+
+        if ($is_past_date) {
+            $error_message = "Bookings must be made at least 1 day in advance. Please select a date starting from " . esc_html($min_allowed_date) . ".";
+        } elseif ($is_full) {
             $error_message = "Sorry, " . esc_html($space_type) . " is fully booked on " . esc_html($start_date) . ". Please select another date.";
+        } elseif ($is_duplicate) {
+            $error_message = "You already have an active booking for " . esc_html($space_type) . " on " . esc_html($start_date) . ". Please check your email for your confirmation, or contact us if you need to make changes.";
         } else {
             
             $base_price = (float) $price;
@@ -428,7 +460,7 @@ foreach ($bk_active_spaces as $bk_sp) {
 <div class="form-row">
 <div class="form-group">
 <label class="form-label"><?php echo esc_html(get_field('bk_label_start_date') ?: 'Start Date'); ?></label>
-<input class="form-control" name="book_start_date" id="date-input" required="" type="date"/>
+<input class="form-control" name="book_start_date" id="date-input" required="" type="date" min="<?php echo esc_attr(date('Y-m-d', strtotime('+1 day'))); ?>"/>
 </div>
 <div class="form-group">
 <label class="form-label"><?php echo esc_html(get_field('bk_label_arrival_time') ?: 'Arrival Time'); ?></label>
@@ -500,5 +532,18 @@ foreach ($bk_active_spaces as $bk_sp) {
   </div>
 </div>
 
+
+<?php if (!empty($bk_preselect)): ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var form = document.getElementById('booking-form');
+    if (form) {
+        setTimeout(function () {
+            form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
+    }
+});
+</script>
+<?php endif; ?>
 
 <?php get_footer(); ?>

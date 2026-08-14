@@ -14,7 +14,8 @@
 
   var disabledDatesCache = {};
   var fpInstance = null;
-  var fpBase = { dateFormat: 'Y-m-d', minDate: 'today', disableMobile: true };
+  var kcMinDate = new Date(); kcMinDate.setDate(kcMinDate.getDate() + 1);
+  var fpBase = { dateFormat: 'Y-m-d', minDate: kcMinDate, disableMobile: true };
 
   function reinitFlatpickr(extraConfig) {
     if (!dateInput || typeof flatpickr === 'undefined') return;
